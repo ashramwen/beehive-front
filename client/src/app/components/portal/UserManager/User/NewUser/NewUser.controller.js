@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('NewUserController', ['$scope', '$rootScope', '$state', 'AppUtils',function($scope, $rootScope, $state, AppUtils) {
+  .controller('NewUserController', ['$scope', '$rootScope', '$state', 'AppUtils', 'PortalService',function($scope, $rootScope, $state, AppUtils, PortalService) {
     // TODO
     $scope.sexOptions = [{
         id: 1,
@@ -10,60 +10,6 @@ angular.module('BeehivePortal')
         id: 2,
         text: '女'
     }];
-
-    var tmpLocation = [
-        {
-            id: 1,
-            building:"A",
-            levels:[{
-                id: 1,
-                name: 1,
-                rooms:[{
-                    id:1,
-                    name: 101
-                },{
-                    id:2,
-                    name: 102
-                }]
-            },{
-                id: 2,
-                name: 2,
-                rooms:[{
-                    id:3,
-                    name: 201
-                },{
-                    id:4,
-                    name: 202
-                }]
-            }]
-        },
-        {
-            id: 2,
-            building:"B",
-            levels:[{
-                id: 3,
-                name: 1,
-                rooms:[{
-                    id:1,
-                    name: 101
-                },{
-                    id:2,
-                    name: 102
-                }]
-            },{
-                id: 4,
-                name: 3,
-                rooms:[{
-                    id:3,
-                    name: 301
-                },{
-                    id:4,
-                    name: 302
-                }]
-            }]
-        }
-    ];
-
 
 
     /*
@@ -92,9 +38,14 @@ angular.module('BeehivePortal')
      */
     
     $scope.init = function(){
-        $scope.buildingOptions = tmpLocation;
-        $scope.newUser.building = $scope.buildingOptions[0];
-        $scope.changeBuilding();
+        PortalService.getLocation().then(function(response){
+            $scope.buildingOptions = response.data;
+            $scope.newUser.building = $scope.buildingOptions[0];
+            $scope.changeBuilding();
+        },function(){
+
+        });
+        
     };
 
     /*

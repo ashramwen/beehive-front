@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "building":"A",
+        "levels":[{
+            "id": 1,
+            "name": 1,
+            "rooms":[{
+                "id":1,
+                "name": 101
+            },{
+                "id":2,
+                "name": 102
+            }]
+        },{
+            "id": 2,
+            "name": 2,
+            "rooms":[{
+                "id":3,
+                "name": 201
+            },{
+                "id":4,
+                "name": 202
+            }]
+        }]
+    },
+    {
+        "id": 2,
+        "building":"B",
+        "levels":[{
+            "id": 3,
+            "name": 1,
+            "rooms":[{
+                "id":1,
+                "name": 101
+            },{
+                "id":2,
+                "name": 102
+            }]
+        },{
+            "id": 4,
+            "name": 3,
+            "rooms":[{
+                "id":3,
+                "name": 301
+            },{
+                "id":4,
+                "name": 302
+            }]
+        }]
+    }
+]

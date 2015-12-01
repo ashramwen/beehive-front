@@ -1,6 +1,27 @@
-<div class="app-portal-thingmanager-typeview">
-  <!-- Sub State -->
-  <div ui-view>
+<div class="app-portal-thingmanager-typeview" ng-init="init()">
+  <!-- start tile  -->
+  <div class='modules-outputs-content graph-tile' ng-repeat="type in thingTypes">
+    <div class="module-top">
+        <div class="overlay" ng-click="">
+           <div class="viewReport">
+               查看
+           </div>                   
+        </div>
+      <div class='outputs-content-img'><img ng-src="{{type.image}}" /></div>   
+    </div>
+    <div class="moduleDetails">
+         <div class='per-info'>
+            
+            <span class='info'>{{type.name}} <br/>设备数量： {{type.number}}</span>
+         </div><!-- end per info -->
+         <div class="modulesActionBottom">
+         </div>
+    </div>
+    
+    <div class="modulesActionsTop">
+       <i class="fa fa-pencil-square-o" uib-tooltip="编辑" uib-tooltip-trigger="mouseenter" uib-tooltip-placement="top"></i>
+       <i class="fa fa-trash-o" uib-tooltip="删除" uib-tooltip-trigger="mouseenter" uib-tooltip-placement="top"></i>
+    </div>
   </div>
-  <!-- End of Sub State-->
+  <!-- end tile  -->
 </div>

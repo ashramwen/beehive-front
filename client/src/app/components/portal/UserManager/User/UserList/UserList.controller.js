@@ -9,19 +9,9 @@ angular.module('BeehivePortal')
     $scope.userList = [];
     $scope.userListForDisplay = [];
 
-    $scope.userForEdit = null;
-
-
-    UserService.getUserList().then(function(response){
-        // get user list successfully
-        $scope.userList = response.data;
-        $scope.userListForDisplay = response.data;
-        console.log(response);
-    },function(response){
-        // failed to get user list
-        console.log(response);
-    });
-
+    /*
+     * page settings
+     */
     $location.search({'pageIndex': 1});
     $scope.currentIndex = 1;
 
@@ -29,7 +19,17 @@ angular.module('BeehivePortal')
         $location.search({'pageIndex': $scope.currentIndex});
     }
 
-    $scope.pageCount = 64;
+    $scope.init = function(){
+        UserService.getUserList().then(function(response){
+            // get user list successfully
+            $scope.userList = response.data;
+            $scope.userListForDisplay = response.data;
+            console.log(response);
+        },function(response){
+            // failed to get user list
+            console.log(response);
+        });
+    }
 
     $scope.myMenu = {
         itemList:[
@@ -79,4 +79,4 @@ angular.module('BeehivePortal')
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-  })
+  });
