@@ -1,0 +1,75 @@
+@import 'src/app/shared/global.scss';
+
+body{
+   
+}
+
+.portal-row{
+    margin-bottom: 10px;
+}
+
+$nav-bar-first-level-color: #eee;
+$nav-bar-second-level-color: #ddd;
+$nav-bar-third-level-color: #ccc;
+.app-nav-bar{
+    li{
+        a:hover{
+            background-color: $nav-bar-first-level-color;
+        }
+        a{
+            cursor: $click-cursor;
+        }
+    }
+    li.active{
+        a,a:hover{
+            background-color: $nav-bar-first-level-color;
+        }
+        li{
+            a:hover{
+                background-color: $nav-bar-second-level-color;
+            }
+        }
+        li.active{
+            a{
+                background-color: $nav-bar-second-level-color;
+            }
+            li{
+                a:hover{
+                    background-color: $nav-bar-third-level-color;
+                }
+            }
+            li.active{
+                a{
+                    background-color: $nav-bar-third-level-color;
+                }
+            }
+        }
+    }
+}
+ol.breadcrumb{
+    li{
+        a{
+            cursor: $click-cursor;
+        }
+    }
+}
+
+
+.pull-mid{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.inline{
+    display: inline-block;
+}
+
+.select-inline{
+    display: inline-block;
+}
+.select-inline.btn-group{
+    display: table-cell;
+}
+.position-fixed{
+    position: fixed !important;
+}

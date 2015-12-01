@@ -1,0 +1,12 @@
+.app-portal .portal-nav-bar {
+  top: 15px;
+  position: relative; }
+
+.app-portal .portal-content-body {
+  top: 10px;
+  position: relative; }
+
+.app-portal .module-description {
+  color: #ccc;
+  text-indent: 10px;
+  font-size: 13px; }

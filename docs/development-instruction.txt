@@ -1,0 +1,33 @@
+#### Please install following softwares & packages:
+
+## softwares
+1. mongodb 
+2. node js
+
+## node packages
+
+# If you have network issue while downloading,
+# run (npm install -g cnpm --registry=https://registry.npm.taobao.org) in your prompt, then use cnpm instead of npm.
+
+3. npm install -g gulp
+4. npm install -g express
+
+############
+
+#### init your application
+
+# 1. run mongodb, you should change the data source path 
+mongod --dbpath C:\MongoData
+
+# 2. init server
+go [app directory]/server/ and run:
+npm update
+npm install
+
+# 3. init front-end
+go [app directory]/client/ and run:
+gulp
+
+#### start your application
+go [app directory]/server/bin/ and run:
+node www

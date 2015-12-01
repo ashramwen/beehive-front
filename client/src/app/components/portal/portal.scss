@@ -1,0 +1,20 @@
+@import 'src/app/shared/global.scss';
+
+.app-portal{
+    .portal-nav-bar{
+        top:15px;
+        position:relative;
+    }
+    #side-menu{
+        @extend .app-nav-bar
+    }
+    .portal-content-body{
+        top: 10px;
+        position: relative;
+    }
+    .module-description{
+        color: #ccc;
+        text-indent: 10px;
+        font-size: 13px;
+    }
+}

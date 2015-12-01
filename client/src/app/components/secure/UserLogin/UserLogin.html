@@ -1,0 +1,53 @@
+
+<div class="app-secure-userlogin">
+  <div class="app-logo-bg">
+    <span class="fa fa-paper-plane-o app-icon"></span> <span>蜂巢智能管理平台</span>
+  </div>
+  <div class="login-form-box">
+    <form name="loginForm" class="form-signin" role="form" novalidate ng-submit="login(credentials)">
+      <div class="form-item-header">用户登录</div>
+      <fieldset>
+        <div class="input-group margin-bottom-sm" ng-class="nameInputFoucsClass">
+          <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+          <input type="text" class="form-control" placeholder="用户名" name="username" placeholder="Username or e-mail" ng-model="credentials.username" required autofocus>
+        </div>
+        <div class="input-group margin-bottom-sm" ng-class="pwdInputFoucsClass">
+          <span class="input-group-addon"><i
+            class="fa fa-unlock fa-fw"></i></span> 
+          <input type="password" class="form-control" name="password" placeholder="密码" ng-model="credentials.password" required />
+        </div>
+        <div class="margin-bottom-sm">
+          <input type="checkbox" id="rememberMe" name="rememberMe"
+            ng-click="credentials.rememberMe= !credentials.rememberMe" /> <label for="rememberMe">记住我
+            <div class="remember-me pull-right" ng-class="{'on':credentials.rememberMe}" >
+              <div class="selector">
+                <div class="option">是</div>
+                <div class="option">否</div>
+              </div>
+              <div class="slider">
+                <div class="dile"></div>
+                <div class="dile"></div>
+                <div class="dile"></div>
+              </div>
+            </div>
+          </label>
+        </div>
+        <div class="item-submit">
+          <button type="submit" class="btn btn-danger item-submit-button">
+            <span>登录</span>
+          </button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div class="tip-wrap">
+    <a id="register" class="ui-commandlink ui-widget" data-toggle="modal"
+      data-target="#registerModal"> <span>注册</span>
+    </a>
+  </div>
+  <div class="powered-by">
+    Powered by <span><img class="login-logo"
+      src="images/PWCLogo.png"></span>Analytics
+    <div class="version-msg">Version 1.0b</div>
+  </div>
+</div>

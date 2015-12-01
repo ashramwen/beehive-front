@@ -1,0 +1,69 @@
+{
+    "appName": "BeehivePortal",
+    "structure": {
+        "name": "app",
+        "subModules":[
+            {
+                "name": "portal",
+                "subModules":[
+                    {
+                        "name": "UserManager",
+                        "subModules" :[
+                            {
+                                "name": "User",
+                                "subModules": [
+                                    {"name": "SearchUser"},
+                                    {"name": "NewUser"},
+                                    {"name": "UserList"}
+                                ],
+                                "abstract": true
+                            },
+                            {
+                                "name": "UserGroup",
+                                "subModules": [
+                                    {"name": "UserGroupList"},
+                                    {"name": "GroupEditor"}
+                                ],
+                                "abstract": true
+                            }
+                        ],
+                        "abstract": true
+                    },
+                    {
+                        "name": "ThingManager",
+                        "subModules":[
+                            {
+                                "name": "LocationView",
+                                "subModules": []
+                            },
+                            {
+                                "name": "TypeView",
+                                "subModules": []
+                            },
+                            {
+                                "name": "TagView",
+                                "subModules": []
+                            }
+                        ],
+                        "abstract": true
+                    }
+                ]
+            },
+            {
+                "name": "secure",
+                "subModules":[
+                    {
+                        "name": "AdminLogin",
+                        "subModules": []
+                    },
+                    {
+                        "name": "UserLogin",
+                        "subModules": []
+                    }
+                ],
+                "abstract": true
+            }
+        ],
+        "abstract": false
+    }
+}
