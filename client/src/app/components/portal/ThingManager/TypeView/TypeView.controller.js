@@ -16,5 +16,8 @@ angular.module('BeehivePortal')
         });
     };
 
+    $scope.viewThings = function(type){
+        $scope.navigateTo($scope.otherNavs.THING_LIST,{id: type.name});
+    }
 
   }]);

@@ -1,5 +1,5 @@
 angular.module('BeehivePortal')
-  .directive('select',['$timeout',function($timeout){
+  .directive('appSelect',['$timeout',function($timeout){
     return {
         restrict: 'A',
         templateUrl: 'app/shared/templates/select.template.html',
@@ -34,6 +34,24 @@ angular.module('BeehivePortal')
             
         }
     }
+  }])
+  .directive('switchery',['$timeout', function($timeout){
+        return {
+            restrict: 'A',
+            scope: {
+                on: '=?switchery'
+            },
+            templateUrl: 'app/shared/templates/switchery.template.html',
+            replace: true,
+            link: function(scope, element, attrs){
+                scope.on = scope.on;
+                scope.yesText = attrs['yesText'] || '';
+                scope.noText = attrs['noText'] || '';
+                scope.switch = function(){
+                    scope.on = !scope.on;
+                }
+            }
+        };
   }])
   .directive('contextMenu',['$timeout','$compile','$http','$document', function ($timeout, $compile, $http, $document) {
     return {
@@ -119,6 +137,13 @@ angular.module('BeehivePortal')
                         open(event, contextMenu.menuElement);
                     });
                 });
+
+                scope.itemClick = function(menuItem){
+                    if(_.isFunction(menuItem.callback)){
+                        menuItem.callback(scope.target);
+                    }
+                    close(contextMenu.menuElement);
+                }
 
                 function handleKeyUpEvent(event) {
                     //console.log('keyup');

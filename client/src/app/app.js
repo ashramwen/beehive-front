@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('BeehivePortal', ['ngAnimate', 'ngCookies', 'ngSanitize',
-  'ngResource', 'ui.router', 'ui.bootstrap','LocalStorageModule'
+  'ngResource', 'ui.router', 'ui.bootstrap','LocalStorageModule', 'rzModule'
 ]).
 constant('AUTH_EVENTS', {
   loginSuccess: 'auth-login-success',

@@ -1,0 +1,44 @@
+{
+    "name": "LED1",
+    "id": "1231-4325-231",
+    "type": "LED",
+    "location": "A座2楼203",
+    "tags": [
+        {
+            "id": 1,
+            "name": "大厅"
+        },
+        {
+            "id": 2,
+            "name": "二楼"
+        }
+    ],
+    "properties":[
+        {
+            "name": "开关",
+            "status": "ON"
+        },
+        {
+            "name": "亮度",
+            "status": 80
+        },
+        {
+            "name": "色温",
+            "status": 8000
+        },
+        {
+            "name": "颜色",
+            "status": "R: 120 G: 230 B: 25"
+        }
+    ],
+    "rules":[
+        {
+            "name": "温控",
+            "description": "控制室内温度"
+        },
+        {
+            "name": "湿度控制",
+            "description": "控制客厅湿度"
+        }
+    ]
+}

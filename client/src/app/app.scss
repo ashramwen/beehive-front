@@ -58,6 +58,8 @@ ol.breadcrumb{
 .pull-mid{
     margin-left: auto;
     margin-right: auto;
+    float: none;
+    display: block;
 }
 
 .inline{
@@ -72,4 +74,8 @@ ol.breadcrumb{
 }
 .position-fixed{
     position: fixed !important;
+}
+
+.dropdown-menu li{
+    cursor: $click-cursor;
 }

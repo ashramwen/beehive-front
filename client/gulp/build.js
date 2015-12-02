@@ -95,5 +95,13 @@ gulp.task('sass:watch', function () {
   gulp.watch(paths.src + '/app/**/*.scss', ['sass']);
 });
 
+gulp.task('construct:watch', function(){
+  gulp.watch(paths.appStructFile,['build']);
+});
+
+gulp.task('lib:watch', function(){
+  gulp.watch('bower_components/**/*',['build']);
+})
+
 //gulp.task('build', ['construct','html', 'images', 'fonts', 'misc']);
 gulp.task('build',['construct','sass','inject','partials','sass:watch']);

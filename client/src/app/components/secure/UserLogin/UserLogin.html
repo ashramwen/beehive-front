@@ -17,19 +17,8 @@
           <input type="password" class="form-control" name="password" placeholder="密码" ng-model="credentials.password" required />
         </div>
         <div class="margin-bottom-sm">
-          <input type="checkbox" id="rememberMe" name="rememberMe"
-            ng-click="credentials.rememberMe= !credentials.rememberMe" /> <label for="rememberMe">记住我
-            <div class="remember-me pull-right" ng-class="{'on':credentials.rememberMe}" >
-              <div class="selector">
-                <div class="option">是</div>
-                <div class="option">否</div>
-              </div>
-              <div class="slider">
-                <div class="dile"></div>
-                <div class="dile"></div>
-                <div class="dile"></div>
-              </div>
-            </div>
+          <input type="checkbox" id="rememberMe" name="rememberMe"/> <label for="rememberMe">记住我
+            <input type="checkbox" switchery="credentials.rememberMe" yes-text="是" no-text="否" />
           </label>
         </div>
         <div class="item-submit">

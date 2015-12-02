@@ -7,28 +7,35 @@ angular.module('BeehivePortal')
             url: 'app/data/things.json',
             method: 'get'
         });
-    }
+    };
 
     thingManagerService.getThingsByType = function(type){
         return $http({
             url: 'app/data/things.json',
             method: 'get'
         });
-    }
+    };
 
     thingManagerService.getTypes = function(){
         return $http({
             url: 'app/data/thingType.json',
             method: 'get'
         });
-    }
+    };
 
     thingManagerService.getTags = function(){
         return $http({
             url: 'app/data/thingType.json',
             method: 'get'
         });
-    }
+    };
+
+    thingManagerService.getThingById = function(id){
+        return $http({
+            url: 'app/data/thing.json',
+            method: 'get'
+        });
+    };
 
     return thingManagerService;
   }]);

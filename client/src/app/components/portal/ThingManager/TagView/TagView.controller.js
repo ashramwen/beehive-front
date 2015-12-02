@@ -15,4 +15,8 @@ angular.module('BeehivePortal')
 
         });
     };
+
+    $scope.viewThings = function(tag){
+        $scope.navigateTo($scope.otherNavs.THING_LIST,{id: tag.name});
+    }
   }]);

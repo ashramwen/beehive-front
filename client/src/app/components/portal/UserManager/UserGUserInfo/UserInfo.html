@@ -1,0 +1,48 @@
+<div class="app-portal-usermanager-user-userinfo" ng-init="init()">
+  <div class="pull-mid col-sm-10">
+    <div class="row portal-row clearfix">
+      <div class="col-sm-4">姓名</div>
+      <div class="col-sm-8">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="姓名" ng-model="user.name">
+          <div app-select selected-model="user.sex" options="sexOptions" class="btn-group input-group-btn" text="text"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row portal-row clearfix">
+      <div class="col-sm-4">身份证</div>
+      <div class="col-sm-8"><input ng-model="user.identity" type="text" class="form-control" placeholder="身份证" /></div>
+    </div>
+    <div class="row portal-row clearfix">
+      <div class="col-sm-4">公司</div>
+      <div class="col-sm-8"><input ng-model="user.company" type="text" class="form-control" placeholder="身份证" /></div>
+    </div>
+    <div class="row portal-row clearfix">
+      <div class="col-sm-4">地址</div>
+      <div class="col-sm-8">
+        <span>
+          <div app-select selected-model="user.building" options="buildingOptions" text="building" change="refreshLevels" class="location-select"></div><span>楼</span> 
+        </span>
+        <span>
+          <div app-select selected-model="user.level" options="levelOptions" text="name" change="refreshRooms" class="location-select"></div>层
+        </span>
+        <span>
+          <div app-select selected-model="user.room" options="roomOptions" text="name" class="location-select"></div>室
+        </span>
+      </div>
+    </div>
+    <div class="row portal-row clearfix">
+      <div class="col-sm-4">电话</div>
+      <div class="col-sm-8"><input type="text" class="form-control" placeholder="电话" /></div>
+    </div>
+    <div class="row portal-row clearfix">
+      <div class="col-sm-12">
+        <div class="pull-right">
+          <button class="btn btn-danger">更新</button>
+          <button class="btn btn-danger">删除</button>
+          <button class="btn btn-danger" ng-click="goThingAuth()">设备权限</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

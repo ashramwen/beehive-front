@@ -1,0 +1,27 @@
+{
+    "identity":123,
+    "sex":{
+        "id": 1,
+        "text":"男"
+    },
+    "name": "Test1",
+    "email": "Test1@Kii.com",
+    "address": {
+        "building":{
+            "id":1,
+            "building": "A"
+        },
+
+        "level": {
+            "id": 1,
+            "name": 1
+        },
+        "room":{
+            "id": 1,
+            "name": "101"
+        }
+    },
+    "status": "正常",
+    "company": "阿里地产",
+    "phone": "124153123141"
+}

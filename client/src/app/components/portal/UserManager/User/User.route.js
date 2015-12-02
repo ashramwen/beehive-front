@@ -17,5 +17,15 @@ angular.module('BeehivePortal')
         url: '/UserList',
         templateUrl: 'app/components/portal/UserManager/User/UserList/UserList.html',
         controller: 'UserListController',
+      })
+      .state('app.portal.UserManager.User.UserInfo', {
+        url: '/UserInfo?id',
+        templateUrl: 'app/components/portal/UserManager/User/UserInfo/UserInfo.html',
+        controller: 'UserInfoController',
+      })
+      .state('app.portal.UserManager.User.UserThingAuthority', {
+        url: '/:id/ThingAuthority',
+        templateUrl: 'app/components/portal/UserManager/ThingAuthority/ThingAuthority.html',
+        controller: 'ThingAuthorityController'
       });
   });

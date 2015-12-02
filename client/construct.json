@@ -14,7 +14,8 @@
                                 "subModules": [
                                     {"name": "SearchUser"},
                                     {"name": "NewUser"},
-                                    {"name": "UserList"}
+                                    {"name": "UserList"},
+                                    {"name": "UserInfo"}
                                 ],
                                 "abstract": true
                             },
@@ -25,6 +26,10 @@
                                     {"name": "GroupEditor"}
                                 ],
                                 "abstract": true
+                            },
+                            {
+                                "name": "ThingAuthority",
+                                "subModules":[]
                             }
                         ],
                         "abstract": true
@@ -42,6 +47,14 @@
                             },
                             {
                                 "name": "TagView",
+                                "subModules": []
+                            },
+                            {
+                                "name": "ThingDetail",
+                                "subModules": []
+                            },
+                            {
+                                "name": "ThingList",
                                 "subModules": []
                             }
                         ],

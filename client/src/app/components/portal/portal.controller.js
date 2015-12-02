@@ -17,11 +17,24 @@ angular.module('BeehivePortal')
                 {
                     name: '业主列表',
                     state: 'app.portal.UserManager.User.UserList',
-                    subViews:[{
-                        name: '添加用户',
-                        state: 'app.portal.UserManager.User.NewUser',
-                        hidden: true
-                    }],
+                    subViews:[
+                        {
+                            name: '添加用户',
+                            state: 'app.portal.UserManager.User.NewUser',
+                            hidden: true
+                        },
+                        {
+                            name: '业主详情',
+                            state: 'app.portal.UserManager.User.UserInfo',
+                            hidden: true,
+                            subViews: [
+                                {
+                                    name: '设备权限',
+                                    state: 'app.portal.UserManager.User.UserThingAuthority'
+                                }
+                            ]
+                        }
+                    ],
                     description:'业主管理'
                 },
                 {
@@ -46,13 +59,27 @@ angular.module('BeehivePortal')
                 {
                     name: '标签视图',
                     state: 'app.portal.ThingManager.TagView'
+                },
+                {
+                    name: '设备详情',
+                    state: 'app.portal.ThingManager.ThingDetail',
+                    hidden: true
+                },
+                {
+                    name: '设备列表',
+                    state: 'app.portal.ThingManager.ThingList',
+                    hidden: true
                 }
             ]
         }
     ];
 
     $scope.otherNavs = {
-        NEW_USER_NAV: $scope.portalNavs[0].subViews[0].subViews[0]
+        NEW_USER_NAV: $scope.portalNavs[0].subViews[0].subViews[0],
+        USER_INFO: $scope.portalNavs[0].subViews[0].subViews[1],
+        THING_DETAIL: $scope.portalNavs[1].subViews[3],
+        THING_LIST: $scope.portalNavs[1].subViews[4],
+        USER_THING_AUTH: $scope.portalNavs[0].subViews[0].subViews[1].subViews[0]
     };
     /*
      * Navigation lists
@@ -99,7 +126,7 @@ angular.module('BeehivePortal')
      * when left navs clicked
      */
 
-    $scope.navigateTo = function(nav, notInList){
+    $scope.navigateTo = function(nav, params, notInList){
         if(notInList){
             nav = _.clone(nav);
             nav.chan = _.clone($scope.currentNav.chan);
@@ -135,7 +162,12 @@ angular.module('BeehivePortal')
         }
 
         $scope.currentNav = _.last(navList);
-        $state.go(nav.state);
+        if(params){
+            $state.go(nav.state, params);
+        }else{
+            $state.go(nav.state);
+        }
+        
 
         /*
          * uncheck all highlighted navs

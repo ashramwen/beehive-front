@@ -34,7 +34,13 @@ angular.module('BeehivePortal')
     $scope.myMenu = {
         itemList:[
             {
-                text:'Edit',
+                text: '查看详情',
+                callback: function(user) {
+                    $scope.navigateTo($scope.otherNavs.USER_INFO,{id: user.id});
+                }
+            },
+            {
+                text:'编辑',
                 callback: function (user) {
                     var modalInstance = $uibModal.open({
                         animation: true,
@@ -55,7 +61,7 @@ angular.module('BeehivePortal')
                     });
                 }
             },{
-                text:'Delete',
+                text:'删除',
                 callback: function (user) {
                     console.log('Delete user');
                     console.log(user);

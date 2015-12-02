@@ -11,5 +11,12 @@ angular.module('BeehivePortal')
         });
     };
 
+    userService.getUser = function(){
+        return $http({
+            url: 'app/data/user.json',
+            method: 'get'
+        });
+    }
+
     return userService;
   }]);

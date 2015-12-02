@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="../bower_components/morrisjs/morris.css" />
   <link rel="stylesheet" href="../bower_components/bootstrap-social/bootstrap-social.css" />
   <link rel="stylesheet" href="../bower_components/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" />
+  <link rel="stylesheet" href="../bower_components/angularjs-slider/dist/rzslider.css" />
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css({.tmp/serve,src}) styles/app.css -->
@@ -24,17 +25,22 @@
   <link rel="stylesheet" href="app/css/shared/global.css">
   <link rel="stylesheet" href="app/css/components/portal/portal.css">
   <link rel="stylesheet" href="app/css/components/secure/secure.css">
+  <link rel="stylesheet" href="app/css/shared/templates/switchery.css">
   <link rel="stylesheet" href="app/css/components/portal/ThingManager/ThingManager.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/UserManager.css">
   <link rel="stylesheet" href="app/css/components/secure/AdminLogin/AdminLogin.css">
   <link rel="stylesheet" href="app/css/components/secure/UserLogin/UserLogin.css">
   <link rel="stylesheet" href="app/css/components/portal/ThingManager/LocationView/LocationView.css">
   <link rel="stylesheet" href="app/css/components/portal/ThingManager/TagView/TagView.css">
+  <link rel="stylesheet" href="app/css/components/portal/ThingManager/ThingDetail/ThingDetail.css">
+  <link rel="stylesheet" href="app/css/components/portal/ThingManager/ThingList/ThingList.css">
   <link rel="stylesheet" href="app/css/components/portal/ThingManager/TypeView/TypeView.css">
+  <link rel="stylesheet" href="app/css/components/portal/UserManager/ThingAuthority/ThingAuthority.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/User.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/UserGroup/UserGroup.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/NewUser/NewUser.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/SearchUser/SearchUser.css">
+  <link rel="stylesheet" href="app/css/components/portal/UserManager/User/UserInfo/UserInfo.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/UserList/UserList.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/UserGroup/GroupEditor/GroupEditor.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/UserGroup/GroupUser/GroupUser.css">
@@ -73,7 +79,7 @@
   <script src="../bower_components/datatables-responsive/js/dataTables.responsive.js"></script>
   <script src="../bower_components/flot.tooltip/js/jquery.flot.tooltip.js"></script>
   <script src="../bower_components/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
-  <script src="../bower_components/ng-context-menu/dist/ng-context-menu.js"></script>
+  <script src="../bower_components/angularjs-slider/dist/rzslider.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
@@ -90,12 +96,18 @@
   <script src="app/components/portal/UserManager/UserGroup/GroupEditor/GroupEditor.controller.js"></script>
   <script src="app/components/portal/UserManager/User/UserList/UserList.service.js"></script>
   <script src="app/components/portal/UserManager/User/UserList/UserList.controller.js"></script>
+  <script src="app/components/portal/UserManager/User/UserInfo/UserInfo.service.js"></script>
+  <script src="app/components/portal/UserManager/User/UserInfo/UserInfo.controller.js"></script>
   <script src="app/components/portal/UserManager/User/SearchUser/SearchUser.service.js"></script>
   <script src="app/components/portal/UserManager/User/SearchUser/SearchUser.controller.js"></script>
   <script src="app/components/portal/UserManager/User/NewUser/NewUser.service.js"></script>
   <script src="app/components/portal/UserManager/User/NewUser/NewUser.controller.js"></script>
   <script src="app/components/portal/ThingManager/TypeView/TypeView.service.js"></script>
   <script src="app/components/portal/ThingManager/TypeView/TypeView.controller.js"></script>
+  <script src="app/components/portal/ThingManager/ThingList/ThingList.service.js"></script>
+  <script src="app/components/portal/ThingManager/ThingList/ThingList.controller.js"></script>
+  <script src="app/components/portal/ThingManager/ThingDetail/ThingDetail.service.js"></script>
+  <script src="app/components/portal/ThingManager/ThingDetail/ThingDetail.controller.js"></script>
   <script src="app/components/portal/ThingManager/TagView/TagView.service.js"></script>
   <script src="app/components/portal/ThingManager/TagView/TagView.controller.js"></script>
   <script src="app/components/portal/ThingManager/LocationView/LocationView.service.js"></script>
@@ -104,6 +116,8 @@
   <script src="app/components/portal/UserManager/UserGroup/UserGroup.controller.js"></script>
   <script src="app/components/portal/UserManager/User/User.service.js"></script>
   <script src="app/components/portal/UserManager/User/User.controller.js"></script>
+  <script src="app/components/portal/UserManager/ThingAuthority/ThingAuthority.service.js"></script>
+  <script src="app/components/portal/UserManager/ThingAuthority/ThingAuthority.controller.js"></script>
   <script src="app/components/secure/UserLogin/UserLogin.service.js"></script>
   <script src="app/components/secure/UserLogin/UserLogin.controller.js"></script>
   <script src="app/components/secure/AdminLogin/AdminLogin.service.js"></script>

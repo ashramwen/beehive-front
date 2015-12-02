@@ -17,5 +17,15 @@ angular.module('BeehivePortal')
         url: '/TagView',
         templateUrl: 'app/components/portal/ThingManager/TagView/TagView.html',
         controller: 'TagViewController',
+      })
+      .state('app.portal.ThingManager.ThingDetail', {
+        url: '/ThingDetail?id&from',
+        templateUrl: 'app/components/portal/ThingManager/ThingDetail/ThingDetail.html',
+        controller: 'ThingDetailController'
+      })
+      .state('app.portal.ThingManager.ThingList', {
+        url: '/ThingList?type&id&from',
+        templateUrl: 'app/components/portal/ThingManager/ThingList/ThingList.html',
+        controller: 'ThingListController'
       });
   });
