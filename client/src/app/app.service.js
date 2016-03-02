@@ -1,19 +1,31 @@
 /*
  * By George Lin
  */
-/*
- * By George Lin
- */
 
 angular.module('BeehivePortal')
-  .service('Session', ['localStorageService', 'AppUtils', function(localStorageService, AppUtils) {
+  .service('Session', ['localStorageService', 'AppUtils', '$http', function(localStorageService, AppUtils, $http) {
     var session = {};
+    window.MyApp = window.MyApp || {};
 
-    session.AuthenInfo = {
-      header:{
-        token: 'aefsgfaefa'
-      }
+    session.setCredential = function(credential){
+        AppUtils.setSessionItem('credential', credential);
+        session.useCredential();
     };
+
+    session.useCredential = function(){
+        var credential = AppUtils.getSessionItem('credential');
+        if(credential){
+          window.MyApp.credential = credential;
+          $http.defaults.headers.common['Authorization'] = 'Bearer ' + credential['accessToken'];
+        }
+    }
+
+    session.getCredential = function(){
+        return AppUtils.getSessionItem('credential');
+    }
+
+    
+    window.MyApp.credential = session.getCredential();
 
     session.StatusType = {
         SIGNEDIN: 'loggedin',

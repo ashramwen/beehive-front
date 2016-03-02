@@ -1,16 +1,21 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('ThingListController', ['$scope', '$rootScope', '$state', 'AppUtils', '$location', 'ThingManagerService',function($scope, $rootScope, $state, AppUtils, $location, ThingManagerService) {
+  .controller('ThingListController', ['$scope', '$rootScope', '$state', 'AppUtils', '$location', '$$Thing',function($scope, $rootScope, $state, AppUtils, $location, $$Thing) {
+    
     $scope.things = [];
-    /*
-     * page setting
-     */
-    $location.search(_.extend($scope.$state.params,{'pageIndex': 1}));
-    $scope.currentIndex = 1;
+    $scope.thingsForDisplay = [];
+    
 
-    $scope.pageChanged = function(){
-        $location.search({'pageIndex': $scope.currentIndex});
+    /*
+     * query all things
+     */
+    $scope.queryThings = function(from, id){
+        if(from == 'type'){
+            $scope.things = $$Thing.byType({}, {typeName: id});
+        }else{
+            $scope.things = $$Thing.byTag({tagType:'Custom',displayName:id});
+        }
     }
 
     /*
@@ -18,11 +23,29 @@ angular.module('BeehivePortal')
      */
     $scope.init = function(){
 
-        ThingManagerService.getThings().then(function(response){
-            $scope.things = response.data;
-        },function(){
+        var from = $state.params['from'],
+            id = $state.params['id'],
+            navObj = null;
 
+        switch(from){
+          case 'type':
+            navObj = $scope.navMapping.TYPE_THING_DETAIL;
+            id = $state.params['typeName'];
+            break;
+          case 'tag':
+            navObj = $scope.navMapping.TAG_THING_DETAIL;
+            id = $state.params['displayName'];
+            break;
+        }
+
+        $scope.queryThings(from, id);
+
+        var showDetailItem =_.find($scope.myMenu.itemList,function(item){
+          return item.text == '查看详情';
         });
+        _.extend(showDetailItem,{callback:function(thing){
+            $scope.navigateTo(navObj,_.extend({thingid: thing.globalThingID},$state.params));
+        }});
     };
 
   }]);

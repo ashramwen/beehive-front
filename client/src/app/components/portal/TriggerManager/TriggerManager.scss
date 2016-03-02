@@ -1,0 +1,44 @@
+@import 'src/app/shared/global.scss';
+.app-portal-triggermanager{
+/*
+ * TODO
+ **/
+    .carousel-control{
+        display: none;
+    }
+    .rule-tab{
+        padding-bottom: 50px;
+    }
+    .carousel-indicators{
+        display: none;
+    }
+    .new-trigger, .new-source{
+        @include border-radius(5px);
+        border: #ccc 2px dashed;
+        color: #555;
+        padding: 7px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        &:hover{
+            border: #999 2px dashed;
+            color: #000;
+        }
+    }
+    .tab-content{
+        padding-top: 10px;
+    }
+
+    .trigger-setting{
+      & > .carousel{
+        & > .carousel-inner{
+          min-height: 300px;
+        }
+      }
+    }
+
+    .trigger-when{
+      text-align: left;
+      margin-bottom: 15px;
+    }
+  
+}

@@ -1,0 +1,63 @@
+<div ng-init="init()" class="group-trigger">
+  <!-- ====================== start of trigger setting ===================== -->
+  <div class="step-bar">
+    <div class="sui-steps-round steps-round-auto">
+      <div class="wrap" ng-class="{'finished': currentStep>1, 'current': currentStep==1, 'todo': currentStep<1}">
+        <div class="round" ng-click="currentStep = 1">1</div>
+        <div class="bar"></div>
+        <label>触发器源</label>
+      </div>
+      <div class="wrap" ng-class="{'finished': currentStep>2, 'current': currentStep==2, 'todo': currentStep<2}">
+        <div class="round" ng-click="currentStep = 2">2</div>
+        <div class="bar"></div>
+        <label>触发条件</label>
+      </div>
+      <div class="wrap" ng-class="{'finished': currentStep>3, 'current': currentStep==3, 'todo': currentStep<3}">
+        <div class="round" ng-click="currentStep = 3">3</div>
+        <div class="bar"></div>
+        <label>触发目标</label>
+      </div>
+      <div ng-class="{'finished': currentStep>4, 'current': currentStep==4, 'todo': currentStep<4}">
+        <div class="round" ng-click="currentStep = 4">4</div>
+        <label>触发命令</label>
+      </div>
+    </div>
+  </div>
+  <uib-carousel no-wrap="noWrapSlides">
+    <!-- ============================== select source ========================== -->
+    <uib-slide active="currentStep == 1">
+      <source-picker my-source="dataContainer.mySource"></source-picker>
+    </uib-slide>
+    <!-- ========================= end of select source ======================== -->
+
+    <!-- =========================== set trigger rule  ==================================== -->
+    <uib-slide active="currentStep == 2">
+      <div class="trigger-when">
+        <span>何时触发：</span>
+        <div app-select selected-model="myTrigger.predicate.triggersWhen" options="triggerWhenConditions"></div>
+      </div>
+      <div>
+        <condition-tree schema="summarySchema" result="dataContainer.summaryConditionClause"></condition-tree>
+      </div>
+    </uib-slide>
+    <!-- =========================== end of set trigger rule  ==================================== -->
+
+    <!-- =========================== select trigger target ==================================== -->
+    <uib-slide active="currentStep == 3">
+      <div class="new-source" ng-click="createTarget()"><span class="fa fa-plus"></span> 新建目标</div>
+      <multi-source-picker my-source="dataContainer.myTargets"></multi-source-picker>
+    </uib-slide>
+    <!-- =========================== end of select trigger target  ==================================== -->
+
+    <!-- =========================== select trigger command  ==================================== -->
+    <uib-slide active="currentStep == 4">
+      <trigger-command my-actions="actions"></trigger-command>
+    </uib-slide>
+    <!-- =========================== end of select trigger command  ==================================== -->
+  </uib-carousel>
+  <hr/>
+  <div class="panel-foot clearfix">
+    <button class="btn btn-danger pull-right margin-left" ng-click="nextStep(currentStep)">{{currentStep < 4?'下一步':'完成'}}</button>
+    <button class="btn btn-success pull-right" ng-click="previousStep(currentStep)" ng-show="currentStep>1">上一步</button>
+  </div>
+</div>

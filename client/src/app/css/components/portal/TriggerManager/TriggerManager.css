@@ -1,0 +1,30 @@
+.app-portal-triggermanager {
+  /*
+ * TODO
+ **/ }
+  .app-portal-triggermanager .carousel-control {
+    display: none; }
+  .app-portal-triggermanager .rule-tab {
+    padding-bottom: 50px; }
+  .app-portal-triggermanager .carousel-indicators {
+    display: none; }
+  .app-portal-triggermanager .new-trigger, .app-portal-triggermanager .new-source {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    border: #ccc 2px dashed;
+    color: #555;
+    padding: 7px;
+    margin-bottom: 10px;
+    cursor: pointer; }
+    .app-portal-triggermanager .new-trigger:hover, .app-portal-triggermanager .new-source:hover {
+      border: #999 2px dashed;
+      color: #000; }
+  .app-portal-triggermanager .tab-content {
+    padding-top: 10px; }
+  .app-portal-triggermanager .trigger-setting > .carousel > .carousel-inner {
+    min-height: 300px; }
+  .app-portal-triggermanager .trigger-when {
+    text-align: left;
+    margin-bottom: 15px; }

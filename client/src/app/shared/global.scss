@@ -50,3 +50,11 @@ $click-cursor: pointer;
   -moz-box-shadow: $shadow;
   box-shadow: $shadow;
 }
+
+
+@mixin filter($filter){
+  -webkit-filter: $filter;
+  -moz-filter: $filter;
+  -o-filter: $filter;
+  -ms-filter: $filter;
+}

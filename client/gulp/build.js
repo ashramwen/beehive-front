@@ -30,7 +30,7 @@ gulp.task('html', ['inject', 'partials'], function () {
   var partialsInjectOptions = {
     starttag: '<!-- inject:partials -->',
     ignorePath: paths.tmp + '/partials',
-    addRootSlash: false
+    addRootSlash: true
   };
 
   var htmlFilter = $.filter('*.html');
@@ -64,8 +64,15 @@ gulp.task('html', ['inject', 'partials'], function () {
 });
 
 gulp.task('images', function () {
-  return gulp.src(paths.src + '/assets/images/**/*')
-    .pipe(gulp.dest(paths.dist + '/assets/images/'));
+  return gulp.src(paths.src + '/images/**/*')
+    .pipe(gulp.dest(paths.dist + '/images/'));
+});
+
+gulp.task('fonts', function () {
+  return gulp.src($.mainBowerFiles())
+    .pipe($.filter('**/*.{eot,svg,ttf,woff}'))
+    .pipe($.flatten())
+    .pipe(gulp.dest(paths.dist + '/fonts/'));
 });
 
 gulp.task('fonts', function () {
@@ -90,18 +97,6 @@ gulp.task('sass', function () {
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest(paths.src + '/app/css'));
 });
- 
-gulp.task('sass:watch', function () {
-  gulp.watch(paths.src + '/app/**/*.scss', ['sass']);
-});
 
-gulp.task('construct:watch', function(){
-  gulp.watch(paths.appStructFile,['build']);
-});
-
-gulp.task('lib:watch', function(){
-  gulp.watch('bower_components/**/*',['build']);
-})
-
-//gulp.task('build', ['construct','html', 'images', 'fonts', 'misc']);
-gulp.task('build',['construct','sass','inject','partials','sass:watch']);
+gulp.task('dist', ['html', 'images', 'misc', 'fonts']);
+gulp.task('build',['sass','inject','partials','watch']);

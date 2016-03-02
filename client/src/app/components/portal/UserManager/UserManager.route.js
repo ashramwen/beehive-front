@@ -7,12 +7,12 @@ angular.module('BeehivePortal')
         url: '/User',
         templateUrl: 'app/components/portal/UserManager/User/User.html',
         controller: 'UserController',
-        abstract: true,
+        abstract: true
       })
       .state('app.portal.UserManager.UserGroup', {
-        url: '/UserGroup',
+        url: '/UserGroupS',
         templateUrl: 'app/components/portal/UserManager/UserGroup/UserGroup.html',
         controller: 'UserGroupController',
-        abstract: true,
+        abstract: true
       });
   });

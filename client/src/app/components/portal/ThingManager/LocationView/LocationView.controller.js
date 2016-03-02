@@ -1,66 +1,63 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('LocationViewController', ['$scope', '$rootScope', '$state', 'AppUtils', 'ThingManagerService', 'PortalService', '$location',function($scope, $rootScope, $state, AppUtils, ThingManagerService, PortalService, $location) {
+  .controller('LocationViewController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Tag', '$$Thing', '$$Location', 'PortalService',function($scope, $rootScope, $state, AppUtils, $$Tag, $$Thing, $$Location, PortalService) {
     $scope.things = [];
+    $scope.thingsForDisplay = [];
     /*
      * dropdown options for loacation.
      */
-    $scope.buildingOptions = [];
-    $scope.levelOptions = [];
-    $scope.roomOptions = [];
-
-    /*
-     * page setting
-     */
-    $location.search({'pageIndex': 1});
-    $scope.currentIndex = 1;
-
-    $scope.pageChanged = function(){
-        $location.search({'pageIndex': $scope.currentIndex});
-    }
+    $scope.selectedLocation = {};
 
     /*
      * Init app
      */
     $scope.init = function(){
-        PortalService.getLocation().then(function(response){
-            $scope.buildingOptions = response.data;
-            $scope.building = $scope.buildingOptions[0];
-            $scope.changeBuilding();
-        },function(){
+        $scope.things = $$Thing.getAll();
+        $scope.locationsTree = [];
 
+        /*
+         * tree settings
+         */
+        $scope.treeOptions = {
+            multiSelection: false,
+            nodeChildren: "children",
+            dirSelectable: true,
+            injectClasses: {
+                ul: "a1",
+                li: "a2",
+                liSelected: "a7",
+                iExpanded: "a3",
+                iCollapsed: "a4",
+                iLeaf: "a5",
+                label: "a6",
+                labelSelected: "a8"
+            }
+        };
+
+        if(!$scope.PermissionControl.allowAction('SEARCH_LOCATIONS'))return false;
+
+        $scope.locations = $$Location.queryAll(function(locations){
+            $scope.locationTree = new LocationTree(_.pluck(locations, 'displayName'));
         });
-
-        ThingManagerService.getThings().then(function(response){
-            $scope.things = response.data;
-        },function(){
-
+        
+        /*
+         * context menu item setting
+         */
+        var showDetailItem =_.find($scope.myMenu.itemList,function(item){
+          return item.text == '查看详情';
         });
+        _.extend(showDetailItem,{callback:function(thing){
+            $scope.navigateTo($scope.navMapping.LOCATION_THING_DETAIL, {thingid: thing.globalThingID});
+        }});
     };
 
-    /*
-     * when building changed
-     */
-
-    $scope.changeBuilding = function(){
-        $scope.refreshLevels();
+    $scope.selectLocation = function(location){
+        $scope.things = $$Thing.byTag({tagType: 'Location', displayName: location.id});
     };
 
-    /*
-     * when level changed
-     */
-    
-    $scope.refreshLevels = function(){
-        $scope.levelOptions = $scope.building.levels;
-        $scope.level = $scope.levelOptions[0];
-
-        $scope.refreshRooms();
-    }
-    $scope.refreshRooms = function(){
-        $scope.roomOptions = $scope.level.rooms;
-        $scope.room = $scope.roomOptions[0];
+    $scope.search = function(locationTag){
+        $scope.things = $$Thing.byTag({tagType: 'Location', displayName: locationTag.displayName});
     };
-
     
   }]);

@@ -28,77 +28,94 @@
   -webkit-box-shadow: 0 0 8px  #bebebe;
   box-shadow: 0 0 8px  #bebebe;
   background-color: #FFF; }
-  .app-secure-userlogin .login-form-box .form-item-header {
-    color: #000;
-    text-align: center;
-    font-size: 25px;
-    padding: 15px; }
-  .app-secure-userlogin .login-form-box fieldset {
-    margin: 0px auto;
-    border: none; }
-  .app-secure-userlogin .login-form-box .form-item-msg {
-    width: 356px;
-    margin: 0px auto;
-    display: block;
-    text-align: center; }
-  .app-secure-userlogin .login-form-box .input-group {
-    border: 1px solid #bebebe;
-    border-radius: 4px; }
-  .app-secure-userlogin .login-form-box .input-group .form-control {
-    font-size: 16px;
-    padding-left: 5px;
-    /* border: 1px solid #bebebe;
-            border-radius: 8px !important;
-            box-shadow: none; */
-    height: 42px;
-    border: none !important;
-    color: #000; }
-  .app-secure-userlogin .login-form-box .input-group-addon {
-    background: #fff !important;
-    color: #f0f0f0;
-    font-size: 20px;
-    padding: 6px;
-    border: none !important; }
-  .app-secure-userlogin .login-form-box input[type="checkbox"] {
-    display: none; }
-  .app-secure-userlogin .login-form-box ::-webkit-input-placeholder {
-    color: #BEBEBE !important; }
-  .app-secure-userlogin .login-form-box :-moz-placeholder {
-    color: #BEBEBE !important; }
-  .app-secure-userlogin .login-form-box ::-moz-placeholder {
-    color: #BEBEBE !important; }
-  .app-secure-userlogin .login-form-box :-ms-input-placeholder {
-    color: #BEBEBE !important; }
-  .app-secure-userlogin .login-form-box input[type="checkbox"] + label {
-    font-size: 14px;
-    width: 330px;
-    display: block; }
-    .app-secure-userlogin .login-form-box input[type="checkbox"] + label span {
-      display: inline-block;
-      width: 55px;
-      height: 25px;
-      margin: -1px 4px 0 0;
-      vertical-align: middle;
-      background: url("../../images/remMeInactive.png") no-repeat 0 0;
-      cursor: pointer; }
-  .app-secure-userlogin .login-form-box input[type="checkbox"]:checked + label span {
-    background: url("../../images/remMeActive.png") top no-repeat; }
-  .app-secure-userlogin .login-form-box .item-submit {
-    padding-bottom: 20px;
-    text-align: center; }
-  .app-secure-userlogin .login-form-box .item-submit-button {
-    width: 100%; }
-  .app-secure-userlogin .login-form-box .field-required {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    z-index: 170;
-    color: red;
-    font-weight: normal; }
-  .app-secure-userlogin .login-form-box .field-error {
-    display: block;
-    color: red;
-    text-align: center; }
+
+.app-secure-userlogin .form-item-header {
+  color: #000;
+  text-align: center;
+  font-size: 25px;
+  padding: 15px; }
+
+.app-secure-userlogin fieldset {
+  margin: 0px auto;
+  border: none; }
+
+.app-secure-userlogin .form-item-msg {
+  width: 356px;
+  margin: 0px auto;
+  display: block;
+  text-align: center; }
+
+.app-secure-userlogin .input-group {
+  border: 1px solid #bebebe;
+  border-radius: 4px; }
+
+.app-secure-userlogin .input-group .form-control {
+  font-size: 16px;
+  padding-left: 5px;
+  /* border: 1px solid #bebebe;
+        border-radius: 8px !important;
+        box-shadow: none; */
+  height: 42px;
+  border: none !important;
+  color: #000; }
+
+.app-secure-userlogin .input-group-addon {
+  background: #fff !important;
+  color: #f0f0f0;
+  font-size: 20px;
+  padding: 6px;
+  border: none !important; }
+
+.app-secure-userlogin input[type="checkbox"] {
+  display: none; }
+
+.app-secure-userlogin ::-webkit-input-placeholder {
+  color: #BEBEBE !important; }
+
+.app-secure-userlogin :-moz-placeholder {
+  color: #BEBEBE !important; }
+
+.app-secure-userlogin ::-moz-placeholder {
+  color: #BEBEBE !important; }
+
+.app-secure-userlogin :-ms-input-placeholder {
+  color: #BEBEBE !important; }
+
+.app-secure-userlogin input[type="checkbox"] + label {
+  font-size: 14px;
+  width: 330px;
+  display: block; }
+  .app-secure-userlogin input[type="checkbox"] + label span {
+    display: inline-block;
+    width: 55px;
+    height: 25px;
+    margin: -1px 4px 0 0;
+    vertical-align: middle;
+    background: url("../../images/remMeInactive.png") no-repeat 0 0;
+    cursor: pointer; }
+
+.app-secure-userlogin input[type="checkbox"]:checked + label span {
+  background: url("../../images/remMeActive.png") top no-repeat; }
+
+.app-secure-userlogin .item-submit {
+  padding-bottom: 20px;
+  text-align: center; }
+
+.app-secure-userlogin .item-submit-button {
+  width: 100%; }
+
+.app-secure-userlogin .field-required {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 170;
+  color: red;
+  font-weight: normal; }
+
+.app-secure-userlogin .field-error {
+  display: block;
+  color: red;
+  text-align: center; }
 
 .app-secure-userlogin .tip-wrap {
   color: #eb8c00;

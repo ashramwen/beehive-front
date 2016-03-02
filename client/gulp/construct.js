@@ -172,6 +172,7 @@ function makeFiles(path, node, stateList){
     }
     
     // create service
+    /*
     console.log('making file:' + serviceName);
     if(!fs.existsSync(serviceName)){
         fd = fs.openSync(serviceName, 'w');
@@ -179,6 +180,7 @@ function makeFiles(path, node, stateList){
         fs.writeSync(fd, content, 0, content.length);
         fs.closeSync(fd);
     }
+    */
     
     // create route
     if(children && (children.length > 0)){

@@ -1,0 +1,75 @@
+<div class="app-portal-settings">
+  <!--
+  <section class="panel">
+    <header class="panel-heading">更改用户信息</header>
+    <div class="panel-body">
+      <form novalidate name="newUserForm" ng-submit="createUser()">
+        <div class="row portal-row clearfix">
+          <div class="col-sm-4">姓名</div>
+          <div class="col-sm-8">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="姓名" required ng-model="newUser.userName">
+              <div app-select selected-model="newUser.custom.sex" options="sexOptions" class="btn-group input-group-btn" text="text"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row portal-row clearfix">
+          <div class="col-sm-4">身份证</div>
+          <div class="col-sm-8"><input ng-model="newUser.userID" type="text" required class="form-control" placeholder="身份证" /></div>
+        </div>
+        <div class="row portal-row clearfix">
+          <div class="col-sm-4">公司</div>
+          <div class="col-sm-8"><input ng-model="newUser.company" type="text" class="form-control" placeholder="公司" /></div>
+        </div>
+        <div class="row portal-row clearfix">
+          <div class="col-sm-4">地址</div>
+          <div class="col-sm-8">
+            <span>
+              <div app-select selected-model="newUser.custom.building" options="buildingOptions" text="building" change="refreshLevels" class="location-select"></div><span>楼</span> 
+            </span>
+            <span>
+              <div app-select selected-model="newUser.custom.level" options="levelOptions" text="name" change="refreshRooms" class="location-select"></div>层
+            </span>
+            <span>
+              <div app-select selected-model="newUser.custom.room" options="roomOptions" text="name" class="location-select"></div>室
+            </span>
+          </div>
+        </div>
+        <div class="row portal-row clearfix">
+          <div class="col-sm-4">电话</div>
+          <div class="col-sm-8"><input type="text" class="form-control" placeholder="电话" ng-model="newUser.phone" /></div>
+        </div>
+        <div class="row portal-row clearfix">
+          <div class="col-sm-4">邮箱地址</div>
+          <div class="col-sm-8"><input type="text" class="form-control" placeholder="邮箱地址" ng-model="newUser.mail" /></div>
+        </div>
+        <div class="row portal-row clearfix">
+          <div class="col-sm-12">
+            <input type="submit" value="提交" name="submit" class="btn btn-danger pull-right" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+  -->
+  <section class="panel">
+    <header class="panel-heading">更改密码</header>
+    <div class="panel-body">
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">旧密码</div>
+        <div class="col-sm-8"><input ng-model="password.oldPassword" type="password" required class="form-control" placeholder="旧密码" /></div>
+      </div>
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">新密码</div>
+        <div class="col-sm-8"><input ng-model="password.newPassword" type="password" required class="form-control" placeholder="新密码" /></div>
+      </div>
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">确认密码</div>
+        <div class="col-sm-8"><input ng-model="password.confirmPassword" type="password" required class="form-control" placeholder="确认密码" /></div>
+      </div>
+      <div class="portal-row clearfix">
+          <input type="submit" value="提交" name="submit" ng-click="changePassword(password)" class="btn btn-danger pull-right" />
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,7 +1,7 @@
 'use strict'
 
-angular.module('BeehivePortal', ['ngAnimate', 'ngCookies', 'ngSanitize',
-  'ngResource', 'ui.router', 'ui.bootstrap','LocalStorageModule', 'rzModule'
+var MyApp = angular.module('BeehivePortal', ['ngAnimate', 'ngCookies', 'ngSanitize',
+  'ngResource', 'ui.router', 'ui.bootstrap','LocalStorageModule', 'rzModule', 'treeControl', 'angular-condition-tree', 'awesome-context-menu', 'monospaced.elastic'
 ]).
 constant('AUTH_EVENTS', {
   loginSuccess: 'auth-login-success',
@@ -9,14 +9,58 @@ constant('AUTH_EVENTS', {
   logoutSuccess: 'auth-logout-success',
   sessionTimeout: 'auth-session-timeout',
   notAuthenticated: 'auth-not-authenticated',
-  notAuthorized: 'auth-not-authorized'
+  notAuthorized: 'auth-not-authorized',
 }).
-config(function(localStorageServiceProvider) {
+config(function(localStorageServiceProvider, $httpProvider) {
   localStorageServiceProvider
     .setPrefix("epgApp")
     .setStorageType('localStorage')
     .setStorageCookie(30, '/')
     .setNotify(true, true);
+
+    var requestCount = 0;
+    //$httpProvider.defaults.withCredentials = true;
+    delete $httpProvider.defaults.headers.common["X-Requested-With"];
+
+    $httpProvider.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8';
+    $httpProvider.defaults.headers.common['Authorization'] = 'Bearer d31032a0-8ebf-11e5-9560-00163e02138f';
+    $httpProvider.interceptors.push(function($q) {
+      return {
+        request: function(request) {
+            $('#spinner').show();
+            requestCount++;
+            if(request.url.indexOf('api/users')>-1){
+                request.headers['Authorization'] = 'Bearer d31032a0-8ebf-11e5-9560-00163e02138f';
+            }
+            
+            return request;
+        },
+        response: function(response){
+          hideLoading();
+          return response;
+        },
+        responseError: function(response){
+            hideLoading();
+            $('#spinner').hide();
+            if(response.status == 401){
+              window.alertMessage('您没有相应的操作权限。');
+              //window.location = 'index.html#/app/secure/UserLogin';
+            }
+            return $q.reject(response);
+        }
+      };
+    });
+
+    /*
+     * hide loading 
+     */
+    function hideLoading(){
+      requestCount--;
+      if(requestCount==0){
+        $('#spinner').hide();
+      }
+    }
+
 }).run(
   ['$rootScope', '$state', '$stateParams', 'AppUtils',
       function($rootScope, $state, $stateParams, AppUtils) {

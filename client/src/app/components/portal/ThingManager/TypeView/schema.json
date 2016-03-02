@@ -1,0 +1,97 @@
+{ 
+    "name": "SmartLight", 
+    "version": "1", 
+    "statesSchema": { 
+        "title": "Light Status", 
+        "type": "object", 
+        "properties": {
+            "power": { 
+                "type": "boolean", 
+                "description": "true indicate on, false indicate off." 
+            }, 
+            "brightness": { 
+                "type": "integer", 
+                "minimum": 0, 
+                "maximum": 100, 
+                "description": 
+                "percentage indicate brightness of the light" 
+            } 
+        } 
+    }, 
+    "actions": { 
+        "turnPower": { 
+            "in": { 
+                "title": "turnPower input data", 
+                "type": "object", 
+                "required": [ "power" ], 
+                "properties": { 
+                    "power": { 
+                        "type": "boolean", 
+                        "description": "true indicate on, false indicate off." 
+                    }
+                }
+            }, 
+            "out": { 
+                "title": "turnPower output data", 
+                "type": "object", 
+                "required": ["actionResult"], 
+                "properties": { 
+                    "actionResult": { 
+                        "title": "action result", 
+                        "type": "object", 
+                        "description": "represent result of action", 
+                        "required": [ "result" ], 
+                        "properties": { 
+                            "result": { 
+                                "type": "boolean", 
+                                "description": "true indicate success, false indicate failure." 
+                            }, 
+                            "errorMessage": { 
+                                "type": "string", 
+                                "description": "human readable error message" 
+                            } 
+                        } 
+                    }
+                } 
+            } 
+        },
+        "turnLightness": {
+            "in": {
+                "title": "turn lightness",
+                "type": "object",
+                "required": ["brightness"],
+                "properties": {
+                    "brightness": {
+                        "type": "float",
+                        "description": "brightness",
+                        "minimum": 0, 
+                        "maximum": 100
+                    }
+                }
+            },
+            "out": { 
+                "title": "turnPower output data", 
+                "type": "object", 
+                "required": ["actionResult"], 
+                "properties": { 
+                    "actionResult": { 
+                        "title": "action result", 
+                        "type": "object", 
+                        "description": "represent result of action", 
+                        "required": [ "result" ], 
+                        "properties": { 
+                            "result": { 
+                                "type": "boolean", 
+                                "description": "true indicate success, false indicate failure." 
+                            }, 
+                            "errorMessage": { 
+                                "type": "string", 
+                                "description": "human readable error message" 
+                            } 
+                        } 
+                    }
+                } 
+            } 
+        }
+    }
+}

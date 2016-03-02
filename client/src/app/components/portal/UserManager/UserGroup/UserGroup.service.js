@@ -3,5 +3,18 @@ angular.module('BeehivePortal')
     var userGroupService = {};
     // TODO
 
+    userGroupService.getUserGroups = function(){
+        return $http({
+            url: 'app/data/userGroup.json',
+            method: 'get'
+        });
+    };
+
+    userGroupService.getGroup = function(){
+        return $http({
+            url: 'app/data/group.json',
+            method: 'get'
+        });
+    }
     return userGroupService;
   }]);

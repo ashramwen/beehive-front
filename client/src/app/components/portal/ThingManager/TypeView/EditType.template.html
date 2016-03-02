@@ -1,0 +1,73 @@
+<div class="modal-content" ng-init="init()">
+  <div class="modal-header ng-scope">
+      <h3 class="modal-title">编辑类型</h3>
+  </div>
+  <div class="modal-body clearfix">
+    <div class="col-sm-12">
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">类型名称</div>
+        <div class="col-sm-8">
+          <input ng-model="type.type" ng-disabled="true" type="text" class="form-control" placeholder="标签名称" ng-disabled="disabled" />
+        </div>
+      </div>
+      <div class="row portal-row clearfix">
+        <uib-tabset>
+          <uib-tab heading="行业模板">
+            <div class="form-group">
+              <label>版本：{{schema.version}}</label>
+            </div>
+            <hr/>
+            <div class="form-group">
+              <h4>属性</h4>
+              <table class="table">
+                <thead>
+                  <th>名称</th>
+                  <th>种类</th>
+                  <th>值域</th>
+                  <th>描述</th>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="(key, value) in schema.statesSchema.properties">
+                    <td>{{key}}</td>
+                    <td><code class="bg-primary">{{value.type}}</code></td>
+                    <td>
+                      <code ng-if="value.minimum || value.minimum == 0">{{'> ' + value.minimum}}</code>
+                      <code ng-if="value.maximum || value.maximum == 0">{{'< ' + value.maximum}}</code>
+                    </td>
+                    <td>{{value.description}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <hr/>
+            <div class="form-group">
+              <h4>命令</h4>
+              <uib-accordion close-others="oneAtATime">
+                <uib-accordion-group heading="{{key}}" ng-repeat="(key, value) in schema.actions">
+                  <div class="form-group">
+                    <uib-tabset>
+                      <uib-tab heading="输入">
+                        <property-tree my-property="value.in"></property-tree>
+                      </uib-tab>
+                      <uib-tab heading="输出">
+                        <property-tree my-property="value.out"></property-tree>
+                      </uib-tab>
+                    </uib-tabset>
+                  </div>
+                </uib-accordion-group>
+              </uib-accordion>
+            </div>
+          </uib-tab>
+          <uib-tab heading="编辑行业模板">
+            <textarea msd-elastic class="form-control" ng-model="schemaString" style="border:none;"></textarea>
+          </uib-tab>
+        </uib-tabset>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer ng-scope">
+      <button class="btn btn-primary" type="button" ng-click="ok()">更新</button>
+      <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+  </div>
+</div>
+

@@ -1,0 +1,262 @@
+angular.module('BeehivePortal')
+  .factory('$$User', ['$resource', function($resource) {
+      var User = $resource(MyAPIs.USER + '/:id',{ id: '@userID' }, {
+          update: {
+              method: 'PATCH' // this method issues a PUT request
+          },
+          remove:{
+              method: 'DELETE'
+          },
+          create:{
+              url: MyAPIs.USER,
+              method: 'POST'
+          },
+          query:{
+              url: MyAPIs.USER + '/simplequery',
+              method: 'POST',
+              isArray: true
+          },
+          register: {
+              url: MyAPIs.OPERATOR + '/register',
+              method: 'POST'
+          },
+          login: {
+              url: MyAPIs.OPERATOR + '/login',
+              method: 'POST'
+          },
+          changePassword: {
+              url: MyAPIs.OPERATOR + '/changepassword',
+              method: 'POST'
+          },
+          logout: {
+              url: MyAPIs.OPERATOR + 'logout',
+              method: 'POST'
+          }
+      });
+
+      //User.query = searchUser.query;
+      return User;
+  }])
+  .factory('$$UserGroup', ['$resource', function($resource){
+      var UserGroup = $resource(MyAPIs.USER_GROUP + '/:id',{id: '@userGroupID'}, {
+          addUser: {
+              method: 'POST',
+              url: MyAPIs.USER_GROUP + '/:userGroupID/user/:userID',
+              params: {
+                  userGroupID: '@userGroupID',
+                  userID: '@userID'
+              }
+          },
+          deleteUser: {
+              method: 'DELETE',
+              url: MyAPIs.USER_GROUP + '/:userGroupID/user/:userID',
+              params: {
+                  userGroupID: '@userGroupID',
+                  userID: '@userID'
+              }
+          },
+          update: {
+              method: 'PATCH'
+          },
+          remove: {
+              method: 'DELETE'
+          },
+          get: {
+              url: MyAPIs.USER_GROUP + '/:userGroupID',
+              method: 'GET',
+              params:{userGroupID: '@userGroupID'}
+          },
+          getList: {
+              url: MyAPIs.USER_GROUP + '/all',
+              method: 'GET',
+              isArray: true
+          },
+          getMyGroups:{
+              url: MyAPIs.USER_GROUP + '/list',
+              method: 'GET',
+              isArray: true
+          },
+          withUserData: {
+              url: MyAPIs.USER_GROUP + '/simplequery',
+              method: 'POST',
+              transformRequest: function(data, headers){
+                  data.includeUserData = 1;
+                  return data;
+              }
+          },
+          create: {
+              url: MyAPIs.USER_GROUP,
+              method: 'POST'
+          },
+          query: {
+              url: MyAPIs.USER_GROUP + '/simplequery',
+              method: 'POST',
+              isArray: true
+          },
+          getPermissions: {
+              url: MyAPIs.USER_GROUP + '',
+              method: 'GET',
+
+          }
+      });
+
+      return UserGroup;
+  }])
+  .factory('$$Thing', ['$resource', function($resource){
+      var Thing = $resource(MyAPIs.THING + '/:globalThingID', {}, {
+          getAll: {
+              url: MyAPIs.THING + '/search',
+              method: 'GET',
+              isArray: true
+          },
+          remove: {
+              method: 'DELETE'
+          },
+          update: {
+              method: 'POST'
+          },
+          bindTags: {
+              url: MyAPIs.THING + '/:thingids/tags/custom/:tags',
+              params:{thingids:'@things',tags: '@tags'},
+              method: 'POST'
+          },
+          removeTags: {
+              url: MyAPIs.THING + '/:things/tags/custom/:tags',
+              params:{things: '@things', tags:'@tags'},
+              method: 'DELETE'
+          },
+          byTag: {
+              url: MyAPIs.THING + '/search?tagType=:tagType&displayName=:displayName',
+              params:{tagType: '@tagType', displayName: '@displayName'},
+              method: 'GET',
+              isArray: true,
+          },
+          byType: {
+              url: MyAPIs.THING + '/types/:typeName',
+              params: {typeName: '@typeName'},
+              method: 'GET',
+              isArray: true
+          }
+      });
+
+      return Thing;
+  }])
+  .factory('$$Tag', ['$resource', function($resource){
+      var Tag = $resource(MyAPIs.TAG + '/:id',{id: '@tagName'}, {
+          query: {
+              method: 'GET'
+          },
+          queryAll: {
+              url: MyAPIs.TAG + '/search?tagType=Custom',
+              method: 'GET',
+              isArray: true
+          },
+          create: {
+              url: MyAPIs.TAG + '/custom',
+              method: 'POST'
+          },
+          update: {
+              url: MyAPIs.TAG + '/custom',
+              method: 'POST'
+          },
+          remove: {
+              url: MyAPIs.TAG + '/custom/:id',
+              params: {id: '@tagName'},
+              method: 'DELETE'
+          }
+      });
+
+      return Tag;
+  }])
+  .factory('$$Location', ['$resource', function($resource){
+      var $$Location = $resource(MyAPIs.TAG + '/:id', {id: '@tagName'}, {
+          queryAll: {
+              method: 'GET',
+              isArray: true,
+              url: MyAPIs.TAG + '/search?tagType=Location'
+          }
+      })
+
+      return $$Location;
+  }])
+  .factory('$$Type', ['$resource', function($resource){
+      var Type = $resource(MyAPIs.TYPE, {}, {
+          getAll: {
+              method: 'GET',
+              isArray: true
+          }
+      });
+      return Type;
+  }])
+  .factory('$$Permission', ['$resource', function($resource){
+      var Permission = $resource(MyAPIs.PERMISSION, {}, {
+          getList: {
+              url: MyAPIs.PERMISSION + '/list',
+              method: 'GET',
+              isArray: true
+          },
+          byGroup: {
+              url: MyAPIs.PERMISSION + '/userGroup/:userGroupID',
+              method: 'GET',
+              params: {
+                  userGroupID: '@userGroupID'
+              },
+              isArray: true
+          },
+          bindGroup: {
+              url: MyAPIs.PERMISSION + '/:permissionID/userGroup/:userGroupID',
+              params: {
+                  userGroupID: '@userGroupID',
+                  permissionID: '@permissionID'
+              },
+              method: 'POST'
+          },
+          unbindGroup: {
+              url: MyAPIs.PERMISSION + '/:permissionID/userGroup/:userGroupID',
+              method: 'DELETE',
+              params: {
+                  userGroupID: '@userGroupID',
+                  permissionID: '@permissionID'
+              }
+          }
+      });
+
+      return Permission;
+  }])
+  .factory('$$Trigger', ['$resource', function($resource){
+      var Trigger = $resource(MyAPIs.TRIGGER, {}, {
+          create:{
+              url: MyAPIs.TRIGGER + '/createTrigger',
+              method: 'POST'
+          },
+          remove: {
+              url: MyAPIs.TRIGGER + '/:triggerID',
+              method: 'DELETE',
+              params:{
+                  triggerID: '@triggerID'
+              }
+          },
+          enable: {
+              url: MyAPIs.TRIGGER + '/:triggerID/enable',
+              method: 'POST',
+              params:{
+                  triggerID: '@triggerID'
+              }
+          },
+          disable: {
+              url: MyAPIs.TRIGGER + '/:triggerID/disable',
+              method: 'POST',
+              params:{
+                  triggerID: '@triggerID'
+              }
+          }
+      });
+
+      Trigger.TypeEnum = {
+          SIMPLE: 'Simple',
+          GROUP: 'Group',
+          SUMMARY: 'Summary'
+      };
+      
+      return Trigger;
+  }]);

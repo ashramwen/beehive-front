@@ -85,6 +85,9 @@
     </div>
     <script save-content="classic-js">
         function Classic($scope) {
+            $scope.testRightClick = function(node){
+                console.log(node);
+            };
             $scope.treedata=createSubTree(3, 4, "");
             $scope.showSelected = function(sel) {
                 $scope.selectedNode = sel;

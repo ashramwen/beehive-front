@@ -1,6 +1,6 @@
 angular.module('BeehivePortal')
-    .factory('AppUtils', ['$http', '$location', '$q', '$state', '$timeout',
-    function ($http, $location, $q, $state, $timeout) {
+    .factory('AppUtils', ['$http', '$location', '$q', '$state', '$timeout', '$uibModal',
+    function ($http, $location, $q, $state, $timeout, $uibModal) {
         window.app = {};
         app.utils = {
             initialize: function(){
@@ -18,7 +18,24 @@ angular.module('BeehivePortal')
 
                 String.prototype.lowerFirstLetter = function() {
                     return this.charAt(0).toLowerCase() + this.slice(1);
-                }
+                };
+
+                Array.prototype.removeFirst = function(){
+                    return this.slice(1, this.length);
+                };
+
+                Array.prototype.remove = function(object){
+                    var index = this.indexOf(object);
+                    if(index>-1){
+                        return this.splice(index,1);
+                    }else{
+                        return this;
+                    }
+                };
+
+                window.alertMessage = function(msg){
+                    app.utils.alert(msg, '提示');
+                };
             },
             /**
              * placeholder for IE
@@ -69,9 +86,83 @@ angular.module('BeehivePortal')
             removeSessionItem: function(itemName){
                 sessionStorage.removeItem(itemName);
             },
-            alertMessage: function(){
-                
+            alert: function(msg, title, func){
+                title = title || '提示';
+                var template = '';
+                template += '<div class="modal-content">';
+                template += '  <div class="modal-header ng-scope">';
+                template += '      <h3 class="modal-title">' + title + '</h3>';
+                template += '  </div>';
+                template += '  <div class="modal-body clearfix">';
+                template += '    <div class="col-sm-12">';
+                template += '      ' + msg;
+                template += '    </div>';
+                template += '  </div>';
+                template += '  <div class="modal-footer ng-scope">';
+                template += '      <button class="btn btn-primary" style="width:100%;" type="button" ng-click="ok()">OK</button>';
+                template += '  </div>';
+                template += '</div>';
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    template: template,
+                    controller: 'AppUtils.Alert',
+                    size: 'sm'
+                });
+
+                modalInstance.result.then(function(){
+                    if(_.isFunction(func)){
+                        func();
+                    }
+                }, function(){
+                    if(_.isFunction(func)){
+                        func();
+                    }
+                });
+            },
+            confirm: function(title, msg, func){
+                var template = '';
+                template += '<div class="modal-content">';
+                template += '  <div class="modal-header ng-scope">';
+                template += '      <h3 class="modal-title">' + title + '</h3>';
+                template += '  </div>';
+                template += '  <div class="modal-body clearfix">';
+                template += '    <div class="col-sm-12">';
+                template += '      ' + msg;
+                template += '    </div>';
+                template += '  </div>';
+                template += '  <div class="modal-footer ng-scope">';
+                template += '      <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>';
+                template += '      <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>';
+                template += '  </div>';
+                template += '</div>';
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    template: template,
+                    controller: 'AppUtils.Confirm',
+                    size: 'sm',
+                    resolve: {
+                        func: function(){return func}
+                    }
+                });
+
+                return modalInstance.result;
             }
         };
         return app.utils;
     }]);
+
+angular.module('BeehivePortal')
+  .controller('AppUtils.Confirm',function ($scope, $uibModalInstance, func) {
+    $scope.ok = function () {
+        $uibModalInstance.close(func());
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+  })
+  .controller('AppUtils.Alert',function ($scope, $uibModalInstance) {
+    $scope.ok = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+  });

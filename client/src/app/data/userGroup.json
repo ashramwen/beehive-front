@@ -1,0 +1,20 @@
+[
+    {
+        "userGroupName": "所有",
+        "id": "1",
+        "number": 100,
+        "image": "images/images.jpeg"
+    },
+    {
+        "userGroupName": "A座",
+        "id": "2",
+        "number": 76,
+        "image": "images/images.jpeg"
+    },
+    {
+        "userGroupName": "B座",
+        "id": "3",
+        "number": 45,
+        "image": "images/images.jpeg"
+    }
+]

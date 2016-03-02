@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('UserListController', ['$scope', '$rootScope', '$state', 'AppUtils', 'UserService', '$uibModal', '$log', '$location',function($scope, $rootScope, $state, AppUtils, UserService, $uibModal, $log, $location) {
+  .controller('UserListController', ['$scope', '$rootScope', '$state', 'AppUtils', '$uibModal', '$log', '$location', '$$User',function($scope, $rootScope, $state, AppUtils, $uibModal, $log, $location, $$User) {
     /*
      * userList caches data of different pages,
      * while userListForDisplay caches only one-page data
@@ -10,42 +10,37 @@ angular.module('BeehivePortal')
     $scope.userListForDisplay = [];
 
     /*
-     * page settings
+     * search options and filed
      */
-    $location.search({'pageIndex': 1});
-    $scope.currentIndex = 1;
-
-    $scope.pageChanged = function(){
-        $location.search({'pageIndex': $scope.currentIndex});
-    }
-
-    $scope.init = function(){
-        UserService.getUserList().then(function(response){
-            // get user list successfully
-            $scope.userList = response.data;
-            $scope.userListForDisplay = response.data;
-            console.log(response);
-        },function(response){
-            // failed to get user list
-            console.log(response);
-        });
-    }
+    $scope.searchValue = "";
+    $scope.queryOptions = [
+        {
+            text: "用户ID",
+            value: "userID"
+        },
+        {
+            text: "用户名称",
+            value: "userName"
+        }
+    ];
+    $scope.queryFiled = _.clone($scope.queryOptions[0]);
 
     $scope.myMenu = {
         itemList:[
             {
                 text: '查看详情',
                 callback: function(user) {
-                    $scope.navigateTo($scope.otherNavs.USER_INFO,{id: user.id});
-                }
+                    $scope.navigateTo($scope.navMapping.USER_INFO,{userID: user.userID});
+                },
+                hidden: !$scope.PermissionControl.isAllowed('GET_USER')
             },
             {
                 text:'编辑',
                 callback: function (user) {
                     var modalInstance = $uibModal.open({
                         animation: true,
-                        templateUrl: 'app/components/portal/UserManager/User/UserList/EditUser.template.html',
-                        controller: 'UserListController.EditUser',
+                        templateUrl: 'app/components/portal/UserManager/User/EditUser.template.html',
+                        controller: 'UserController.EditUser',
                         size: 'md',
                         resolve: {
                           user: function () {
@@ -54,18 +49,25 @@ angular.module('BeehivePortal')
                         }
                     });
 
-                    modalInstance.result.then(function (selectedItem) {
-                        console.log(user);
+                    modalInstance.result.then(function (updatedUser) {
+                        _.extend(user,updatedUser);
                     }, function () {
                         $log.info('Modal dismissed at: ' + new Date());
                     });
-                }
+                },
+                hidden: !$scope.PermissionControl.isAllowed('GET_USER')
             },{
                 text:'删除',
                 callback: function (user) {
-                    console.log('Delete user');
-                    console.log(user);
-                }
+                    $$User.remove({},user,function(){
+                        console.log('用户' + user.userName + '已被删除！');
+                        $scope.userList.remove(user);
+                        findUsersForDisplay();
+                    },function(){
+                        console.log('未能删除用户:' + user.userName)
+                    });
+                },
+                hidden: !$scope.PermissionControl.isAllowed('DELETE_USER')
             }
         ],
         setting:{
@@ -73,16 +75,62 @@ angular.module('BeehivePortal')
         }
     };
 
-  }]);
+    /*
+     * search users by option
+     */
+    $scope.queryUsers = function(queryFiled, value){
 
-angular.module('BeehivePortal')
-  .controller('UserListController.EditUser',function ($scope, $uibModalInstance, user) {
+        var request = {role:'4'};
+        if(value) request[queryFiled] = value;
+
+        $$User.query(request,function(userList){
+            console.log(userList);
+            $scope.userList = userList;
+            $scope.pageChanged();
+        },function(){
+            AppUtils.alert('Failed to load group user list!');
+        });
+    };
+
+    $scope.init = function(){
+         /*
+         * page settings
+         */
+        $location.search({'pageIndex': 1});
+        $scope.currentIndex = 1;
+
+        if($scope.PermissionControl.allowAction('SEARCH_USERS')){
+            $scope.queryUsers();
+        }
+    };
+
+    $scope.pageChanged = function(){
+        $location.search({'pageIndex': $scope.currentIndex});
+        findUsersForDisplay();
+    }
+
+    function findUsersForDisplay(){
+        $scope.userListForDisplay = _.filter($scope.userList, function(user, index){
+            return index >= ($scope.currentIndex - 1) * $scope.listMaxLength 
+                    && index < $scope.currentIndex * $scope.listMaxLength;
+        });
+    }
+    
+
+  }]).
+  controller('UserListController.ActivateUser', function($scope, user, $$User, $uibModalInstance){
     $scope.user = user;
-    $scope.ok = function () {
-        $uibModalInstance.close($scope.user);
+    $scope.register = function () {
+        $$User.register({}, $scope.user, function(){
+            AppUtils.alert('注册成功！请使用用户名登陆！');
+            $uibModalInstance.close();
+        }, function(credentials, erro){
+            AppUtils.alert(erro);
+        });
     };
 
-    $scope.cancel = function () {
+    $scope.cancel = function(){
         $uibModalInstance.dismiss('cancel');
-    };
+    }
   });
+

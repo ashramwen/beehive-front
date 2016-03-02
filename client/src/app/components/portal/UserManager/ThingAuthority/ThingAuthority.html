@@ -1,25 +1,15 @@
-<div class="app-portal-usermanager-thingauthority">
-  <div class="row portal-row clearfix">
-    <div class="col-sm-5">
-      <uib-tabset>
-        <uib-tab heading="位置" select="selectLocation()" active="locationActive">
-          <!-- as a Dom element -->
-          
-        </uib-tab>
-        <uib-tab heading="种类" select="selectType()" active="typeActive"></uib-tab>
-        <uib-tab heading="标签" select="selectLabel()" active="labelActive"></uib-tab>
-      </uib-tabset>
+<div class="app-portal-usermanager-thingauthority" ng-init="init()">
+  <section class="panel">
+    <header class="panel-heading">设置设备控制权限</header>
+    <div class="panel-body">
+      <div class="portal-row clearfix">
+        <thing-picker existing-nodes="ownThings" selected-nodes="selectedThings" settings="settings" ready="ready"></thing-picker>
+      </div>
+      <div class="portal-row clearfix">
+        <div class="col-lg-12">
+          <button class="pull-right btn btn-danger">提交</button>
+        </div>
+      </div>
     </div>
-    <div class="col-sm-2 mid-column">
-        <div class="portal-row"><button class="btn btn-success pull-mid" ng-click="typeActive = true">赋予》</button></div>
-        <div class="portal-row"><button class="btn btn-danger pull-mid">《撤回</button></div>
-    </div>
-    <div class="col-sm-5">
-      <uib-tabset>
-        <uib-tab heading="位置" select="selectLocation()" active="locationActive"></uib-tab>
-        <uib-tab heading="种类" select="selectType()" active="typeActive"></uib-tab>
-        <uib-tab heading="标签" select="selectLabel()" active="labelActive"></uib-tab>
-      </uib-tabset>
-    </div>
-  </div>
+  </section>
 </div>

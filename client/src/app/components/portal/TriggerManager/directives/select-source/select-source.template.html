@@ -1,0 +1,19 @@
+<div ng-init="init()">
+  <div class="text-left clearfix">
+    <div class="pull-left">
+      <span>源类型</span>
+      <div app-select selected-model="sourceType" options="sourceTypes" class="input-group-btn" text="text" value-only="true"></div>
+    </div>
+    <div class="pull-left" style="margin-left: 50px" ng-if="sourceType == 'tag'">
+      <span>交并集</span>
+      <div app-select selected-model="mySource.andExpress" options="andExpressOptions" value-only="true"></div>
+    </div>
+  </div>
+  <hr/>
+  <div ng-show="sourceType =='thing'">
+    <thing-selector selected-nodes="mySource.thingList"></thing-selector>
+  </div>
+  <div ng-show="sourceType =='tag'">
+    <tag-selector selected-tags="mySource.tagList"></tag-selector>
+  </div>
+</div>

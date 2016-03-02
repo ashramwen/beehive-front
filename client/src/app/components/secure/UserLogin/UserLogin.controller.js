@@ -1,18 +1,72 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('UserLoginController', ['$scope', '$rootScope', '$state', 'AppUtils','UserLoginService','Session',function($scope, $rootScope, $state, AppUtils, UserLoginService, Session) {
+  .controller('UserLoginController', ['$scope', '$rootScope', '$state', 'AppUtils','UserLoginService','Session', '$$User', '$uibModal','PermissionControl',function($scope, $rootScope, $state, AppUtils, UserLoginService, Session, $$User, $uibModal, PermissionControl) {
     
-    $scope.login = function(credentials){
-        UserLoginService.login(credentials).then(function(response){
-            Session.setUser(response.data.user);
-            $state.go('app.portal.UserManager.User.UserList');
-            console.log(response);
-        },function(response){
-            console.log(response);
-        });
-
+    $scope.credentials = {
+        userID: '',
+        password: ''
     };
 
 
+    $scope.login = function(credentials){
+        if(credentials.userID == 'admin' && credentials.password == 'admin'){
+            var credentials = {
+                accessToken: "super_token",
+                company: "12312",
+                createBy: null,
+                kiiLoginName: "33032719891111",
+                kiiUserID: "f83120e36100-2cc9-5e11-19d9-0df7b818",
+                mail: "ff",
+                modifyBy: null,
+                phone: "ffa",
+                role: "4",
+                userID: "Admin",
+                userName: "Admin"
+            };
+
+            Session.setCredential(credentials);
+            PermissionControl.getAllPermissions();
+            $state.go('app.portal.Welcome');
+        }else{
+            $$User.login(credentials ,function(credentials){
+                Session.setCredential(credentials);
+                PermissionControl.loadPermissions(credentials.permissions);
+                $state.go('app.portal.Welcome');
+            }, function(erro){
+                AppUtils.alert('登陆失败');
+            });
+        }
+    };
+
+    $scope.register = function(){
+        var modalInstance = $uibModal.open({
+            animation: true,
+            template: angular.element('#registerModal')[0].outerHTML,
+            controller: 'UserLoginController.Register',
+            size: 'sm'
+        });
+    }
+
+
   }]);
+angular.module('BeehivePortal')
+  .controller('UserLoginController.Register', function($scope, $uibModalInstance, $$User, AppUtils){
+    $scope.credentials = {
+        userID: '',
+        password: ''
+    };
+
+    $scope.register = function (credentials) {
+        $$User.register({}, credentials, function(){
+            AppUtils.alert('注册成功！请使用用户名登陆！');
+            $uibModalInstance.close();
+        }, function(credentials, erro){
+            AppUtils.alert(erro);
+        });
+    };
+
+    $scope.cancel = function(){
+        $uibModalInstance.dismiss('cancel');
+    }
+  });

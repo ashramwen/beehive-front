@@ -1,16 +1,17 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('ThingDetailController', ['$scope', '$rootScope', '$state', 'AppUtils', 'ThingManagerService',function($scope, $rootScope, $state, AppUtils, ThingManagerService) {
+  .controller('ThingDetailController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Thing',function($scope, $rootScope, $state, AppUtils, $$Thing) {
     $scope.thing = {};
 
     $scope.init = function(){
-        ThingManagerService.getThingById().then(function(response){
-            $scope.thing = response.data;
-            $scope.thing._tags = _.pluck($scope.thing.tags,'name');
-            console.log(response.data);
-        },function(){
+        $scope.thing = $$Thing.get({globalThingID: $state.params.thingid});
+    };
 
-        });
-    }
+    $scope.goThingACL = function(){
+        $state.go($scope.navMapping.LOCATHON_THING_ACL, $state.params);
+    };
+
   }]);
+
+

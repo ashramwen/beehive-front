@@ -7,6 +7,9 @@
                 "name": "portal",
                 "subModules":[
                     {
+                        "name": "Welcome"
+                    },
+                    {
                         "name": "UserManager",
                         "subModules" :[
                             {
@@ -23,7 +26,9 @@
                                 "name": "UserGroup",
                                 "subModules": [
                                     {"name": "UserGroupList"},
-                                    {"name": "GroupEditor"}
+                                    {"name": "GroupEditor"},
+                                    {"name": "GroupUserList"},
+                                    {"name": "ResourceAuthority"}
                                 ],
                                 "abstract": true
                             },
@@ -59,6 +64,12 @@
                             }
                         ],
                         "abstract": true
+                    },
+                    {
+                        "name": "TriggerManager"
+                    },
+                    {
+                        "name": "Settings"
                     }
                 ]
             },

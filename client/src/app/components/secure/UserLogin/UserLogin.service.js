@@ -4,13 +4,9 @@ angular.module('BeehivePortal')
 
     userLoginService.login = function(credentials){
         return $http({
-            method:'get',
+            method:'POST',
             url: MyAPIs.LOGIN,
             data:credentials,
-            header:{
-                dataType:'json',
-                contentType:'application/json; charset=utf-8'
-            },
             transformRequest:{
 
             }

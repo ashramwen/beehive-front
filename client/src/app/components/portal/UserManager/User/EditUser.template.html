@@ -1,0 +1,52 @@
+<div class="modal-content">
+  <div class="modal-header ng-scope">
+      <h3 class="modal-title">编辑用户资料</h3>
+  </div>
+  <div class="modal-body ng-scope">
+    <form novalidate name="newUserForm" ng-submit="createUser()">
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">姓名</div>
+        <div class="col-sm-8">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="姓名" required ng-model="user.userName">
+            <div app-select selected-model="user.custom.sex" options="sexOptions" class="btn-group input-group-btn" text="text"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">身份证</div>
+        <div class="col-sm-8"><input ng-model="user.userID" type="text" required class="form-control" placeholder="身份证" ng-disabled="true" /></div>
+      </div>
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">公司</div>
+        <div class="col-sm-8"><input ng-model="user.company" type="text" class="form-control" placeholder="公司" /></div>
+      </div>
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">地址</div>
+        <div class="col-sm-8">
+          <span>
+            <div app-select selected-model="user.custom.building" options="buildingOptions" text="building" change="refreshLevels" class="location-select"></div><span>楼</span> 
+          </span>
+          <span>
+            <div app-select selected-model="user.custom.level" options="levelOptions" text="name" change="refreshRooms" class="location-select"></div>层
+          </span>
+          <span>
+            <div app-select selected-model="user.custom.room" options="roomOptions" text="name" class="location-select"></div>室
+          </span>
+        </div>
+      </div>
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">电话</div>
+        <div class="col-sm-8"><input type="text" class="form-control" placeholder="电话" ng-model="user.phone" /></div>
+      </div>
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">邮箱地址</div>
+        <div class="col-sm-8"><input type="text" class="form-control" placeholder="邮箱地址" ng-model="user.mail" /></div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer ng-scope">
+      <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+      <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+  </div>
+</div>

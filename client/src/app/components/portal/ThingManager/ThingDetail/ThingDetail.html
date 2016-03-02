@@ -6,12 +6,12 @@
     </div>
     <hr/>
     <div class="row clearfix portal-row">
-      <div class="col-sm-4">设备名称</div>
-      <div class="col-sm-8"><span>{{thing.name}}</span></div>
+      <div class="col-sm-4">设备ID</div>
+      <div class="col-sm-8"><span>{{thing.globalThingID}}</span></div>
     </div>
     <div class="row clearfix portal-row">
-      <div class="col-sm-4">设备ID</div>
-      <div class="col-sm-8"><span>{{thing.id}}</span></div>
+      <div class="col-sm-4">设备位置</div>
+      <div class="col-sm-8"><span>{{thing.location}}</span></div>
     </div>
     <div class="row clearfix portal-row">
       <div class="col-sm-4">设备种类</div>
@@ -23,7 +23,7 @@
     </div>
     <div class="row clearfix portal-row">
       <div class="col-sm-4">标签</div>
-      <div class="col-sm-8"><span>{{thing._tags.join(', ')}}</span></div>
+      <div class="col-sm-8"><span>{{thing.tags.join(', ')}}</span></div>
     </div>
     <!-- end of property -->
 
@@ -34,9 +34,9 @@
       <h5>状态</h5>
     </div>
     <hr/>
-    <div class="row clearfix portal-row" ng-repeat="property in thing.properties">
-      <div class="col-sm-4">{{property.name}}</div>
-      <div class="col-sm-8"><span>{{property.status}}</span></div>
+    <div class="row clearfix portal-row" ng-repeat="(key, value) in thing.custom">
+      <div class="col-sm-4">{{key}}</div>
+      <div class="col-sm-8"><span>{{value}}</span></div>
     </div>
 
     <!-- end of status -->
@@ -56,8 +56,9 @@
     <div class="row clearfix portal-row">
       <div class="pull-right">
         <button class="btn btn-danger">控制历史</button>
-        <button class="btn btn-danger">添加规则</button>
+        <button class="btn btn-danger" ng-click="openEditRuleModal(thing)">添加规则</button>
         <button class="btn btn-danger" ng-click="openRemoteControl(thing)">远程控制</button>
+        <button class="btn btn-danger" ng-click="goThingACL()">控制权限</button>
       </div>
     </div>
     <!-- end of rule -->

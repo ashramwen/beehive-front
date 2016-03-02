@@ -1,0 +1,72 @@
+<div ng-init="init()">
+  <div class="row">
+    <div class="col-xs-4" ng-if="!allDisabled">
+      <uib-tabset>
+        <!-- tags -->
+        <uib-tab heading="标签" ng-if="tagAllowed">
+          <treecontrol class="tree-classic"
+             tree-model="dataset.tags"
+             options="treeOptions"
+             on-selection="selectTag(node)">
+             {{node.displayName}}
+          </treecontrol>
+        </uib-tab>
+        <!-- end tags -->
+
+        <!-- tags -->
+        <uib-tab heading="位置" ng-if="locationAllowed">
+          <treecontrol class="tree-classic"
+             tree-model="dataset.locations"
+             options="treeOptions"
+             on-selection="selectLocation(node)">
+             {{node.name}}
+          </treecontrol>
+        </uib-tab>
+        <!-- end tags -->
+
+        <!-- tags -->
+        <uib-tab heading="种类" ng-if="typeAllowed">
+          <treecontrol class="tree-classic"
+             tree-model="dataset.types"
+             options="treeOptions"
+             on-selection="selectType(node)">
+             {{node.type}}
+          </treecontrol>
+        </uib-tab>
+        <!-- end tags -->
+      </uib-tabset>
+    </div>
+    <!-- unselected things -->
+    <div class="col-xs-3" ng-if="!allDisabled">
+      <uib-tabset>
+        <uib-tab heading="未选设备">
+          <treecontrol class="tree-classic"
+             tree-model="unselectedThings"
+             options="treeOptions"
+             on-selection="selectUnselectedThing(node)">
+             {{node.vendorThingID}}
+          </treecontrol>
+        </uib-tab>
+      </uib-tabset>
+    </div>
+    <!-- end of unselected things -->
+    <div class="col-xs-2 mid-column" style="padding-top: 130px;" ng-if="!allDisabled">
+      <div class="portal-row"><button class="btn btn-success pull-mid" ng-disabled="!selectedUnselectedThing" ng-click="addThing(selectedUnselectedThing)">赋予》</button></div>
+      <div class="portal-row"><button class="btn btn-danger pull-mid" ng-disabled="!selectedSelectedThing" ng-click="removeThing(selectedSelectedThing)">《撤回</button></div>
+    </div>
+    <!-- selected things -->
+    <div ng-class="{'col-xs-12': allDisabled, 'col-xs-3': !allDisabled}">
+      <uib-tabset>
+        <uib-tab heading="已选设备">
+          <treecontrol class="tree-classic"
+             tree-model="selectedThings"
+             options="treeOptions"
+             on-selection="selectSelectedThing(node)">
+             {{node.vendorThingID}}
+          </treecontrol>
+        </uib-tab>
+      </uib-tabset>
+    </div>
+    <!-- selected things -->
+  </div>
+</div>
