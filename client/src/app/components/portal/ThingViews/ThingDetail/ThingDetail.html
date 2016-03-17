@@ -1,0 +1,69 @@
+<div class="app-portal-thingviews-thingdetail" ng-init="init()">
+  <!-- property of a thing -->
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="panel">
+        <div class="panel-heading">属性</div>
+        <div class="panel-body">
+          <div class="row clearfix portal-row">
+            <div class="col-sm-4">设备ID</div>
+            <div class="col-sm-8"><span>{{thing.globalThingID}}</span></div>
+          </div>
+          <div class="row clearfix portal-row">
+            <div class="col-sm-4">设备位置</div>
+            <div class="col-sm-8"><span>{{thing.location}}</span></div>
+          </div>
+          <div class="row clearfix portal-row">
+            <div class="col-sm-4">设备种类</div>
+            <div class="col-sm-8"><span>{{thing.type}}</span></div>
+          </div>
+          <div class="row clearfix portal-row">
+            <div class="col-sm-4">位置</div>
+            <div class="col-sm-8"><span>{{thing.location}}</span></div>
+          </div>
+          <div class="row clearfix portal-row">
+            <div class="col-sm-4">标签</div>
+            <div class="col-sm-8"><span>{{thing.tags.join(', ')}}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- status -->
+    <div class="col-sm-6">
+      <div class="panel">
+        <div class="panel-heading">状态</div>
+        <div class="panel-body">
+          <div class="row clearfix portal-row" ng-repeat="(key, value) in thing.custom">
+            <div class="col-sm-4">{{key}}</div>
+            <div class="col-sm-8"><span>{{value}}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of status -->
+  </div>
+
+  <div class="panel">
+    <div class="panel-heading">
+      触发器
+    </div>
+  </div>
+  <div class="new-trigger" ng-click="createTrigger()"><span class="fa fa-plus"></span> 新建触发器</div>
+  <uib-accordion close-others="true">
+    <uib-accordion-group heading="{{trigger.name}}" ng-repeat="trigger in dataset.triggers">
+      <single-trigger trigger="trigger"></single-trigger>
+    </uib-accordion-group>
+  </uib-accordion>
+  <!-- rule of a thing -->
+
+  <hr/>
+  <div class="clearfix">
+    <div class="pull-right">
+      <button class="btn btn-danger">控制历史</button>
+      <button class="btn btn-danger" ng-click="openRemoteControl(thing)">远程控制</button>
+      <button class="btn btn-danger" ng-click="goThingACL()">控制权限</button>
+    </div>
+  </div>
+  <!-- end of rule -->
+</div>

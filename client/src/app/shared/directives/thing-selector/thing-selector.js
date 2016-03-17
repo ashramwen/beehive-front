@@ -5,7 +5,7 @@ angular.module('BeehivePortal')
         replace: true,
         scope:{
             selectedThings: '=?',
-            selectedType: '=?'
+            selectedThingTypes: '=?'
         },
         templateUrl: 'app/shared/directives/thing-selector/thing-selector.template.html',
         controller:['$scope', '$$Tag', '$$Thing', '$$Location', '$$Type', '$timeout', '$q', 'PermissionControl', function($scope, $$Tag, $$Thing, $$Location, $$Type, $timeout, $q, PermissionControl){
@@ -18,6 +18,8 @@ angular.module('BeehivePortal')
 
             $scope.things = [];
             $scope.unselectedThings = [];
+
+            $scope.thingTypes = [];
 
             /*
              * tree settings
@@ -42,8 +44,7 @@ angular.module('BeehivePortal')
 
                 $scope.tagAllowed = PermissionControl.isAllowed('SEARCH_TAGS') && PermissionControl.isAllowed('SEARCH_THINGS');
                 $scope.locationAllowed = PermissionControl.isAllowed('SEARCH_LOCATIONS') && PermissionControl.isAllowed('SEARCH_THINGS');
-                $scope.typeAllowed = PermissionControl.isAllowed('SEARCH_TYPES') && PermissionControl.isAllowed('SEARCH_THINGS');
-
+                
                 $scope.allDisabled = !$scope.tagAllowed && !$scope.locationAllowed && !$scope.typeAllowed;
 
                 if($scope.tagAllowed){
@@ -55,22 +56,11 @@ angular.module('BeehivePortal')
                         $scope.dataset.locations = (new LocationTree(_.pluck(locations, 'displayName'))).tree.children;
                     });
                 }
-
-                if($scope.typeAllowed){
-                    $scope.dataset.types = $$Type.getAll();
-                }
             };
 
             $scope.selectLocation = function(location){
-                $scope.things = $$Thing.byTag({tagType: 'Location', displayName: location.id}, function(){
-                    $timeout(function(){
-                        $scope.whenThingChange();
-                    });
-                });
-            };
-
-            $scope.selectType = function(type){
-                $scope.things = $$Thing.byType({}, {typeName: type.type}, function(){
+                $$Thing.byTag({tagType: 'Location', displayName: location.id}, function(things){
+                    loadThings(things);
                     $timeout(function(){
                         $scope.whenThingChange();
                     });
@@ -78,21 +68,67 @@ angular.module('BeehivePortal')
             };
 
             $scope.selectTag = function(tag){
-                $scope.things = $$Thing.byTag({tagType: 'Custom', displayName: tag.displayName}, function(){
+                $scope.things = $$Thing.byTag({tagType: 'Custom', displayName: tag.displayName}, function(things){
+                    loadThings(things);
                     $timeout(function(){
                         $scope.whenThingChange();
                     });
                 });
-                
             };
+
+            function loadThings(things){
+                $scope.things = _.filter(things, function(thing){
+                    return thing.fullKiiThingID;
+                });
+            }
 
             $scope.whenThingChange = function(){
                 $scope.unselectedThings = _.filter($scope.things, $scope.unselectedFilter);
+                $scope.thingTypes = [];
+                $scope.selectedTypes = [];
+
+                var types = _.uniq(_.pluck($scope.unselectedThings, 'type'));
+                _.each(types, function(type){
+                    $scope.thingTypes.push({name: type, children:[]});
+                });
+                
+
+                _.each($scope.unselectedThings, function(thing){
+                    var type = _.find($scope.thingTypes, function(type){
+                        return type.name == thing.type;
+                    });
+                    thing = _.clone(thing);
+                    thing.name = thing.globalThingID;
+                    type.children.push(thing);
+                });
+
+                $scope.displayedThings = _.filter($scope.things, function(thing){
+                    return _.find($scope.selectedThings, function(selectedThing){
+                        return selectedThing == thing.globalThingID;
+                    });
+                });
+
+                var selectedTypes = _.uniq(_.pluck($scope.displayedThings, 'type'));
+
+                $scope.selectedThingTypes = selectedTypes;
+                _.each(selectedTypes, function(type){
+                    $scope.selectedTypes.push({name: type, children:[]});
+                });
+                
+
+                _.each($scope.displayedThings, function(thing){
+                    var type = _.find($scope.selectedTypes, function(type){
+                        return type.name == thing.type;
+                    });
+                    thing = _.clone(thing);
+                    thing.name = thing.globalThingID;
+                    type.children.push(thing);
+                });
             }
 
             $scope.unselectedFilter = function(thing){
                 return !_.find($scope.selectedThings, function(selectedThing){
-                    return selectedThing.vendorThingID == thing.vendorThingID;
+                    return selectedThing == thing.globalThingID;
                 });
             };
 
@@ -106,8 +142,10 @@ angular.module('BeehivePortal')
 
             $scope.addThing = function(thing){
                 if(!thing) return;
+                $scope.selectedThings = $scope.selectedThings || [];
+
                 $scope.selectedUnselectedThing = null;
-                $scope.selectedThings.push(thing);
+                $scope.selectedThings.push(thing.globalThingID);
 
                 $timeout(function(){
                     $scope.whenThingChange();
@@ -117,7 +155,7 @@ angular.module('BeehivePortal')
             $scope.removeThing = function(thing){
                 if(!thing) return;
                 $scope.selectedSelectedThing = null;
-                $scope.selectedThings.remove(thing);
+                $scope.selectedThings.remove(thing.globalThingID);
 
                 $timeout(function(){
                     $scope.whenThingChange();

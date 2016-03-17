@@ -10,7 +10,8 @@
      * API used globally for web service
      * by George Lin
      */
-    var apiSuffix ='http://114.215.196.178:8080/beehive-portal/api';
+    var siteUrl = 'https://114.215.196.178:443',
+        apiSuffix = siteUrl + '/beehive-portal/api';
     window.MyAPIs = {
         OPERATOR: '/oauth2',
         USER:'/users',
@@ -19,8 +20,11 @@
         TAG: '/tags',
         TYPE: '/things/types',
         PERMISSION: '/permission',
-        TRIGGER: '/trigger',
+        TRIGGER: '/triggers',
+        THING_IF: '/thing-if'
     };
+
+    
 
     /*
      * init api urls
@@ -29,11 +33,8 @@
         window.MyAPIs[apiName] = apiSuffix +  window.MyAPIs[apiName];
     }
 
-    /*
-     * for temp use
-     */
-    window.MyAPIs.LOGIN = 'app/data/login.json';
-
+    window.MyAPIs['SCHEMA'] = siteUrl + '/demohelper/api/industrytemplate';
+    
     /*
      * tag used as session key
      * by George Lin

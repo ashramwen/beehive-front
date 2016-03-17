@@ -8,6 +8,7 @@ angular.module('BeehivePortal')
             templateUrl: 'app/shared/directives/switchery/switchery.template.html',
             replace: true,
             link: function(scope, element, attrs){
+                scope.om = scope.on? true: false;
                 scope.on = scope.on;
                 scope.yesText = attrs['yesText'] || '';
                 scope.noText = attrs['noText'] || '';

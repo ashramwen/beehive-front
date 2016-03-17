@@ -7,18 +7,8 @@ angular.module('BeehivePortal')
      * init args
      */
     
-    var trigger = new Trigger(Trigger.TypeEnum.SUMMARY);
-
-    _.extend(trigger, {
-        name: '触发器1',
-        things: [],
-        rules: '',
-        targets: []
-    });
-    
 
     $scope.triggers = [
-        trigger
     ];
 
     $scope.createTrigger = function(){

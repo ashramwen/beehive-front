@@ -1,14 +1,6 @@
 angular.module('BeehivePortal')
   .factory('PortalService', ['$http', '$q', 'Session', '$state', 'PermissionControl', function($http, $q, Session, $state, PermissionControl) {
     var PortalService = {};
-    // TODO
-    PortalService.getLocation = function(){
-        return $http({
-            url: 'app/data/location.json',
-            method: 'get',
-            cache: true
-        });
-    };
 
     /**
      * get states chan for navigation map on portal top navigation bar
@@ -67,18 +59,40 @@ angular.module('BeehivePortal')
                 icon: 'fa-desktop',
                 subViews: [
                     {
+                        name: '添加新设备',
+                        state: $state.get('app.portal.ThingManager.AddThing')
+                    },
+                    {
+                        name: '网关管理',
+                        state: $state.get('app.portal.ThingManager.Gateway')
+                    },
+                    {
+                        name: '控制设备',
+                        state: $state.get('app.portal.ThingManager.ControlThing')
+                    }
+                ]
+            },
+            {
+                name: '设备视图',
+                state: $state.get('app.portal.ThingViews'),
+                hidden: !PermissionControl.isAllowed('SEARCH_LOCATIONS') 
+                    && !PermissionControl.isAllowed('SEARCH_TAGS') 
+                    && !PermissionControl.isAllowed('SEARCH_TYPE'),
+                icon: 'fa-table',
+                subViews: [
+                    {
                         name: '位置视图', 
-                        state: $state.get('app.portal.ThingManager.LocationView'), 
+                        state: $state.get('app.portal.ThingViews.LocationView'), 
                         hidden: !PermissionControl.isAllowed('SEARCH_LOCATIONS')
                     },
                     {
                         name: '标签视图', 
-                        state: $state.get('app.portal.ThingManager.TagView'), 
+                        state: $state.get('app.portal.ThingViews.TagView'), 
                         hidden: !PermissionControl.isAllowed('SEARCH_TAGS')
                     },
                     {
                         name: '种类视图', 
-                        state: $state.get('app.portal.ThingManager.TypeView'),
+                        state: $state.get('app.portal.ThingViews.TypeView'),
                         hidden: !PermissionControl.isAllowed('SEARCH_TYPES')
                     }
                 ]
@@ -99,17 +113,18 @@ angular.module('BeehivePortal')
     PortalService.navMapping = {
         USRE_MANAGEMENT: 'app.portal.UserManager',
         THING_MANAGEMENT: 'app.portal.ThingManager',
+        THING_VIEWS: 'app.portal.ThingViews',
         USER_LIST: 'app.portal.UserManager.User.UserList',
         USER_GROUP: 'app.portal.UserManager.UserGroup.UserGroupList',
         USER_GROUP_EDITOR: 'app.portal.UserManager.UserGroup.UserGroupEdit',
         NEW_USER: 'app.portal.UserManager.User.NewUser',
         USER_INFO: 'app.portal.UserManager.User.UserInfo',
-        LOCATION_THING_DETAIL: 'app.portal.ThingManager.LocationThingDetail',
-        TYPE_THING_DETAIL: 'app.portal.ThingManager.TypeThingDetail',
-        TAG_THING_DETAIL: 'app.portal.ThingManager.TagThingDetail',
-        LOCATION_THING_LIST: 'app.portal.ThingManager.LocationThingList',
-        TYPE_THING_LIST: 'app.portal.ThingManager.TypeThingList',
-        TAG_THING_LIST: 'app.portal.ThingManager.TagThingList',
+        LOCATION_THING_DETAIL: 'app.portal.ThingViews.LocationThingDetail',
+        TYPE_THING_DETAIL: 'app.portal.ThingViews.TypeThingDetail',
+        TAG_THING_DETAIL: 'app.portal.ThingViews.TagThingDetail',
+        LOCATION_THING_LIST: 'app.portal.ThingViews.LocationThingList',
+        TYPE_THING_LIST: 'app.portal.ThingViews.TypeThingList',
+        TAG_THING_LIST: 'app.portal.ThingViews.TagThingList',
         USER_THING_AUTH: 'app.portal.UserManager.User.UserThingAuthority',
         USER_THING_ACL: 'app.portal.UserManager.User.UserThingACL',
         GROUP_USER_LIST: 'app.portal.UserManager.UserGroup.GroupUserList',
@@ -118,12 +133,12 @@ angular.module('BeehivePortal')
         GROUP_USER_THING_ACL: 'app.portal.UserManager.UserGroup.GroupUserThingACL',
         GROUP_THING_AUTH: 'app.portal.UserManager.UserGroup.GroupThingAuthority',
         GROUP_THING_ACL: 'app.portal.UserManager.UserGroup.GroupThingALC',
-        LOCATION_VIEW: 'app.portal.ThingManager.LocationView',
-        LOCATHON_THING_ACL: 'app.portal.ThingManager.LocationThingACL',
-        TAG_THING_ACL: 'app.portal.ThingManager.TagThingACL',
-        TYPE_THING_ACL: 'app.portal.ThingManager.TypeThingACL',
-        TAG_VIEW: 'app.portal.ThingManager.TagView',
-        TYPE_VIEW: 'app.portal.ThingManager.TypeView',
+        LOCATION_VIEW: 'app.portal.ThingViews.LocationView',
+        LOCATHON_THING_ACL: 'app.portal.ThingViews.LocationThingACL',
+        TAG_THING_ACL: 'app.portal.ThingViews.TagThingACL',
+        TYPE_THING_ACL: 'app.portal.ThingViews.TypeThingACL',
+        TAG_VIEW: 'app.portal.ThingViews.TagView',
+        TYPE_VIEW: 'app.portal.ThingViews.TypeView',
         SETTINGS: 'app.portal.Settings',
         WELCOME: 'app.portal.Welcome',
         TRIGGER_MANAGEMENT: 'app.portal.TriggerManager'

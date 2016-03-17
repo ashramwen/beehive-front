@@ -4,6 +4,16 @@ body{
    
 }
 
+.panel-body {
+    .carousel-indicators{
+        display: none;
+    }
+    .carousel-control{
+        display: none;
+    }
+}
+
+
 .tab-content{
     padding: 20px 10px;
     background: #fff;
@@ -212,9 +222,6 @@ treecontrol{
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
-}
-.form-group{
-    margin-bottom: 0px;
 }
 
 tag{

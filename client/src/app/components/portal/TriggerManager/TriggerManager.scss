@@ -3,15 +3,11 @@
 /*
  * TODO
  **/
-    .carousel-control{
-        display: none;
-    }
+    
     .rule-tab{
         padding-bottom: 50px;
     }
-    .carousel-indicators{
-        display: none;
-    }
+    
     .new-trigger, .new-source{
         @include border-radius(5px);
         border: #ccc 2px dashed;

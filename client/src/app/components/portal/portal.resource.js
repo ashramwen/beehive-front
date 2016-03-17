@@ -104,6 +104,10 @@ angular.module('BeehivePortal')
   }])
   .factory('$$Thing', ['$resource', function($resource){
       var Thing = $resource(MyAPIs.THING + '/:globalThingID', {}, {
+          save: {
+              url: MyAPIs.THING,
+              method: 'POST'
+          },
           getAll: {
               url: MyAPIs.THING + '/search',
               method: 'GET',
@@ -130,12 +134,60 @@ angular.module('BeehivePortal')
               params:{tagType: '@tagType', displayName: '@displayName'},
               method: 'GET',
               isArray: true,
+              //cache : true
           },
           byType: {
               url: MyAPIs.THING + '/types/:typeName',
               params: {typeName: '@typeName'},
               method: 'GET',
               isArray: true
+          },
+          sendCommand: {
+              url: MyAPIs.THING_IF + '/command/',
+              method : 'POST',
+              isArray: true
+          },
+          getEndNodes: {
+              url: 'http://api-development-beehivecn3.internal.kii.com/thing-if/apps/:kiiAppID/things/:kiiThingID/end-nodes',
+              params: {kiiThingID: '@kiiThingID', kiiAppID: '@kiiAppID'},
+              headers: {
+                Authorization: 'Bearer c63Z840BhnyLgyL6TAoKeq0iGdUM6L1vZemenWrWjxc'
+              },
+              method: 'GET'
+          },
+          getEndNode: {
+              url: 'http://api-development-beehivecn3.internal.kii.com/thing-if/apps/:kiiAppID/targets/THING::thingID/states',
+              params: {thingID: '@thingID', kiiAppID: '@kiiAppID'},
+              headers: {
+                Authorization: 'Bearer c63Z840BhnyLgyL6TAoKeq0iGdUM6L1vZemenWrWjxc'
+              },
+              method: 'GET'
+          },
+          replaceEndNode: {
+              url: 'http://api-development-beehivecn3.internal.kii.com/thing-if/apps/:kiiAppID/things/:kiiThingID/end-nodes/:thingID',
+              params: {thingID: '@thingID', kiiAppID: '@kiiAppID', kiiThingID: '@kiiThingID'},
+              headers: {
+                  Authorization: 'Bearer c63Z840BhnyLgyL6TAoKeq0iGdUM6L1vZemenWrWjxc'
+              },
+              transformRequest: function(data){
+                  data = _.clone(data);
+                  _.each(data, function(value, fieldName){
+                      if(fieldName != 'endNodeVendorThingID' && fieldName != 'endNodePassword'){
+                          delete data[fieldName];
+                      }
+                  });
+
+                  return JSON.stringify(data);
+              },
+              method: 'PATCH'
+          },
+          removeEndNode: {
+              method: 'DELETE',
+              url: 'http://api-development-beehivecn3.internal.kii.com/thing-if/apps/:kiiAppID/things/:kiiThingID/end-nodes/:thingID',
+              params: {thingID: '@thingID', kiiAppID: '@kiiAppID', kiiThingID: '@kiiThingID'},
+              headers: {
+                  Authorization: 'Bearer c63Z840BhnyLgyL6TAoKeq0iGdUM6L1vZemenWrWjxc'
+              }
           }
       });
 
@@ -173,7 +225,8 @@ angular.module('BeehivePortal')
           queryAll: {
               method: 'GET',
               isArray: true,
-              url: MyAPIs.TAG + '/search?tagType=Location'
+              url: MyAPIs.TAG + '/search?tagType=Location',
+              //cache: true
           }
       })
 
@@ -183,7 +236,27 @@ angular.module('BeehivePortal')
       var Type = $resource(MyAPIs.TYPE, {}, {
           getAll: {
               method: 'GET',
-              isArray: true
+              isArray: true,
+              //cache: true
+          },
+          getSchema: {
+              url: MyAPIs.SCHEMA + '?thingType=:type&name=:type&version=1',
+              params:{
+                  type: '@type'
+              },
+              method: 'GET',
+              //cache : true
+          },
+          saveSchema: {
+              url: MyAPIs.SCHEMA,
+              method: 'POST'
+          },
+          byTags: {
+              url: MyAPIs.TYPE + '/tagID/:tags',
+              params:{
+                  tags: '@tags'
+              },
+              method: 'GET'
           }
       });
       return Type;
@@ -225,7 +298,7 @@ angular.module('BeehivePortal')
   }])
   .factory('$$Trigger', ['$resource', function($resource){
       var Trigger = $resource(MyAPIs.TRIGGER, {}, {
-          create:{
+          save: {
               url: MyAPIs.TRIGGER + '/createTrigger',
               method: 'POST'
           },

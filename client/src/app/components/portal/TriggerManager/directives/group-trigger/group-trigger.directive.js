@@ -1,107 +1,150 @@
-/*
-{
-  "type" : "Group",
-  "perdicate" : {
-    "eventSource" : "states",
-    "triggersWhen" : "CONDITION_TRUE",
-    "condition" : {
-      "clauses" : [ {
-        "field" : "bar",
-        "upperLimit" : 100,
-        "upperIncluded" : false,
-        "lowerIncluded" : false,
-        "type" : "range"
-      }, {
-        "field" : "foo",
-        "upperIncluded" : false,
-        "lowerLimit" : 0,
-        "lowerIncluded" : false,
-        "type" : "range"
-      } ],
-      "type" : "or"
-    }
-  },
-  "targets" : [ {
-    "command" : {
-      "actions" : [ {
-        "powerOn" : {
-          "power" : true
-        }
-      } ],
-      "schemaVersion" : 0,
-      "metadata" : { }
-    }
-  } ],
-  "source" : {
-    "thingList" : [ ],
-    "tagList" : [ "Custom-name1", "Custom-name2", "Custom-name3" ],
-    "andExpress" : false
-  },
-  "policy" : {
-    "groupPolicy" : "Percent",
-    "criticalNumber" : 75
-  }
-}
-*/
-
 'use strict';
 
 angular.module('BeehivePortal')
-  .directive('groupTrigger', ['$compile', '$$Tag', '$$Thing', '$timeout', '$uibModal', function($compile, $$Tag, $$Thing, $timeout, $uibModal){
+  .directive('groupTrigger', ['$compile', '$$Tag', '$$Thing', '$timeout', '$uibModal', '$$Type', function($compile, $$Tag, $$Thing, $timeout, $uibModal, $$Type){
     return{
         restrict: 'E',
         replace: true,
         scope:{
-            ready: '=?',
-            dataset: '=?',
             trigger: '='
         },
         templateUrl: 'app/components/portal/TriggerManager/directives/group-trigger/group-trigger.template.html',
-        controller: function($scope, $$Tag, $$Thing, $timeout, $q, $http){
-            $scope.myTrigger = _.clone($scope.trigger);
-            $scope.currentStep = 1;
+        controller: ['$scope', '$$Tag', '$$Thing', '$timeout', '$q', '$http', 'TriggerService', '$$Type', '$$Trigger', function($scope, $$Tag, $$Thing, $timeout, $q, $http, TriggerService, $$Type, $$Trigger){
 
-            $scope.triggerWhenConditions = [
-                {text: '条件为真', value: Trigger.WhenEnum.TRUE},
-                {text: '条件由假转真', value: Trigger.WhenEnum.FALSE_TO_TRUE},
-                {text: '条件改变', value: Trigger.WhenEnum.CHANGED}
-            ];
-
-            $scope.dataContainer =  {
-                mySource: {
-                    thingList: _.clone($scope.trigger.source.thingList) || [],
-                    tagList: _.clone($scope.trigger.source.tagList) || [],
-                    andExpress: $scope.trigger.source.andExpress
+            var data = {
+                'predicate': {
+                    "eventSource" : "states",
+                    "triggersWhen" : "CONDITION_FALSE_TO_TRUE",
+                    "condition" : {
+                        "clauses" : [ {
+                            "field" : "brightness",
+                            "upperLimit" : 100,
+                            "upperIncluded" : false,
+                            "lowerIncluded" : false,
+                            "type" : "range"
+                        },
+                        {
+                            "field": "brightness",
+                            "lowerLimit": 50,
+                            "lowerIncluded": true,
+                            "type": "range"
+                        }
+                        ],
+                        "type" : "or"
+                    }
                 },
-                myTargets: []
+                'targets': [{
+                    "command" : {
+                        "actions" : [ {
+                            "turnPower" : {
+                              "power" : true
+                            }
+                        } ],
+                        "schemaVersion" : 0,
+                        "metadata" : { }
+                    },
+                    'tagList': ['Custom-智能设备'],
+                    'andExpress': false
+                }],
+                "policy" : {
+                    "groupPolicy" : "Percent",
+                    "criticalNumber" : 75
+                },
+                'source': {
+                    'tagList': ['Custom-识别设备'],
+                    'andExpress': false
+                }
             };
 
-            $scope.summarySchema = [];
+            //_.extend($scope.trigger, data);
 
-            $scope.schema = [
-                {name: 'power', type:'boolean'},
-                {name: 'dimming', type: 'range'}, 
-                {name: 'color', type: 'in', values:['red', 'green', 'blue']}
-            ];
+            $scope.myTrigger = _.clone($scope.trigger);
+            $scope.dataContainer = {};
 
-            $http({
-                method: 'GET',
-                url:'http://114.215.196.178:8080/demohelper/api/industrytemplate?thingType=demoThingType&name=demoName&version=demoVer'}
-            ).then(function(response){
-                $scope.schema = response.data;
-                $scope.actions = $scope.schema.actions;
-                
-            });
+            $scope.currentStep = 1;
+
+            $scope.triggerWhenConditions = TriggerService.triggerWhenConditions;
 
             /**
              * [init description]
              * @return {[type]} [description]
              */
             $scope.init = function(){
-                _.each($scope.myTrigger.summarySource, function(source){
-                    $scope.dataContainer.mySources.push(source.source);
+                var extraData = {};
+                $scope.dataContainer = {
+                    mySource: {
+                        thingType: $scope.myTrigger.source.thingType,
+                        thingList: _.clone($scope.myTrigger.source.thingList),
+                        tagList: _.clone($scope.myTrigger.source.tagList),
+                        andExpress: $scope.myTrigger.source.andExpress
+                    },
+                    predicate: null,
+                    sourceSchema: null,
+                    myTargets: [],
+                    targetSchemas: []
+                };
+
+                TriggerService.getSourceTypes($scope.dataContainer.mySource).then(function(types){
+                    $scope.dataContainer.mySource.thingTypes = types;
+
+                    if($scope.dataContainer.mySource.thingType){
+
+                        TriggerService.getSchemaByType($scope.dataContainer.mySource.thingType).$promise.then(
+                            function(schema){
+                                $scope.dataContainer.predicate = $scope.myTrigger.predicate;
+                                $scope.dataContainer.sourceSchema = schema;
+                            },
+                            function(){
+
+                            }
+                        );
+                    }else{
+                        TriggerService.getTypeSchemas(types).then(function(schemas){
+                            $scope.dataContainer.predicate = $scope.myTrigger.predicate;
+                            $scope.dataContainer.sourceSchema = TriggerService.xSchemas(schemas);
+                        });
+                    }
+                });
+
+                _.each($scope.myTrigger.targets, function(target, index){
+                    TriggerService.getSourceTypes(target).then(function(types){
+                        $scope.dataContainer.myTargets.push({
+                            tagList: target.tagList,
+                            thingList: target.thingList,
+                            andExpress: target.andExpress,
+                            thingType: target.thingType,
+                            thingTypes: types
+                        });
+
+                        $scope.dataContainer.targetSchemas.push({});
+
+                        var selectedTypes;
+                        if(target.thingType){
+                            selectedTypes = [target.thingType];
+                        }else{
+                            selectedTypes = types;
+                        }
+                        TriggerService.getTypeSchemas(selectedTypes).then(function(schemas){
+                            var schema = TriggerService.xSchemas(schemas);
+                            initTargetSchema(target, schema);
+                            $scope.dataContainer.targetSchemas[index] = schema;
+                        });
+
+                    });
                 });
             };
+
+            function initTargetSchema(target, schema){
+                _.each(target.command.actions, function(action){
+                    _.each(action, function(actionContent, actionName){
+                        schema.actions[actionName]._checked = true;
+                        _.each(actionContent, function(propertyValue, propertyName){
+                            schema.actions[actionName].in.properties[propertyName].value = propertyValue;
+                            schema.actions[actionName].in.properties[propertyName]._checked = true;
+                        });
+                    });
+                });
+            }
 
             $scope.previousStep = function(step){
                 $scope.currentStep = step - 1;
@@ -120,9 +163,11 @@ angular.module('BeehivePortal')
                         break;
                     case 4:
                         saveTriggerCommand();
+                        saveTrigger();
+                        break;
                 }
-                $scope.currentStep = step + 1;
-                console.log($scope.myTrigger);
+                $scope.currentStep = $scope.currentStep > 3?$scope.currentStep: step + 1;
+                console.log(JSON.stringify($scope.myTrigger));
             };
 
             $scope.createTarget = function(){
@@ -134,36 +179,35 @@ angular.module('BeehivePortal')
              * @return {[type]} [description]
              */
             function saveSource (){
-                var newSources = [];
-                _.each($scope.dataContainer.mySources, function(source){
-                    var newSource = new TriggerSummarySource();
-                    var sourceObj = {};
-                    if(source.thingList){
-                        sourceObj.thingList = _.pluck(source.thingList, 'globalThingID');
-                    }else{
-                        sourceObj.tagList = _.pluck(source.tagList, 'displayName');
-                        sourceObj.andExpress = source.andExpress;
+                if($scope.dataContainer.mySource.sourceType == 'tag'){
+                    if($scope.dataContainer.mySource.thingList){
+                        delete $scope.dataContainer.mySource.thingList;
                     }
-
-                    newSource.setSource(sourceObj);
-                    newSource.setName(source.name);
-                    newSources.push(newSource);
+                }else{
+                    if($scope.dataContainer.mySource.tagList){
+                        delete $scope.dataContainer.mySource.tagList;
+                    }
+                }
+                
+                TriggerService.getSourceTypes($scope.dataContainer.mySource).then(function(types){
+                    if($scope.dataContainer.mySource.sourceType == 'tag'){
+                        $scope.myTrigger.source.type = $scope.dataContainer.mySource.selectedType;
+                    }
+                    TriggerService.getTypeSchemas(types).then(function(schemas){
+                        $scope.dataContainer.sourceSchema = TriggerService.xSchemas(schemas);
+                    });
                 });
-
-                _.each(newSources, function(source){
-                    source.schema = [{name: 'power', type:'boolean'}, {name: 'dimming', type: 'value'}];
-                    $scope.myTrigger.addSummarySource(source);
-                });
+                $scope.myTrigger.setSource($scope.dataContainer.mySource, $scope.dataContainer.mySource.sourceType);
             }
 
            
             /**
-             * step 2, save summary trigger's trigger condition
+             * step 2, save group trigger's trigger condition
              * @return {[type]} [description]
              */
             function saveCondition(){
-                $scope.myTrigger.setTriggersWhen($scope.myTrigger.predicate.triggersWhen.value);
-                $scope.myTrigger.setCondition($scope.dataContainer.summaryConditionClause);
+                $scope.myTrigger.setTriggersWhen($scope.dataContainer.predicate.triggersWhen);
+                $scope.myTrigger.setCondition($scope.dataContainer.predicate.condition);
             }
 
             /**
@@ -172,23 +216,30 @@ angular.module('BeehivePortal')
              */
             function saveTarget(){
                 var newSources = [];
-                _.each($scope.dataContainer.myTargets, function(source){
+                $scope.dataContainer.targetSchemas = [];
+                _.each($scope.dataContainer.myTargets, function(source, index){
                     var newSource = new TriggerTarget();
                     var sourceObj = {};
                     if(source.thingList){
-                        sourceObj.thingList = _.pluck(source.thingList, 'globalThingID');
+                        sourceObj.thingList = source.thingList;
                     }else{
-                        sourceObj.tagList = _.pluck(source.tagList, 'displayName');
+                        sourceObj.tagList = source.tagList;
                         sourceObj.andExpress = source.andExpress;
+                        sourceObj.type = source.selectedType.id;
                     }
+
+                    $scope.dataContainer.targetSchemas.push({});
+
+                    TriggerService.getSourceTypes(source).then(function(types){
+                        TriggerService.getTypeSchemas(types).then(function(schemas){
+                            $scope.dataContainer.targetSchemas[index] = TriggerService.xSchemas(schemas);
+                        });
+                    });
 
                     newSource.setSource(sourceObj, source.sourceType, source.andExpress);
                     newSources.push(newSource);
                 });
 
-                _.each(newSources, function(source){
-                    
-                });
                 $scope.myTrigger.setTargets(newSources);
             }
 
@@ -197,11 +248,32 @@ angular.module('BeehivePortal')
              * @return {[type]} [description]
              */
             function saveTriggerCommand(){
-                
+                _.each($scope.dataContainer.targetSchemas, function(targetSchema, index){
+                    $scope.myTrigger.targets[index].command.actions = [];
+                    _.each(targetSchema.actions, function(action, actionName){
+                        var actionToAdd = {},
+                            addFlag = false;
+                            actionToAdd[actionName] = {};
+
+                        if(action._checked){
+                            _.each(action.in.properties, function(propertyValue, propertyName){
+                                if(propertyValue._checked){
+                                    actionToAdd[actionName][propertyName] = propertyValue.value;
+                                    addFlag = true;
+                                }
+                            })
+                        }
+                        if(addFlag){
+                            $scope.myTrigger.targets[index].command.actions.push(actionToAdd);
+                        }
+                    });
+                });
             }
 
-            
-        }
+            function saveTrigger(){
+                $$Trigger.save($scope.myTrigger);
+            }
+        }]
     };
   }])
   .controller('summaryTrigger.CreateSource', ['$uibModalInstance', '$scope', function($uibModalInstance, $scope){

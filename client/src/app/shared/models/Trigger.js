@@ -67,7 +67,7 @@
             "type" : type,
             "predicate" : {
                 "eventSource" : "states",
-                "triggersWhen" : '',
+                "triggersWhen" : Trigger.WhenEnum.CONDITION_TRUE,
                 "condition" : {}
             },
             'source': {},
@@ -76,6 +76,12 @@
         };
 
         _.extend(this, structure);
+
+        if(type == Trigger.TypeEnum.SUMMARY){
+            delete this.source;
+        }else{
+            delete this.summarySource;
+        }
     };
 
     /**
@@ -91,11 +97,13 @@
         }else{
             if(type == 'thing'){
                 this.source = {
-                    thingList: sourceObj
+                    thingList: sourceObj.thingList
                 };
             }else{
                 this.source = {
-                    tagList: sourceObj
+                    tagList: sourceObj.tagList,
+                    type: sourceObj.type,
+                    andExpress: sourceObj.andExpress
                 };
             }
         }
@@ -151,9 +159,9 @@
     };
 
     Trigger.WhenEnum = {
-        'TRUE': 'CONDITION_TRUE',
-        'FALSE_TO_TRUE': 'CONDITION_FALSE_TO_TRUE',
-        'CHANGED': 'CONDITION_CHANGED'
+        'CONDITION_TRUE': 'CONDITION_TRUE',
+        'CONDITION_FALSE_TO_TRUE': 'CONDITION_FALSE_TO_TRUE',
+        'CONDITION_CHANGED': 'CONDITION_CHANGED'
     };
 
     Trigger.TypeEnum = {
@@ -186,20 +194,11 @@
             'thingList': null,
             'tagList': null,
             "command" : {
-                "actions" : [{
-                    "powerOn" : {
-                        "power" : true
-                    }
-                }],
+                "actions" : [],
                 "schemaVersion" : 0,
                 "metadata" : {}
             }
         });
-        if(type == 'thing'){
-            this.thingList = [];
-        }else{
-            this.tagList = [];
-        }
     }
 
     TriggerTarget.prototype.addAction = function(action){
@@ -215,11 +214,18 @@
     };
 
     TriggerTarget.prototype.setSource = function(sourceObj, type, andExpress){
+
+        _.each(this, function(val, key){
+            delete this[key];
+        });
+
         if(type == 'thing'){
             this.thingList = sourceObj.thingList;
         }else{
+
             this.tagList = sourceObj.tagList;
             this.andExpress = andExpress;
+            this.type = sourceObj.type;
         }
     }
 

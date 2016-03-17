@@ -23,6 +23,7 @@
       </div>
     </div>
   </div>
+  <hr/>
   <uib-carousel no-wrap="noWrapSlides">
     <!-- ============================== select source ========================== -->
     <uib-slide active="currentStep == 1">
@@ -34,10 +35,10 @@
     <uib-slide active="currentStep == 2">
       <div class="trigger-when">
         <span>何时触发：</span>
-        <div app-select selected-model="myTrigger.predicate.triggersWhen" options="triggerWhenConditions"></div>
+        <div app-select value-only="true" selected-model="dataContainer.predicate.triggersWhen" options="triggerWhenConditions"></div>
       </div>
       <div>
-        <condition-tree schema="summarySchema" result="dataContainer.summaryConditionClause"></condition-tree>
+        <condition-tree schema="dataContainer.sourceSchema.statesSchema.properties" result="dataContainer.predicate.condition"></condition-tree>
       </div>
     </uib-slide>
     <!-- =========================== end of set trigger rule  ==================================== -->
@@ -45,13 +46,17 @@
     <!-- =========================== select trigger target ==================================== -->
     <uib-slide active="currentStep == 3">
       <div class="new-source" ng-click="createTarget()"><span class="fa fa-plus"></span> 新建目标</div>
-      <multi-source-picker my-source="dataContainer.myTargets"></multi-source-picker>
+      <multi-source-picker sources="dataContainer.myTargets"></multi-source-picker>
     </uib-slide>
     <!-- =========================== end of select trigger target  ==================================== -->
 
     <!-- =========================== select trigger command  ==================================== -->
     <uib-slide active="currentStep == 4">
-      <trigger-command my-actions="actions"></trigger-command>
+      <uib-accordion close-others="oneAtATime" class="multi-source">
+        <uib-accordion-group heading="{{'命令-' + ($index + 1)}}" ng-repeat="targetSchema in dataContainer.targetSchemas">
+          <trigger-command my-actions="targetSchema.actions"></trigger-command>
+        </uib-accordion-group>
+      </uib-accordion>
     </uib-slide>
     <!-- =========================== end of select trigger command  ==================================== -->
   </uib-carousel>

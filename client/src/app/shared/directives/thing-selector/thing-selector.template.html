@@ -23,17 +23,6 @@
           </treecontrol>
         </uib-tab>
         <!-- end tags -->
-
-        <!-- tags -->
-        <uib-tab heading="种类" ng-if="typeAllowed">
-          <treecontrol class="tree-classic"
-             tree-model="dataset.types"
-             options="treeOptions"
-             on-selection="selectType(node)">
-             {{node.type}}
-          </treecontrol>
-        </uib-tab>
-        <!-- end tags -->
       </uib-tabset>
     </div>
     <!-- unselected things -->
@@ -41,10 +30,10 @@
       <uib-tabset>
         <uib-tab heading="未选设备">
           <treecontrol class="tree-classic"
-             tree-model="unselectedThings"
+             tree-model="thingTypes"
              options="treeOptions"
              on-selection="selectUnselectedThing(node)">
-             {{node.vendorThingID}}
+             {{node.name}}
           </treecontrol>
         </uib-tab>
       </uib-tabset>
@@ -59,10 +48,10 @@
       <uib-tabset>
         <uib-tab heading="已选设备">
           <treecontrol class="tree-classic"
-             tree-model="selectedThings"
+             tree-model="selectedTypes"
              options="treeOptions"
              on-selection="selectSelectedThing(node)">
-             {{node.vendorThingID}}
+             {{node.name}}
           </treecontrol>
         </uib-tab>
       </uib-tabset>

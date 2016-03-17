@@ -2,12 +2,8 @@
   /*
  * TODO
  **/ }
-  .app-portal-triggermanager .carousel-control {
-    display: none; }
   .app-portal-triggermanager .rule-tab {
     padding-bottom: 50px; }
-  .app-portal-triggermanager .carousel-indicators {
-    display: none; }
   .app-portal-triggermanager .new-trigger, .app-portal-triggermanager .new-source {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;

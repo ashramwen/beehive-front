@@ -15,7 +15,7 @@ angular.module('BeehivePortal')
         url: '/ThingManager',
         templateUrl: 'app/components/portal/ThingManager/ThingManager.html',
         controller: 'ThingManagerController',
-        redirectTo: 'app.portal.ThingManager.LocationView',
+        redirectTo: 'app.portal.ThingManager.AddThing',
         abstract: true,
         stateName: '设备管理'
       })
@@ -36,5 +36,13 @@ angular.module('BeehivePortal')
         templateUrl: 'app/components/portal/TriggerManager/TriggerManager.html',
         controller: 'TriggerManagerController',
         stateName: '触发器管理'
+      })
+      .state('app.portal.ThingViews', {
+        url: '/ThingViews',
+        templateUrl: 'app/components/portal/ThingViews/ThingViews.html',
+        controller: 'ThingViewsController',
+        stateName: '设备视图',
+        abstract: true,
+        redirectTo: 'app.portal.ThingViews.LocationView'
       });
   });

@@ -19,6 +19,11 @@ angular.module('BeehivePortal')
             scope.setting = _.extend(scope.setting, scope.extraSetting);
             scope.selectedOption = {};
 
+            scope.$watch('selectedModel', function(newVal, oldVal){
+                if(angular.equals(newVal, oldVal))return;
+                init();
+            });
+
             scope.setting.text = attrs.text || scope.setting.text;
             
             scope.selectOption = function(option){
@@ -35,15 +40,28 @@ angular.module('BeehivePortal')
                     });
                 }
             };
-
             
             if(scope.options && scope.options[0]){
+                init();   
+            }
+
+            function init(){
                 var existFlag = false;
-                existFlag = _.find(scope.options,function(option){
-                    return angular.equals(option, scope.selectOption);
-                });
-                if(!existFlag)
+                if(attrs.valueOnly){
+                    existFlag = _.find(scope.options,function(option){
+                        return option.value == scope.selectedModel;
+                    });
+                }else{
+                    existFlag = _.find(scope.options,function(option){
+                        return angular.equals(option, scope.selectedModel);
+                    });
+                }
+                
+                if(!existFlag){
                     scope.selectOption(scope.options[0]);
+                }else{
+                    scope.selectOption(existFlag);
+                }
             }
         }
     }
