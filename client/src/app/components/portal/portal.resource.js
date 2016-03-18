@@ -106,6 +106,9 @@ angular.module('BeehivePortal')
       var Thing = $resource(MyAPIs.THING + '/:globalThingID', {}, {
           save: {
               url: MyAPIs.THING,
+              params: {
+                globalThingID: '@globalThingID'
+              },
               method: 'POST'
           },
           getAll: {
@@ -115,9 +118,6 @@ angular.module('BeehivePortal')
           },
           remove: {
               method: 'DELETE'
-          },
-          update: {
-              method: 'POST'
           },
           bindTags: {
               url: MyAPIs.THING + '/:thingids/tags/custom/:tags',
@@ -298,6 +298,26 @@ angular.module('BeehivePortal')
   }])
   .factory('$$Trigger', ['$resource', function($resource){
       var Trigger = $resource(MyAPIs.TRIGGER, {}, {
+          getAll: {
+              url: MyAPIs.TRIGGER + '/all',
+              method: 'GET',
+              isArray: true,
+              transformResponse: function(response){
+                  response = JSON.parse(response);
+                  response = _.reject(response, function(trigger){
+                      if(trigger.type == Trigger.TypeEnum.SIMPLE){
+                          if(!trigger.source){
+                              return false;
+                          }else if(trigger.source.thingID){
+                              return true;
+                          }
+                          return false;
+                      }
+                      return false;
+                  });
+                  return response;
+              }
+          },
           save: {
               url: MyAPIs.TRIGGER + '/createTrigger',
               method: 'POST'

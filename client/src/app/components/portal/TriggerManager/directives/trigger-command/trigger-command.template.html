@@ -32,17 +32,17 @@
                     <div switchery="propertyValue.value" yes-text="开" no-text="关"></div>
                   </div>
                   <div ng-if="propertyValue.type=='string'">
-                    <input type="text" ng-model="propertyValue.value" />
+                    <input class="form-control" type="text" ng-model="propertyValue.value" />
                   </div>
                   <div ng-if="propertyValue.type=='integer' || propertyValue.type=='float'">
                     <div ng-if="(propertyValue.minimum || propertyValue.minimum == 0) && (propertyValue.maximum || propertyValue.maximum == 0)" class="range-type">
                       <div class="range-container">
-                        <input type="range" min="propertyValue.minimum" max="propertyValue.maximum" ng-model="propertyValue.value" step="{{propertyValue.type=='integer'?1: 0.01}}"/>
+                        <input class="form-control" type="range" min="propertyValue.minimum" max="propertyValue.maximum" ng-model="propertyValue.value" step="{{propertyValue.type=='integer'?1: 0.01}}"/>
                       </div>
                       <input ng-model="propertyValue.value" class="form-control pull-left" type="text" ng-disabled="true" />
                     </div>
                     <div ng-if="(!propertyValue.minimum && propertyValue.minimum != 0) || (!propertyValue.maximum && propertyValue.maximum != 0)">
-                      <input type="number" class="form-control" ng-model="propertyValue.value" />
+                      <input class="form-control" type="number" class="form-control" ng-model="propertyValue.value" />
                     </div>
                   </div>
                 </div>

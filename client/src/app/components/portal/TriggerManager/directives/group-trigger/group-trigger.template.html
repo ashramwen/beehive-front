@@ -33,13 +33,20 @@
 
     <!-- =========================== set trigger rule  ==================================== -->
     <uib-slide active="currentStep == 2">
-      <div class="trigger-when">
-        <span>何时触发：</span>
-        <div app-select value-only="true" selected-model="dataContainer.predicate.triggersWhen" options="triggerWhenConditions"></div>
-      </div>
-      <div>
-        <condition-tree schema="dataContainer.sourceSchema.statesSchema.properties" result="dataContainer.predicate.condition"></condition-tree>
-      </div>
+      <uib-tabset>
+        <uib-tab>
+          <div class="trigger-when">
+            <span>何时触发：</span>
+            <div app-select value-only="true" selected-model="dataContainer.predicate.triggersWhen" options="triggerWhenConditions"></div>
+          </div>
+          <div>
+            <condition-tree schema="dataContainer.sourceSchema.statesSchema.properties" result="dataContainer.predicate.condition"></condition-tree>
+          </div>
+        </uib-tab>
+        <uib-tab heading="定时器">
+          <select-schedule schedule="dataContainer.schedule"></select-schedule>
+        </uib-tab>
+      </uib-tabset>
     </uib-slide>
     <!-- =========================== end of set trigger rule  ==================================== -->
 

@@ -13,7 +13,6 @@ body{
     }
 }
 
-
 .tab-content{
     padding: 20px 10px;
     background: #fff;
@@ -238,8 +237,11 @@ tag{
  * awesome font
  */
 .fa{
-  &.fa-remove, &.fa-plus{
+  &.fa-remove, &.fa-plus, &.fa-edit{
     cursor: pointer;
+    &:hover{
+      color: #63b7e6;
+    }
   }
 }
 

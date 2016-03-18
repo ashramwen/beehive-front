@@ -63,16 +63,20 @@
     var Trigger = function(type){
         
         var structure = {
-            'name': '',
+            'triggerName': '',
             "type" : type,
             "predicate" : {
                 "eventSource" : "states",
                 "triggersWhen" : Trigger.WhenEnum.CONDITION_TRUE,
-                "condition" : {}
+                "condition" : {},
+                "schedule":{
+
+                }
             },
             'source': {},
             "targets" : [],
-            "summarySource" : {}
+            "summarySource" : {},
+            "recordStatus": "enable"
         };
 
         _.extend(this, structure);
@@ -81,6 +85,13 @@
             delete this.source;
         }else{
             delete this.summarySource;
+        }
+    };
+
+    Trigger.prototype.init = function(data){
+        _.extend(this, data);
+        if(!this.triggerName){
+            this.setName('未命名');
         }
     };
 
@@ -109,8 +120,12 @@
         }
     };
 
+    Trigger.prototype.setSchedule = function(schedule){
+        this.predicate.schedule = schedule;
+    };
+
     Trigger.prototype.setName = function(name){
-        this.name = name;
+        this.triggerName = name;
     }
 
     /**
@@ -194,6 +209,7 @@
             'thingList': null,
             'tagList': null,
             "command" : {
+                "schema": 'test',
                 "actions" : [],
                 "schemaVersion" : 0,
                 "metadata" : {}

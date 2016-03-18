@@ -1,34 +1,42 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .directive('singleTrigger', ['$compile', function($compile){
+  .directive('scheduleTrigger', ['$compile', function($compile){
     return{
         restrict: 'E',
         replace: true,
         scope:{
             trigger: '='
         },
-        templateUrl: 'app/components/portal/TriggerManager/directives/single-trigger/single-trigger.template.html',
+        templateUrl: 'app/components/portal/TriggerManager/directives/schedule-trigger/schedule-trigger.template.html',
         controller: ['$scope', '$$Tag', '$$Thing', '$timeout', '$q', '$http', 'TriggerService', '$$Type', '$$Trigger', 'AppUtils', function($scope, $$Tag, $$Thing, $timeout, $q, $http, TriggerService, $$Type, $$Trigger, AppUtils){
             
             $scope.currentStep = 1;
             $scope.triggerWhenConditions = TriggerService.triggerWhenConditions;
 
             $scope.dataContainer = {
-                predicate: {
-                    triggersWhen: null,
-                    condition: {}
-                },
-                sourceSchema: null,
+                predicate: {},
+                schedule: {},
                 myTargets: [],
                 targetSchemas: []
             };
 
             $scope.init = function(){
-                var thingID = $scope.trigger.source.thingID;
+                $scope.dataContainer.predicate = $scope.trigger.predicate;
+                $scope.dataContainer.schedule = $scope.trigger.predicate.schedule;
+                _.each($scope.trigger.targets, function(target, index){
+                    $scope.dataContainer.myTargets.push(target);
 
-                $$Thing.get({globalThingID: thingID}, function(thing){
-                    $scope.dataContainer.sourceSchema = TriggerService.getSchemaByType(thing.type);
+                    $scope.dataContainer.targetSchemas.push({});
+
+                    TriggerService.getSourceTypes(target).then(function(types){
+                        $scope.trigger.targets.thingTypes = types;
+                        TriggerService.getTypeSchemas(types).then(function(schemas){
+                            $scope.dataContainer.targetSchemas[index] = TriggerService.xSchemas(schemas);
+                            TriggerService.initTargetSchema(target, $scope.dataContainer.targetSchemas[index]);
+                        });
+                    });
+
                 });
             };
 
@@ -39,7 +47,7 @@ angular.module('BeehivePortal')
             $scope.nextStep = function(step){
                 switch(step){
                     case 1: 
-                        saveCondition();
+                        saveSchedule();
                         break;
                     case 2:
                         saveTargets();
@@ -58,33 +66,21 @@ angular.module('BeehivePortal')
             };
 
             /**
-             * step 1, save single trigger's trigger condition
-             * @return {[type]} [description]
-             */
-            function saveCondition(){
-                $scope.trigger.setTriggersWhen($scope.dataContainer.predicate.triggersWhen);
-                $scope.trigger.setCondition($scope.dataContainer.predicate.condition);
-                saveSchedule();
-            }
-
-            /**
              * step 1, save schedule
              * @return {[type]} [description]
              */
             function saveSchedule(){
-                if($scope.dataContainer.schedule.enabled){
-                    if($scope.dataContainer.schedule.type == 'interval'){
-                        delete $scope.dataContainer.schedule.cron;
-                    }else{
-                        delete $scope.dataContainer.schedule.timeUnit;
-                        delete $scope.dataContainer.schedule.interval;
-                        $scope.dataContainer.schedule.cron = '0 ' + $scope.dataContainer.schedule.cron;
-                    }
-                    $scope.trigger.setSchedule($scope.dataContainer.schedule);
-                    console.log($scope.dataContainer.schedule);
+                if($scope.dataContainer.schedule.type == 'Interval'){
+                    delete $scope.dataContainer.schedule.cron;
                 }else{
-                    delete $scope.trigger.predicate.schedule;
+                    delete $scope.dataContainer.schedule.timeUnit;
+                    delete $scope.dataContainer.schedule.interval;
+                    $scope.dataContainer.schedule.cron = '0 ' + $scope.dataContainer.schedule.cron;
                 }
+                $scope.trigger.setSchedule($scope.dataContainer.schedule);
+                delete $scope.trigger.source;
+                delete $scope.trigger.predicate.condition;
+                console.log($scope.dataContainer.schedule);
             };
 
             /**
@@ -151,7 +147,7 @@ angular.module('BeehivePortal')
                 $$Trigger.save($scope.trigger, function(){
                     AppUtils.alert('创建触发器成功！');
                 }, function(err){
-                    AppUtils.alert('创建触发器失败！错误信息:' + err);
+                    AppUtils.alert('创建触发器失败！错误信息:' + JSON.stringify(err));
                 });
                 
             }

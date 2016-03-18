@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .factory('TriggerService',['$rootScope', '$$Type', '$q' ,function($rootScope, $$Type, $q) {
+  .factory('TriggerService',['$rootScope', '$$Type', '$q' , '$$Thing', function($rootScope, $$Type, $q, $$Thing) {
     var TriggerService = {};
 
     TriggerService.triggerWhenConditions = [
@@ -15,6 +15,20 @@ angular.module('BeehivePortal')
 
             if(source.thingList){
                 var types = source.thingTypes;
+                if(!types){
+                    var requests = [];
+                    _.each(source.thingList, function(globalThingID){
+                        var promise = $$Thing.get({globalThingID: globalThingID}).$promise;
+                        requests.push(promise);
+                    });
+
+                    $q.all(requests).then(function(things){
+                        types = _.uniq(_.pluck(things, 'type'));
+                        resolve(types);
+                    });
+                    
+                    return;
+                }
                 resolve(types);
                 return;
             }
@@ -56,9 +70,11 @@ angular.module('BeehivePortal')
     };
 
     TriggerService.initSchema = function(schema){
+        /*
         schema.statesSchema.properties.schedule = {
             type: 'schedule'
         };
+        */
     };
 
     TriggerService.getSchemaByType = function(type){
@@ -89,30 +105,39 @@ angular.module('BeehivePortal')
         var schemaResult = schemas[0];
 
         _.each(schemas, function(schema){
-            schemaResult = TriggerService.xSchema(schemaResult, schema);
+            //schemaResult = TriggerService.xSchema(schemaResult, schema);
         });
         
         return schemaResult;
-    }
+    };
+
+    TriggerService.initTargetSchema = function(target, schema){
+        _.each(target.command.actions, function(action){
+            _.each(action, function(actionContent, actionName){
+                schema.actions[actionName]._checked = true;
+                _.each(actionContent, function(propertyValue, propertyName){
+                    schema.actions[actionName].in.properties[propertyName].value = propertyValue;
+                    schema.actions[actionName].in.properties[propertyName]._checked = true;
+                });
+            });
+        });
+    };
 
     TriggerService.xSchema = function(schema1, schema2){
         var schema = {statesSchema:{}, actions:[]},
             properties1 = schema1.statesSchema.properties,
             properties2 = schema2.statesSchema.properties,
-            properties = [],
+            properties = {},
 
             actions1 = schema1.actions,
             actions2 = schema2.actions,
             actions = {};
 
         _.each(properties1, function(property1, key1){
-            var property = property2[key1];
+            var property = properties2[key1];
             if(property && property.type == property1.type)
                 properties[key1] = property;
         });
-
-        properties.push({name:'schedule', type: 'schedule'});
-
 
         _.each(actions1, function(action1, name){
             if(actions2[name]){

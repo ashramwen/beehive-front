@@ -126,25 +126,13 @@ angular.module('BeehivePortal')
                         }
                         TriggerService.getTypeSchemas(selectedTypes).then(function(schemas){
                             var schema = TriggerService.xSchemas(schemas);
-                            initTargetSchema(target, schema);
+                            TriggerService.initTargetSchema(target, schema);
                             $scope.dataContainer.targetSchemas[index] = schema;
                         });
 
                     });
                 });
             };
-
-            function initTargetSchema(target, schema){
-                _.each(target.command.actions, function(action){
-                    _.each(action, function(actionContent, actionName){
-                        schema.actions[actionName]._checked = true;
-                        _.each(actionContent, function(propertyValue, propertyName){
-                            schema.actions[actionName].in.properties[propertyName].value = propertyValue;
-                            schema.actions[actionName].in.properties[propertyName]._checked = true;
-                        });
-                    });
-                });
-            }
 
             $scope.previousStep = function(step){
                 $scope.currentStep = step - 1;

@@ -1,14 +1,15 @@
 angular.module('BeehivePortal')
-  .directive('sourcePicker',['$compile', '$$Tag', '$$Thing', '$timeout', function($compile, $$Tag, $$Thing, $timeout){
+  .directive('sourcePicker',['$compile', function($compile){
     return{
         restrict: 'E',
         replace: true,
         scope:{
             mySource: '=?',
-            ready: '=?'
+            ready: '=?',
+            disabled: '=?'
         },
         templateUrl: 'app/components/portal/TriggerManager/directives/select-source/select-source.template.html',
-        controller: function($scope, $$Tag, $$Thing, $timeout, $q){
+        controller: ['$scope', '$$Tag', '$$Thing', '$timeout', '$q', function($scope, $$Tag, $$Thing, $timeout, $q){
 
             $scope.$watch('mySource.tagTypes', function(newVal){
                 $scope.mySource.thingTypes = [];
@@ -17,10 +18,6 @@ angular.module('BeehivePortal')
                 });
                 
             }, true);
-
-            $scope.$watch('mySource.thingTypes', function(val){
-                console.log(val);
-            });
 
             $scope.$watch('mySource.sourceType', function(newVal){
                 if(newVal == 'tag'){
@@ -67,6 +64,6 @@ angular.module('BeehivePortal')
             $scope.thingTypeChange = function(item, bSelect){
                 
             };
-        }
+        }]
     }
   }]);

@@ -2,7 +2,8 @@
 
 var MyApp = angular.module('BeehivePortal', ['ngAnimate', 'ngCookies', 'ngSanitize',
   'ngResource', 'ui.router', 'ui.bootstrap','LocalStorageModule', 'rzModule', 'treeControl', 
-  'angular-condition-tree', 'awesome-context-menu', 'monospaced.elastic', 'angularjs-dropdown-multiselect', 'ng.jsoneditor'
+  'angular-condition-tree', 'awesome-context-menu', 'monospaced.elastic', 'angularjs-dropdown-multiselect', 'ng.jsoneditor',
+  'angular-cron-jobs'
 ]).
 constant('AUTH_EVENTS', {
   loginSuccess: 'auth-login-success',

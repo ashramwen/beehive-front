@@ -1,15 +1,25 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('TriggerManagerController', function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type,$$Tag, $q, $timeout, $uibModal, $$Location) {
+  .controller('TriggerManagerController', function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type,$$Tag, $q, $timeout, $uibModal, $$Location, $$Trigger) {
     
     /**
      * init args
      */
     
 
-    $scope.triggers = [
-    ];
+    $scope.triggers = [];
+
+    $scope.init = function(){
+        $$Trigger.getAll(function(triggers){
+            console.log(triggers);
+            _.each(triggers, function(trigger){
+                var t = new Trigger(trigger.type);
+                t.init(trigger);
+                $scope.triggers.push(t);
+            });
+        });
+    };
 
     $scope.createTrigger = function(){
         var modalInstance = $uibModal.open({
@@ -31,6 +41,10 @@ angular.module('BeehivePortal')
   })
   .controller('TriggerManagerController.CreateTrigger', ['$scope', '$uibModalInstance', function($scope, $uibModalInstance){
     $scope.triggerTypes = [
+        {
+            text: '定时任务',
+            value: Trigger.TypeEnum.SIMPLE
+        },
         {
             text: '多触发源',
             value: Trigger.TypeEnum.GROUP

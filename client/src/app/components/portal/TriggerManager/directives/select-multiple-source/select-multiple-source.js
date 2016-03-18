@@ -7,7 +7,8 @@ angular.module('BeehivePortal')
         replace: true,
         scope:{
             sources: '=',
-            resultSourceSet: '=?'
+            resultSourceSet: '=?',
+            disabled: '=?'
         },
         templateUrl: 'app/components/portal/TriggerManager/directives/select-multiple-source/select-multiple-source.template.html',
         controller: function($scope, $$Tag, $$Thing, $timeout, $q){

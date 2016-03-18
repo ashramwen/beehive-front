@@ -174,5 +174,7 @@ tag .fa-remove:hover {
 /**
  * awesome font
  */
-.fa.fa-remove, .fa.fa-plus {
+.fa.fa-remove, .fa.fa-plus, .fa.fa-edit {
   cursor: pointer; }
+  .fa.fa-remove:hover, .fa.fa-plus:hover, .fa.fa-edit:hover {
+    color: #63b7e6; }

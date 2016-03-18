@@ -2,22 +2,32 @@
   <div class="text-left clearfix">
     <div class="pull-left">
       <span>源类型</span>
-      <div app-select selected-model="mySource.sourceType" options="sourceTypes" class="input-group-btn" text="text" value-only="true"></div>
+      <div app-select disabled="disabled" selected-model="mySource.sourceType" options="sourceTypes" class="input-group-btn" text="text" value-only="true"></div>
     </div>
     <div class="pull-left" style="margin-left: 50px" ng-if="mySource.sourceType == 'tag'">
       <span>交并集</span>
-      <div app-select selected-model="mySource.andExpress" options="andExpressOptions" value-only="true"></div>
+      <div app-select disabled="disabled" selected-model="mySource.andExpress" options="andExpressOptions" value-only="true"></div>
     </div>
     <div class="pull-left" style="margin-left: 50px" ng-if="mySource.sourceType == 'tag'">
       <span>选择设备类型</span>
-      <multi-selector single="true" ng-if="true" ng-model="mySource.selectedType" options="mySource.thingTypes" on-change="thingTypeChange"></multi-selector>
+      <multi-selector ng-disabled="disabled" single="true" ng-if="true" ng-model="mySource.selectedType" options="mySource.thingTypes" on-change="thingTypeChange"></multi-selector>
     </div>
   </div>
   <hr/>
-  <div ng-show="mySource.sourceType =='thing'">
-    <thing-selector selected-things="mySource.thingList" selected-thing-types="mySource.thingTypes"></thing-selector>
+  <div ng-if="!disabled">
+    <div ng-show="mySource.sourceType =='thing'">
+      <thing-selector selected-things="mySource.thingList" selected-thing-types="mySource.thingTypes"></thing-selector>
+    </div>
+    <div ng-show="mySource.sourceType =='tag'">
+      <tag-selector selected-tags="mySource.tagList" tag-types="mySource.tagTypes"></tag-selector>
+    </div>
   </div>
-  <div ng-show="mySource.sourceType =='tag'">
-    <tag-selector selected-tags="mySource.tagList" tag-types="mySource.tagTypes"></tag-selector>
+  <div ng-if="disabled">
+    <div ng-if="thingList.length>0">
+      已选设备: {{thingList.join(',')}}
+    </div>
+    <div ng-if="tagList.length>0">
+      已选标签: {{tagList.join(',')}}
+    </div>
   </div>
 </div>

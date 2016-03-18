@@ -22,23 +22,7 @@
   <uib-carousel no-wrap="noWrapSlides">
     <!-- =========================== set trigger rule  ==================================== -->
     <uib-slide active="currentStep == 1">
-      <uib-tabset>
-        <uib-tab heading="条件">
-          <div class="trigger-when">
-            <span>何时触发：</span>
-            <div app-select value-only="true" selected-model="dataContainer.predicate.triggersWhen" options="triggerWhenConditions"></div>
-          </div>
-          <div>
-            <condition-tree schema="dataContainer.sourceSchema.statesSchema.properties" result="dataContainer.predicate.condition"></condition-tree>
-          </div>
-        </uib-tab>
-        <uib-tab heading="定时器">
-          <div class="form-group text-left">
-            <label><input type="checkbox" ng-model="dataContainer.schedule.enabled"/>启用定时器</label>
-          </div>
-          <select-schedule ng-if="dataContainer.schedule.enabled" schedule="dataContainer.schedule"></select-schedule>
-        </uib-tab>
-      </uib-tabset>
+      <select-schedule schedule="dataContainer.schedule"></select-schedule>
     </uib-slide>
     <!-- =========================== end of set trigger rule  ==================================== -->
 

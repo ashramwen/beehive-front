@@ -1,11 +1,13 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('ThingDetailController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Thing', '$$Type', '$uibModal', function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type, $uibModal) {
+  .controller('ThingDetailController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Thing', '$$Type', '$uibModal', '$timeout', function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type, $uibModal, $timeout) {
     $scope.thing = {};
     $scope.dataset = {
         triggers:[]
     };
+    var customEditor,
+        statusEditor;
 
 
 
@@ -18,10 +20,45 @@ angular.module('BeehivePortal')
             $scope.dataset.triggers.push(myTrigger);
             myTrigger.setSource(thing.globalThingID);
             myTrigger.name = "A simple trigger";
+
+            $timeout(function(){
+                var options = {mode: 'code'};
+
+                statusEditor = document.getElementById("statusEditor");
+                statusEditor = new JSONEditor(statusEditor, options);
+
+                customEditor = document.getElementById("customEditor");
+                customEditor = new JSONEditor(customEditor, options);
+            },50);
         });
+    };
 
-        
+    $scope.editStatus = function(status){
+        $scope.statusOnEdit = true;
+        statusEditor.set(status);
+    };
 
+    $scope.editCustom = function(custom){
+        $scope.customOnEdit = true;
+        customEditor.set(custom);
+    };
+
+    $scope.submitStatus = function(thing){
+        thing.status = statusEditor.get();
+
+        $$Thing.save({}, thing, function(){
+            AppUtils.alert('更新设备信息成功！', '提示信息');
+            $scope.statusOnEdit = false;
+        });
+    };
+
+    $scope.submitCustomFields = function(thing){
+        thing.custom = customEditor.get();
+
+        $$Thing.save({}, thing, function(){
+            AppUtils.alert('更新设备信息成功！', '提示信息');
+            $scope.customOnEdit = false;
+        });
     };
 
     $scope.goThingACL = function(){
@@ -31,7 +68,6 @@ angular.module('BeehivePortal')
     /*
      * create edit rule control modal
      */
-    
     $scope.openEditRuleModal = function(trigger){
         var modalInstance = $uibModal.open({
             animation: true,

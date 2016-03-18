@@ -1,42 +1,61 @@
 <div class="app-portal-thingviews-thingdetail" ng-init="init()">
   <!-- property of a thing -->
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-5">
       <div class="panel">
         <div class="panel-heading">属性</div>
         <div class="panel-body">
-          <div class="row clearfix portal-row">
-            <div class="col-sm-4">设备ID</div>
-            <div class="col-sm-8"><span>{{thing.globalThingID}}</span></div>
-          </div>
-          <div class="row clearfix portal-row">
-            <div class="col-sm-4">设备位置</div>
-            <div class="col-sm-8"><span>{{thing.location}}</span></div>
-          </div>
-          <div class="row clearfix portal-row">
-            <div class="col-sm-4">设备种类</div>
-            <div class="col-sm-8"><span>{{thing.type}}</span></div>
-          </div>
-          <div class="row clearfix portal-row">
-            <div class="col-sm-4">位置</div>
-            <div class="col-sm-8"><span>{{thing.location}}</span></div>
-          </div>
-          <div class="row clearfix portal-row">
-            <div class="col-sm-4">标签</div>
-            <div class="col-sm-8"><span>{{thing.tags.join(', ')}}</span></div>
-          </div>
+          <table>
+            <tr><td class="title">设备ID</td><td>{{thing.globalThingID}}</td></tr>
+            <tr><td class="title">设备位置</td><td>{{thing.location}}</td></tr>
+            <tr><td class="title">设备种类</td><td>{{thing.type}}</td></tr>
+            <tr><td class="title">位置</td><td>{{thing.location}}</td></tr>
+            <tr><td class="title">标签</td><td>{{thing.tags.join(', ')}}</td></tr>
+          </table>
         </div>
       </div>
     </div>
 
     <!-- status -->
-    <div class="col-sm-6">
+    <div class="col-sm-7">
       <div class="panel">
-        <div class="panel-heading">状态</div>
+        <div class="panel-heading">设备状态
+          <span ng-show="!statusOnEdit" class="fa fa-edit" ng-click="editStatus(thing.status)"></span>
+          <span ng-show="statusOnEdit" class="fa fa-remove" ng-click="statusOnEdit = false"></span>
+        </div>
         <div class="panel-body">
-          <div class="row clearfix portal-row" ng-repeat="(key, value) in thing.custom">
-            <div class="col-sm-4">{{key}}</div>
-            <div class="col-sm-8"><span>{{value}}</span></div>
+          <table ng-show="!statusOnEdit">
+            <tr ng-repeat="(key, value) in thing.status">
+              <td class="title">{{key}}</td>
+              <td>{{value}}</td>
+            </tr>
+          </table>
+          <div ng-show="statusOnEdit">
+            <div class="form-group">
+              <div id="statusEditor" style="height:300px; width:100%;"></div>
+            </div>
+            <div><button class="btn btn-success pull-right" ng-click="submitStatus(thing)">更新</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-heading">自定义字段
+          <span ng-show="!customOnEdit" class="fa fa-edit" ng-click="editCustom(thing.custom)"></span>
+          <span ng-show="customOnEdit" class="fa fa-remove" ng-click="customOnEdit = false"></span>
+        </div>
+        <div class="panel-body">
+          <table ng-show="!customOnEdit">
+            <tr ng-repeat="(key, value) in thing.custom">
+              <td class="title">{{key}}</td>
+              <td>{{value}}</td>
+            </tr>
+          </table>
+          <div ng-show="customOnEdit">
+            <div class="form-group">
+              <div id="customEditor" style="height:300px; width:100%;"></div>
+            </div>
+            <div><button class="btn btn-success pull-right" ng-click="submitCustomFields(thing)">更新</button></div>
           </div>
         </div>
       </div>

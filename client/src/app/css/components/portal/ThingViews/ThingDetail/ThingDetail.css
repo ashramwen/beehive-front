@@ -18,3 +18,10 @@
   .app-portal-thingviews-thingdetail .trigger-when {
     text-align: left;
     margin-bottom: 15px; }
+  .app-portal-thingviews-thingdetail table tr td.title {
+    width: 70px;
+    font-weight: bold;
+    text-align: right;
+    padding-right: 10px; }
+  .app-portal-thingviews-thingdetail .panel-heading .fa {
+    margin-left: 10px; }

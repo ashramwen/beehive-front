@@ -49,14 +49,15 @@
   <link rel="stylesheet" href="app/css/components/portal/ThingViews/ThingDetail/ThingDetail.css">
   <link rel="stylesheet" href="app/css/components/portal/ThingViews/ThingList/ThingList.css">
   <link rel="stylesheet" href="app/css/components/portal/ThingViews/TypeView/TypeView.css">
-  <link rel="stylesheet" href="app/css/components/portal/UserManager/ThingAuthority/ThingAuthority.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/ResourceAuthority/ResourceAuthority.css">
+  <link rel="stylesheet" href="app/css/components/portal/UserManager/ThingAuthority/ThingAuthority.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/User.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/UserGroup/UserGroup.css">
+  <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/select-schedule/select-schedule.css">
   <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/group-trigger/group-trigger.css">
   <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/trigger-command/trigger-command.css">
-  <link rel="stylesheet" href="app/css/components/portal/UserManager/User/NewUser/NewUser.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/SearchUser/SearchUser.css">
+  <link rel="stylesheet" href="app/css/components/portal/UserManager/User/NewUser/NewUser.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/UserInfo/UserInfo.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/UserList/UserList.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/UserThingACL/UserThingACL.css">
@@ -102,6 +103,7 @@
   <script src="../bower_components/angularjs-dropdown-multiselect/src/angularjs-dropdown-multiselect.js"></script>
   <script src="../bower_components/jsoneditor/dist/jsoneditor.min.js"></script>
   <script src="../bower_components/ng-jsoneditor/ng-jsoneditor.min.js"></script>
+  <script src="../bower_components/angular-cron-jobs/dist/angular-cron-jobs.min.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
@@ -136,7 +138,9 @@
   <script src="app/components/portal/TriggerManager/directives/summary-trigger/summary-trigger.directive.js"></script>
   <script src="app/components/portal/TriggerManager/directives/single-trigger/single-trigger.directive.js"></script>
   <script src="app/components/portal/TriggerManager/directives/select-source/select-source.directive.js"></script>
+  <script src="app/components/portal/TriggerManager/directives/select-schedule/select-schedule.directive.js"></script>
   <script src="app/components/portal/TriggerManager/directives/select-multiple-source/select-multiple-source.js"></script>
+  <script src="app/components/portal/TriggerManager/directives/schedule-trigger/schedule-trigger.directive.js"></script>
   <script src="app/components/portal/TriggerManager/directives/group-trigger/group-trigger.directive.js"></script>
   <script src="app/components/portal/UserManager/UserGroup/UserGroup.service.js"></script>
   <script src="app/components/portal/UserManager/UserGroup/UserGroup.controller.js"></script>
@@ -165,10 +169,6 @@
   <script src="app/shared/directives/item-selector/item-selector.js"></script>
   <script src="app/shared/directives/app-slider/app-slider.directive.js"></script>
   <script src="app/shared/directives/app-select/app-select.js"></script>
-  <script src="app/components/secure/UserLogin/UserLogin.service.js"></script>
-  <script src="app/components/secure/UserLogin/UserLogin.controller.js"></script>
-  <script src="app/components/secure/AdminLogin/AdminLogin.service.js"></script>
-  <script src="app/components/secure/AdminLogin/AdminLogin.controller.js"></script>
   <script src="app/components/portal/Welcome/Welcome.controller.js"></script>
   <script src="app/components/portal/UserManager/UserManager.controller.js"></script>
   <script src="app/components/portal/TriggerManager/TriggerManager.service.js"></script>
@@ -176,16 +176,20 @@
   <script src="app/components/portal/ThingViews/ThingViews.controller.js"></script>
   <script src="app/components/portal/ThingManager/ThingManager.controller.js"></script>
   <script src="app/components/portal/Settings/Settings.controller.js"></script>
+  <script src="app/components/secure/UserLogin/UserLogin.service.js"></script>
+  <script src="app/components/secure/UserLogin/UserLogin.controller.js"></script>
+  <script src="app/components/secure/AdminLogin/AdminLogin.service.js"></script>
+  <script src="app/components/secure/AdminLogin/AdminLogin.controller.js"></script>
   <script src="app/shared/models/Trigger.js"></script>
   <script src="app/shared/models/LocationTree.js"></script>
   <script src="app/shared/models/BeehiveThing.js"></script>
   <script src="app/shared/models/BeehiveCommand.js"></script>
   <script src="app/shared/filters/filters.js"></script>
-  <script src="app/components/secure/secure.service.js"></script>
-  <script src="app/components/secure/secure.controller.js"></script>
   <script src="app/components/portal/portal.service.js"></script>
   <script src="app/components/portal/portal.resource.js"></script>
   <script src="app/components/portal/portal.controller.js"></script>
+  <script src="app/components/secure/secure.service.js"></script>
+  <script src="app/components/secure/secure.controller.js"></script>
   <script src="app/shared/utils.js"></script>
   <script src="app/shared/directives.js"></script>
   <script src="app/shared/config.js"></script>
@@ -195,8 +199,8 @@
 
   <!-- route:js -->
   <script src="app/app.route.js"></script>
-  <script src="app/components/portal/portal.route.js"></script>
   <script src="app/components/secure/secure.route.js"></script>
+  <script src="app/components/portal/portal.route.js"></script>
   <script src="app/components/portal/ThingManager/ThingManager.route.js"></script>
   <script src="app/components/portal/ThingViews/ThingViews.route.js"></script>
   <script src="app/components/portal/UserManager/UserManager.route.js"></script>
