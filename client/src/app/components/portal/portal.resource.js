@@ -273,11 +273,12 @@ angular.module('BeehivePortal')
               method: 'POST'
           },
           byTags: {
-              url: MyAPIs.TYPE + '/tagID/:tags',
+              url: MyAPIs.TYPE + '/fulltagname/:tags',
               params:{
                   tags: '@tags'
               },
-              method: 'GET'
+              method: 'GET',
+              isArray: true
           }
       });
       return Type;

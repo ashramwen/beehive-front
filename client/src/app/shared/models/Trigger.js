@@ -68,10 +68,7 @@
             "predicate" : {
                 "eventSource" : "states",
                 "triggersWhen" : Trigger.WhenEnum.CONDITION_TRUE,
-                "condition" : {},
-                "schedule":{
-
-                }
+                "condition" : {}
             },
             'source': {},
             "targets" : [],

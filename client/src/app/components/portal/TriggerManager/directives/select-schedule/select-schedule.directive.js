@@ -26,10 +26,20 @@ angular.module('BeehivePortal')
                 $scope.schedule = $scope.schedule 
                     || {timeUnit: 'Second', interval: 0};
 
-
-
-                $scope.initCorn = $scope.schedule.corn || '';
+                $scope.initCron = initCron($scope.schedule.cron);
             };
+
+            function initCron(cron){
+                if(!cron) return '';
+                if(cron.split(' ').length == 6){
+                    return cron.substr(2);
+                }
+                return cron;
+            }
+
+            $scope.$watch('schedule.cron', function(val){
+                $scope.initCron = initCron(val);
+            });
 
         }]
     };
