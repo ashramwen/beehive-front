@@ -52,7 +52,7 @@ angular.module('BeehivePortal')
             $scope.init = function(){
                 $scope.mySource = $scope.mySource || {};
 
-                if($scope.mySource.tagList){
+                if($scope.mySource.tagList && $scope.mySource.tagList.length>0){
                     $scope.mySource.sourceType = $scope.sourceTypes[1].value;
                 }else{
                     $scope.mySource.sourceType = $scope.sourceTypes[0].value;

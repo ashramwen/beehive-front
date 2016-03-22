@@ -20,12 +20,14 @@
             <thead>
                 <tr role="row">
                   <th class="sorting_asc" rowspan="1" colspan="1">ID</th>
+                  <th>vendorThingID</th>
                   <th class="sorting" rowspan="1" colspan="1" aria-sort="ascending">种类</th>
                 </tr>
             </thead>
             <tbody>
               <tr class="gradeA" ng-class="{'odd':$index%2==1}" role="row" ng-repeat="thing in thingsForDisplay" context-menu="myMenu" target="thing">
                 <td>{{thing.globalThingID}}</td>
+                <td>{{thing.vendorThingID}}</td>
                 <td class="sorting_1">{{thing.type}}</td>
               </tr>
             </tbody>

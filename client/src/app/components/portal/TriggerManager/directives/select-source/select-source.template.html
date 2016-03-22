@@ -9,8 +9,9 @@
       <div app-select disabled="disabled" selected-model="mySource.andExpress" options="andExpressOptions" value-only="true"></div>
     </div>
     <div class="pull-left" style="margin-left: 50px" ng-if="mySource.sourceType == 'tag'">
-      <span>选择设备类型</span>
-      <multi-selector ng-disabled="disabled" single="true" ng-if="true" ng-model="mySource.selectedType" options="mySource.thingTypes" on-change="thingTypeChange"></multi-selector>
+      <span>设备类型</span>
+      <multi-selector single="true" ng-if="!disabled" ng-model="mySource.selectedType" options="mySource.thingTypes" on-change="thingTypeChange"></multi-selector>
+      <button ng-if="disabled" disabled="disabled" class="btn btn-default">{{mySource.type}}</button>
     </div>
   </div>
   <hr/>
@@ -23,11 +24,11 @@
     </div>
   </div>
   <div ng-if="disabled">
-    <div ng-if="thingList.length>0">
-      已选设备: {{thingList.join(',')}}
+    <div ng-if="mySource.thingList.length>0">
+      已选设备: {{mySource.thingList.join(',')}}
     </div>
-    <div ng-if="tagList.length>0">
-      已选标签: {{tagList.join(',')}}
+    <div ng-if="mySource.tagList.length>0">
+      已选标签: {{mySource.tagList.join(',')}}
     </div>
   </div>
 </div>

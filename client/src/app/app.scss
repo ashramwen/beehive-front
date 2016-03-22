@@ -4,6 +4,10 @@ body{
    
 }
 
+.break-word{
+    word-break: break-all;
+}
+
 .panel-body {
     .carousel-indicators{
         display: none;

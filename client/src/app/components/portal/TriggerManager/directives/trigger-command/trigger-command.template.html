@@ -2,7 +2,7 @@
   <div class="form-group">
     <label>可选命令：</label>
     <div>
-      <label class="action-list" ng-repeat="(actionName, action) in myActions"><input type="checkbox" ng-model="action._checked" /> {{actionName}}</label>
+      <label class="action-list" ng-repeat="(actionName, action) in myActions"><input type="checkbox" ng-model="action._checked" ng-disabled="disabled" /> {{actionName}}</label>
     </div>
   </div>
   <div class="form-group">
@@ -29,20 +29,20 @@
               <td>
                 <div class="clearfix pull-left">
                   <div ng-if="propertyValue.type=='boolean'">
-                    <div switchery="propertyValue.value" yes-text="开" no-text="关"></div>
+                    <div switchery="propertyValue.value" yes-text="开" no-text="关" disabled="disabled"></div>
                   </div>
                   <div ng-if="propertyValue.type=='string'">
-                    <input class="form-control" type="text" ng-model="propertyValue.value" />
+                    <input class="form-control" type="text" ng-model="propertyValue.value" ng-disabled="disabled" />
                   </div>
                   <div ng-if="propertyValue.type=='integer' || propertyValue.type=='float'">
                     <div ng-if="(propertyValue.minimum || propertyValue.minimum == 0) && (propertyValue.maximum || propertyValue.maximum == 0)" class="range-type">
                       <div class="range-container">
-                        <input class="form-control" type="range" min="propertyValue.minimum" max="propertyValue.maximum" ng-model="propertyValue.value" step="{{propertyValue.type=='integer'?1: 0.01}}"/>
+                        <input class="form-control" type="range" min="propertyValue.minimum" max="propertyValue.maximum" ng-model="propertyValue.value" step="{{propertyValue.type=='integer'?1: 0.01}}" ng-disabled="disabled"/>
                       </div>
-                      <input ng-model="propertyValue.value" class="form-control pull-left" type="text" ng-disabled="true" />
+                      <input ng-model="propertyValue.value" class="form-control pull-left" type="text" ng-disabled="true" ng-disabled="disabled" />
                     </div>
                     <div ng-if="(!propertyValue.minimum && propertyValue.minimum != 0) || (!propertyValue.maximum && propertyValue.maximum != 0)">
-                      <input class="form-control" type="number" class="form-control" ng-model="propertyValue.value" />
+                      <input class="form-control" type="number" class="form-control" ng-model="propertyValue.value" ng-disabled="disabled" />
                     </div>
                   </div>
                 </div>
@@ -52,7 +52,7 @@
                 <code ng-if="propertyValue.maximum || propertyValue.maximum == 0">{{'< ' + propertyValue.maximum}}</code>
               </td>
               <td>{{propertyValue.description}}</td>
-              <td><input type="checkbox" ng-model="propertyValue._checked" ng-disabled="propertyRequired(propertyKey, myProperty.required)" /></td>
+              <td><input type="checkbox" ng-model="propertyValue._checked" ng-disabled="propertyRequired(propertyKey, myProperty.required) || disabled"/></td>
             </tr>
           </tbody>
         </table>

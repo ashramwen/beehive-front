@@ -5,6 +5,7 @@ angular.module('BeehivePortal')
         replace: true,
         scope:{
             myActions: '=?',
+            disabled: '=?'
         },
         templateUrl: 'app/components/portal/TriggerManager/directives/trigger-command/trigger-command.template.html',
         controller: function($scope, $$Tag, $$Thing, $timeout, $q, $http){

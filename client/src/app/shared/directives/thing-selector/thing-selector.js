@@ -98,7 +98,7 @@ angular.module('BeehivePortal')
                         return type.name == thing.type;
                     });
                     thing = _.clone(thing);
-                    thing.name = thing.globalThingID;
+                    thing.name = thing.vendorThingID + '/' + thing.globalThingID;
                     type.children.push(thing);
                 });
 

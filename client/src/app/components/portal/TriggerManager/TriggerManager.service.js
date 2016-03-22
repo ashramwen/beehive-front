@@ -10,10 +10,43 @@ angular.module('BeehivePortal')
         {text: '条件改变', value: Trigger.WhenEnum.CONDITION_CHANGED}
     ];
 
+    TriggerService._ScheduleTriggerFields = ['predicate', 'triggerName', 'targets', 'type'];
+    TriggerService._SimpleTriggerFields = ['source', 'predicate', 'triggerName', 'targets', 'type'];
+    TriggerService._GroupTriggerFields = ['source', 'predicate', 'triggerName', 'targets', 'type'];
+    TriggerService._SummaryTriggerFields = ['source', 'predicate', 'triggerName', 'targets', 'type'];
+
+
+    TriggerService.getDataForRequest = function(trigger, type){
+        var data = _.clone(trigger),
+            fields = null;
+
+        switch(type){
+            case 'Schedule':
+                fields = TriggerService._ScheduleTriggerFields;
+                break;
+            case 'Simple':
+                fields = TriggerService._SimpleTriggerFields;
+                break;
+            case 'Group':
+                fields = TriggerService._GroupTriggerFields;
+                break;
+            case 'Summary':
+                fields = TriggerService._SummaryTriggerFields;
+                break;
+        }
+
+        _.each(data, function(value, field){
+            if(fields.indexOf(field) == -1){
+                delete data[field];
+            }
+        });
+        return data;
+    };
+
     TriggerService.getSourceTypes = function(source){
         return new Promise(function(resolve, reject){
 
-            if(source.thingList){
+            if(source.thingList && source.thingList.length > 0){
                 var types = source.thingTypes;
                 if(!types){
                     var requests = [];
@@ -38,6 +71,12 @@ angular.module('BeehivePortal')
                     resolve([source.selectedType.id]);
                     return;
                 }
+
+                if(source.type){
+                    resolve([source.type]);
+                    return;
+                }
+
                 $$Type.byTags({tags: source.tagList}, function(types){
                     resolve(types);
                 });
@@ -114,6 +153,7 @@ angular.module('BeehivePortal')
     TriggerService.initTargetSchema = function(target, schema){
         _.each(target.command.actions, function(action){
             _.each(action, function(actionContent, actionName){
+                if(!schema.actions[actionName]) return;
                 schema.actions[actionName]._checked = true;
                 _.each(actionContent, function(propertyValue, propertyName){
                     schema.actions[actionName].in.properties[propertyName].value = propertyValue;

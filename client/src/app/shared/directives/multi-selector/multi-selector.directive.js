@@ -7,7 +7,8 @@ angular.module('BeehivePortal')
             ngModel: '=?',
             options: '=?',
             onChange: '=?',
-            single: '=?'
+            single: '=?',
+            disabled: '=?'
         },
         templateUrl: 'app/shared/directives/multi-selector/multi-selector.template.html',
         controller: ['$scope', function($scope){

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('GroupUserListController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$User','$$UserGroup', '$$Permission', '$q',function($scope, $rootScope, $state, AppUtils, $$User, $$UserGroup, $$Permission, $q) {
+  .controller('GroupUserListController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$User','$$UserGroup', '$$Permission', '$q', '$uibModal', function($scope, $rootScope, $state, AppUtils, $$User, $$UserGroup, $$Permission, $q, $uibModal) {
     
     $scope.userList = [];
     $scope.userListForDisplay = [];

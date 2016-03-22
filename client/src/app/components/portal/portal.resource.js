@@ -147,6 +147,27 @@ angular.module('BeehivePortal')
               method : 'POST',
               isArray: true
           },
+          getTypeByTag: {
+              method: 'GET',
+              url: MyAPIs.THING + '/types/fulltagname/:fullTagNames',
+              isArray: true,
+              params: {
+                fullTagNames: '@fullTagNames'
+              }
+          },
+          getTriggers: {
+              method: 'GET',
+              url: MyAPIs.TRIGGER + '/triggerList/:globalThingID',
+              isArray: true,
+              params: {
+                globalThingID: '@globalThingID'
+              }
+          },
+          getOnboardingInfo: {
+              method: 'GET',
+              url: MyAPIs.ONBOARDING + '/:globalThingID',
+              params: {globalThingID: '@globalThingID'}
+          },
           getEndNodes: {
               url: 'http://api-development-beehivecn3.internal.kii.com/thing-if/apps/:kiiAppID/things/:kiiThingID/end-nodes',
               params: {kiiThingID: '@kiiThingID', kiiAppID: '@kiiAppID'},
@@ -331,14 +352,14 @@ angular.module('BeehivePortal')
           },
           enable: {
               url: MyAPIs.TRIGGER + '/:triggerID/enable',
-              method: 'POST',
+              method: 'PUT',
               params:{
                   triggerID: '@triggerID'
               }
           },
           disable: {
               url: MyAPIs.TRIGGER + '/:triggerID/disable',
-              method: 'POST',
+              method: 'PUT',
               params:{
                   triggerID: '@triggerID'
               }

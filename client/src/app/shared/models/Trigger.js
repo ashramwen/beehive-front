@@ -120,6 +120,14 @@
         }
     };
 
+    Trigger.prototype.disable = function(){
+        this.recordStatus = 'disable';
+    }
+
+    Trigger.prototype.enable = function(){
+        this.recordStatus = 'enable';
+    };
+
     Trigger.prototype.setSchedule = function(schedule){
         this.predicate.schedule = schedule;
     };

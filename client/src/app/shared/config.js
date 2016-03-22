@@ -21,7 +21,8 @@
         TYPE: '/things/types',
         PERMISSION: '/permission',
         TRIGGER: '/triggers',
-        THING_IF: '/thing-if'
+        THING_IF: '/thing-if',
+        ONBOARDING: '/onboardinghelper'
     };
 
     

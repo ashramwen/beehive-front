@@ -21,9 +21,16 @@ angular.module('BeehivePortal')
                 targetSchemas: []
             };
 
+            $scope.goStep = function(step){
+                if(!$scope.trigger.triggerID) return;
+                $scope.currentStep = step;
+            };
+
             $scope.init = function(){
                 $scope.dataContainer.predicate = $scope.trigger.predicate;
                 $scope.dataContainer.schedule = $scope.trigger.predicate.schedule;
+                console.log($scope.dataContainer.schedule);
+                //if($scope.dataContainer.schedule)
                 _.each($scope.trigger.targets, function(target, index){
                     $scope.dataContainer.myTargets.push(target);
 
@@ -143,9 +150,17 @@ angular.module('BeehivePortal')
                 });
             }
 
+            /**
+             * save trigger
+             * @return {[type]} [description]
+             */
             function saveTrigger(){
-                $$Trigger.save($scope.trigger, function(){
+                
+                var data = TriggerService.getDataForRequest($scope.trigger, 'Schedule');
+
+                $$Trigger.save(data, function(response){
                     AppUtils.alert('创建触发器成功！');
+                    $scope.trigger.triggerID = response.triggerID;
                 }, function(err){
                     AppUtils.alert('创建触发器失败！错误信息:' + JSON.stringify(err));
                 });

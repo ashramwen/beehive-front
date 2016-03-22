@@ -3,16 +3,18 @@ angular.module('BeehivePortal')
         return {
             restrict: 'A',
             scope: {
-                on: '=?switchery'
+                on: '=?switchery',
+                disabled: '=?'
             },
             templateUrl: 'app/shared/directives/switchery/switchery.template.html',
             replace: true,
             link: function(scope, element, attrs){
-                scope.om = scope.on? true: false;
-                scope.on = scope.on;
+                scope.on = scope.on? true: false;
+                
                 scope.yesText = attrs['yesText'] || '';
                 scope.noText = attrs['noText'] || '';
                 scope.switch = function(){
+                    if(scope.disabled) return;
                     scope.on = !scope.on;
                 }
             }

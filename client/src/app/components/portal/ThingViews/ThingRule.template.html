@@ -3,8 +3,9 @@
       <h3 class="modal-title">编辑规则</h3>
   </div>
   <div class="modal-body clearfix">
-    <div class="col-sm-12 tabs-with-padding">
-      <single-trigger trigger="dataset.myTrigger"></single-trigger>
+    <div class="form-group">
+      <label>触发器名称</label>
+      <input class="form-control" type="text" placeholder="触发器名称" ng-model="triggerBO.triggerName" />
     </div>
   </div>
   <div class="modal-footer">

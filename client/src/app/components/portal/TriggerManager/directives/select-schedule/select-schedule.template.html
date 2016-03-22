@@ -16,7 +16,6 @@
     </table>
   </div>
   <div class="form-group" ng-if="schedule.type == 'Cron'">
-    {{cron}}
     <cron-selection ng-disabled="disabled" output="schedule.cron" init="initCorn"></cron-selection>
   </div>
 </div>

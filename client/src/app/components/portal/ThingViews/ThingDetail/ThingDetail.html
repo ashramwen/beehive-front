@@ -14,10 +14,6 @@
           </table>
         </div>
       </div>
-    </div>
-
-    <!-- status -->
-    <div class="col-sm-7">
       <div class="panel">
         <div class="panel-heading">设备状态
           <span ng-show="!statusOnEdit" class="fa fa-edit" ng-click="editStatus(thing.status)"></span>
@@ -36,6 +32,23 @@
             </div>
             <div><button class="btn btn-success pull-right" ng-click="submitStatus(thing)">更新</button></div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- status -->
+    <div class="col-sm-7">
+      <div class="panel" ng-if="thing.kiiAppID">
+        <div class="panel-heading">设备登录信息</div>
+        <div class="panel-body">
+          <table>
+            <tr><td class="title">kiiAppID</td><td>{{thing.kiiAppID}}</td></tr>
+            <tr><td class="title">kiiAppKey</td><td>{{thing.kiiAppKey}}</td></tr>
+            <tr><td class="title">ownerID</td><td>{{thing.ownerID}}</td></tr>
+            <tr><td class="title">ownerToken</td><td>{{thing.ownerToken}}</td></tr>
+            <tr><td class="title">kiiSiteUrl</td><td>{{thing.kiiSiteUrl}}</td></tr>
+            <tr><td class="title">password</td><td>{{thing.password}}</td></tr>
+          </table>
         </div>
       </div>
 
@@ -68,9 +81,11 @@
       触发器
     </div>
   </div>
-  <div class="new-trigger" ng-click="createTrigger()"><span class="fa fa-plus"></span> 新建触发器</div>
+  <div class="new-trigger" ng-click="createTriggerModal()">
+    <span class="fa fa-plus"></span> 新建触发器
+  </div>
   <uib-accordion close-others="true">
-    <uib-accordion-group heading="{{trigger.name}}" ng-repeat="trigger in dataset.triggers">
+    <uib-accordion-group heading="{{trigger.triggerName}}" ng-repeat="trigger in dataset.triggers">
       <single-trigger trigger="trigger"></single-trigger>
     </uib-accordion-group>
   </uib-accordion>

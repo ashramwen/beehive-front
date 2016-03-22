@@ -15,6 +15,9 @@ angular.module('BeehivePortal')
             $scope.triggerWhenConditions = TriggerService.triggerWhenConditions;
 
             $scope.dataContainer = {
+                schedule:{
+
+                },
                 predicate: {
                     triggersWhen: null,
                     condition: {}
@@ -29,7 +32,32 @@ angular.module('BeehivePortal')
 
                 $$Thing.get({globalThingID: thingID}, function(thing){
                     $scope.dataContainer.sourceSchema = TriggerService.getSchemaByType(thing.type);
+                    $scope.dataContainer.predicate = $scope.trigger.predicate;
                 });
+                
+                $scope.dataContainer.schedule = $scope.trigger.predicate.schedule || {};
+                if($scope.trigger.predicate.schedule){
+                    $scope.dataContainer.schedule.enabled = true;
+                }
+                _.each($scope.trigger.targets, function(target, index){
+                    $scope.dataContainer.myTargets.push(target);
+
+                    $scope.dataContainer.targetSchemas.push({});
+
+                    TriggerService.getSourceTypes(target).then(function(types){
+                        $scope.trigger.targets.thingTypes = types;
+                        TriggerService.getTypeSchemas(types).then(function(schemas){
+                            $scope.dataContainer.targetSchemas[index] = TriggerService.xSchemas(schemas);
+                            TriggerService.initTargetSchema(target, $scope.dataContainer.targetSchemas[index]);
+                        });
+                    });
+
+                });
+            };
+
+            $scope.goStep = function(step){
+                if(!$scope.trigger.triggerID) return;
+                $scope.currentStep = step;
             };
 
             $scope.previousStep = function(step){
@@ -148,8 +176,10 @@ angular.module('BeehivePortal')
             }
 
             function saveTrigger(){
-                $$Trigger.save($scope.trigger, function(){
+                $$Trigger.save($scope.trigger, function(response){
+                    $scope.trigger.triggerID = response.triggerID;
                     AppUtils.alert('创建触发器成功！');
+                    console.log(response);
                 }, function(err){
                     AppUtils.alert('创建触发器失败！错误信息:' + err);
                 });

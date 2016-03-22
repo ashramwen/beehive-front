@@ -59,7 +59,7 @@ angular.module('BeehivePortal')
                 icon: 'fa-desktop',
                 subViews: [
                     {
-                        name: '添加新设备',
+                        name: '新设备',
                         state: $state.get('app.portal.ThingManager.AddThing')
                     },
                     {
@@ -159,6 +159,9 @@ angular.module('BeehivePortal')
         'SEARCH_USERS': 'POST /users/simplequery',
         'CREATE_USER': 'POST /users',
         'DELETE_USER': 'DELETE /users/*',
+        'UPDATE_USER': 'PATCH /users/*',
+
+        'UPDATE_THIRD_PARTY_USER': 'PATCH /users/*/custom',
 
         'GET_ALL_GROUPS': 'GET /usergroup/list',
         'GET_GROUP': 'GET /usergroup/*',
@@ -167,15 +170,23 @@ angular.module('BeehivePortal')
         'DELETE_USERGROUP': 'DELETE /usergroup/*',
         'ADD_GROUP_MEMBER': 'POST /usergroup/*/user/*',
         'REMOVE_GROUP_MEMBER': 'DELETE /usergroup/*/user/*',
+        'BIND_USERGROUP_TAG': 'POST /tags/*/userGroups/*',
+        'DELETE_USERGROUP_TAG': 'DELETE /tags/*/userGroups/*',
+        'GET_USERGROUP_TAG': 'GET /usergroup/*/tags',
+
 
         'SEARCH_TAGS': 'GET /tags/search*',
         'SEARCH_LOCATIONS': 'GET /tags/locations/*',
         'GET_ALL_LOCATIONS': 'GET /tags/locations',
         'SEARCH_TYPES': 'GET /things/types/*',
         'GET_ALL_TYPES': 'GET /things/types',
+        'DELETE_TAG': 'DELETE /tags/custom/*',
+        'CREATE_TAG': 'POST /tags/custom',
 
         'BING_TAG': 'POST /things/*/tags/*',
+        'BIND_THING_TAG_CUSTOM': 'POST /things/*/tags/custom/*',
         'UNBIND_TAG': 'DELETE /things/*/tags/*', 
+        'UNBIND_TAG_CUSTOM': 'DELETE /things/*/tags/custom/*',
 
         'GET_GROUP_PERMISSIONS': 'GET /permission/userGroup/*', 
         'GET_ALL_PERMISSIONS': 'GET /permission/list', 
@@ -185,7 +196,16 @@ angular.module('BeehivePortal')
         'CREATE_TRIGGER': 'POST /triggers/createTrigger',
 
         'SEARCH_THINGS': 'GET /things/search*',
-        'GET_THING': 'GET /things/*'
+        'GET_THING': 'GET /things/*',
+        'CREATE_THING': 'POST /things',
+        'DELETE_THING': 'DELETE /things/*',
+        'SEARCH_THING_TYPES': 'GET /things/types/',
+        'GET_TYPE_BY_TAG': 'GET /things/types/tagID/*',
+
+        'DELETE_TRIGGER': 'DELETE /triggers/*',
+        'ENABLE_TRIGGER': 'PUT /triggers/*/enable',
+        'DISABLE_TRIGGER': 'PUT /triggers/*/disable',
+        'GET_TRIGGER': 'GET /triggers/*'
     };
 
     PermissionControl.allowedPermissions = [];
