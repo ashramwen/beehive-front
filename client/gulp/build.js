@@ -75,8 +75,8 @@ gulp.task('fonts', function () {
     .pipe(gulp.dest(paths.dist + '/fonts/'));
 });
 
-gulp.task('fonts', function () {
-  return gulp.src($.mainBowerFiles())
+gulp.task('fonts-local', function(){
+  return gulp.src(paths.src + '/fonts/*')
     .pipe($.filter('**/*.{eot,svg,ttf,woff}'))
     .pipe($.flatten())
     .pipe(gulp.dest(paths.dist + '/fonts/'));
@@ -98,5 +98,5 @@ gulp.task('sass', function () {
     .pipe(gulp.dest(paths.src + '/app/css'));
 });
 
-gulp.task('dist', ['html', 'images', 'misc', 'fonts']);
+gulp.task('dist', ['html', 'images', 'misc', 'fonts', 'fonts-local']);
 gulp.task('build',['sass','inject','partials','watch']);
