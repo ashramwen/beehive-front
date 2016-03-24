@@ -73,7 +73,7 @@
             'source': {},
             "targets" : [],
             "summarySource" : {},
-            "recordStatus": "enable"
+            "recordStatus": "disable"
         };
 
         _.extend(this, structure);
@@ -83,6 +83,13 @@
         }else{
             delete this.summarySource;
         }
+    };
+
+    Trigger.PolicyTypeEnum = {
+        ANY: 'Any',
+        ALL: 'All',
+        SOME: 'Some',
+        PERCENT: 'Percent'
     };
 
     Trigger.prototype.init = function(data){

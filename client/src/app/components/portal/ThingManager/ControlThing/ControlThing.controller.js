@@ -25,6 +25,7 @@ angular.module('BeehivePortal')
             if($scope.dataContainer.mySource.thingList){
                 delete $scope.dataContainer.mySource.thingList;
             }
+            $scope.dataContainer.mySource.type = $scope.dataContainer.mySource.selectedType.id;
         }else{
             if($scope.dataContainer.mySource.tagList){
                 delete $scope.dataContainer.mySource.tagList;
@@ -40,6 +41,10 @@ angular.module('BeehivePortal')
     }
 
     function initData(){
+        if(!$scope.PermissionControl.isAllowed('SEARCH_THINGS')){
+            $state.go('app.portal.Welcome');
+            return;
+        }
         $scope.dataContainer = {
             mySource: {},
             command: {}
@@ -84,8 +89,8 @@ angular.module('BeehivePortal')
         commands.push(command);
 
         $$Thing.sendCommand(commands, function(){
-            AppUtils.alert('命令已发送成功', '提示信息');
             initData();
+            AppUtils.alert('命令已发送成功', '提示信息');
         });
     }
 

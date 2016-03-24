@@ -1,0 +1,14 @@
+.range-slider{
+    display: block;
+    margin-right: 5px;
+    input[type=range]{
+        width: 170px;
+        float: left;
+        margin: 9px;
+        margin-left: 0px;
+    }
+    .range-display{
+        width: 80px;
+        float: left;
+    }
+}

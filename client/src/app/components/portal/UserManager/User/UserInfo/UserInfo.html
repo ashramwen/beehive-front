@@ -20,14 +20,6 @@
         <div class="col-sm-8"><input ng-model="user.company" type="text" class="form-control" placeholder="身份证" ng-disabled="true"  /></div>
       </div>
       <div class="row portal-row clearfix">
-        <div class="col-sm-4">地址</div>
-        <div class="col-sm-8">
-          <span>{{user.custom.building.building}}</span><span>楼</span>
-          <span>{{user.custom.level.name}}</span><span>层</span>
-          <span>{{user.custom.room.name}}</span><span>室</span>
-        </div>
-      </div>
-      <div class="row portal-row clearfix">
         <div class="col-sm-4">电话</div>
         <div class="col-sm-8"><input type="text" class="form-control" placeholder="电话" ng-model="user.phone" ng-disabled="true"/></div>
       </div>
@@ -37,8 +29,8 @@
       </div>
       <div class="portal-row clearfix">
         <div class="pull-right">
-          <button class="btn btn-danger" ng-click="editUser()">编辑</button>
-          <button class="btn btn-danger" ng-click="deleteUser()">删除</button>
+          <button class="btn btn-danger" ng-click="editUser()" permitted="UPDATE_USER&GET_USER">编辑</button>
+          <button class="btn btn-danger" ng-click="deleteUser()" permitted="DELETE_USER">删除</button>
           <button class="btn btn-danger" ng-click="goThingAuth()">设备拥有权限</button>
         </div>
       </div>

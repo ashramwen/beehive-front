@@ -1,9 +1,9 @@
 <div class="app-portal-usermanager-user-userlist" ng-init="init()">
   <section class="panel">
     <header class="panel-heading">业主信息</header>
-     <div class="panel-body">
+     <div class="panel-body" permitted="SEARCH_USERS">
       <div class="row">
-        <div class="col-sm-6" ng-if="PermissionControl.isAllowed('CREATE_USER')">
+        <div class="col-sm-6" permitted="CREATE_USER">
           <button class="btn btn-danger pull-left" ng-click="navigateTo(navMapping.NEW_USER)">新增业主+</button>
         </div>
         <div class="pull-right col-sm-6">
@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" permitted="SEARCH_USERS">
       <table class="table table-striped table-bordered table-hover dataTable no-footer break-word">
         <thead>
             <tr role="row">

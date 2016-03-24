@@ -60,15 +60,20 @@ angular.module('BeehivePortal')
                 subViews: [
                     {
                         name: '新设备',
-                        state: $state.get('app.portal.ThingManager.AddThing')
+                        state: $state.get('app.portal.ThingManager.AddThing'),
+                        hidden: !PermissionControl.isAllowed('CREATE_THING') || !PermissionControl.isAllowed('SEARCH_LOCATIONS')
                     },
                     {
                         name: '网关管理',
-                        state: $state.get('app.portal.ThingManager.Gateway')
+                        state: $state.get('app.portal.ThingManager.Gateway'),
+                        hidden: !PermissionControl.isAllowed('SEARCH_THINGS') || !PermissionControl.isAllowed('SEARCH_LOCATIONS')
                     },
                     {
                         name: '控制设备',
-                        state: $state.get('app.portal.ThingManager.ControlThing')
+                        state: $state.get('app.portal.ThingManager.ControlThing'),
+                        hidden: !PermissionControl.isAllowed('SEARCH_THINGS') 
+                            || (!PermissionControl.isAllowed('SEARCH_LOCATIONS')
+                                && !PermissionControl.isAllowed('SEARCH_TAGS'))
                     }
                 ]
             },
@@ -100,7 +105,8 @@ angular.module('BeehivePortal')
             {
                 name: '触发器管理',
                 state: $state.get('app.portal.TriggerManager'),
-                icon: 'fa-exchange'
+                icon: 'fa-exchange',
+                hidden: !PermissionControl.isAllowed('GET_TRIGGERS')
             },
             {
                 name: '设置',
@@ -205,7 +211,7 @@ angular.module('BeehivePortal')
         'DELETE_TRIGGER': 'DELETE /triggers/*',
         'ENABLE_TRIGGER': 'PUT /triggers/*/enable',
         'DISABLE_TRIGGER': 'PUT /triggers/*/disable',
-        'GET_TRIGGER': 'GET /triggers/*'
+        'GET_TRIGGERS': 'GET /triggers/*'
     };
 
     PermissionControl.allowedPermissions = [];

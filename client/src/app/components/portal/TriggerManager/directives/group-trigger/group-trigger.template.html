@@ -43,8 +43,14 @@
             <condition-tree schema="dataContainer.sourceSchema.statesSchema.properties" result="dataContainer.predicate.condition"></condition-tree>
           </div>
         </uib-tab>
+        <uib-tab heading="触发策略">
+          <select-policy policy="dataContainer.policy"></select-policy>
+        </uib-tab>
         <uib-tab heading="定时器">
-          <select-schedule schedule="dataContainer.schedule"></select-schedule>
+          <div class="form-group text-left">
+            <label><input type="checkbox" ng-disabled="!!trigger.triggerID" ng-model="dataContainer.schedule.enabled"/>启用定时器</label>
+          </div>
+          <select-schedule schedule="dataContainer.schedule" ng-if="dataContainer.schedule.enabled" disabled="trigger.triggerID"></select-schedule>
         </uib-tab>
       </uib-tabset>
     </uib-slide>

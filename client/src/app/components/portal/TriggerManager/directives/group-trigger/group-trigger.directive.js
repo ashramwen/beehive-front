@@ -11,53 +11,6 @@ angular.module('BeehivePortal')
         templateUrl: 'app/components/portal/TriggerManager/directives/group-trigger/group-trigger.template.html',
         controller: ['$scope', '$$Tag', '$$Thing', '$timeout', '$q', '$http', 'TriggerService', '$$Type', '$$Trigger', function($scope, $$Tag, $$Thing, $timeout, $q, $http, TriggerService, $$Type, $$Trigger){
 
-            var data = {
-                'predicate': {
-                    "eventSource" : "states",
-                    "triggersWhen" : "CONDITION_FALSE_TO_TRUE",
-                    "condition" : {
-                        "clauses" : [ {
-                            "field" : "brightness",
-                            "upperLimit" : 100,
-                            "upperIncluded" : false,
-                            "lowerIncluded" : false,
-                            "type" : "range"
-                        },
-                        {
-                            "field": "brightness",
-                            "lowerLimit": 50,
-                            "lowerIncluded": true,
-                            "type": "range"
-                        }
-                        ],
-                        "type" : "or"
-                    }
-                },
-                'targets': [{
-                    "command" : {
-                        "actions" : [ {
-                            "turnPower" : {
-                              "power" : true
-                            }
-                        } ],
-                        "schemaVersion" : 0,
-                        "metadata" : { }
-                    },
-                    'tagList': ['Custom-智能设备'],
-                    'andExpress': false
-                }],
-                "policy" : {
-                    "groupPolicy" : "Percent",
-                    "criticalNumber" : 75
-                },
-                'source': {
-                    'tagList': ['Custom-识别设备'],
-                    'andExpress': false
-                }
-            };
-
-            //_.extend($scope.trigger, data);
-
             $scope.myTrigger = _.clone($scope.trigger);
             $scope.dataContainer = {};
 
@@ -81,7 +34,8 @@ angular.module('BeehivePortal')
                     predicate: null,
                     sourceSchema: null,
                     myTargets: [],
-                    targetSchemas: []
+                    targetSchemas: [],
+                    policy: {groupPolicy: 'All'}
                 };
 
                 TriggerService.getSourceTypes($scope.dataContainer.mySource).then(function(types){

@@ -1,5 +1,5 @@
 <div class="app-portal-triggermanager" ng-init="init()">
-  <div class="new-trigger" ng-click="createTrigger()"><span class="fa fa-plus"></span> 新建触发器</div>
+  <div class="new-trigger" ng-click="createTrigger()" permitted="CREATE_TRIGGER"><span class="fa fa-plus"></span> 新建触发器</div>
   <uib-accordion close-others="true">
     <uib-accordion-group heading="{{trigger.triggerName}}" ng-repeat="trigger in triggers">
       <div ng-include="'app/components/portal/TriggerManager/TriggerSetting.template.html'"></div>

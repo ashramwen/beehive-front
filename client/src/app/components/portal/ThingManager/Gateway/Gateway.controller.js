@@ -35,16 +35,6 @@ angular.module('BeehivePortal')
             $scope.locationTree = new LocationTree(_.pluck(locations, 'displayName')).tree.children;
             $scope.selectLocation($scope.locationTree[0]);
         });
-        
-        /*
-         * context menu item setting
-         */
-        var showDetailItem =_.find($scope.myMenu.itemList,function(item){
-          return item.text == '查看详情';
-        });
-        _.extend(showDetailItem,{callback:function(thing){
-            $scope.navigateTo($scope.navMapping.LOCATION_THING_DETAIL, {thingid: thing.globalThingID});
-        }});
     };
 
     $scope.selectLocation = function(location){

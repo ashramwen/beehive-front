@@ -55,7 +55,7 @@ angular.module('BeehivePortal')
                         $log.info('Modal dismissed at: ' + new Date());
                     });
                 },
-                hidden: !$scope.PermissionControl.isAllowed('GET_USER')
+                hidden: !$scope.PermissionControl.isAllowed('GET_USER') || !$scope.PermissionControl.allowAction('UPDATE_USER')
             },{
                 text:'删除',
                 callback: function (user) {

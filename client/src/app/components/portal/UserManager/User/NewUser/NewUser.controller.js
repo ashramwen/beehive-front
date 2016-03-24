@@ -11,14 +11,6 @@ angular.module('BeehivePortal')
         text: '女'
     }];
 
-
-    /*
-     * dropdown options for loacation.
-     */
-    $scope.buildingOptions = [];
-    $scope.levelOptions = [];
-    $scope.roomOptions = [];
-
     /*
      * user object for registration.
      */
@@ -43,37 +35,7 @@ angular.module('BeehivePortal')
      */
     
     $scope.init = function(){
-        PortalService.getLocation().then(function(response){
-            $scope.buildingOptions = response.data;
-            $scope.newUser.custom.building = $scope.buildingOptions[0];
-            $scope.changeBuilding();
-        },function(){
-
-        });
         
-    };
-
-    /*
-     * when building changed
-     */
-
-    $scope.changeBuilding = function(){
-        $scope.refreshLevels();
-    };
-
-    /*
-     * when level changed
-     */
-    
-    $scope.refreshLevels = function(){
-        $scope.levelOptions = $scope.newUser.custom.building.levels;
-        $scope.newUser.custom.level = $scope.levelOptions[0];
-
-        $scope.refreshRooms();
-    }
-    $scope.refreshRooms = function(){
-        $scope.roomOptions = $scope.newUser.custom.level.rooms;
-        $scope.newUser.custom.room = $scope.roomOptions[0];
     };
 
     /*
