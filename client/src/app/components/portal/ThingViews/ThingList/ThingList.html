@@ -10,6 +10,7 @@
               <th class="sorting" rowspan="1" colspan="1" aria-sort="ascending">种类</th>
               <th class="sorting" rowspan="1" colspan="1">位置</th>
               <th class="sorting" rowspan="1" colspan="1">标签</th>
+              <th>已登陆</th>
             </tr>
         </thead>
         <tbody>
@@ -19,6 +20,7 @@
             <td class="sorting_1">{{thing.type}}</td>
             <td>{{thing.location}}</td>
             <td>{{thing.tags.join(',')}}</td>
+            <td class="text-center"><span class="fa" ng-class="thing.fullKiiThingID?'fa-check': 'fa-remove'"></span></td>
           </tr>
         </tbody>
       </table>

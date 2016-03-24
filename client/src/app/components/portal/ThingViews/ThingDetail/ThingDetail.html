@@ -12,6 +12,10 @@
             <tr><td class="title">设备种类</td><td>{{thing.type}}</td></tr>
             <tr><td class="title">位置</td><td>{{thing.location}}</td></tr>
             <tr><td class="title">标签</td><td>{{thing.tags.join(', ')}}</td></tr>
+            <tr>
+              <td class="title">已登录</td>
+              <td><span class="fa" ng-class="thing.fullKiiThingID?'fa-check': 'fa-remove'"></span></td>
+            </tr>
           </table>
         </div>
       </div>

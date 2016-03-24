@@ -240,12 +240,20 @@ tag{
 /**
  * awesome font
  */
-.fa{
+.fa.operator{
   &.fa-remove, &.fa-plus, &.fa-edit{
     cursor: pointer;
     &:hover{
       color: #63b7e6;
     }
+  }
+}
+.fa{
+  &.fa-remove{
+    color: #a94442;
+  }
+  &.fa-check{
+    color: #7dcc93;
   }
 }
 

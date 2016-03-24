@@ -177,7 +177,13 @@ tag .fa-remove:hover {
 /**
  * awesome font
  */
-.fa.fa-remove, .fa.fa-plus, .fa.fa-edit {
+.fa.operator.fa-remove, .fa.operator.fa-plus, .fa.operator.fa-edit {
   cursor: pointer; }
-  .fa.fa-remove:hover, .fa.fa-plus:hover, .fa.fa-edit:hover {
+  .fa.operator.fa-remove:hover, .fa.operator.fa-plus:hover, .fa.operator.fa-edit:hover {
     color: #63b7e6; }
+
+.fa.fa-remove {
+  color: #a94442; }
+
+.fa.fa-check {
+  color: #7dcc93; }

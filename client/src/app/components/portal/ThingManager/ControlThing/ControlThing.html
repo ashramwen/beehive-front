@@ -5,11 +5,11 @@
       <uib-carousel no-wrap="noWrapSlides">
         <!-- ============================== select source ========================== -->
         <uib-slide active="currentStep == 1">
-          <source-picker my-source="dataContainer.mySource"></source-picker>
+          <source-picker my-source="dataContainer.mySource" init="init" ng-if="refreshed"></source-picker>
         </uib-slide>
         <!-- ========================= end of select source ======================== -->
         <uib-slide active="currentStep == 2">
-          <trigger-command my-actions="dataContainer.sourceSchema.actions"></trigger-command>
+          <trigger-command my-actions="dataContainer.sourceSchema.actions" ng-if="refreshed"></trigger-command>
         </uib-slide>
       </uib-carousel>
       <hr/>

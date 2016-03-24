@@ -6,7 +6,8 @@ angular.module('BeehivePortal')
         scope:{
             mySource: '=?',
             ready: '=?',
-            disabled: '=?'
+            disabled: '=?',
+            init: '=?'
         },
         templateUrl: 'app/components/portal/TriggerManager/directives/select-source/select-source.template.html',
         controller: ['$scope', '$$Tag', '$$Thing', '$timeout', '$q', function($scope, $$Tag, $$Thing, $timeout, $q){

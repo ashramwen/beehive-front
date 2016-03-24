@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('ControlThingController', ['$scope', '$state', 'AppUtils', '$$Thing', '$$Type', 'TriggerService', function($scope, $state, AppUtils, $$Thing, $$Type, TriggerService) {
+  .controller('ControlThingController', ['$scope', '$state', 'AppUtils', '$$Thing', '$$Type', 'TriggerService', '$timeout', function($scope, $state, AppUtils, $$Thing, $$Type, TriggerService, $timeout) {
     
     $scope.init = function(){
         initData();
+        $scope.refreshed = true;
     };
 
     $scope.nextStep = function(step){
@@ -88,9 +89,14 @@ angular.module('BeehivePortal')
 
         commands.push(command);
 
+
         $$Thing.sendCommand(commands, function(){
             initData();
             AppUtils.alert('命令已发送成功', '提示信息');
+            $scope.refreshed = false;
+            $timeout(function(){
+                $scope.refreshed = true;
+            });
         });
     }
 
