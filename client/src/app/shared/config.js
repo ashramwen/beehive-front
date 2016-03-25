@@ -22,7 +22,8 @@
         PERMISSION: '/permission',
         TRIGGER: '/triggers',
         THING_IF: '/thing-if',
-        ONBOARDING: '/onboardinghelper'
+        ONBOARDING: '/onboardinghelper',
+        SUPPLIER: '/devicesuppliers'
     };
 
     

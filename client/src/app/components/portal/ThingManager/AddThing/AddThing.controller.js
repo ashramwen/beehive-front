@@ -1,25 +1,22 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('AddThingController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Thing', '$$Type', '$timeout', function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type, $timeout) {
+  .controller('AddThingController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Thing', '$$Type', '$timeout', '$$Supplier', function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type, $timeout, $$Supplier) {
     $scope.types = [];
     var editor;
 
     $scope.init = function(){
-        $scope.types = $$Type.getAll();
+        $scope.types = [];
+        $$Type.getAll(function(types){
+            $scope.types = _.pluck(types, 'type');
+        });
         $scope.thing = new BeehiveThing();
-        $timeout(function(){
-            var container = document.getElementById("jsoneditor");
-            var options = {mode: 'code'};
-            editor = new JSONEditor(container, options);
-        },50);
+        $scope.suppliers = $$Supplier.getAll(function(suppliers){
+            $scope.thing.kiiAppID = suppliers[0].relationAppID;
+        });
     };
 
     $scope.saveThing = function(thing){
-        var customFields = editor.get();
-        if(customFields){
-            thing.custom = customFields;
-        }
 
         $$Thing.save(thing, function(){
             AppUtils.alert('保存成功！', '提示信息');

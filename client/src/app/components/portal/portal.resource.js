@@ -318,6 +318,16 @@ angular.module('BeehivePortal')
 
       return Permission;
   }])
+  .factory('$$Supplier', ['$resource', function($resource){
+      var Supplier = $resource(MyAPIs.SUPPLIER, {}, {
+          getAll: {
+              url: MyAPIs.SUPPLIER + '/all',
+              method: 'GET',
+              isArray: true
+          }
+      });
+      return Supplier;
+  }])
   .factory('$$Trigger', ['$resource', function($resource){
       var Trigger = $resource(MyAPIs.TRIGGER, {}, {
           getAll: {
