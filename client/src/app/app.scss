@@ -241,19 +241,21 @@ tag{
  * awesome font
  */
 .fa.operator{
-  &.fa-remove, &.fa-plus, &.fa-edit{
+  &.fa-remove, &.fa-plus, &.fa-edit, &.fa-refresh{
     cursor: pointer;
     &:hover{
       color: #63b7e6;
     }
   }
 }
-.fa{
-  &.fa-remove{
-    color: #a94442;
-  }
-  &.fa-check{
-    color: #7dcc93;
+table {
+  .fa{
+    &.fa-remove{
+      color: #a94442;
+    }
+    &.fa-check{
+      color: #7dcc93;
+    }
   }
 }
 

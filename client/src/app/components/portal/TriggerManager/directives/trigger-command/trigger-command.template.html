@@ -2,12 +2,12 @@
   <div class="form-group">
     <label>可选命令：</label>
     <div>
-      <label class="action-list" ng-repeat="(actionName, action) in myActions"><input type="checkbox" ng-model="action._checked" ng-disabled="disabled" /> {{actionName}}</label>
+      <multi-selector ng-model="selectedActions" options="actionOptions" disabled="disabled"></multi-selector>
     </div>
   </div>
   <div class="form-group">
     <uib-accordion close-others="oneAtATime">
-      <uib-accordion-group heading="{{actionName}}" ng-repeat="(actionName, action) in myActions | checked">
+      <uib-accordion-group heading="{{action.label}}" ng-repeat="action in selectedActions">
         <table class="table">
           <thead>
             <th>名称</th>
@@ -18,7 +18,7 @@
             <th>选择</th>
           </thead>
           <tbody>
-            <tr ng-repeat="(propertyKey, propertyValue) in action.in.properties">
+            <tr ng-repeat="(propertyKey, propertyValue) in action.action.in.properties">
               <td>
                 <span ng-if="!propertyValue.properties">{{propertyKey}}</span>
                 <a ng-if="propertyValue.properties" style="cursor:pointer" ng-click="collapseControllers[propertyKey] = !collapseControllers[propertyKey]">{{propertyKey}}</a>

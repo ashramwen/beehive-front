@@ -115,8 +115,9 @@ angular.module('BeehivePortal')
     $scope.init = function(){
         $scope.thingAllowed = PermissionControl.isAllowed('SEARCH_THINGS') && PermissionControl.isAllowed('BING_TAG') && PermissionControl.isAllowed('UNBIND_TAG');
         if($scope.thingAllowed){
-            $scope.selectedThings = $$Thing.byTag({tagType: 'Custom', displayName: tag.displayName}, function(things){
-                $scope.existingIDs = _.uniq(_.pluck(things,'globalThingID'));
+            $$Thing.byTag({tagType: 'Custom', displayName: tag.displayName}, function(things){
+                $scope.selectedThings = _.uniq(_.pluck(things,'globalThingID'));
+                $scope.existingIDs = _.clone($scope.selectedThings);
             });
         }
     };
@@ -127,12 +128,7 @@ angular.module('BeehivePortal')
         /*
          * get things selected
          */
-        var things = $scope.selectedThings;
-        
-        /*
-         * get things IDs from selected things
-         */
-        var thingIDs = _.uniq(_.pluck(things,'globalThingID'));
+        var thingIDs = $scope.selectedThings;
 
         $$Tag.update($scope.tag, function(tagName){
             if($scope.thingAllowed){

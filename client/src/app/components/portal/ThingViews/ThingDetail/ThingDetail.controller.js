@@ -6,8 +6,7 @@ angular.module('BeehivePortal')
     $scope.dataset = {
         triggers:[]
     };
-    var customEditor,
-        statusEditor;
+    var customEditor;
 
     $scope.init = function(){
         $scope.thing = $$Thing.get({globalThingID: $state.params.thingid}, function(thing){
@@ -34,18 +33,10 @@ angular.module('BeehivePortal')
             $timeout(function(){
                 var options = {mode: 'code'};
 
-                statusEditor = document.getElementById("statusEditor");
-                statusEditor = new JSONEditor(statusEditor, options);
-
                 customEditor = document.getElementById("customEditor");
                 customEditor = new JSONEditor(customEditor, options);
             },50);
         });
-    };
-
-    $scope.editStatus = function(status){
-        $scope.statusOnEdit = true;
-        statusEditor.set(status);
     };
 
     $scope.editCustom = function(custom){
@@ -53,13 +44,8 @@ angular.module('BeehivePortal')
         customEditor.set(custom);
     };
 
-    $scope.submitStatus = function(thing){
-        thing.status = statusEditor.get();
-
-        $$Thing.save({}, thing, function(){
-            AppUtils.alert('更新设备信息成功！', '提示信息');
-            $scope.statusOnEdit = false;
-        });
+    $scope.refreshStatus = function(){
+        $scope.thing = $$Thing.get({globalThingID: $state.params.thingid});
     };
 
     $scope.submitCustomFields = function(thing){

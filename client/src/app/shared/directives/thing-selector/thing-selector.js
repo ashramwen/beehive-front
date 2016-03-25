@@ -82,6 +82,10 @@ angular.module('BeehivePortal')
                 });
             }
 
+            $scope.$watch('selectedThings', function(){
+                $scope.whenThingChange();
+            });
+
             $scope.whenThingChange = function(){
                 $scope.unselectedThings = _.filter($scope.things, $scope.unselectedFilter);
                 $scope.thingTypes = [];
@@ -107,6 +111,21 @@ angular.module('BeehivePortal')
                         return selectedThing == thing.globalThingID;
                     });
                 });
+
+                /**
+                 * Find things which doesn't have type/tag/location
+                 */
+
+                var unknownThings = _.filter($scope.selectedThings, function(thingID){
+                    return !_.find($scope.things, function(knownThing){
+                        return knownThing.globalThingID == thingID;
+                    })
+                });
+
+                _.each(unknownThings, function(thingID){
+                    $scope.selectedTypes.push({name: thingID, id: thingID});
+                });
+                
 
                 var selectedTypes = _.uniq(_.pluck($scope.displayedThings, 'type'));
 
@@ -154,6 +173,11 @@ angular.module('BeehivePortal')
 
             $scope.removeThing = function(thing){
                 if(!thing) return;
+                if(!thing.globalThingID){
+                    $scope.selectedThings.remove(thing.id);
+                    $scope.whenThingChange();
+                    return;
+                }
                 $scope.selectedSelectedThing = null;
                 $scope.selectedThings.remove(thing.globalThingID);
 

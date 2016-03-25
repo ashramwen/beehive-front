@@ -20,9 +20,8 @@
         </div>
       </div>
       <div class="panel">
-        <div class="panel-heading">设备状态
-          <span ng-show="!statusOnEdit" class="fa fa-edit" ng-click="editStatus(thing.status)"></span>
-          <span ng-show="statusOnEdit" class="fa fa-remove" ng-click="statusOnEdit = false"></span>
+        <div class="panel-heading">
+          设备状态 <span class="fa fa-refresh operator" ng-click="refreshStatus()"></span>
         </div>
         <div class="panel-body">
           <table ng-show="!statusOnEdit">
@@ -31,12 +30,6 @@
               <td>{{value}}</td>
             </tr>
           </table>
-          <div ng-show="statusOnEdit">
-            <div class="form-group">
-              <div id="statusEditor" style="height:300px; width:100%;"></div>
-            </div>
-            <div><button class="btn btn-success pull-right" ng-click="submitStatus(thing)">更新</button></div>
-          </div>
         </div>
       </div>
     </div>

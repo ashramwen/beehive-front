@@ -177,13 +177,13 @@ tag .fa-remove:hover {
 /**
  * awesome font
  */
-.fa.operator.fa-remove, .fa.operator.fa-plus, .fa.operator.fa-edit {
+.fa.operator.fa-remove, .fa.operator.fa-plus, .fa.operator.fa-edit, .fa.operator.fa-refresh {
   cursor: pointer; }
-  .fa.operator.fa-remove:hover, .fa.operator.fa-plus:hover, .fa.operator.fa-edit:hover {
+  .fa.operator.fa-remove:hover, .fa.operator.fa-plus:hover, .fa.operator.fa-edit:hover, .fa.operator.fa-refresh:hover {
     color: #63b7e6; }
 
-.fa.fa-remove {
+table .fa.fa-remove {
   color: #a94442; }
 
-.fa.fa-check {
+table .fa.fa-check {
   color: #7dcc93; }
