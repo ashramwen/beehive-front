@@ -42,7 +42,7 @@ angular.module('BeehivePortal')
                     {
                         name: '用户列表',
                         state: $state.get('app.portal.UserManager.User.UserList'),
-                        hidden: !PermissionControl.isAllowed('GET_USER')
+                        hidden: !PermissionControl.isAllowed('SEARCH_USERS')
                     },
                     {
                         name: '群组列表',

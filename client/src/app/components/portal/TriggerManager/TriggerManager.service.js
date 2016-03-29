@@ -7,6 +7,7 @@ angular.module('BeehivePortal')
     TriggerService.triggerWhenConditions = [
         {text: '条件为真', value: Trigger.WhenEnum.CONDITION_TRUE},
         {text: '条件由假转真', value: Trigger.WhenEnum.CONDITION_FALSE_TO_TRUE},
+        {text: '添加由真转假', value: Trigger.WhenEnum.CONDITION_CHANGED},
         {text: '条件改变', value: Trigger.WhenEnum.CONDITION_CHANGED}
     ];
 

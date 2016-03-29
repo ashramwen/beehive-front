@@ -31,9 +31,6 @@ config(function(localStorageServiceProvider, $httpProvider) {
         request: function(request) {
             $('#spinner').show();
             requestCount++;
-            if(request.url.indexOf('api/users')>-1){
-                request.headers['Authorization'] = 'Bearer d31032a0-8ebf-11e5-9560-00163e02138f';
-            }
             
             return request;
         },
