@@ -27,7 +27,7 @@
   <uib-carousel no-wrap="noWrapSlides">
     <!-- ============================== select source ========================== -->
     <uib-slide active="currentStep == 1">
-      <source-picker my-source="dataContainer.mySource"></source-picker>
+      <source-picker my-source="dataContainer.mySource" disabled="trigger.triggerID"></source-picker>
     </uib-slide>
     <!-- ========================= end of select source ======================== -->
 
@@ -37,20 +37,20 @@
         <uib-tab heading="触发条件集">
           <div class="trigger-when">
             <span>何时触发：</span>
-            <div app-select value-only="true" selected-model="dataContainer.predicate.triggersWhen" options="triggerWhenConditions"></div>
+            <div app-select value-only="true" selected-model="dataContainer.predicate.triggersWhen" options="triggerWhenConditions" disabled="trigger.triggerID"></div>
           </div>
           <div>
-            <condition-tree schema="dataContainer.sourceSchema.statesSchema.properties" result="dataContainer.predicate.condition"></condition-tree>
+            <condition-tree schema="dataContainer.sourceSchema.statesSchema.properties" result="dataContainer.predicate.condition" disabled="trigger.triggerID"></condition-tree>
           </div>
         </uib-tab>
         <uib-tab heading="触发策略">
-          <select-policy policy="dataContainer.policy"></select-policy>
+          <select-policy thing-number="dataContainer.thingNumber" policy="dataContainer.policy" disabled="trigger.triggerID"></select-policy>
         </uib-tab>
         <uib-tab heading="定时器">
           <div class="form-group text-left">
             <label><input type="checkbox" ng-disabled="!!trigger.triggerID" ng-model="dataContainer.schedule.enabled"/>启用定时器</label>
           </div>
-          <select-schedule schedule="dataContainer.schedule" ng-if="dataContainer.schedule.enabled" disabled="trigger.triggerID"></select-schedule>
+          <select-schedule schedule="dataContainer.schedule" ng-if="dataContainer.schedule.enabled" disabled="trigger.triggerID" disabled="trigger.triggerID"></select-schedule>
         </uib-tab>
       </uib-tabset>
     </uib-slide>
@@ -58,8 +58,8 @@
 
     <!-- =========================== select trigger target ==================================== -->
     <uib-slide active="currentStep == 3">
-      <div class="new-source" ng-click="createTarget()"><span class="fa fa-plus"></span> 新建目标</div>
-      <multi-source-picker sources="dataContainer.myTargets"></multi-source-picker>
+      <div class="new-source" ng-click="createTarget()" ng-if="!trigger.triggerID"><span class="fa fa-plus"></span> 新建目标</div>
+      <multi-source-picker sources="dataContainer.myTargets" disabled="trigger.triggerID"></multi-source-picker>
     </uib-slide>
     <!-- =========================== end of select trigger target  ==================================== -->
 
@@ -67,7 +67,7 @@
     <uib-slide active="currentStep == 4">
       <uib-accordion close-others="oneAtATime" class="multi-source">
         <uib-accordion-group heading="{{'命令-' + ($index + 1)}}" ng-repeat="targetSchema in dataContainer.targetSchemas">
-          <trigger-command my-actions="targetSchema.actions"></trigger-command>
+          <trigger-command my-actions="targetSchema.actions" disabled="trigger.triggerID"></trigger-command>
         </uib-accordion-group>
       </uib-accordion>
     </uib-slide>
@@ -75,7 +75,10 @@
   </uib-carousel>
   <hr/>
   <div class="panel-foot clearfix">
-    <button class="btn btn-danger pull-right margin-left" ng-click="nextStep(currentStep)">{{currentStep < 4?'下一步':'完成'}}</button>
-    <button class="btn btn-success pull-right" ng-click="previousStep(currentStep)" ng-show="currentStep>1">上一步</button>
+    <trigger-control-group trigger="trigger"></trigger-control-group>
+    <div class="pull-right" ng-if="!trigger.triggerID">
+      <button class="btn btn-success" ng-click="previousStep(currentStep)" ng-show="currentStep>1">上一步</button>
+      <button class="btn btn-danger" ng-click="nextStep(currentStep)">{{currentStep < 4?'下一步':'完成'}}</button>
+    </div>
   </div>
 </div>

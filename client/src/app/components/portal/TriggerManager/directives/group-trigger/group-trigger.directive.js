@@ -11,11 +11,8 @@ angular.module('BeehivePortal')
         templateUrl: 'app/components/portal/TriggerManager/directives/group-trigger/group-trigger.template.html',
         controller: ['$scope', '$$Tag', '$$Thing', '$timeout', '$q', '$http', 'TriggerService', '$$Type', '$$Trigger', function($scope, $$Tag, $$Thing, $timeout, $q, $http, TriggerService, $$Type, $$Trigger){
 
-            $scope.myTrigger = _.clone($scope.trigger);
             $scope.dataContainer = {};
-
             $scope.currentStep = 1;
-
             $scope.triggerWhenConditions = TriggerService.triggerWhenConditions;
 
             /**
@@ -26,16 +23,16 @@ angular.module('BeehivePortal')
                 var extraData = {};
                 $scope.dataContainer = {
                     mySource: {
-                        thingType: $scope.myTrigger.source.thingType,
-                        thingList: _.clone($scope.myTrigger.source.thingList),
-                        tagList: _.clone($scope.myTrigger.source.tagList),
-                        andExpress: $scope.myTrigger.source.andExpress
+                        thingType: $scope.trigger.source.thingType,
+                        thingList: _.clone($scope.trigger.source.thingList),
+                        tagList: _.clone($scope.trigger.source.tagList),
+                        andExpress: $scope.trigger.source.andExpress
                     },
                     predicate: null,
                     sourceSchema: null,
                     myTargets: [],
                     targetSchemas: [],
-                    policy: {groupPolicy: 'All'}
+                    policy: $scope.trigger.policy || {groupPolicy: 'All'}
                 };
 
                 TriggerService.getSourceTypes($scope.dataContainer.mySource).then(function(types){
@@ -45,7 +42,7 @@ angular.module('BeehivePortal')
 
                         TriggerService.getSchemaByType($scope.dataContainer.mySource.thingType).$promise.then(
                             function(schema){
-                                $scope.dataContainer.predicate = $scope.myTrigger.predicate;
+                                $scope.dataContainer.predicate = $scope.trigger.predicate;
                                 $scope.dataContainer.sourceSchema = schema;
                             },
                             function(){
@@ -54,13 +51,13 @@ angular.module('BeehivePortal')
                         );
                     }else{
                         TriggerService.getTypeSchemas(types).then(function(schemas){
-                            $scope.dataContainer.predicate = $scope.myTrigger.predicate;
+                            $scope.dataContainer.predicate = $scope.trigger.predicate;
                             $scope.dataContainer.sourceSchema = TriggerService.xSchemas(schemas);
                         });
                     }
                 });
 
-                _.each($scope.myTrigger.targets, function(target, index){
+                _.each($scope.trigger.targets, function(target, index){
                     TriggerService.getSourceTypes(target).then(function(types){
                         $scope.dataContainer.myTargets.push({
                             tagList: target.tagList,
@@ -109,7 +106,7 @@ angular.module('BeehivePortal')
                         break;
                 }
                 $scope.currentStep = $scope.currentStep > 3?$scope.currentStep: step + 1;
-                console.log(JSON.stringify($scope.myTrigger));
+                console.log(JSON.stringify($scope.trigger));
             };
 
             $scope.createTarget = function(){
@@ -125,7 +122,9 @@ angular.module('BeehivePortal')
                     if($scope.dataContainer.mySource.thingList){
                         delete $scope.dataContainer.mySource.thingList;
                     }
+                    $scope.dataContainer.thingNumber = 0;
                 }else{
+                    $scope.dataContainer.thingNumber = $scope.dataContainer.mySource.thingList.length;
                     if($scope.dataContainer.mySource.tagList){
                         delete $scope.dataContainer.mySource.tagList;
                     }
@@ -133,13 +132,13 @@ angular.module('BeehivePortal')
                 
                 TriggerService.getSourceTypes($scope.dataContainer.mySource).then(function(types){
                     if($scope.dataContainer.mySource.sourceType == 'tag'){
-                        $scope.myTrigger.source.type = $scope.dataContainer.mySource.selectedType;
+                        $scope.trigger.source.type = $scope.dataContainer.mySource.selectedType;
                     }
                     TriggerService.getTypeSchemas(types).then(function(schemas){
                         $scope.dataContainer.sourceSchema = TriggerService.xSchemas(schemas);
                     });
                 });
-                $scope.myTrigger.setSource($scope.dataContainer.mySource, $scope.dataContainer.mySource.sourceType);
+                $scope.trigger.setSource($scope.dataContainer.mySource, $scope.dataContainer.mySource.sourceType);
             }
 
            
@@ -148,8 +147,9 @@ angular.module('BeehivePortal')
              * @return {[type]} [description]
              */
             function saveCondition(){
-                $scope.myTrigger.setTriggersWhen($scope.dataContainer.predicate.triggersWhen);
-                $scope.myTrigger.setCondition($scope.dataContainer.predicate.condition);
+                $scope.trigger.setTriggersWhen($scope.dataContainer.predicate.triggersWhen);
+                $scope.trigger.setCondition($scope.dataContainer.predicate.condition);
+                $scope.trigger.setPolicy($scope.dataContainer.policy);
             }
 
             /**
@@ -182,7 +182,7 @@ angular.module('BeehivePortal')
                     newSources.push(newSource);
                 });
 
-                $scope.myTrigger.setTargets(newSources);
+                $scope.trigger.setTargets(newSources);
             }
 
             /**
@@ -191,7 +191,7 @@ angular.module('BeehivePortal')
              */
             function saveTriggerCommand(){
                 _.each($scope.dataContainer.targetSchemas, function(targetSchema, index){
-                    $scope.myTrigger.targets[index].command.actions = [];
+                    $scope.trigger.targets[index].command.actions = [];
                     _.each(targetSchema.actions, function(action, actionName){
                         var actionToAdd = {},
                             addFlag = false;
@@ -206,14 +206,24 @@ angular.module('BeehivePortal')
                             })
                         }
                         if(addFlag){
-                            $scope.myTrigger.targets[index].command.actions.push(actionToAdd);
+                            $scope.trigger.targets[index].command.actions.push(actionToAdd);
                         }
                     });
                 });
             }
 
+            /**
+             * save trigger
+             * @return {[type]} [description]
+             */
             function saveTrigger(){
-                $$Trigger.save($scope.myTrigger);
+                $$Trigger.save($scope.trigger, function(){
+                    $scope.trigger.triggerID = response.triggerID;
+                    AppUtils.alert('创建触发器成功！');
+                    console.log(response);
+                }, function(){
+                    AppUtils.alert('创建触发器失败！错误信息:' + err);
+                });
             }
         }]
     };

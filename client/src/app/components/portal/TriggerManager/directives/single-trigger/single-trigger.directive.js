@@ -15,9 +15,7 @@ angular.module('BeehivePortal')
             $scope.triggerWhenConditions = TriggerService.triggerWhenConditions;
 
             $scope.dataContainer = {
-                schedule:{
-
-                },
+                schedule:{},
                 predicate: {
                     triggersWhen: null,
                     condition: {}

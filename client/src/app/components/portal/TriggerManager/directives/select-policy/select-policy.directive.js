@@ -7,7 +7,8 @@ angular.module('BeehivePortal')
         replace: true,
         scope:{
             policy: '=?',
-            thingNumber: '=?'
+            thingNumber: '=?',
+            disabled: '=?'
         },
         templateUrl: 'app/components/portal/TriggerManager/directives/select-policy/select-policy.template.html',
         controller: ['$scope', 'TriggerService', 'AppUtils', function($scope, TriggerService, AppUtils){

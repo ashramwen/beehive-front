@@ -29,8 +29,24 @@ angular.module('BeehivePortal')
               method: 'POST'
           },
           logout: {
-              url: MyAPIs.OPERATOR + 'logout',
+              url: MyAPIs.OPERATOR + '/logout',
               method: 'POST'
+          },
+          bingThing: {
+              url: MyAPIs.THING + '/:thingIDs/users/:userIDs',
+              method: 'POST'
+          },
+          unbindThing: {
+              url: MyAPIs.THING + '/:thingIDs/users/:userIDs',
+              method: 'DELETE'
+          },
+          bingTag: {
+              url: MyAPIs.TAG + '/:tags/users/:userIDs',
+              method: 'POST'
+          },
+          unbindTag: {
+              url: MyAPIs.TAG + '/:tags/users/:userIDs',
+              method: 'DELETE'
           }
       });
 
@@ -94,9 +110,24 @@ angular.module('BeehivePortal')
               isArray: true
           },
           getPermissions: {
-              url: MyAPIs.USER_GROUP + '',
+              url: MyAPIs.USER_GROUP,
               method: 'GET',
-
+          },
+          bindThing: {
+              url: MyAPIs.THING + '/:thingIDs/usergroups/:userGroupIDs',
+              method: 'POST'
+          },
+          unbindThing: {
+              url: MyAPIs.THING + '/:thingIDs/usergroups/:userGroupIDs',
+              method: 'DELETE'
+          },
+          bindThing: {
+              url: MyAPIs.TAG + '/:tags/usergroups/:userGroupIDs',
+              method: 'POST'
+          },
+          unbindThing: {
+              url: MyAPIs.TAG + '/:tags/usergroups/:userGroupIDs',
+              method: 'DELETE'
           }
       });
 
@@ -157,7 +188,7 @@ angular.module('BeehivePortal')
           },
           getTriggers: {
               method: 'GET',
-              url: MyAPIs.TRIGGER + '/triggerList/:globalThingID',
+              url: MyAPIs.TRIGGER + '/things/:globalThingID',
               isArray: true,
               params: {
                 globalThingID: '@globalThingID'

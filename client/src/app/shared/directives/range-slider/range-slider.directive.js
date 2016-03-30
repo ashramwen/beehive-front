@@ -7,7 +7,8 @@ angular.module('BeehivePortal')
         scope:{
             min: '=?',
             max: '=?',
-            ngModel: '=?'
+            ngModel: '=?',
+            disabled: '=?'
         },
         link: function(scope, element, attr){
 

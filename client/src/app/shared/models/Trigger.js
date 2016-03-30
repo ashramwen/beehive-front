@@ -140,6 +140,10 @@
         this.triggerName = name;
     }
 
+    Trigger.prototype.setPolicy = function(policy){
+        this.policy = policy;
+    };
+
     /**
      * from triggerwhen enum
      * @param {[type]} triggerWhen [description]
