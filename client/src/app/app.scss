@@ -4,6 +4,20 @@ body{
    
 }
 
+table.detail-content{
+    width: 100%;
+    td{
+        padding: 5px;
+    }
+    & > tbody{
+        & > tr{
+            & > td:first-child{
+                width: 80px;
+            }
+        }
+    }
+}
+
 .break-word{
     word-break: break-all;
 }

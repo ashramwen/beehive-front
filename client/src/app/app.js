@@ -31,6 +31,9 @@ config(function(localStorageServiceProvider, $httpProvider) {
         request: function(request) {
             $('#spinner').show();
             requestCount++;
+            if(request.url.indexOf('api/users/simplequery') > 0){
+                request.headers['Authorization'] = 'Bearer 29505720-8cd2-11e5-ace9-00163e007aba';
+            }
             
             return request;
         },

@@ -1,3 +1,10 @@
+table.detail-content {
+  width: 100%; }
+  table.detail-content td {
+    padding: 5px; }
+  table.detail-content > tbody > tr > td:first-child {
+    width: 80px; }
+
 .break-word {
   word-break: break-all; }
 

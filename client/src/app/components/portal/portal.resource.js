@@ -32,21 +32,53 @@ angular.module('BeehivePortal')
               url: MyAPIs.OPERATOR + '/logout',
               method: 'POST'
           },
-          bingThing: {
-              url: MyAPIs.THING + '/:thingIDs/users/:userIDs',
+          bindThing: {
+              url: MyAPIs.THING + '/:globalThingIDs/users/:userIDs',
+              params: {
+                  userIDs: '@userIDs',
+                  globalThingIDs: '@globalThingIDs'
+              },
               method: 'POST'
           },
           unbindThing: {
-              url: MyAPIs.THING + '/:thingIDs/users/:userIDs',
+              url: MyAPIs.THING + '/:globalThingIDs/users/:userIDs',
+              params: {
+                  userIDs: '@userIDs',
+                  globalThingIDs: '@globalThingIDs'
+              },
               method: 'DELETE'
           },
-          bingTag: {
+          bindTag: {
               url: MyAPIs.TAG + '/:tags/users/:userIDs',
-              method: 'POST'
+              method: 'POST',
+              params: {
+                  userIDs: '@userIDs',
+                  tags: '@tags'
+              }
           },
           unbindTag: {
               url: MyAPIs.TAG + '/:tags/users/:userIDs',
-              method: 'DELETE'
+              method: 'DELETE',
+              params: {
+                  userIDs: '@userIDs',
+                  tags: '@tags'
+              }
+          },
+          getTags: {
+              url: MyAPIs.TAG + '/user/:userID',
+              method: 'GET',
+              params: {
+                  userID: '@userID'
+              },
+              isArray: true
+          },
+          getThings: {
+              url: MyAPIs.THING + '/user/:userID',
+              method: 'GET',
+              params: {
+                  userID: '@userID'
+              },
+              isArray: true
           }
       });
 
@@ -72,7 +104,8 @@ angular.module('BeehivePortal')
               }
           },
           update: {
-              method: 'PATCH'
+              method: 'POST',
+              url: MyAPIs.USER_GROUP
           },
           remove: {
               method: 'DELETE'
@@ -114,20 +147,51 @@ angular.module('BeehivePortal')
               method: 'GET',
           },
           bindThing: {
-              url: MyAPIs.THING + '/:thingIDs/usergroups/:userGroupIDs',
+              url: MyAPIs.THING + '/:globalThingIDs/userGroups/:userGroupIDs',
+              params: {
+                  userGroupIDs: '@userGroupIDs',
+                  globalThingIDs: '@globalThingIDs'
+              },
               method: 'POST'
           },
           unbindThing: {
-              url: MyAPIs.THING + '/:thingIDs/usergroups/:userGroupIDs',
+              url: MyAPIs.THING + '/:globalThingIDs/userGroups/:userGroupIDs',
+              params: {
+                  userGroupIDs: '@userGroupIDs',
+                  globalThingIDs: '@globalThingIDs'
+              },
               method: 'DELETE'
           },
-          bindThing: {
-              url: MyAPIs.TAG + '/:tags/usergroups/:userGroupIDs',
+          bindTag: {
+              url: MyAPIs.TAG + '/:tags/userGroups/:userGroupIDs',
+              params: {
+                  userGroupIDs: '@userGroupIDs',
+                  tags: '@tags'
+              },
               method: 'POST'
           },
-          unbindThing: {
-              url: MyAPIs.TAG + '/:tags/usergroups/:userGroupIDs',
+          unbindTag: {
+              url: MyAPIs.TAG + '/:tags/userGroups/:userGroupIDs',
+              params: {
+                  userGroupIDs: '@userGroupIDs'
+              },
               method: 'DELETE'
+          },
+          getTags: {
+              url: MyAPIs.TAG + '/userGroup/:userGroupID',
+              params:{
+                  userGroupID: '@userGroupID'
+              },
+              method: 'GET',
+              isArray: true
+          },
+          getThings: {
+              url: MyAPIs.THING + '/userGroup/:userGroupID',
+              params:{
+                  userGroupID: '@userGroupID'
+              },
+              method: 'GET',
+              isArray: true
           }
       });
 

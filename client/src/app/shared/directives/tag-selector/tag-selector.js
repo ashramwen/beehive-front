@@ -7,7 +7,7 @@ angular.module('BeehivePortal')
             tagTypes: '=?'
         },
         templateUrl: 'app/shared/directives/tag-selector/tag-selector.template.html',
-        controller:['$scope', '$$Tag', '$$Location', 'PermissionControl', '$$Thing', function($scope, $$Tag, $$Location, PermissionControl, $$Thing){
+        controller:['$scope', '$$Tag', '$$Location', '$$Thing', function($scope, $$Tag, $$Location, $$Thing){
             
             $scope.settings = {
                 'name': 'displayName',
@@ -38,8 +38,6 @@ angular.module('BeehivePortal')
             };
 
             $scope.init = function(){
-                $scope.tagAllowed = PermissionControl.isAllowed('SEARCH_TAGS');
-                $scope.locationAllowed = PermissionControl.isAllowed('SEARCH_LOCATIONS');
                 $scope.dataset = {};
                 
                 if($scope.tagAllowed){

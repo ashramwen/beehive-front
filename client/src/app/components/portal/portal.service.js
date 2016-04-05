@@ -1,5 +1,5 @@
 angular.module('BeehivePortal')
-  .factory('PortalService', ['$http', '$q', 'Session', '$state', 'PermissionControl', function($http, $q, Session, $state, PermissionControl) {
+  .factory('PortalService', ['$http', '$q', 'Session', '$state', function($http, $q, Session, $state) {
     var PortalService = {};
 
     /**
@@ -41,8 +41,7 @@ angular.module('BeehivePortal')
                 subViews: [
                     {
                         name: '用户列表',
-                        state: $state.get('app.portal.UserManager.User.UserList'),
-                        hidden: !PermissionControl.isAllowed('SEARCH_USERS')
+                        state: $state.get('app.portal.UserManager.User.UserList')
                     },
                     {
                         name: '群组列表',
@@ -53,60 +52,45 @@ angular.module('BeehivePortal')
             {
                 name: '设备管理',
                 state: $state.get('app.portal.ThingManager'),
-                hidden: !PermissionControl.isAllowed('SEARCH_LOCATIONS') 
-                    && !PermissionControl.isAllowed('SEARCH_TAGS') 
-                    && !PermissionControl.isAllowed('SEARCH_TYPE'),
                 icon: 'fa-desktop',
                 subViews: [
                     {
                         name: '新设备',
-                        state: $state.get('app.portal.ThingManager.AddThing'),
-                        hidden: !PermissionControl.isAllowed('CREATE_THING') || !PermissionControl.isAllowed('SEARCH_LOCATIONS')
+                        state: $state.get('app.portal.ThingManager.AddThing')
                     },
                     {
                         name: '网关管理',
-                        state: $state.get('app.portal.ThingManager.Gateway'),
-                        hidden: !PermissionControl.isAllowed('SEARCH_THINGS') || !PermissionControl.isAllowed('SEARCH_LOCATIONS')
+                        state: $state.get('app.portal.ThingManager.Gateway')
                     },
                     {
                         name: '控制设备',
-                        state: $state.get('app.portal.ThingManager.ControlThing'),
-                        hidden: !PermissionControl.isAllowed('SEARCH_THINGS') 
-                            || (!PermissionControl.isAllowed('SEARCH_LOCATIONS')
-                                && !PermissionControl.isAllowed('SEARCH_TAGS'))
+                        state: $state.get('app.portal.ThingManager.ControlThing')
                     }
                 ]
             },
             {
                 name: '设备视图',
                 state: $state.get('app.portal.ThingViews'),
-                hidden: !PermissionControl.isAllowed('SEARCH_LOCATIONS') 
-                    && !PermissionControl.isAllowed('SEARCH_TAGS') 
-                    && !PermissionControl.isAllowed('SEARCH_TYPE'),
                 icon: 'fa-table',
                 subViews: [
                     {
                         name: '位置视图', 
-                        state: $state.get('app.portal.ThingViews.LocationView'), 
-                        hidden: !PermissionControl.isAllowed('SEARCH_LOCATIONS')
+                        state: $state.get('app.portal.ThingViews.LocationView')
                     },
                     {
                         name: '标签视图', 
-                        state: $state.get('app.portal.ThingViews.TagView'), 
-                        hidden: !PermissionControl.isAllowed('SEARCH_TAGS')
+                        state: $state.get('app.portal.ThingViews.TagView')
                     },
                     {
                         name: '种类视图', 
-                        state: $state.get('app.portal.ThingViews.TypeView'),
-                        hidden: !PermissionControl.isAllowed('SEARCH_TYPES')
+                        state: $state.get('app.portal.ThingViews.TypeView')
                     }
                 ]
             },
             {
                 name: '触发器管理',
                 state: $state.get('app.portal.TriggerManager'),
-                icon: 'fa-exchange',
-                hidden: !PermissionControl.isAllowed('GET_TRIGGERS')
+                icon: 'fa-exchange'
             },
             {
                 name: '设置',
@@ -151,6 +135,13 @@ angular.module('BeehivePortal')
     };
 
     return PortalService;
+  }])
+  .factory('ownership', ['$rootScope', function($rootScope){
+    return {
+        isCreator: function(obj){
+            return(obj.createBy == $rootScope.credential.userID)
+        }
+    };
   }])
 
   .factory('PermissionControl', ['AppUtils', '$state', function(AppUtils, $state){

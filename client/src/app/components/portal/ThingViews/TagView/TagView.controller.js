@@ -13,7 +13,6 @@ angular.module('BeehivePortal')
      * init 
      */
     $scope.init = function(){
-        if(!$scope.PermissionControl.allowAction('SEARCH_TAGS'))return false;
 
         $$Tag.queryAll(function(tags){
             $scope.thingTags = tags;
@@ -87,12 +86,13 @@ angular.module('BeehivePortal')
 
 
 angular.module('BeehivePortal')
-  .controller('TagViewController.AddTag',function ($scope, $uibModalInstance, $$Tag) {
+  .controller('TagViewController.AddTag',['$rootScope', '$scope', '$uibModalInstance', '$$Tag', function ($rootScope, $scope, $uibModalInstance, $$Tag) {
     $scope.newTag = {things:[]};
     $scope.ok = function () {
         $$Tag.create($scope.newTag, function(tag){
             tag.count = 0;
-            tag.displayName = tag.tagName;
+            tag.displayName = tag.tagName.subStr(8);
+            tag.createBy = $rootScope.credential.userID;
             $uibModalInstance.close(tag);
         },function(response){
             console.log(response);
@@ -102,24 +102,21 @@ angular.module('BeehivePortal')
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-  });
+  }]);
 
 
 angular.module('BeehivePortal')
-  .controller('TagViewController.EditTag',['$scope', '$uibModalInstance', '$$Tag', '$$Thing', '$timeout', 'tag', '$q', '$$Location', 'PermissionControl', function ($scope, $uibModalInstance, $$Tag, $$Thing, $timeout, tag, $q, $$Location, PermissionControl) {
+  .controller('TagViewController.EditTag',['$scope', '$uibModalInstance', '$$Tag', '$$Thing', '$timeout', 'tag', '$q', '$$Location', function ($scope, $uibModalInstance, $$Tag, $$Thing, $timeout, tag, $q, $$Location) {
 
     $scope.tag = tag;
     $scope.existingIDs = [];
     $scope.selectedThings = [];
 
     $scope.init = function(){
-        $scope.thingAllowed = PermissionControl.isAllowed('SEARCH_THINGS') && PermissionControl.isAllowed('BING_TAG') && PermissionControl.isAllowed('UNBIND_TAG');
-        if($scope.thingAllowed){
-            $$Thing.byTag({tagType: 'Custom', displayName: tag.displayName}, function(things){
-                $scope.selectedThings = _.uniq(_.pluck(things,'globalThingID'));
-                $scope.existingIDs = _.clone($scope.selectedThings);
-            });
-        }
+        $$Thing.byTag({tagType: 'Custom', displayName: tag.displayName}, function(things){
+            $scope.selectedThings = _.uniq(_.pluck(things,'globalThingID'));
+            $scope.existingIDs = _.clone($scope.selectedThings);
+        });
     };
     
 
@@ -131,28 +128,26 @@ angular.module('BeehivePortal')
         var thingIDs = $scope.selectedThings;
 
         $$Tag.update($scope.tag, function(tagName){
-            if($scope.thingAllowed){
-                $$Thing.bindTags({things:thingIDs.join(','), tags: $scope.tag.displayName}, function(){
-                    
-                    /*
-                     * get ids of things abondoned
-                     */
-                    var idsToDelete = _.difference($scope.existingIDs, thingIDs),
-                        count = thingIDs.length ;
+            $$Thing.bindTags({things: thingIDs.join(','), tags: $scope.tag.displayName}, function(){
+                
+                /*
+                 * get ids of things abondoned
+                 */
+                var idsToDelete = _.difference($scope.existingIDs, thingIDs),
+                    count = thingIDs.length;
 
-                    /*
-                     * delete old thing id
-                     */
-                    if(idsToDelete.length>0){
-                        $$Thing.removeTags({things:idsToDelete.join(','), tags: $scope.tag.displayName});
-                    }
+                /*
+                 * delete old thing id
+                 */
+                if(idsToDelete.length>0){
+                    $$Thing.removeTags({things:idsToDelete.join(','), tags: $scope.tag.displayName});
+                }
 
-                    $scope.tag.count = count;
-                    
+                $scope.tag.count = count;
+                
 
-                    $uibModalInstance.close($scope.tag);    
-                });
-            }
+                $uibModalInstance.close($scope.tag);    
+            });
         },function(response){
             AppUtils.alert(response);
         });

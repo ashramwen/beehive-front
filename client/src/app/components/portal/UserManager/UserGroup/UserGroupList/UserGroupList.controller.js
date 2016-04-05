@@ -1,23 +1,22 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('UserGroupListController', ['$scope', '$rootScope', '$state', 'AppUtils', '$uibModal', '$$UserGroup', '$location', '$http', 'PermissionControl', function($scope, $rootScope, $state, AppUtils, $uibModal, $$UserGroup, $location, $http, PermissionControl) {
-    // TODO
-    $scope.userGroups = [];
-    $scope.userGroupsForDisplay = [];
+  .controller('UserGroupListController', ['$scope', '$rootScope', '$state', 'AppUtils', '$uibModal', '$$UserGroup', '$location', '$http', function($scope, $rootScope, $state, AppUtils, $uibModal, $$UserGroup, $location, $http) {
+    
+    $scope.dataset = {};
+    $scope.dataset.userGroups = [];
+    $scope.dataset.userGroupsForDisplay = [];
 
     $scope.init = function(){
         $scope.groupType = $scope.groupTypes[0];
-        if(!PermissionControl.isAllowed('GET_ALL_GROUPS')){
-            $scope.groupTypes.splice(1,1);
-        }
+        $scope.groupTypes.splice(1, 1);
         
         $scope.$watch('groupType', function(newVal, oldVal){
             if(newVal == oldVal) return;
             if($scope.groupType.value == 'mygroup'){
-                $scope.userGroups = $$UserGroup.getMyGroups();
+                $scope.dataset.userGroups = $$UserGroup.getMyGroups();
             }else{
-                $scope.userGroups = $$UserGroup.getList();
+                $scope.dataset.userGroups = $$UserGroup.getList();
             }
         });
     };
@@ -62,7 +61,7 @@ angular.module('BeehivePortal')
         if(value) {
             request[queryFiled] = value;
             request.includeUserData = '0';
-            $scope.userGroups = $$UserGroup.query({},request);
+            $scope.userGroups = $$UserGroup.query({}, request);
         }else{
             $scope.userGroups = $$UserGroup.getList();
         }

@@ -13,7 +13,6 @@ angular.module('BeehivePortal')
      * Init app
      */
     $scope.init = function(){
-        $scope.things = $$Thing.getAll();
         $scope.locationsTree = [];
 
         /*
@@ -35,10 +34,14 @@ angular.module('BeehivePortal')
             }
         };
 
-        if(!$scope.PermissionControl.allowAction('SEARCH_LOCATIONS'))return false;
-
         $scope.locations = $$Location.queryAll(function(locations){
             $scope.locationTree = new LocationTree(_.pluck(locations, 'displayName'));
+            if($scope.locationTree.children){
+                var tagName = $scope.locationTree.children[0].id;
+
+                $$Thing.byTag({tagType: 'Location', displayName: tagName});
+            }
+            
         });
         
         /*
@@ -47,7 +50,7 @@ angular.module('BeehivePortal')
         var showDetailItem =_.find($scope.myMenu.itemList,function(item){
           return item.text == '查看详情';
         });
-        _.extend(showDetailItem,{callback:function(thing){
+        _.extend(showDetailItem, {callback:function(thing){
             $scope.navigateTo($scope.navMapping.LOCATION_THING_DETAIL, {thingid: thing.globalThingID});
         }});
     };

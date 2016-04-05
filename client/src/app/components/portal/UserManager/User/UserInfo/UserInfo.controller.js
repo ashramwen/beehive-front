@@ -7,15 +7,12 @@ angular.module('BeehivePortal')
      */
     
     $scope.init = function(){
-        if($scope.PermissionControl.allowAction('GET_USER')){
-
-            var fromUserGroup = false;
-            if($state.current.name == $scope.navMapping['GROUP_USER_INFO'].state){
-                fromUserGroup = true;
-            }
-
-            $scope.user = $$User.get({},{userID: $state.params['userID']});
+        var fromUserGroup = false;
+        if($state.current.name == $scope.navMapping['GROUP_USER_INFO'].state){
+            fromUserGroup = true;
         }
+
+        $scope.user = $$User.get({},{userID: $state.params['userID']});
     };
 
     /*
@@ -62,7 +59,7 @@ angular.module('BeehivePortal')
             animation: true,
             templateUrl: 'app/components/portal/UserManager/User/EditUser.template.html',
             controller: 'UserController.EditUser',
-            size: 'md',
+            size: 'lg',
             resolve: {
               user: function () {
                 return $scope.user;

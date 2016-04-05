@@ -8,9 +8,16 @@ angular.module('BeehivePortal')
 
 
 angular.module('BeehivePortal')
-  .controller('UserController.EditUser',function ($scope, $uibModalInstance, user, $$User, PortalService) {
+  .controller('UserController.EditUser',['$scope', '$uibModalInstance', 'user', '$$User', 'PortalService', '$$Thing', '$$Tag', function ($scope, $uibModalInstance, user, $$User, PortalService, $$Thing, $$Tag) {
     
     $scope.user = user;
+
+    $scope.init = function(){
+        $scope.things = $$User.getThings({userID: $scope.user.userID});
+        $scope.tags = $$User.getTags({userID: $scope.user.userID});
+        $scope.allTags = $$Tag.queryAll();
+    };
+
 
     $scope.ok = function () {
         $$User.update(user, function(user){
@@ -19,10 +26,38 @@ angular.module('BeehivePortal')
         }, function(){
             console.log('failed to save user!');
         });
-        
     };
 
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
-  });
+
+
+    $scope.addTag = function(tag, user){
+        $$User.bindTag({tags: [tag.fullTagName], userIDs:[user.userID]}, function(){
+            $scope.tags = $scope.tags || [];
+            $scope.tags.push(tag);
+        });
+    }
+
+    $scope.removeTag = function(tag, user){
+        $$User.unbindTag({tags: [tag.fullTagName], userIDs:[user.userID]}, function(){
+            $scope.tags.remove(tag);
+        });
+    };
+
+    $scope.addThings = function(globalThingIDs, user){
+        $$User.bindThing({}, {globalThingIDs: [globalThingIDs], userIDs: [user.userID]}, function(things){
+            $scope.things = $scope.things || [];
+            _.each(globalThingIDs, function(globalThingID){
+                $scope.things.push($$Thing.get({globalThingID: globalThingID}));
+            });
+        });
+    };
+
+    $scope.removeThing = function(thing, user){
+        $$User.unbindThing({globalThingIDs: [thing.globalThingID], userIDs: [user.userID]}, function(){
+            $scope.things.remove(thing);
+        });
+    };
+  }]);

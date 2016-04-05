@@ -1,14 +1,12 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('PortalController', ['$scope', '$rootScope', '$state', 'AppUtils', 'Session', 'PermissionControl', 'PortalService', function($scope, $rootScope, $state, AppUtils, Session, PermissionControl, PortalService) {
+  .controller('PortalController', ['$scope', '$rootScope', '$state', 'AppUtils', 'Session', 'PortalService', 'ownership', function($scope, $rootScope, $state, AppUtils, Session, PortalService, ownership) {
     
     /*
      * objects for generating navigations content on left nav column.
      * by George
      */
-    $scope.PermissionControl = PermissionControl;
-    $rootScope.PermissionControl = PermissionControl;
     
     $scope.portalNavs = PortalService.getPortalNavs();
 
@@ -40,7 +38,8 @@ angular.module('BeehivePortal')
 
     $scope.logout = function(){
         Session.destroy();
-        PermissionControl.destroy();
         $state.go('app.secure.UserLogin');
     }
+
+    $scope.isCreator = ownership.isCreator;
   }]);

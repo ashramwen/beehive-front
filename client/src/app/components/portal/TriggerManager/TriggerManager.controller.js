@@ -11,10 +11,6 @@ angular.module('BeehivePortal')
     $scope.triggers = [];
 
     $scope.init = function(){
-        if(!$scope.PermissionControl.isAllowed('GET_TRIGGERS')){
-            $state.go('app.portal.Welcome');
-            return;
-        }
 
         $$Trigger.getAll(function(triggers){
             console.log(triggers);

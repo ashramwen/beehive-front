@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('UserLoginController', ['$scope', '$rootScope', '$state', 'AppUtils','UserLoginService','Session', '$$User', '$uibModal','PermissionControl',function($scope, $rootScope, $state, AppUtils, UserLoginService, Session, $$User, $uibModal, PermissionControl) {
+  .controller('UserLoginController', ['$scope', '$rootScope', '$state', 'AppUtils','UserLoginService','Session', '$$User', '$uibModal', function($scope, $rootScope, $state, AppUtils, UserLoginService, Session, $$User, $uibModal) {
     
     $scope.credentials = {
         userID: '',
@@ -26,12 +26,10 @@ angular.module('BeehivePortal')
             };
 
             Session.setCredential(credentials);
-            PermissionControl.getAllPermissions();
             $state.go('app.portal.Welcome');
         }else{
             $$User.login(credentials ,function(credentials){
                 Session.setCredential(credentials);
-                PermissionControl.loadPermissions(credentials.permissions);
                 $state.go('app.portal.Welcome');
             }, function(erro){
                 AppUtils.alert('登陆失败');

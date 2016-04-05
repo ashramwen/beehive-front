@@ -3,7 +3,7 @@
  */
 
 angular.module('BeehivePortal')
-  .service('Session', ['localStorageService', 'AppUtils', '$http', function(localStorageService, AppUtils, $http) {
+  .service('Session', ['localStorageService', 'AppUtils', '$http', '$rootScope', function(localStorageService, AppUtils, $http, $rootScope) {
     var session = {};
     window.MyApp = window.MyApp || {};
 
@@ -15,6 +15,7 @@ angular.module('BeehivePortal')
     session.useCredential = function(){
         var credential = AppUtils.getSessionItem('credential');
         if(credential){
+          $rootScope.credential = credential;
           window.MyApp.credential = credential;
           $http.defaults.headers.common['Authorization'] = 'Bearer ' + credential['accessToken'];
         }

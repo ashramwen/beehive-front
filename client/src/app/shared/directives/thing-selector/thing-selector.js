@@ -8,7 +8,7 @@ angular.module('BeehivePortal')
             selectedThingTypes: '=?'
         },
         templateUrl: 'app/shared/directives/thing-selector/thing-selector.template.html',
-        controller:['$scope', '$$Tag', '$$Thing', '$$Location', '$$Type', '$timeout', '$q', 'PermissionControl', function($scope, $$Tag, $$Thing, $$Location, $$Type, $timeout, $q, PermissionControl){
+        controller:['$scope', '$$Tag', '$$Thing', '$$Location', '$$Type', '$timeout', '$q', function($scope, $$Tag, $$Thing, $$Location, $$Type, $timeout, $q){
             
             $scope.dataset = {
                 tags: [],
@@ -42,20 +42,11 @@ angular.module('BeehivePortal')
 
             $scope.init = function(){
 
-                $scope.tagAllowed = PermissionControl.isAllowed('SEARCH_TAGS') && PermissionControl.isAllowed('SEARCH_THINGS');
-                $scope.locationAllowed = PermissionControl.isAllowed('SEARCH_LOCATIONS') && PermissionControl.isAllowed('SEARCH_THINGS');
-                
-                $scope.allDisabled = !$scope.tagAllowed && !$scope.locationAllowed && !$scope.typeAllowed;
+                $scope.dataset.tags = $$Tag.queryAll();
 
-                if($scope.tagAllowed){
-                    $scope.dataset.tags = $$Tag.queryAll();
-                }
-
-                if($scope.locationAllowed){
-                    $$Location.queryAll(function(locations){
-                        $scope.dataset.locations = (new LocationTree(_.pluck(locations, 'displayName'))).tree.children;
-                    });
-                }
+                $$Location.queryAll(function(locations){
+                    $scope.dataset.locations = (new LocationTree(_.pluck(locations, 'displayName'))).tree.children;
+                });
             };
 
             $scope.selectLocation = function(location){

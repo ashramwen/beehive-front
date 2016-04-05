@@ -28,7 +28,7 @@
   </div>
   <div class="portal-row">
     <!-- start tile  -->
-    <div class='modules-outputs-content graph-tile' ng-repeat="group in userGroupsForDisplay">
+    <div class='modules-outputs-content graph-tile' ng-repeat="group in dataset.userGroupsForDisplay">
       <div class="module-top">
           <div class="overlay" ng-click="goUserList(group)">
             <div class="viewReport">
@@ -53,12 +53,12 @@
       
       <div class="modulesActionsTop">
         <i class="fa fa-pencil-square-o" uib-tooltip="编辑" uib-tooltip-trigger="mouseenter" uib-tooltip-placement="top" ng-click="goEdit(group)"></i>
-        <i class="fa fa-trash-o" ng-if="PermissionControl.isAllowed('DELETE_USERGROUP')" ng-click="deleteGroup(group)" uib-tooltip="删除" uib-tooltip-trigger="mouseenter" uib-tooltip-placement="top"></i>
+        <i class="fa fa-trash-o" ng-click="deleteGroup(group)" uib-tooltip="删除" uib-tooltip-trigger="mouseenter" uib-tooltip-placement="top"></i>
       </div>
     </div>
     <!-- end tile  -->
   </div>
   <div class="pull-right">
-    <pagion collection="userGroups" display="userGroupsForDisplay"></pagion>
+    <pagion collection="dataset.userGroups" display="dataset.userGroupsForDisplay"></pagion>
   </div>
 </div>

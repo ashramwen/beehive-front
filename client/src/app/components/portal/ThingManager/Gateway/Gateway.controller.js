@@ -29,7 +29,6 @@ angular.module('BeehivePortal')
             }
         };
 
-        if(!$scope.PermissionControl.allowAction('SEARCH_LOCATIONS'))return false;
 
         $$Location.queryAll(function(locations){
             $scope.locationTree = new LocationTree(_.pluck(locations, 'displayName')).tree.children;

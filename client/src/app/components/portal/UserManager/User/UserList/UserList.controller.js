@@ -31,8 +31,7 @@ angular.module('BeehivePortal')
                 text: '查看详情',
                 callback: function(user) {
                     $scope.navigateTo($scope.navMapping.USER_INFO,{userID: user.userID});
-                },
-                hidden: !$scope.PermissionControl.isAllowed('GET_USER')
+                }
             },
             {
                 text:'编辑',
@@ -54,8 +53,7 @@ angular.module('BeehivePortal')
                     }, function () {
                         $log.info('Modal dismissed at: ' + new Date());
                     });
-                },
-                hidden: !$scope.PermissionControl.isAllowed('GET_USER') || !$scope.PermissionControl.allowAction('UPDATE_USER')
+                }
             },{
                 text:'删除',
                 callback: function (user) {
@@ -66,8 +64,7 @@ angular.module('BeehivePortal')
                     },function(){
                         console.log('未能删除用户:' + user.userName)
                     });
-                },
-                hidden: !$scope.PermissionControl.isAllowed('DELETE_USER')
+                }
             }
         ],
         setting:{
@@ -99,9 +96,7 @@ angular.module('BeehivePortal')
         $location.search({'pageIndex': 1});
         $scope.currentIndex = 1;
 
-        if($scope.PermissionControl.allowAction('SEARCH_USERS')){
-            $scope.queryUsers();
-        }
+        $scope.queryUsers();
     };
 
     $scope.pageChanged = function(){

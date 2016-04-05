@@ -6,13 +6,10 @@ angular.module('BeehivePortal')
      * define variables
      */
     
-    $scope.thingTypes = []
+    $scope.thingTypes = [];
 
     $scope.init = function(){
-      if(!$scope.PermissionControl.allowAction('SEARCH_TYPES'))return false;
         $scope.thingTypes = $$Type.getAll();
-
-
     };
 
     $scope.viewThings = function(type){

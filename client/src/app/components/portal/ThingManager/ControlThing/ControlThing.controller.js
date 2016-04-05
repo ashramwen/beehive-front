@@ -42,10 +42,6 @@ angular.module('BeehivePortal')
     }
 
     function initData(){
-        if(!$scope.PermissionControl.isAllowed('SEARCH_THINGS')){
-            $state.go('app.portal.Welcome');
-            return;
-        }
         $scope.dataContainer = {
             mySource: {},
             command: {}

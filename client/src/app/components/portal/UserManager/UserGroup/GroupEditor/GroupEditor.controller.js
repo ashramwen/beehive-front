@@ -1,35 +1,20 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('GroupEditorController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$UserGroup', '$$User', '$$Tag', '$$Permission', '$q', '$location',
-    function($scope, $rootScope, $state, AppUtils, $$UserGroup, $$User, $$Tag, $$Permission, $q, $location) {
+  .controller('GroupEditorController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$UserGroup', '$$User', '$$Tag', '$$Permission', '$q', '$location', '$$Thing',
+    function($scope, $rootScope, $state, AppUtils, $$UserGroup, $$User, $$Tag, $$Permission, $q, $location, $$Thing) {
     
+    $scope.dataset = {};
     $scope.group = {};
+    $scope.isOwner = false;
 
     /*
      * userList caches data of different pages,
      * while userListForDisplay caches only one-page data
      */
-    $scope.userList = [];
-    $scope.userListForDisplay = [];
+    $scope.dataset.userList = [];
+    $scope.dataset.userListForDisplay = [];
 
-    /*
-     * page settings
-     */
-    
-    $scope.currentIndex = 1;
-
-    $scope.pageChanged = function(){
-        $location.search({'pageIndex': $scope.currentIndex});
-        findUsersForDisplay();
-    }
-
-    function findUsersForDisplay(){
-        $scope.userListForDisplay = _.filter($scope.userList, function(user, index){
-            return index >= ($scope.currentIndex - 1) * $scope.listMaxLength 
-                    && index < $scope.currentIndex * $scope.listMaxLength;
-        });
-    }
     /*
      * search options and filed
      */
@@ -54,10 +39,8 @@ angular.module('BeehivePortal')
         var request = {role:'4'};
         if(value) request[queryFiled] = value;
 
-        $$User.query(request,function(userList){
-            console.log(userList);
+        $$User.query(request, function(userList){
             $scope.userList = userList;
-            $scope.pageChanged();
         },function(){
             AppUtils.alert('Failed to load group user list!');
         });
@@ -68,40 +51,19 @@ angular.module('BeehivePortal')
         var userGroupID = $state.params['userGroupID'];
         var request = {userGroupID: userGroupID, includeUserData: '1'};
 
-        if(!$scope.PermissionControl.allowAction('GET_GROUP')) return;
-
         // get group
         $scope.group = $$UserGroup.get({} ,request , function(group){
             $scope.group._users = _.clone($scope.group.users);
+            $scope.group.tags = $$UserGroup.getTags({}, {userGroupID: userGroupID});
+            $scope.group.things = $$UserGroup.getThings({}, {userGroupID: userGroupID});
+            $scope.isOwner = $scope.isCreator(group);
         });
         
         // get user
-        if($scope.PermissionControl.isAllowed('ADD_GROUP_MEMBER') 
-                && $scope.PermissionControl.isAllowed('SEARCH_USERS')){
-            
-            $scope.queryUsers();
-        }
+        $scope.queryUsers();
 
         // get tags
         $scope.tags = $$Tag.queryAll();
-
-        // get permission list
-        if($scope.PermissionControl.isAllowed('GET_GROUP_PERMISSIONS')){
-            $scope.groupPermission = $$Permission.byGroup({userGroupID: userGroupID});
-            if($scope.PermissionControl.isAllowed('GET_ALL_PERMISSIONS')){
-                $scope.permissionList = $$Permission.getList();
-                $q.all([$scope.permissionList.$promise, $scope.groupPermission.$promise]).then(function(data){
-                    /*
-                     * remove existing permissions
-                     */
-                    _.each($scope.groupPermission, function (myPermission) {
-                        $scope.permissionList = _.reject($scope.permissionList, function(permission){
-                            return permission.id == myPermission.id;
-                        });
-                    });
-                });
-            }
-        }
     };
 
     /*
@@ -115,6 +77,34 @@ angular.module('BeehivePortal')
                 return user == groupUser;
             });
         }); 
+    };
+
+    $scope.addTag = function(tag, group){
+        $$UserGroup.bindTag({tags: [tag.fullTagName], userGroupIDs:[group.userGroupID]}, function(){
+            $scope.group.tags = $scope.group.tags || [];
+            $scope.group.tags.push(tag);
+        });
+    }
+
+    $scope.removeTag = function(tag, group){
+        $$UserGroup.unbindTag({tags: [tag.fullTagName], userGroupIDs:[group.userGroupID]}, function(){
+            $scope.group.tags.remove(tag);
+        });
+    };
+
+    $scope.addThings = function(globalThingIDs, group){
+        $$UserGroup.bindThing({}, {globalThingIDs: [globalThingIDs], userGroupIDs: [group.userGroupID]}, function(things){
+            $scope.group.things = $scope.group.things || [];
+            _.each(globalThingIDs, function(globalThingID){
+                $scope.group.things.push($$Thing.get({globalThingID: globalThingID}));
+            });
+        });
+    };
+
+    $scope.removeThing = function(thing, group){
+        $$UserGroup.unbindThing({globalThingIDs: [thing.globalThingID], userGroupIDs: [group.userGroupID]}, function(){
+            $scope.group.things.remove(thing);
+        });
     };
 
     $scope.addUser = function(user, group){
@@ -135,33 +125,6 @@ angular.module('BeehivePortal')
             $scope.navigateTo($scope.navMapping.USER_GROUP);
         });
     };
-
-
-    $scope.bindPermission = function (permission, userGroup){
-        var params = {permissionID:permission.id, userGroupID: userGroup.userGroupID };
-        var callback = function(){
-            var permissionClone = _.clone(permission);
-
-            $scope.groupPermission.push(permissionClone);
-            $scope.permissionList.remove(permission);
-        };
-
-        $$Permission.bindGroup(params,callback);
-    };
-
-    $scope.unbindPermission = function (permission, userGroup) {
-        var params, callback;
-        params = {permissionID:permission.id, userGroupID: userGroup.userGroupID };
-        callback = function (){
-            var permissionClone = _.clone(permission);
-
-            $scope.groupPermission.remove(permission);
-            $scope.permissionList.push(permissionClone);
-        };
-
-        $$Permission.unbindGroup(params, callback);
-    };
-
 
     
   }]);
