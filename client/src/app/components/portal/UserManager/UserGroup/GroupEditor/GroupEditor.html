@@ -88,23 +88,6 @@
               {{tag.displayName}} <span ng-if="isCreator(tag)" class="fa fa-remove" ng-click="removeTag(tag, group)"></span>
             </span>
           </div>
-          <div class="form-group">
-            <table>
-              <tr>
-                <td>
-                  <div app-select selected-model="queryFiled" options="queryOptions" class="input-group-btn" text="text"></div>
-                </td>
-                <td>
-                  <div class="input-group">
-                    <input type="text" class="form-control" ng-model="searchValue" placeholder="Search for...">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button" ng-click="queryUsers(queryFiled.value, searchValue)">Go!</button>
-                    </span>
-                  </div>
-                </td>
-              </tr>
-            </table>
-          </div>
           <div>
             <table class="table table-striped table-bordered table-hover dataTable no-footer">
               <thead>

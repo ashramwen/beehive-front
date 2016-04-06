@@ -61,9 +61,9 @@ angular.module('BeehivePortal')
         if(value) {
             request[queryFiled] = value;
             request.includeUserData = '0';
-            $scope.userGroups = $$UserGroup.query({}, request);
+            $scope.dataset.userGroups = $$UserGroup.query({}, request);
         }else{
-            $scope.userGroups = $$UserGroup.getList();
+            $scope.dataset.userGroups = $$UserGroup.getList();
         }
         
         
@@ -85,7 +85,7 @@ angular.module('BeehivePortal')
 
         modalInstance.result.then(function (newGroup) {
             console.log(newGroup);
-            $scope.userGroups.push(newGroup);
+            $scope.dataset.userGroups.push(newGroup);
         }, function () {
             
         });
@@ -107,7 +107,7 @@ angular.module('BeehivePortal')
     $scope.deleteGroup = function(group){
         AppUtils.confirm('删除用户群组','确定要删除用户群组['+ group.userGroupName +']吗?',function(){
             $$UserGroup.remove({},group, function(){
-                $scope.userGroups = _.reject($scope.userGroups, function(userGroup){
+                $scope.dataset.userGroups = _.reject($scope.dataset.userGroups, function(userGroup){
                     return userGroup == group;
                 });
             });
