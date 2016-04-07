@@ -164,6 +164,17 @@ angular.module('BeehivePortal')
         });
     };
 
+    TriggerService.revertCron = function(cron){
+        cron = cron.substr(2);
+        cron = cron.substr(0, cron.length - 1) + '*';
+        return cron;
+    };
+
+    TriggerService.getRightCron = function(cron){
+        cron = '0 ' + cron;
+        return cron.substr(0, cron.lastIndexOf('*')) + '?';
+    };
+
     TriggerService.xSchema = function(schema1, schema2){
         var schema = {statesSchema:{}, actions:[]},
             properties1 = schema1.statesSchema.properties,

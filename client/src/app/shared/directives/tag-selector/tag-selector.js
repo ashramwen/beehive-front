@@ -40,15 +40,12 @@ angular.module('BeehivePortal')
             $scope.init = function(){
                 $scope.dataset = {};
                 
-                if($scope.tagAllowed){
-                    $scope.dataset.tags = $$Tag.queryAll();
-                }
+                $scope.dataset.tags = $$Tag.queryAll();
 
-                if($scope.locationAllowed){
-                    $$Location.queryAll(function(locations){
-                        $scope.dataset.locations = (new LocationTree(_.pluck(locations, 'displayName'))).tree.children;
-                    });
-                }
+                $$Location.queryAll(function(locations){
+                    $scope.dataset.locations = (new LocationTree(_.pluck(locations, 'displayName'))).tree.children;
+                });
+                
                 $scope.whenSelectedItemChange();
             };
 

@@ -10,7 +10,7 @@ constant('AUTH_EVENTS', {
   loginFailed: 'auth-login-failed',
   logoutSuccess: 'auth-logout-success',
   sessionTimeout: 'auth-session-timeout',
-  notAuthenticated: 'auth-not-authenticated',
+  notAuthenticated: 'UnauthorizedException',
   notAuthorized: 'auth-not-authorized',
 }).
 config(function(localStorageServiceProvider, $httpProvider) {
@@ -26,7 +26,7 @@ config(function(localStorageServiceProvider, $httpProvider) {
 
     $httpProvider.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8';
     $httpProvider.defaults.headers.common['Authorization'] = 'Bearer d31032a0-8ebf-11e5-9560-00163e02138f';
-    $httpProvider.interceptors.push(function($q) {
+    $httpProvider.interceptors.push(function($q, AUTH_EVENTS) {
       return {
         request: function(request) {
             $('#spinner').show();
@@ -44,9 +44,17 @@ config(function(localStorageServiceProvider, $httpProvider) {
         responseError: function(response){
             hideLoading();
             $('#spinner').hide();
-            if(response.status == 401){
-              window.alertMessage('您没有相应的操作权限。');
-              //window.location = 'index.html#/app/secure/UserLogin';
+            switch(response.status){
+                case 401: 
+                    window.alertMessage('您没有相应的操作权限。');
+                    break;
+                case 500:
+                    switch(response.data.errorCode){
+                        case AUTH_EVENTS.notAuthenticated:
+                            window.location = '#/';
+                            break;
+                    }
+                    break;
             }
             return $q.reject(response);
         }

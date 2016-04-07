@@ -36,6 +36,9 @@ angular.module('BeehivePortal')
                 $scope.dataContainer.schedule = $scope.trigger.predicate.schedule || {};
                 if($scope.trigger.predicate.schedule){
                     $scope.dataContainer.schedule.enabled = true;
+                    if($scope.dataContainer.schedule.cron){
+                        $scope.dataContainer.schedule.cron = TriggerService.revertCron($scope.dataContainer.schedule.cron);
+                    }
                 }
                 _.each($scope.trigger.targets, function(target, index){
                     $scope.dataContainer.myTargets.push(target);
@@ -99,15 +102,15 @@ angular.module('BeehivePortal')
              */
             function saveSchedule(){
                 if($scope.dataContainer.schedule.enabled){
-                    if($scope.dataContainer.schedule.type == 'interval'){
-                        delete $scope.dataContainer.schedule.cron;
+                    var schedule = _.clone($scope.dataContainer.schedule);
+                    if(schedule.type == 'Interval'){
+                        delete schedule.cron;
                     }else{
-                        delete $scope.dataContainer.schedule.timeUnit;
-                        delete $scope.dataContainer.schedule.interval;
-                        $scope.dataContainer.schedule.cron = '0 ' + $scope.dataContainer.schedule.cron;
+                        delete schedule.timeUnit;
+                        delete schedule.interval;
+                        schedule.cron = TriggerService.getRightCron(schedule.cron);
                     }
-                    $scope.trigger.setSchedule($scope.dataContainer.schedule);
-                    console.log($scope.dataContainer.schedule);
+                    $scope.trigger.setSchedule(schedule);
                 }else{
                     delete $scope.trigger.predicate.schedule;
                 }

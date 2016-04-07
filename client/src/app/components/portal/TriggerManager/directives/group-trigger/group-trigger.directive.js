@@ -29,11 +29,20 @@ angular.module('BeehivePortal')
                         andExpress: $scope.trigger.source.andExpress
                     },
                     predicate: null,
+                    schedule:{},
                     sourceSchema: null,
                     myTargets: [],
                     targetSchemas: [],
                     policy: $scope.trigger.policy || {groupPolicy: 'All'}
                 };
+
+                $scope.dataContainer.schedule = $scope.trigger.predicate.schedule || {};
+                if($scope.trigger.predicate.schedule){
+                    $scope.dataContainer.schedule.enabled = true;
+                    if($scope.dataContainer.schedule.cron){
+                        $scope.dataContainer.schedule.cron = TriggerService.revertCron($scope.dataContainer.schedule.cron);
+                    }
+                }
 
                 TriggerService.getSourceTypes($scope.dataContainer.mySource).then(function(types){
                     $scope.dataContainer.mySource.thingTypes = types;
@@ -141,7 +150,6 @@ angular.module('BeehivePortal')
                 $scope.trigger.setSource($scope.dataContainer.mySource, $scope.dataContainer.mySource.sourceType);
             }
 
-           
             /**
              * step 2, save group trigger's trigger condition
              * @return {[type]} [description]
@@ -150,10 +158,32 @@ angular.module('BeehivePortal')
                 $scope.trigger.setTriggersWhen($scope.dataContainer.predicate.triggersWhen);
                 $scope.trigger.setCondition($scope.dataContainer.predicate.condition);
                 $scope.trigger.setPolicy($scope.dataContainer.policy);
+                saveSchedule();
             }
 
             /**
-             * step 3, save summary trigger's trigger target
+             * save schedule
+             * @return {[type]} [description]
+             */
+            function saveSchedule(){
+                if($scope.dataContainer.schedule.enabled){
+                    var schedule = _.clone($scope.dataContainer.schedule);
+                    if(schedule.type == 'Interval'){
+                        delete schedule.cron;
+                    }else{
+                        delete schedule.timeUnit;
+                        delete schedule.interval;
+                        delete schedule.enabled;
+                        schedule.cron = TriggerService.getRightCron(schedule.cron);
+                    }
+                    $scope.trigger.setSchedule(schedule);
+                }else{
+                    delete $scope.trigger.predicate.schedule;
+                }
+            };
+
+            /**
+             * step 3, save trigger's trigger target
              * @return {[type]} [description]
              */
             function saveTarget(){

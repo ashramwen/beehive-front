@@ -3,7 +3,7 @@
     <!-- tags -->
     <div class="col-xs-5" ng-if="!disabled">
       <uib-tabset>
-        <uib-tab heading="标签" ng-if="tagAllowed">
+        <uib-tab heading="标签">
           <treecontrol class="tree-classic"
              tree-model="dataset.tags"
              options="treeOptions"
@@ -11,7 +11,7 @@
             {{node['displayName']}}
           </treecontrol>
         </uib-tab>
-        <uib-tab heading="位置" ng-if="locationAllowed">
+        <uib-tab heading="位置">
           <treecontrol class="tree-classic"
             tree-model="dataset.locations"
              options="treeOptions"
