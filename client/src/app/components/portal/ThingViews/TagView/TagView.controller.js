@@ -91,7 +91,7 @@ angular.module('BeehivePortal')
     $scope.ok = function () {
         $$Tag.create($scope.newTag, function(tag){
             tag.count = 0;
-            tag.displayName = tag.tagName.substr(8);
+            tag.displayName = tag.tagName.substr(7);
             tag.createBy = $rootScope.credential.userID;
             $uibModalInstance.close(tag);
         },function(response){
