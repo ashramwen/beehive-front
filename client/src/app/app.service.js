@@ -3,27 +3,40 @@
  */
 
 angular.module('BeehivePortal')
-  .service('Session', ['localStorageService', 'AppUtils', '$http', '$rootScope', function(localStorageService, AppUtils, $http, $rootScope) {
+  .service('Session', ['localStorageService', 'AppUtils', '$http', '$rootScope', '$$User', '$q', 'AUTH_EVENTS', function(localStorageService, AppUtils, $http, $rootScope, $$User, $q, AUTH_EVENTS) {
     var session = {};
     window.MyApp = window.MyApp || {};
 
     session.setCredential = function(credential){
         AppUtils.setSessionItem('credential', credential);
-        session.useCredential();
+        $rootScope.credential = credential;
+        window.MyApp.credential = credential;
+        $http.defaults.headers.common['Authorization'] = 'Bearer ' + credential['accessToken'];
     };
 
     session.useCredential = function(){
         var credential = AppUtils.getSessionItem('credential');
-        if(credential){
-          $rootScope.credential = credential;
-          window.MyApp.credential = credential;
-          $http.defaults.headers.common['Authorization'] = 'Bearer ' + credential['accessToken'];
-        }
-    }
+        return $q(function(resolve, reject){
+            if(!credential){
+                reject(AUTH_EVENTS.tokenNotGiven);
+                return;
+            }
+            $$User.validate({accessToken: credential['accessToken']}, function(){
+                session.setCredential(credential);
+                resolve(credential);
+            }, function(error){
+                if(error.status != 403){
+                    reject(AUTH_EVENTS.loginFailed);
+                }else{
+                    reject(AUTH_EVENTS.UnauthorizedException);
+                }
+            }); 
+        });
+    };
 
     session.getCredential = function(){
         return AppUtils.getSessionItem('credential');
-    }
+    };
 
     
     window.MyApp.credential = session.getCredential();
@@ -33,6 +46,7 @@ angular.module('BeehivePortal')
         TIMEOUT: 'timeout',
         UNKNOWN: 'unknon'
     };
+
     session._status = session.StatusType.UNKNOWN;
 
     /*
@@ -56,13 +70,13 @@ angular.module('BeehivePortal')
      */
     session.currentUser = function() {
       return localStorageService.get(AppTags.USER);
-    }
+    };
     session.getStatus = function(){
         return session._status;
-    }
+    };
     session.isAuthen = function(){
         return session._status == session.StatusType.SIGNEDIN;
-    }
+    };
 
     return session;
   }]);

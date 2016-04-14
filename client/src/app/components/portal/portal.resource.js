@@ -24,6 +24,10 @@ angular.module('BeehivePortal')
               url: MyAPIs.OPERATOR + '/login',
               method: 'POST'
           },
+          validate: {
+              url: MyAPIs.OPERATOR + '/validatetoken',
+              method: 'POST'
+          },
           changePassword: {
               url: MyAPIs.OPERATOR + '/changepassword',
               method: 'POST'

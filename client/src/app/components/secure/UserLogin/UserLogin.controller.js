@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('UserLoginController', ['$scope', '$rootScope', '$state', 'AppUtils','UserLoginService','Session', '$$User', '$uibModal', function($scope, $rootScope, $state, AppUtils, UserLoginService, Session, $$User, $uibModal) {
+  .controller('UserLoginController', ['$scope', '$rootScope', '$state', 'AppUtils','Session', '$$User', '$uibModal', function($scope, $rootScope, $state, AppUtils, Session, $$User, $uibModal) {
     
     $scope.credentials = {
         userID: '',

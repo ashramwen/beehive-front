@@ -6,6 +6,7 @@ var MyApp = angular.module('BeehivePortal', ['ngAnimate', 'ngCookies', 'ngSaniti
   'angular-cron-jobs'
 ]).
 constant('AUTH_EVENTS', {
+  tokenNotGiven: 'token-not-given',
   loginSuccess: 'auth-login-success',
   loginFailed: 'auth-login-failed',
   logoutSuccess: 'auth-logout-success',
