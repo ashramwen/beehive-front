@@ -1,6 +1,6 @@
 angular.module('BeehivePortal')
-    .factory('AppUtils', ['$http', '$location', '$q', '$state', '$timeout', '$uibModal',
-    function ($http, $location, $q, $state, $timeout, $uibModal) {
+    .factory('AppUtils', ['$http', '$location', '$q', '$state', '$timeout', '$uibModal', '$rootScope',
+    function ($http, $location, $q, $state, $timeout, $uibModal, $rootScope) {
         window.app = {};
         app.utils = {
             initialize: function(){
@@ -36,6 +36,7 @@ angular.module('BeehivePortal')
                 window.alertMessage = function(msg){
                     app.utils.alert(msg, '提示');
                 };
+
             },
             /**
              * placeholder for IE
