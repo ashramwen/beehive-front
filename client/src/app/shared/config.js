@@ -5,13 +5,15 @@
  */
 
 (function () {
-    
+    var siteUrl = appConfig[appConfig.ENV].siteUrl;
+    window.thirdPartyAPIUrl = appConfig[appConfig.ENV].thirdPartyAPIUrl;
     /*
      * API used globally for web service
      * by George Lin
      */
-    var siteUrl = 'https://114.215.196.178:443',
-        apiSuffix = siteUrl + '/beehive-portal/api';
+
+    var apiSuffix = siteUrl + '/beehive-portal/api';
+
     window.MyAPIs = {
         OPERATOR: '/oauth2',
         USER:'/users',
@@ -25,8 +27,6 @@
         ONBOARDING: '/onboardinghelper',
         SUPPLIER: '/devicesuppliers'
     };
-
-    window.thirdPartyAPIUrl = 'http://114.215.196.178:8081/3rdpartyapiserver/app/api_inquiry/apilist.html?vendor=Beehive';
 
     /*
      * init api urls

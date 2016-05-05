@@ -5,7 +5,8 @@ angular.module('BeehivePortal')
     
     $scope.credentials = {
         userID: '',
-        password: ''
+        password: '',
+        permanentToken: false
     };
 
 

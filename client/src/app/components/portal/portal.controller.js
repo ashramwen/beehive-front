@@ -29,7 +29,7 @@ angular.module('BeehivePortal')
         return _.find(nav.subViews, function(subView){
             return !subView.hidden;
         });
-    }
+    };
 
     $scope.toggleMenu = function(){
         $('.left-side').toggleClass('sidebar-offcanvas');
@@ -39,7 +39,7 @@ angular.module('BeehivePortal')
     $scope.logout = function(){
         Session.destroy();
         $state.go('app.secure.UserLogin');
-    }
+    };
 
     $scope.isCreator = ownership.isCreator;
   }]);

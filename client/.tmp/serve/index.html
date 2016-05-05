@@ -57,8 +57,8 @@
   <link rel="stylesheet" href="app/css/components/portal/UserManager/ThingAuthority/ThingAuthority.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/User.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/UserGroup/UserGroup.css">
-  <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/group-trigger/group-trigger.css">
   <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/select-policy/select-policy.css">
+  <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/group-trigger/group-trigger.css">
   <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/select-schedule/select-schedule.css">
   <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/trigger-command/trigger-command.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/NewUser/NewUser.css">
@@ -84,6 +84,7 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif] -->
   <div ui-view></div>
+  <script type="text/javascript" src="/config.js"></script>
   <!-- build:js(src) scripts/vendor.js -->
   <!-- bower:js -->
   <script src="../bower_components/jquery/dist/jquery.js"></script>
@@ -179,6 +180,9 @@
   <script src="app/shared/directives/input-options/input-options.directive.js"></script>
   <script src="app/shared/directives/app-slider/app-slider.directive.js"></script>
   <script src="app/shared/directives/app-select/app-select.js"></script>
+  <script src="app/components/secure/UserLogin/UserLogin.controller.js"></script>
+  <script src="app/components/secure/AdminLogin/AdminLogin.service.js"></script>
+  <script src="app/components/secure/AdminLogin/AdminLogin.controller.js"></script>
   <script src="app/components/portal/Welcome/Welcome.controller.js"></script>
   <script src="app/components/portal/UserManager/UserManager.controller.js"></script>
   <script src="app/components/portal/TriggerManager/TriggerManager.service.js"></script>
@@ -186,19 +190,16 @@
   <script src="app/components/portal/ThingViews/ThingViews.controller.js"></script>
   <script src="app/components/portal/ThingManager/ThingManager.controller.js"></script>
   <script src="app/components/portal/Settings/Settings.controller.js"></script>
-  <script src="app/components/secure/UserLogin/UserLogin.controller.js"></script>
-  <script src="app/components/secure/AdminLogin/AdminLogin.service.js"></script>
-  <script src="app/components/secure/AdminLogin/AdminLogin.controller.js"></script>
   <script src="app/shared/models/Trigger.js"></script>
   <script src="app/shared/models/LocationTree.js"></script>
   <script src="app/shared/models/BeehiveThing.js"></script>
   <script src="app/shared/models/BeehiveCommand.js"></script>
   <script src="app/shared/filters/filters.js"></script>
+  <script src="app/components/secure/secure.service.js"></script>
+  <script src="app/components/secure/secure.controller.js"></script>
   <script src="app/components/portal/portal.service.js"></script>
   <script src="app/components/portal/portal.resource.js"></script>
   <script src="app/components/portal/portal.controller.js"></script>
-  <script src="app/components/secure/secure.service.js"></script>
-  <script src="app/components/secure/secure.controller.js"></script>
   <script src="app/shared/utils.js"></script>
   <script src="app/shared/directives.js"></script>
   <script src="app/shared/config.js"></script>
@@ -208,8 +209,8 @@
 
   <!-- route:js -->
   <script src="app/app.route.js"></script>
-  <script src="app/components/secure/secure.route.js"></script>
   <script src="app/components/portal/portal.route.js"></script>
+  <script src="app/components/secure/secure.route.js"></script>
   <script src="app/components/portal/ThingManager/ThingManager.route.js"></script>
   <script src="app/components/portal/ThingViews/ThingViews.route.js"></script>
   <script src="app/components/portal/UserManager/UserManager.route.js"></script>

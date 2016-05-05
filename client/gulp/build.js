@@ -98,5 +98,10 @@ gulp.task('sass', function () {
     .pipe(gulp.dest(paths.src + '/app/css'));
 });
 
-gulp.task('dist', ['html', 'images', 'misc', 'fonts', 'fonts-local']);
+gulp.task('config', function () {
+  return gulp.src(paths.src + '/config.js')
+    .pipe(gulp.dest(paths.dist + '/'));
+});
+
+gulp.task('dist', ['html', 'images', 'misc', 'fonts', 'fonts-local', 'config']);
 gulp.task('build',['sass','inject','partials','watch']);
