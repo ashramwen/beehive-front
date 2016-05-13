@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('UserListController', ['$scope', '$rootScope', '$state', 'AppUtils', '$uibModal', '$log', '$location', '$$User',function($scope, $rootScope, $state, AppUtils, $uibModal, $log, $location, $$User) {
+  .controller('UserListController', ['$scope', '$rootScope', '$state', 'AppUtils', '$uibModal', '$log', '$location', '$$UserManager',function($scope, $rootScope, $state, AppUtils, $uibModal, $log, $location, $$UserManager) {
     /*
      * userList caches data of different pages,
      * while userListForDisplay caches only one-page data
@@ -57,7 +57,7 @@ angular.module('BeehivePortal')
             },{
                 text:'删除',
                 callback: function (user) {
-                    $$User.remove({},user,function(){
+                    $$UserManager.remove({},user,function(){
                         console.log('用户' + user.userName + '已被删除！');
                         $scope.userList.remove(user);
                         findUsersForDisplay();
@@ -77,10 +77,10 @@ angular.module('BeehivePortal')
      */
     $scope.queryUsers = function(queryFiled, value){
 
-        var request = {role:'4'};
+        var request = {};
         if(value) request[queryFiled] = value;
 
-        $$User.query(request,function(userList){
+        $$UserManager.query(request,function(userList){
             console.log(userList);
             $scope.userList = userList;
             $scope.pageChanged();

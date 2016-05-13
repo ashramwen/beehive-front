@@ -10,6 +10,7 @@ angular.module('BeehivePortal')
             $state.go('app.secure.UserLogin');
         }else{
             AppUtils.alert('用户登录口令过期，请重新登陆！', '用户登录过期', function(){
+                AppUtils.clearSession();
                 if(error.status == -1){
 
                 }

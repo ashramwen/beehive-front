@@ -1,41 +1,15 @@
 angular.module('BeehivePortal')
   .factory('$$User', ['$resource', function($resource) {
-      var User = $resource(MyAPIs.USER + '/:id',{ id: '@userID' }, {
+      var User = $resource(MyAPIs.USER + '/:userID',{ userID: '@userID' }, {
+          get: {
+              method: 'GET',
+              url: MyAPIs.USER + '/me'
+          },
           update: {
-              method: 'PATCH' // this method issues a PUT request
+              method: 'PATCH',
+              url: MyAPIs.USER + '/me'
           },
-          remove:{
-              method: 'DELETE'
-          },
-          create:{
-              url: MyAPIs.USER,
-              method: 'POST'
-          },
-          query:{
-              url: MyAPIs.USER + '/simplequery',
-              method: 'POST',
-              isArray: true
-          },
-          register: {
-              url: MyAPIs.OPERATOR + '/register',
-              method: 'POST'
-          },
-          login: {
-              url: MyAPIs.OPERATOR + '/login',
-              method: 'POST'
-          },
-          validate: {
-              url: MyAPIs.OPERATOR + '/validatetoken',
-              method: 'POST'
-          },
-          changePassword: {
-              url: MyAPIs.OPERATOR + '/changepassword',
-              method: 'POST'
-          },
-          logout: {
-              url: MyAPIs.OPERATOR + '/logout',
-              method: 'POST'
-          },
+          
           bindThing: {
               url: MyAPIs.THING + '/:globalThingIDs/users/:userIDs',
               params: {
@@ -83,11 +57,93 @@ angular.module('BeehivePortal')
                   userID: '@userID'
               },
               isArray: true
+          },
+          getPermissions: {
+              url: MyAPIs.USER + '/permissionTree',
+              method: 'GET',
+              isArray: true
+          },
+          changePassword: {
+              url: MyAPIs.USER + '/changepassword',
+              method: 'POST'
+          },
+          query:{
+              url: MyAPIs.USER + '/simplequery',
+              method: 'POST',
+              isArray: true,
+              transformRequest: function(data, headers){
+                return JSON.stringify(data);
+              }
           }
       });
 
       //User.query = searchUser.query;
       return User;
+  }])
+  .factory('$$Auth', ['$resource', function($resource){
+      var $$Auth = $resource(MyAPIs.OPERATOR, {},{
+          initpassword: {
+              method: 'POST',
+              url: MyAPIs.OPERATOR + '/initpassword'
+          },
+          activate: {
+              url: MyAPIs.OPERATOR + '/activate',
+              method: 'POST'
+          },
+          login: {
+              url: MyAPIs.OPERATOR + '/login',
+              method: 'POST'
+          },
+          logout: {
+              url: MyAPIs.OPERATOR + '/logout',
+              method: 'POST'
+          },
+          validate: {
+              url: MyAPIs.OPERATOR + '/validatetoken',
+              method: 'POST'
+          }
+      });
+
+      return $$Auth;
+  }])
+  .factory('$$UserManager', ['$resource', function($resource){
+      var $$UserManager = $resource(MyAPIs.USER_MANAGER + '/:userID', {userID: '@userID'}, {
+          update: {
+              method: 'PATCH',
+              url: MyAPIs.USER_MANAGER + '/:userID',
+              params: {
+                userID: '@userID'
+              }
+          },
+          remove:{
+              method: 'DELETE',
+              url: MyAPIs.USER_MANAGER + '/:userID',
+              params: {
+                userID: '@userID'
+              }
+          },
+          create:{
+              url: MyAPIs.USER_MANAGER,
+              method: 'POST'
+          },
+          changePassword: {
+              url: MyAPIs.USER_MANAGER + '/:userID/resetpassword',
+              method: 'POST',
+              params: {
+                  userID: '@userID'
+              }
+          },
+          query:{
+              url: MyAPIs.USER + '/simplequery',
+              method: 'POST',
+              isArray: true,
+              transformRequest: function(data, headers){
+                return JSON.stringify(data);
+              }
+          }
+      });
+
+      return $$UserManager;
   }])
   .factory('$$UserGroup', ['$resource', function($resource){
       var UserGroup = $resource(MyAPIs.USER_GROUP + '/:id',{id: '@userGroupID'}, {
@@ -268,15 +324,13 @@ angular.module('BeehivePortal')
               params: {globalThingID: '@globalThingID'}
           },
           getEndNodes: {
-              url: 'http://api-development-beehivecn3.internal.kii.com/thing-if/apps/:kiiAppID/things/:kiiThingID/end-nodes',
-              params: {kiiThingID: '@kiiThingID', kiiAppID: '@kiiAppID'},
-              headers: {
-                Authorization: 'Bearer c63Z840BhnyLgyL6TAoKeq0iGdUM6L1vZemenWrWjxc'
-              },
-              method: 'GET'
+              url: MyAPIs.THING+ '/:globalThingID/endnodes',
+              params: {globalThingID: '@globalThingID'},
+              method: 'GET',
+              isArray: true
           },
           getEndNode: {
-              url: 'http://api-development-beehivecn3.internal.kii.com/thing-if/apps/:kiiAppID/targets/THING::thingID/states',
+              url: MyAPIs.CLOUD_THING_IF + '/apps/:kiiAppID/targets/THING::thingID/states',
               params: {thingID: '@thingID', kiiAppID: '@kiiAppID'},
               headers: {
                 Authorization: 'Bearer c63Z840BhnyLgyL6TAoKeq0iGdUM6L1vZemenWrWjxc'
@@ -284,7 +338,7 @@ angular.module('BeehivePortal')
               method: 'GET'
           },
           replaceEndNode: {
-              url: 'http://api-development-beehivecn3.internal.kii.com/thing-if/apps/:kiiAppID/things/:kiiThingID/end-nodes/:thingID',
+              url: MyAPIs.CLOUD_THING_IF + '/apps/:kiiAppID/things/:kiiThingID/end-nodes/:thingID',
               params: {thingID: '@thingID', kiiAppID: '@kiiAppID', kiiThingID: '@kiiThingID'},
               headers: {
                   Authorization: 'Bearer c63Z840BhnyLgyL6TAoKeq0iGdUM6L1vZemenWrWjxc'
@@ -303,7 +357,7 @@ angular.module('BeehivePortal')
           },
           removeEndNode: {
               method: 'DELETE',
-              url: 'http://api-development-beehivecn3.internal.kii.com/thing-if/apps/:kiiAppID/things/:kiiThingID/end-nodes/:thingID',
+              url: MyAPIs.CLOUD_THING_IF + '/apps/:kiiAppID/things/:kiiThingID/end-nodes/:thingID',
               params: {thingID: '@thingID', kiiAppID: '@kiiAppID', kiiThingID: '@kiiThingID'},
               headers: {
                   Authorization: 'Bearer c63Z840BhnyLgyL6TAoKeq0iGdUM6L1vZemenWrWjxc'
@@ -384,34 +438,9 @@ angular.module('BeehivePortal')
   }])
   .factory('$$Permission', ['$resource', function($resource){
       var Permission = $resource(MyAPIs.PERMISSION, {}, {
-          getList: {
-              url: MyAPIs.PERMISSION + '/list',
-              method: 'GET',
-              isArray: true
-          },
-          byGroup: {
-              url: MyAPIs.PERMISSION + '/userGroup/:userGroupID',
-              method: 'GET',
-              params: {
-                  userGroupID: '@userGroupID'
-              },
-              isArray: true
-          },
-          bindGroup: {
-              url: MyAPIs.PERMISSION + '/:permissionID/userGroup/:userGroupID',
-              params: {
-                  userGroupID: '@userGroupID',
-                  permissionID: '@permissionID'
-              },
-              method: 'POST'
-          },
-          unbindGroup: {
-              url: MyAPIs.PERMISSION + '/:permissionID/userGroup/:userGroupID',
-              method: 'DELETE',
-              params: {
-                  userGroupID: '@userGroupID',
-                  permissionID: '@permissionID'
-              }
+          get: {
+              url: MyAPIs.SYSTEM_PERMISSION,
+              method: 'GET'
           }
       });
 

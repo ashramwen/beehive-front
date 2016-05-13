@@ -45,8 +45,7 @@ angular.module('BeehivePortal')
     };
 
     $scope.showGatewayThings = function(gateway){
-        $$Thing.getEndNodes({}, gateway, function(response){
-            var endNodes = response.results;
+        $$Thing.getEndNodes({}, gateway, function(endNodes){
 
             $scope.endNodes = endNodes;
 

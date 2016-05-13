@@ -9,24 +9,15 @@ angular.module('BeehivePortal')
     };
 
     $scope.changePassword = function(password){
-        var ajaxSettings = {
-            method: 'POST',
-            url: MyAPIs.OPERATOR + '/changepassword',
-            data: password,
-            headers: {
-                'accessToken': 'Bearer ' + MyApp.credential.accessToken
-            }
-        };
-
         if(password.newPassword != password.confirmPassword){
             AppUtils.alert('新密码与输入的确认密码不一致，请重新输入！');
             return;
         }
 
-        $http(ajaxSettings).then(function(){
+        $$User.changePassword(password, function(){
             AppUtils.alert('更改密码成功！');
         }, function(){
             AppUtils.alert('更改密码失败！');
         });
-    }
+    };
   }]);

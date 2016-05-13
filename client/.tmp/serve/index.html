@@ -57,8 +57,8 @@
   <link rel="stylesheet" href="app/css/components/portal/UserManager/ThingAuthority/ThingAuthority.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/User.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/UserGroup/UserGroup.css">
-  <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/select-policy/select-policy.css">
   <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/group-trigger/group-trigger.css">
+  <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/select-policy/select-policy.css">
   <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/select-schedule/select-schedule.css">
   <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/trigger-command/trigger-command.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/NewUser/NewUser.css">
@@ -84,7 +84,7 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif] -->
   <div ui-view></div>
-  <script type="text/javascript" src="/config.js"></script>
+  <script type="text/javascript" src="config.js"></script>
   <!-- build:js(src) scripts/vendor.js -->
   <!-- bower:js -->
   <script src="../bower_components/jquery/dist/jquery.js"></script>
@@ -110,6 +110,7 @@
   <script src="../bower_components/jsoneditor/dist/jsoneditor.min.js"></script>
   <script src="../bower_components/ng-jsoneditor/ng-jsoneditor.min.js"></script>
   <script src="../bower_components/angular-cron-jobs/dist/angular-cron-jobs.min.js"></script>
+  <script src="../bower_components/angular-translate/angular-translate.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
@@ -141,12 +142,12 @@
   <script src="app/components/portal/UserManager/User/NewUser/NewUser.service.js"></script>
   <script src="app/components/portal/UserManager/User/NewUser/NewUser.controller.js"></script>
   <script src="app/components/portal/TriggerManager/directives/trigger-control-group/trigger-control-group.directive.js"></script>
+  <script src="app/components/portal/TriggerManager/directives/select-schedule/select-schedule.directive.js"></script>
+  <script src="app/components/portal/TriggerManager/directives/select-policy/select-policy.directive.js"></script>
   <script src="app/components/portal/TriggerManager/directives/trigger-command/trigger-command.directive.js"></script>
   <script src="app/components/portal/TriggerManager/directives/summary-trigger/summary-trigger.directive.js"></script>
   <script src="app/components/portal/TriggerManager/directives/single-trigger/single-trigger.directive.js"></script>
   <script src="app/components/portal/TriggerManager/directives/select-source/select-source.directive.js"></script>
-  <script src="app/components/portal/TriggerManager/directives/select-schedule/select-schedule.directive.js"></script>
-  <script src="app/components/portal/TriggerManager/directives/select-policy/select-policy.directive.js"></script>
   <script src="app/components/portal/TriggerManager/directives/select-multiple-source/select-multiple-source.js"></script>
   <script src="app/components/portal/TriggerManager/directives/schedule-trigger/schedule-trigger.directive.js"></script>
   <script src="app/components/portal/TriggerManager/directives/group-trigger/group-trigger.directive.js"></script>

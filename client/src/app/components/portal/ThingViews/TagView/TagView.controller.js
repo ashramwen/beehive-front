@@ -128,26 +128,30 @@ angular.module('BeehivePortal')
         var thingIDs = $scope.selectedThings;
 
         $$Tag.update($scope.tag, function(tagName){
-            $$Thing.bindTags({things: thingIDs.join(','), tags: $scope.tag.displayName}, function(){
-                
-                /*
-                 * get ids of things abondoned
-                 */
-                var idsToDelete = _.difference($scope.existingIDs, thingIDs),
-                    count = thingIDs.length;
 
-                /*
-                 * delete old thing id
-                 */
-                if(idsToDelete.length>0){
-                    $$Thing.removeTags({things:idsToDelete.join(','), tags: $scope.tag.displayName});
-                }
+            /*
+             * get ids of things abondoned
+             */
+            var idsToDelete = _.difference($scope.existingIDs, thingIDs),
+                count = thingIDs.length;
 
-                $scope.tag.count = count;
-                
+            /*
+             * delete old thing id
+             */
+            var promises = [];
+            if(idsToDelete.length>0){
+                var p = $$Thing.removeTags({things:idsToDelete.join(','), tags: $scope.tag.displayName}).$promise;
+                promises.push(p);
+            }
+            if(thingIDs.length>0){
+                var p = $$Thing.bindTags({things: thingIDs.join(','), tags: $scope.tag.displayName}).$promise;
+                promises.push(p);
+            }
 
-                $uibModalInstance.close($scope.tag);    
+            $q.all(promises).then(function(){
+                $uibModalInstance.close($scope.tag);
             });
+            
         },function(response){
             AppUtils.alert(response);
         });

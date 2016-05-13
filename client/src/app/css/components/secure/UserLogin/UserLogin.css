@@ -194,3 +194,6 @@
 
 .app-secure-userlogin .form-signin {
   padding: 0px 34px; }
+
+.app-secure-userlogin .carousel-inner {
+  min-height: 128px; }

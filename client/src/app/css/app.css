@@ -8,10 +8,10 @@ table.detail-content {
 .break-word {
   word-break: break-all; }
 
-.panel-body .carousel-indicators {
+.panel-body .carousel-indicators, .modal-content .carousel-indicators {
   display: none; }
 
-.panel-body .carousel-control {
+.panel-body .carousel-control, .modal-content .carousel-control {
   display: none; }
 
 .tab-content {

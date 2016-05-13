@@ -7,6 +7,7 @@
 (function () {
     var siteUrl = appConfig[appConfig.ENV].siteUrl;
     window.thirdPartyAPIUrl = appConfig[appConfig.ENV].thirdPartyAPIUrl;
+    var cloudUrl = appConfig[appConfig.ENV].cloudUrl;
     /*
      * API used globally for web service
      * by George Lin
@@ -17,6 +18,7 @@
     window.MyAPIs = {
         OPERATOR: '/oauth2',
         USER:'/users',
+        USER_MANAGER: '/usermanager',
         USER_GROUP:'/usergroup',
         THING:'/things',
         TAG: '/tags',
@@ -25,7 +27,9 @@
         TRIGGER: '/triggers',
         THING_IF: '/thing-if',
         ONBOARDING: '/onboardinghelper',
-        SUPPLIER: '/devicesuppliers'
+        SUPPLIER: '/devicesuppliers',
+        SYSTEM_PERMISSION: '/sys/permissionTree',
+        USER_SYNC: '/usersync'
     };
 
     /*
@@ -36,6 +40,7 @@
     }
 
     window.MyAPIs['SCHEMA'] = siteUrl + '/demohelper/api/industrytemplate';
+    window.MyAPIs['CLOUD_THING_IF'] = cloudUrl + '/thing-if';
     
     /*
      * tag used as session key

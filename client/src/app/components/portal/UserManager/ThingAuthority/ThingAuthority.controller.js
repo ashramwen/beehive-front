@@ -1,11 +1,18 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('ThingAuthorityController', ['$scope', '$rootScope', '$state', 'AppUtils', '$timeout', '$$Thing', '$$Tag', '$q', '$$Location', function($scope, $rootScope, $state, AppUtils, $timeout, $$Thing, $$Tag, $q, $$Location) {
+  .controller('ThingAuthorityController', ['$scope', '$rootScope', '$state', 'AppUtils', '$timeout', '$$Thing', '$$Tag', '$q', '$$Location', '$User', function($scope, $rootScope, $state, AppUtils, $timeout, $$Thing, $$Tag, $q, $$Location, $User) {
     
     $scope.ownThings = [];
     $scope.selectedThings = [];
 
+    $scope.init = function(){
+        var userID = $state.params['userID'];
+        $scope.things = $User.getThings({userID: userID});
+    };
+    
+
+    /*
     $scope.settings = {
         dataset: {},
         idFieldName: 'globalThingID',
@@ -56,9 +63,6 @@ angular.module('BeehivePortal')
         ]
     }
 
-    /*
-     * get things and tags
-     */
     var thingsPromise = $$Thing.getAll().$promise;
     $q.all([$$Tag.queryAll().$promise, thingsPromise, $$Location.queryAll().$promise]).then(function(data){
         
@@ -134,6 +138,8 @@ angular.module('BeehivePortal')
             $scope.ready = true;
         });
     });
+    */
+   
 
 
   }]);

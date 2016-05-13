@@ -1,18 +1,18 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('UserInfoController', ['$scope', '$rootScope', '$state', 'AppUtils', 'PortalService', '$$User', '$uibModal', function($scope, $rootScope, $state, AppUtils, PortalService, $$User, $uibModal) {
+  .controller('UserInfoController', ['$scope', '$rootScope', '$state', 'AppUtils', 'PortalService', '$$UserManager', '$uibModal', function($scope, $rootScope, $state, AppUtils, PortalService, $$UserManager, $uibModal) {
     /*
      * init data
      */
-    
+    var fromUserGroup = false;
     $scope.init = function(){
-        var fromUserGroup = false;
+        
         if($state.current.name == $scope.navMapping['GROUP_USER_INFO'].state){
             fromUserGroup = true;
         }
 
-        $scope.user = $$User.get({},{userID: $state.params['userID']});
+        $scope.user = $$UserManager.get({},{userID: $state.params['userID']});
     };
 
     /*
@@ -75,7 +75,7 @@ angular.module('BeehivePortal')
     };
 
     $scope.deleteUser = function(){
-        $$User.remove({},$scope.user,function(){
+        $$UserManager.remove({},$scope.user,function(){
             $scope.navigateTo($scope.navMapping.USER_LIST);
         },function(response){
             AppUtils.alert(response.statusText);

@@ -26,16 +26,11 @@ config(function(localStorageServiceProvider, $httpProvider) {
     delete $httpProvider.defaults.headers.common["X-Requested-With"];
 
     $httpProvider.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8';
-    $httpProvider.defaults.headers.common['Authorization'] = 'Bearer d31032a0-8ebf-11e5-9560-00163e02138f';
     $httpProvider.interceptors.push(function($q, AUTH_EVENTS) {
       return {
         request: function(request) {
             $('#spinner').show();
             requestCount++;
-            if(request.url.indexOf('api/users/simplequery') > 0){
-                request.headers['Authorization'] = 'Bearer 29505720-8cd2-11e5-ace9-00163e007aba';
-            }
-            
             return request;
         },
         response: function(response){

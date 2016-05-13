@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('NewUserController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$User', 'PortalService',function($scope, $rootScope, $state, AppUtils, $$User, PortalService) {
+  .controller('NewUserController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$UserManager', 'PortalService',function($scope, $rootScope, $state, AppUtils, $$UserManager, PortalService) {
     // TODO
     $scope.sexOptions = [{
         id: 1,
@@ -11,24 +11,35 @@ angular.module('BeehivePortal')
         text: '女'
     }];
 
+    $scope.ruleOptions = [
+        {
+          value: 'commUser',
+          text: '普通用户'
+        },
+        {
+          value: 'userAdmin',
+          text: '用户管理员'
+        },
+        {
+          value: 'administrator',
+          text: '系统管理员'
+        }
+    ];
+
     /*
      * user object for registration.
      */
     $scope.newUser = {
-        userID: '',
         userName: '', // required
         phone: '',
         mail: '',
         company: '',
         role: '4', // required
+        roleName: '',
         custom: {
-          sex: {},
-          id: "",
-          building: null,
-          level: null,
-          room: null
+          sex: null
         }
-    }
+    };
 
     /*
      * init data
@@ -42,7 +53,12 @@ angular.module('BeehivePortal')
      * create user
      */
     $scope.createUser = function(){
-        $$User.create($scope.newUser, function(){
+        $$UserManager.create($scope.newUser, function(userRegistrationInfo){
+            var userID = userRegistrationInfo.userID;
+            var activityToken = userRegistrationInfo.activityToken;
+
+            AppUtils.alert('新创建的用户ID为：' + userID + ',注册码为：' + activityToken + '。请前往登录页面进行激活。');
+            
             $scope.navigateTo($scope.navMapping.USER_LIST);
         },function(response){
             if(response.status == 409)
