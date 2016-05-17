@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('AddThingController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Thing', '$$Type', '$timeout', '$$Supplier', function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type, $timeout, $$Supplier) {
+  .controller('AddThingController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Thing', '$$Type', '$timeout', '$$Supplier', 'ThingErrorHandler', function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type, $timeout, $$Supplier, ThingErrorHandler) {
     $scope.types = [];
     var editor;
 
@@ -20,6 +20,8 @@ angular.module('BeehivePortal')
 
         $$Thing.save(thing, function(){
             AppUtils.alert('保存成功！', '提示信息');
+        }, function(response){
+            ThingErrorHandler.handle(response.data.errorCode);
         });
     };
 

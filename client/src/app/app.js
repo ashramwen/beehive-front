@@ -4,8 +4,11 @@ var MyApp = angular.module('BeehivePortal', ['ngAnimate', 'ngCookies', 'ngSaniti
   'ngResource', 'ui.router', 'ui.bootstrap','LocalStorageModule', 'rzModule', 'treeControl', 
   'angular-condition-tree', 'awesome-context-menu', 'monospaced.elastic', 'angularjs-dropdown-multiselect', 'ng.jsoneditor',
   'angular-cron-jobs'
-]).
-constant('AUTH_EVENTS', {
+])
+.constant('ERROR_CODE', {
+  'INVALID_INPUT': 'INVALID_INPUT'
+})
+.constant('AUTH_EVENTS', {
   tokenNotGiven: 'token-not-given',
   loginSuccess: 'auth-login-success',
   loginFailed: 'auth-login-failed',

@@ -52,7 +52,6 @@ angular.module('BeehivePortal')
             _.each(endNodes, function(endNode, index){
                 $scope.endNodes[index].kiiThingID = gateway.kiiThingID;
                 $scope.endNodes[index].kiiAppID = gateway.kiiAppID;
-                $scope.endNodes[index].states = $$Thing.getEndNode({}, {kiiAppID:gateway.kiiAppID, thingID: endNode.thingID});
             });
         });
     };
