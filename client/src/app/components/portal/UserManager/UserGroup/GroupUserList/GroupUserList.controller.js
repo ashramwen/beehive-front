@@ -9,16 +9,19 @@ angular.module('BeehivePortal')
 
     $scope.init = function(){
 
-        var userGroupID = $state.params['userGroupID'];
-        var request = {
-            userGroupID: userGroupID,
-            includeUserData: '1'
-        };
+        $rootScope.$watch('login', function(newVal){
+            if(!newVal) return;
+            var userGroupID = $state.params['userGroupID'];
+            var request = {
+                userGroupID: userGroupID,
+                includeUserData: '1'
+            };
 
 
 
-        $scope.userGroup = $$UserGroup.get({}, request, function(group){
-            $scope.userList = group.users;
+            $scope.userGroup = $$UserGroup.get({}, request, function(group){
+                $scope.userList = group.users;
+            });
         });
     };
 

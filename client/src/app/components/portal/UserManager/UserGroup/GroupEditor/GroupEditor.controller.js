@@ -47,23 +47,25 @@ angular.module('BeehivePortal')
     };
 
     $scope.init = function(){
-        
-        var userGroupID = $state.params['userGroupID'];
-        var request = {userGroupID: userGroupID, includeUserData: '1'};
+        $rootScope.$watch('login', function(newVal){
+            if(!newVal) return;
+            var userGroupID = $state.params['userGroupID'];
+            var request = {userGroupID: userGroupID, includeUserData: '1'};
 
-        // get group
-        $scope.group = $$UserGroup.get({} ,request , function(group){
-            $scope.group._users = _.clone($scope.group.users);
-            $scope.group.tags = $$UserGroup.getTags({}, {userGroupID: userGroupID});
-            $scope.group.things = $$UserGroup.getThings({}, {userGroupID: userGroupID});
-            $scope.isOwner = $scope.isCreator(group);
+            // get group
+            $scope.group = $$UserGroup.get({} ,request , function(group){
+                $scope.group._users = _.clone($scope.group.users);
+                $scope.group.tags = $$UserGroup.getTags({}, {userGroupID: userGroupID});
+                $scope.group.things = $$UserGroup.getThings({}, {userGroupID: userGroupID});
+                $scope.isOwner = $scope.isCreator(group);
+            });
+            
+            // get user
+            $scope.queryUsers();
+
+            // get tags
+            $scope.tags = $$Tag.queryAll();
         });
-        
-        // get user
-        $scope.queryUsers();
-
-        // get tags
-        $scope.tags = $$Tag.queryAll();
     };
 
     /*

@@ -7,12 +7,15 @@ angular.module('BeehivePortal')
      */
     var fromUserGroup = false;
     $scope.init = function(){
-        
-        if($state.current.name == $scope.navMapping['GROUP_USER_INFO'].state){
-            fromUserGroup = true;
-        }
+        $rootScope.$watch('login', function(newVal){
+            if(!newVal) return;
+            if($state.current.name == $scope.navMapping['GROUP_USER_INFO'].state){
+                fromUserGroup = true;
+            }
 
-        $scope.user = $$UserManager.get({},{userID: $state.params['userID']});
+            $scope.user = $$UserManager.get({},{userID: $state.params['userID']});
+        });
+        
     };
 
     /*

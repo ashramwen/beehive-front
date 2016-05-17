@@ -21,9 +21,11 @@ angular.module('BeehivePortal')
                 reject(AUTH_EVENTS.tokenNotGiven);
                 return;
             }
-            $$Auth.validate({accessToken: credential['accessToken']}, function(){
+            $http.defaults.headers.common['Authorization'] = 'Bearer ' + credential['accessToken'];
+            $$Auth.validate(function(){
                 session.setCredential(credential);
                 resolve(credential);
+                $rootScope.login = true;
             }, function(error){
                 if(error.status != 403){
                     reject(AUTH_EVENTS.loginFailed);

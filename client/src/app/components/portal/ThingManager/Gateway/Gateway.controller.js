@@ -8,31 +8,35 @@ angular.module('BeehivePortal')
      * Init app
      */
     $scope.init = function(){
-        $scope.locationsTree = [];
 
-        /*
-         * tree settings
-         */
-        $scope.treeOptions = {
-            multiSelection: false,
-            nodeChildren: "children",
-            dirSelectable: true,
-            injectClasses: {
-                ul: "a1",
-                li: "a2",
-                liSelected: "a7",
-                iExpanded: "a3",
-                iCollapsed: "a4",
-                iLeaf: "a5",
-                label: "a6",
-                labelSelected: "a8"
-            }
-        };
+        $rootScope.$watch('login', function(newVal){
+            if(!newVal) return;
+            $scope.locationsTree = [];
+
+            /*
+             * tree settings
+             */
+            $scope.treeOptions = {
+                multiSelection: false,
+                nodeChildren: "children",
+                dirSelectable: true,
+                injectClasses: {
+                    ul: "a1",
+                    li: "a2",
+                    liSelected: "a7",
+                    iExpanded: "a3",
+                    iCollapsed: "a4",
+                    iLeaf: "a5",
+                    label: "a6",
+                    labelSelected: "a8"
+                }
+            };
 
 
-        $$Location.queryAll(function(locations){
-            $scope.locationTree = new LocationTree(_.pluck(locations, 'displayName')).tree.children;
-            $scope.selectLocation($scope.locationTree[0]);
+            $$Location.queryAll(function(locations){
+                $scope.locationTree = new LocationTree(_.pluck(locations, 'displayName')).tree.children;
+                $scope.selectLocation($scope.locationTree[0]);
+            });
         });
     };
 

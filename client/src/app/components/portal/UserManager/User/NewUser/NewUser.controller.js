@@ -4,10 +4,10 @@ angular.module('BeehivePortal')
   .controller('NewUserController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$UserManager', 'PortalService',function($scope, $rootScope, $state, AppUtils, $$UserManager, PortalService) {
     // TODO
     $scope.sexOptions = [{
-        id: 1,
+        value: 1,
         text:'男'
     },{
-        id: 2,
+        value: 2,
         text: '女'
     }];
 

@@ -1,11 +1,15 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('ControlThingController', ['$scope', '$state', 'AppUtils', '$$Thing', '$$Type', 'TriggerService', '$timeout', function($scope, $state, AppUtils, $$Thing, $$Type, TriggerService, $timeout) {
+  .controller('ControlThingController', ['$scope', '$state', 'AppUtils', '$$Thing', '$$Type', 'TriggerService', '$timeout', '$rootScope', function($scope, $state, AppUtils, $$Thing, $$Type, TriggerService, $timeout, $rootScope) {
     
     $scope.init = function(){
-        initData();
-        $scope.refreshed = true;
+        $scope.currentStep = 1;
+        $rootScope.$watch('login', function(newVal){
+            if(!newVal) return;
+            initData();
+            $scope.refreshed = true;
+        });
     };
 
     $scope.nextStep = function(step){
@@ -46,7 +50,7 @@ angular.module('BeehivePortal')
             mySource: {},
             command: {}
         };
-        $scope.currentStep = 1;
+        
     }
 
     function sendCommand(){

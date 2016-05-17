@@ -28,10 +28,12 @@ angular.module('BeehivePortal')
 
             Session.setCredential(credentials);
             $state.go('app.portal.Welcome');
+            $rootScope.login = true;
         }else{
             $$Auth.login(credentials ,function(credentials){
                 Session.setCredential(credentials);
                 $state.go('app.portal.Welcome');
+                $rootScope.login = true;
             }, function(erro){
                 AppUtils.alert('登陆失败');
             });

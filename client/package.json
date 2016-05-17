@@ -5,8 +5,8 @@
     "karma": "^0.12.37"
   },
   "scripts":{
-    "deploy": "gulp dist & node push",
-    "push": "git add -A & git commit -m \"save\" & git push"
+    "deploy": "gulp dist && npm start push",
+    "push": "git add -A && git commit -m \"save\" && git push"
   },
   "devDependencies": {
     "browser-sync": "~1.7.1",

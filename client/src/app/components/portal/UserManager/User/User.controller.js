@@ -13,9 +13,12 @@ angular.module('BeehivePortal')
     $scope.user = user;
 
     $scope.init = function(){
-        $scope.things = $$UserManager.getThings({userID: $scope.user.userID});
-        $scope.tags = $$UserManager.getTags({userID: $scope.user.userID});
-        $scope.allTags = $$Tag.queryAll();
+        $rootScope.$watch('login', function(newVal){
+            if(!newVal) return;
+            $scope.things = $$UserManager.getThings({userID: $scope.user.userID});
+            $scope.tags = $$UserManager.getTags({userID: $scope.user.userID});
+            $scope.allTags = $$Tag.queryAll();
+        });
     };
 
 

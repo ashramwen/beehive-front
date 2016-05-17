@@ -6,7 +6,8 @@ var MyApp = angular.module('BeehivePortal', ['ngAnimate', 'ngCookies', 'ngSaniti
   'angular-cron-jobs'
 ])
 .constant('ERROR_CODE', {
-  'INVALID_INPUT': 'INVALID_INPUT'
+  'INVALID_INPUT': 'INVALID_INPUT',
+  'INVALID_TOKEN': 'INVALID_TOKEN'
 })
 .constant('AUTH_EVENTS', {
   tokenNotGiven: 'token-not-given',
@@ -29,7 +30,7 @@ config(function(localStorageServiceProvider, $httpProvider) {
     delete $httpProvider.defaults.headers.common["X-Requested-With"];
 
     $httpProvider.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8';
-    $httpProvider.interceptors.push(function($q, AUTH_EVENTS) {
+    $httpProvider.interceptors.push(function($q, AUTH_EVENTS, ERROR_CODE) {
       return {
         request: function(request) {
             $('#spinner').show();
@@ -45,7 +46,10 @@ config(function(localStorageServiceProvider, $httpProvider) {
             $('#spinner').hide();
             switch(response.status){
                 case 401: 
-                    window.alertMessage('您没有相应的操作权限。');
+                    if(!response.data.errorCode == ERROR_CODE.INVALID_TOKEN){
+                      window.alertMessage('您没有相应的操作权限。');
+                    }
+                    
                     break;
                 case 500:
                     switch(response.data.errorCode){

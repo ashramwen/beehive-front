@@ -90,13 +90,18 @@ angular.module('BeehivePortal')
     };
 
     $scope.init = function(){
-         /*
-         * page settings
-         */
-        $location.search({'pageIndex': 1});
-        $scope.currentIndex = 1;
 
-        $scope.queryUsers();
+        $rootScope.$watch('login', function(newVal){
+            if(!newVal) return;
+            /*
+             * page settings
+             */
+            $location.search({'pageIndex': 1});
+            $scope.currentIndex = 1;
+
+            $scope.queryUsers();
+        });
+        
     };
 
     $scope.pageChanged = function(){

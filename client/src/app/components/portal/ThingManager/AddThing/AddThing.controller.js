@@ -6,13 +6,16 @@ angular.module('BeehivePortal')
     var editor;
 
     $scope.init = function(){
-        $scope.types = [];
-        $$Type.getAll(function(types){
-            $scope.types = _.pluck(types, 'type');
-        });
-        $scope.thing = new BeehiveThing();
-        $scope.suppliers = $$Supplier.getAll(function(suppliers){
-            $scope.thing.kiiAppID = suppliers[0].relationAppID;
+        $rootScope.$watch('login', function(newVal){
+            if(!newVal) return;
+            $scope.types = [];
+            $$Type.getAll(function(types){
+                $scope.types = _.pluck(types, 'type');
+            });
+            $scope.thing = new BeehiveThing();
+            $scope.suppliers = $$Supplier.getAll(function(suppliers){
+                $scope.thing.kiiAppID = suppliers[0].relationAppID;
+            });
         });
     };
 

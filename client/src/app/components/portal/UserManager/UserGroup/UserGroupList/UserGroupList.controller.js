@@ -8,16 +8,18 @@ angular.module('BeehivePortal')
     $scope.dataset.userGroupsForDisplay = [];
 
     $scope.init = function(){
-        $scope.groupType = $scope.groupTypes[0];
-        $scope.groupTypes.splice(1, 1);
-        
-        $scope.$watch('groupType', function(newVal, oldVal){
-            if(newVal == oldVal) return;
-            if($scope.groupType.value == 'mygroup'){
-                $scope.dataset.userGroups = $$UserGroup.getMyGroups();
-            }else{
-                $scope.dataset.userGroups = $$UserGroup.getList();
-            }
+        $rootScope.$watch('login', function(newVal){
+            if(!newVal) return;
+            $scope.groupType = $scope.groupTypes[0];
+            $scope.groupTypes.splice(1, 1);
+            
+            $scope.$watch('groupType', function(newVal, oldVal){
+                if($scope.groupType.value == 'mygroup'){
+                    $scope.dataset.userGroups = $$UserGroup.getMyGroups();
+                }else{
+                    $scope.dataset.userGroups = $$UserGroup.getList();
+                }
+            });
         });
     };
 

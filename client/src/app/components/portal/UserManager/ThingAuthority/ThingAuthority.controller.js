@@ -7,8 +7,11 @@ angular.module('BeehivePortal')
     $scope.selectedThings = [];
 
     $scope.init = function(){
-        var userID = $state.params['userID'];
-        $scope.things = $User.getThings({userID: userID});
+        $rootScope.$watch('login', function(newVal){
+            if(!newVal) return;
+            var userID = $state.params['userID'];
+            $scope.things = $User.getThings({userID: userID});
+        });
     };
     
 
