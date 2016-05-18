@@ -36,7 +36,7 @@ angular.module('BeehivePortal')
      */
     $scope.queryUsers = function(queryFiled, value){
 
-        var request = {role:'4'};
+        var request = {};
         if(value) request[queryFiled] = value;
 
         $$User.query(request, function(userList){

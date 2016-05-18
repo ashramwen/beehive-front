@@ -93,7 +93,7 @@
   <div class="clearfix">
     <div class="pull-right">
       <button class="btn btn-danger">控制历史</button>
-      <button class="btn btn-danger" ng-click="openRemoteControl(thing)">远程控制</button>
+      <button class="btn btn-danger" ng-click="openRemoteControl(thing)" ng-if="thing.fullKiiThingID">远程控制</button>
       <button class="btn btn-danger" ng-click="goThingACL()">控制权限</button>
     </div>
   </div>

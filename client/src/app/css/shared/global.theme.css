@@ -900,6 +900,7 @@ Gradient Background colors
   height: 45px; }
 
 .user-panel > .info {
+  max-width: 140px;
   font-weight: 600;
   padding: 5px 5px 5px 15px;
   font-size: 14px;

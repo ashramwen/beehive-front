@@ -8,11 +8,8 @@ angular.module('BeehivePortal')
      * by George
      */
     
-    $scope.portalNavs = PortalService.getPortalNavs();
 
-    $scope.getStateChan = PortalService.getStateChan;
-    $scope.isActive = PortalService.isActive;
-    $scope.navMapping = PortalService.navMapping;
+    
 
     $scope.navigateTo = function(stateName, params){
         $state.go(stateName, _.extend($state.params, params));
@@ -22,7 +19,14 @@ angular.module('BeehivePortal')
      * initialize 
      */
     $scope.portalInit = function(){
-        
+      $rootScope.$watch('login', function(newVal){
+        if(!newVal) return;
+        $scope.portalNavs = PortalService.getPortalNavs();
+      });
+
+      $scope.getStateChan = PortalService.getStateChan;
+      $scope.isActive = PortalService.isActive;
+      $scope.navMapping = PortalService.navMapping;
     };
 
     $scope.getFirstChild = function(nav){

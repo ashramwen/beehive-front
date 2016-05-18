@@ -1,5 +1,5 @@
 angular.module('BeehivePortal')
-  .factory('PortalService', ['$http', '$q', 'Session', '$state', function($http, $q, Session, $state) {
+  .factory('PortalService', ['$http', '$q', 'Session', '$state', '$rootScope', function($http, $q, Session, $state, $rootScope) {
     var PortalService = {};
 
     /**
@@ -40,6 +40,7 @@ angular.module('BeehivePortal')
                 icon: 'fa-user',
                 subViews: [
                     {
+                        hidden: $rootScope.credential.roleName == 'commUser',
                         name: '用户列表',
                         state: $state.get('app.portal.UserManager.User.UserList')
                     },
@@ -59,6 +60,7 @@ angular.module('BeehivePortal')
                         state: $state.get('app.portal.ThingManager.AddThing')
                     },
                     {
+                        hidden: $rootScope.credential.roleName == 'commUser',
                         name: '网关管理',
                         state: $state.get('app.portal.ThingManager.Gateway')
                     },

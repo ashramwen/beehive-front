@@ -18,7 +18,7 @@ angular.module('BeehivePortal')
         previous: 'app.portal.ThingManager'
       })
       .state('app.portal.ThingManager.ControlThing', {
-        url: '/ControlThing',
+        url: '/ControlThing?refreshId',
         templateUrl: 'app/components/portal/ThingManager/ControlThing/ControlThing.html',
         controller: 'ControlThingController',
         stateName: '控制设备',
