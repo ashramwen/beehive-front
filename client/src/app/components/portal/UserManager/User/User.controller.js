@@ -8,15 +8,15 @@ angular.module('BeehivePortal')
 
 
 angular.module('BeehivePortal')
-  .controller('UserController.EditUser',['$scope', '$uibModalInstance', 'user', '$$UserManager', 'PortalService', '$$Thing', '$$Tag', function ($scope, $uibModalInstance, user, $$UserManager, PortalService, $$Thing, $$Tag) {
+  .controller('UserController.EditUser',['$scope', '$uibModalInstance', 'user', '$$UserManager', 'PortalService', '$$Thing', '$$Tag', '$rootScope', '$$User', function ($scope, $uibModalInstance, user, $$UserManager, PortalService, $$Thing, $$Tag, $rootScope, $$User) {
     
     $scope.user = user;
 
     $scope.init = function(){
         $rootScope.$watch('login', function(newVal){
             if(!newVal) return;
-            $scope.things = $$UserManager.getThings({userID: $scope.user.userID});
-            $scope.tags = $$UserManager.getTags({userID: $scope.user.userID});
+            $scope.things = $$User.getThings({userID: $scope.user.userID});
+            $scope.tags = $$User.getTags({userID: $scope.user.userID});
             $scope.allTags = $$Tag.queryAll();
         });
     };
@@ -37,20 +37,20 @@ angular.module('BeehivePortal')
 
 
     $scope.addTag = function(tag, user){
-        $$UserManager.bindTag({tags: [tag.fullTagName], userIDs:[user.userID]}, function(){
+        $$User.bindTag({tags: [tag.fullTagName], userIDs:[user.userID]}, function(){
             $scope.tags = $scope.tags || [];
             $scope.tags.push(tag);
         });
     }
 
     $scope.removeTag = function(tag, user){
-        $$UserManager.unbindTag({tags: [tag.fullTagName], userIDs:[user.userID]}, function(){
+        $$User.unbindTag({tags: [tag.fullTagName], userIDs:[user.userID]}, function(){
             $scope.tags.remove(tag);
         });
     };
 
     $scope.addThings = function(globalThingIDs, user){
-        $$UserManager.bindThing({}, {globalThingIDs: [globalThingIDs], userIDs: [user.userID]}, function(things){
+        $$User.bindThing({}, {globalThingIDs: [globalThingIDs], userIDs: [user.userID]}, function(things){
             $scope.things = $scope.things || [];
             _.each(globalThingIDs, function(globalThingID){
                 $scope.things.push($$Thing.get({globalThingID: globalThingID}));
@@ -59,7 +59,7 @@ angular.module('BeehivePortal')
     };
 
     $scope.removeThing = function(thing, user){
-        $$UserManager.unbindThing({globalThingIDs: [thing.globalThingID], userIDs: [user.userID]}, function(){
+        $$User.unbindThing({globalThingIDs: [thing.globalThingID], userIDs: [user.userID]}, function(){
             $scope.things.remove(thing);
         });
     };

@@ -120,6 +120,7 @@ angular.module('BeehivePortal')
 
 angular.module('BeehivePortal')
   .controller('UserGroupListController.NewUserGroup',function ($scope, $uibModalInstance, $$UserGroup, AppUtils) {
+    
     $scope.newGroup = {
         userGroupName: "",
         description: ""
@@ -127,7 +128,7 @@ angular.module('BeehivePortal')
 
     $scope.ok = function () {
         $$UserGroup.create({}, $scope.newGroup, function(response){
-            console.log(response);
+            $scope.newGroup.userGroupID = response.userGroupID;
             $uibModalInstance.close($scope.newGroup);
         }, function(response){
             AppUtils.alert("新增群组失败！")
