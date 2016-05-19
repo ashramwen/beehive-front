@@ -483,8 +483,8 @@ angular.module('BeehivePortal')
               method: 'POST'
           },
           remove: {
-              url: MyAPIs.TRIGGER + '/:triggerID/delete',
-              method: 'PUT',
+              url: MyAPIs.TRIGGER + '/:triggerID',
+              method: 'DELETE',
               params:{
                   triggerID: '@triggerID'
               }
