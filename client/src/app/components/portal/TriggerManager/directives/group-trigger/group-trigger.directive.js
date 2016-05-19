@@ -141,7 +141,7 @@ angular.module('BeehivePortal')
                 
                 TriggerService.getSourceTypes($scope.dataContainer.mySource).then(function(types){
                     if($scope.dataContainer.mySource.sourceType == 'tag'){
-                        $scope.trigger.source.type = $scope.dataContainer.mySource.selectedType;
+                        $scope.trigger.source.type = $scope.dataContainer.mySource.selectedType.id;
                     }
                     TriggerService.getTypeSchemas(types).then(function(schemas){
                         $scope.dataContainer.sourceSchema = TriggerService.xSchemas(schemas);
@@ -247,7 +247,7 @@ angular.module('BeehivePortal')
              * @return {[type]} [description]
              */
             function saveTrigger(){
-                $$Trigger.save($scope.trigger, function(){
+                $$Trigger.save($scope.trigger, function(response){
                     $scope.trigger.triggerID = response.triggerID;
                     AppUtils.alert('创建触发器成功！');
                     console.log(response);

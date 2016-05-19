@@ -32,16 +32,16 @@
   <link rel="stylesheet" href="app/css/components/portal/ThingManager/ThingManager.css">
   <link rel="stylesheet" href="app/css/components/portal/TriggerManagement/TriggerManagement.css">
   <link rel="stylesheet" href="app/css/components/portal/TriggerManager/TriggerManager.css">
+  <link rel="stylesheet" href="app/css/components/portal/UserManager/UserManager.css">
   <link rel="stylesheet" href="app/css/components/portal/Welcome/welcome.css">
   <link rel="stylesheet" href="app/css/components/secure/AdminLogin/AdminLogin.css">
   <link rel="stylesheet" href="app/css/components/secure/UserLogin/UserLogin.css">
-  <link rel="stylesheet" href="app/css/components/portal/UserManager/UserManager.css">
   <link rel="stylesheet" href="app/css/shared/directives/input-options/input-options.css">
   <link rel="stylesheet" href="app/css/shared/directives/json-editor/json-editor.css">
   <link rel="stylesheet" href="app/css/shared/directives/multi-selector/multi-selector.css">
+  <link rel="stylesheet" href="app/css/shared/directives/range-slider/range-slider.css">
   <link rel="stylesheet" href="app/css/shared/directives/switchery/switchery.css">
   <link rel="stylesheet" href="app/css/shared/directives/swtichery/switchery.css">
-  <link rel="stylesheet" href="app/css/shared/directives/range-slider/range-slider.css">
   <link rel="stylesheet" href="app/css/components/portal/ThingManager/Gateway/Gateway.css">
   <link rel="stylesheet" href="app/css/components/portal/ThingManager/LocationView/LocationView.css">
   <link rel="stylesheet" href="app/css/components/portal/ThingManager/TagView/TagView.css">
@@ -58,9 +58,9 @@
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/User.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/UserGroup/UserGroup.css">
   <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/group-trigger/group-trigger.css">
+  <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/select-policy/select-policy.css">
   <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/select-schedule/select-schedule.css">
   <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/trigger-command/trigger-command.css">
-  <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/select-policy/select-policy.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/NewUser/NewUser.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/SearchUser/SearchUser.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/UserInfo/UserInfo.css">
@@ -122,86 +122,86 @@
   <!-- inject:js -->
   <script src="app/app.js"></script>
   <script src="app/components/portal/ThingViews/TypeView/directives/property-tree/property-tree.directive.js"></script>
-  <script src="app/components/portal/TriggerManager/directives/trigger-control-group/trigger-control-group.directive.js"></script>
-  <script src="app/components/portal/TriggerManager/directives/select-schedule/select-schedule.directive.js"></script>
-  <script src="app/components/portal/TriggerManager/directives/single-trigger/single-trigger.directive.js"></script>
-  <script src="app/components/portal/TriggerManager/directives/trigger-command/trigger-command.directive.js"></script>
-  <script src="app/components/portal/TriggerManager/directives/select-policy/select-policy.directive.js"></script>
-  <script src="app/components/portal/TriggerManager/directives/summary-trigger/summary-trigger.directive.js"></script>
-  <script src="app/components/portal/TriggerManager/directives/schedule-trigger/schedule-trigger.directive.js"></script>
-  <script src="app/components/portal/TriggerManager/directives/select-source/select-source.directive.js"></script>
-  <script src="app/components/portal/TriggerManager/directives/select-multiple-source/select-multiple-source.js"></script>
-  <script src="app/components/portal/TriggerManager/directives/group-trigger/group-trigger.directive.js"></script>
-  <script src="app/components/portal/UserManager/User/UserThingACL/UserThingACL.controller.js"></script>
-  <script src="app/components/portal/UserManager/User/UserList/UserList.service.js"></script>
-  <script src="app/components/portal/UserManager/User/UserList/UserList.controller.js"></script>
-  <script src="app/components/portal/UserManager/User/UserInfo/UserInfo.service.js"></script>
-  <script src="app/components/portal/UserManager/User/UserInfo/UserInfo.controller.js"></script>
-  <script src="app/components/portal/UserManager/User/UserThingAuthority/UserThingAuthority.controller.js"></script>
-  <script src="app/components/portal/UserManager/User/SearchUser/SearchUser.service.js"></script>
-  <script src="app/components/portal/UserManager/User/SearchUser/SearchUser.controller.js"></script>
-  <script src="app/components/portal/UserManager/User/NewUser/NewUser.service.js"></script>
-  <script src="app/components/portal/UserManager/User/NewUser/NewUser.controller.js"></script>
   <script src="app/components/portal/UserManager/UserGroup/UserGroupList/UserGroupList.service.js"></script>
   <script src="app/components/portal/UserManager/UserGroup/UserGroupList/UserGroupList.controller.js"></script>
   <script src="app/components/portal/UserManager/UserGroup/ResourceAuthority/ResourceAuthority.controller.js"></script>
   <script src="app/components/portal/UserManager/UserGroup/GroupUserList/GroupUserList.service.js"></script>
   <script src="app/components/portal/UserManager/UserGroup/GroupUserList/GroupUserList.controller.js"></script>
   <script src="app/components/portal/UserManager/UserGroup/GroupThingAuthority/GroupThingAuthority.controller.js"></script>
+  <script src="app/components/portal/UserManager/UserGroup/GroupThingACL/GroupThingACL.controller.js"></script>
   <script src="app/components/portal/UserManager/UserGroup/GroupEditor/GroupEditor.service.js"></script>
   <script src="app/components/portal/UserManager/UserGroup/GroupEditor/GroupEditor.controller.js"></script>
-  <script src="app/components/portal/UserManager/UserGroup/GroupThingACL/GroupThingACL.controller.js"></script>
-  <script src="app/components/portal/ThingManager/AddThing/AddThing.controller.js"></script>
-  <script src="app/components/portal/ThingManager/ControlThing/ControlThing.controller.js"></script>
-  <script src="app/components/portal/ThingManager/Gateway/Gateway.controller.js"></script>
-  <script src="app/components/portal/ThingViews/ThingList/ThingList.service.js"></script>
-  <script src="app/components/portal/ThingViews/ThingList/ThingList.controller.js"></script>
-  <script src="app/components/portal/ThingViews/TypeView/TypeView.service.js"></script>
-  <script src="app/components/portal/ThingViews/TypeView/TypeView.controller.js"></script>
-  <script src="app/components/portal/ThingViews/ThingACL/ThingACL.controller.js"></script>
-  <script src="app/components/portal/ThingViews/TagView/TagView.controller.js"></script>
-  <script src="app/components/portal/ThingViews/ThingDetail/ThingDetail.controller.js"></script>
-  <script src="app/components/portal/UserManager/ThingAuthority/ThingAuthority.service.js"></script>
-  <script src="app/components/portal/UserManager/ThingAuthority/ThingAuthority.controller.js"></script>
-  <script src="app/components/portal/UserManager/User/User.service.js"></script>
-  <script src="app/components/portal/UserManager/User/User.controller.js"></script>
+  <script src="app/components/portal/UserManager/User/UserThingAuthority/UserThingAuthority.controller.js"></script>
+  <script src="app/components/portal/UserManager/User/UserThingACL/UserThingACL.controller.js"></script>
+  <script src="app/components/portal/UserManager/User/UserList/UserList.service.js"></script>
+  <script src="app/components/portal/UserManager/User/UserList/UserList.controller.js"></script>
+  <script src="app/components/portal/UserManager/User/UserInfo/UserInfo.service.js"></script>
+  <script src="app/components/portal/UserManager/User/UserInfo/UserInfo.controller.js"></script>
+  <script src="app/components/portal/UserManager/User/SearchUser/SearchUser.service.js"></script>
+  <script src="app/components/portal/UserManager/User/SearchUser/SearchUser.controller.js"></script>
+  <script src="app/components/portal/UserManager/User/NewUser/NewUser.service.js"></script>
+  <script src="app/components/portal/UserManager/User/NewUser/NewUser.controller.js"></script>
+  <script src="app/components/portal/TriggerManager/directives/trigger-control-group/trigger-control-group.directive.js"></script>
+  <script src="app/components/portal/TriggerManager/directives/trigger-command/trigger-command.directive.js"></script>
+  <script src="app/components/portal/TriggerManager/directives/summary-trigger/summary-trigger.directive.js"></script>
+  <script src="app/components/portal/TriggerManager/directives/single-trigger/single-trigger.directive.js"></script>
+  <script src="app/components/portal/TriggerManager/directives/select-source/select-source.directive.js"></script>
+  <script src="app/components/portal/TriggerManager/directives/select-schedule/select-schedule.directive.js"></script>
+  <script src="app/components/portal/TriggerManager/directives/select-policy/select-policy.directive.js"></script>
+  <script src="app/components/portal/TriggerManager/directives/select-multiple-source/select-multiple-source.js"></script>
+  <script src="app/components/portal/TriggerManager/directives/schedule-trigger/schedule-trigger.directive.js"></script>
+  <script src="app/components/portal/TriggerManager/directives/group-trigger/group-trigger.directive.js"></script>
   <script src="app/components/portal/UserManager/UserGroup/UserGroup.service.js"></script>
   <script src="app/components/portal/UserManager/UserGroup/UserGroup.controller.js"></script>
+  <script src="app/components/portal/UserManager/User/User.service.js"></script>
+  <script src="app/components/portal/UserManager/User/User.controller.js"></script>
+  <script src="app/components/portal/UserManager/ThingAuthority/ThingAuthority.service.js"></script>
+  <script src="app/components/portal/UserManager/ThingAuthority/ThingAuthority.controller.js"></script>
+  <script src="app/components/portal/ThingViews/TypeView/TypeView.service.js"></script>
+  <script src="app/components/portal/ThingViews/TypeView/TypeView.controller.js"></script>
+  <script src="app/components/portal/ThingViews/ThingList/ThingList.service.js"></script>
+  <script src="app/components/portal/ThingViews/ThingList/ThingList.controller.js"></script>
+  <script src="app/components/portal/ThingViews/ThingDetail/ThingDetail.controller.js"></script>
+  <script src="app/components/portal/ThingViews/ThingACL/ThingACL.controller.js"></script>
+  <script src="app/components/portal/ThingViews/TagView/TagView.controller.js"></script>
   <script src="app/components/portal/ThingViews/LocationView/LocationView.controller.js"></script>
+  <script src="app/components/portal/ThingManager/Gateway/Gateway.controller.js"></script>
+  <script src="app/components/portal/ThingManager/ControlThing/ControlThing.controller.js"></script>
+  <script src="app/components/portal/ThingManager/AddThing/AddThing.controller.js"></script>
   <script src="app/shared/directives/thing-selector/thing-selector.js"></script>
   <script src="app/shared/directives/thing-picker/thing-picker.js"></script>
-  <script src="app/shared/directives/range-slider/range-slider.directive.js"></script>
   <script src="app/shared/directives/tag-selector/tag-selector.js"></script>
-  <script src="app/shared/directives/multi-selector/multi-selector.directive.js"></script>
   <script src="app/shared/directives/switchery/switchery.js"></script>
+  <script src="app/shared/directives/range-slider/range-slider.directive.js"></script>
+  <script src="app/shared/directives/pagion/pagion.js"></script>
+  <script src="app/shared/directives/multi-selector/multi-selector.directive.js"></script>
   <script src="app/shared/directives/location-selector/location-selector.directive.js"></script>
   <script src="app/shared/directives/json-editor/json-editor.directive.js"></script>
-  <script src="app/shared/directives/pagion/pagion.js"></script>
-  <script src="app/shared/directives/input-options/input-options.directive.js"></script>
   <script src="app/shared/directives/item-selector/item-selector.js"></script>
-  <script src="app/components/portal/ThingManager/ThingManager.service.js"></script>
-  <script src="app/components/portal/ThingManager/ThingManager.controller.js"></script>
-  <script src="app/components/portal/TriggerManager/TriggerManager.service.js"></script>
-  <script src="app/components/portal/TriggerManager/TriggerManager.controller.js"></script>
+  <script src="app/shared/directives/input-options/input-options.directive.js"></script>
   <script src="app/shared/directives/app-slider/app-slider.directive.js"></script>
   <script src="app/shared/directives/app-select/app-select.js"></script>
-  <script src="app/components/portal/Welcome/Welcome.controller.js"></script>
-  <script src="app/components/portal/ThingViews/ThingViews.controller.js"></script>
-  <script src="app/components/portal/UserManager/UserManager.controller.js"></script>
-  <script src="app/components/portal/Settings/Settings.controller.js"></script>
   <script src="app/components/secure/UserLogin/UserLogin.controller.js"></script>
   <script src="app/components/secure/AdminLogin/AdminLogin.service.js"></script>
   <script src="app/components/secure/AdminLogin/AdminLogin.controller.js"></script>
+  <script src="app/components/portal/Welcome/Welcome.controller.js"></script>
+  <script src="app/components/portal/UserManager/UserManager.controller.js"></script>
+  <script src="app/components/portal/TriggerManager/TriggerManager.service.js"></script>
+  <script src="app/components/portal/TriggerManager/TriggerManager.controller.js"></script>
+  <script src="app/components/portal/ThingViews/ThingViews.controller.js"></script>
+  <script src="app/components/portal/ThingManager/ThingManager.service.js"></script>
+  <script src="app/components/portal/ThingManager/ThingManager.controller.js"></script>
+  <script src="app/components/portal/Settings/Settings.controller.js"></script>
   <script src="app/shared/models/Trigger.js"></script>
   <script src="app/shared/models/LocationTree.js"></script>
   <script src="app/shared/models/BeehiveThing.js"></script>
   <script src="app/shared/models/BeehiveCommand.js"></script>
   <script src="app/shared/filters/filters.js"></script>
+  <script src="app/components/secure/secure.service.js"></script>
+  <script src="app/components/secure/secure.controller.js"></script>
   <script src="app/components/portal/portal.service.js"></script>
   <script src="app/components/portal/portal.resource.js"></script>
   <script src="app/components/portal/portal.controller.js"></script>
-  <script src="app/components/secure/secure.service.js"></script>
-  <script src="app/components/secure/secure.controller.js"></script>
   <script src="app/shared/utils.js"></script>
   <script src="app/shared/directives.js"></script>
   <script src="app/shared/config.js"></script>
@@ -211,13 +211,13 @@
 
   <!-- route:js -->
   <script src="app/app.route.js"></script>
-  <script src="app/components/secure/secure.route.js"></script>
   <script src="app/components/portal/portal.route.js"></script>
-  <script src="app/components/portal/UserManager/UserManager.route.js"></script>
-  <script src="app/components/portal/ThingViews/ThingViews.route.js"></script>
+  <script src="app/components/secure/secure.route.js"></script>
   <script src="app/components/portal/ThingManager/ThingManager.route.js"></script>
-  <script src="app/components/portal/UserManager/UserGroup/UserGroup.route.js"></script>
+  <script src="app/components/portal/ThingViews/ThingViews.route.js"></script>
+  <script src="app/components/portal/UserManager/UserManager.route.js"></script>
   <script src="app/components/portal/UserManager/User/User.route.js"></script>
+  <script src="app/components/portal/UserManager/UserGroup/UserGroup.route.js"></script>
   <!-- endinject -->
 
   <!-- inject:partials -->
