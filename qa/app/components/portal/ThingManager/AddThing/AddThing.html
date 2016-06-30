@@ -1,0 +1,41 @@
+<div class="app-portal-thingmanager-addthing" ng-init="init()">
+  <div class="panel">
+      <div class="panel-heading">添加新设备</div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-xs-6">
+              <div class="form-group">
+                <label>vendorThingID</label>
+                <input class="form-control" type="text" ng-model="thing.vendorThingID" />
+              </div>
+              <div class="form-group">
+                <label>种类</label>
+                <input class="form-control" type="text" ng-model="thing.type" input-options="types" />
+              </div>
+              <div class="form-group">
+                <label>供应商</label>
+                <div app-select options="suppliers" text="name" value="relationAppID" selected-model="thing.kiiAppID" value-only="true"></div>
+              </div>
+              <div class="form-group">
+                <label>自定义字段</label>
+                <div>
+                  <json-editor ng-model="thing.custom"></json-editor>
+                </div>
+              </div>
+              <div class="form-group">
+                <button ng-click="saveThing(thing)" class="btn btn-success pull-right">添加设备</button>
+              </div>
+          </div>
+          <div class="col-xs-6">
+            <div class="form-group">
+              <label>位置</label>
+              <input class="form-control" type="text" ng-model="thing.location" />
+            </div>
+            <div class="form-group">
+              <location-selector selected-location="thing.location"></location-selector>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

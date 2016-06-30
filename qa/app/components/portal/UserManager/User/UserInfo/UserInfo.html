@@ -1,0 +1,39 @@
+<div class="app-portal-usermanager-user-userinfo" ng-init="init()">
+  <section class="panel">
+    <header class="panel-heading">用户信息</header>
+    <div class="panel-body">
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">姓名</div>
+        <div class="col-sm-8">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="姓名" ng-model="user.userName" ng-disabled="true" />
+            <span class="btn-group input-group-btn"><button class="btn btn-default" disabled="">{{user.custom.sex.text}}</button></span>
+          </div>
+        </div>
+      </div>
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">身份证</div>
+        <div class="col-sm-8"><input ng-model="user.userID" type="text" class="form-control" placeholder="身份证" ng-disabled="true" /></div>
+      </div>
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">公司</div>
+        <div class="col-sm-8"><input ng-model="user.company" type="text" class="form-control" placeholder="身份证" ng-disabled="true"  /></div>
+      </div>
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">电话</div>
+        <div class="col-sm-8"><input type="text" class="form-control" placeholder="电话" ng-model="user.phone" ng-disabled="true"/></div>
+      </div>
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">邮箱地址</div>
+        <div class="col-sm-8"><input type="text" class="form-control" placeholder="邮箱地址" ng-model="user.mail" ng-disabled="true"/></div>
+      </div>
+      <div class="portal-row clearfix">
+        <div class="pull-right">
+          <button class="btn btn-danger" ng-click="editUser()">编辑</button>
+          <button class="btn btn-danger" ng-click="deleteUser()">删除</button>
+          <button class="btn btn-danger" ng-click="goThingAuth()">设备拥有权限</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

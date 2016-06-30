@@ -1,0 +1,101 @@
+<div class="app-portal-thingviews-thingdetail" ng-init="init()">
+  <!-- property of a thing -->
+  <div class="row">
+    <div class="col-sm-5">
+      <div class="panel">
+        <div class="panel-heading">属性</div>
+        <div class="panel-body">
+          <table>
+            <tr><td class="title">设备ID</td><td>{{thing.globalThingID}}</td></tr>
+            <tr><td class="title">vendorThingID</td><td>{{thing.vendorThingID}}</td></tr>
+            <tr><td class="title">设备位置</td><td>{{thing.location}}</td></tr>
+            <tr><td class="title">设备种类</td><td>{{thing.type}}</td></tr>
+            <tr><td class="title">位置</td><td>{{thing.location}}</td></tr>
+            <tr><td class="title">标签</td><td>{{thing.tags.join(', ')}}</td></tr>
+            <tr>
+              <td class="title">已登录</td>
+              <td><span class="fa" ng-class="thing.fullKiiThingID?'fa-check': 'fa-remove'"></span></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-heading">
+          设备状态 <span class="fa fa-refresh operator" ng-click="refreshStatus()"></span>
+        </div>
+        <div class="panel-body">
+          <table ng-show="!statusOnEdit">
+            <tr ng-repeat="(key, value) in thing.status">
+              <td class="title">{{key}}</td>
+              <td>{{value}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- status -->
+    <div class="col-sm-7">
+      <div class="panel" ng-if="thing.kiiAppID">
+        <div class="panel-heading">设备登录信息</div>
+        <div class="panel-body">
+          <table>
+            <tr><td class="title">kiiAppID</td><td>{{thing.kiiAppID}}</td></tr>
+            <tr><td class="title">kiiAppKey</td><td>{{thing.kiiAppKey}}</td></tr>
+            <tr><td class="title">ownerID</td><td>{{thing.ownerID}}</td></tr>
+            <tr><td class="title">ownerToken</td><td>{{thing.ownerToken}}</td></tr>
+            <tr><td class="title">kiiSiteUrl</td><td>{{thing.kiiSiteUrl}}</td></tr>
+            <tr><td class="title">password</td><td>{{thing.password}}</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-heading">自定义字段
+          <span ng-show="!customOnEdit" class="fa fa-edit" ng-click="editCustom(thing.custom)"></span>
+          <span ng-show="customOnEdit" class="fa fa-remove" ng-click="customOnEdit = false"></span>
+        </div>
+        <div class="panel-body">
+          <table ng-show="!customOnEdit">
+            <tr ng-repeat="(key, value) in thing.custom">
+              <td class="title">{{key}}</td>
+              <td>{{value}}</td>
+            </tr>
+          </table>
+          <div ng-show="customOnEdit">
+            <div class="form-group">
+              <div id="customEditor" style="height:300px; width:100%;"></div>
+            </div>
+            <div><button class="btn btn-success pull-right" ng-click="submitCustomFields(thing)">更新</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of status -->
+  </div>
+
+  <div class="panel">
+    <div class="panel-heading">
+      触发器
+    </div>
+  </div>
+  <div class="new-trigger" ng-click="createTriggerModal()">
+    <span class="fa fa-plus"></span> 新建触发器
+  </div>
+  <uib-accordion close-others="true">
+    <uib-accordion-group heading="{{trigger.triggerName}}" ng-repeat="trigger in dataset.triggers">
+      <single-trigger trigger="trigger"></single-trigger>
+    </uib-accordion-group>
+  </uib-accordion>
+  <!-- rule of a thing -->
+
+  <hr/>
+  <div class="clearfix">
+    <div class="pull-right">
+      <button class="btn btn-danger">控制历史</button>
+      <button class="btn btn-danger" ng-click="openRemoteControl(thing)" ng-if="thing.fullKiiThingID">远程控制</button>
+      <button class="btn btn-danger" ng-click="goThingACL()">控制权限</button>
+    </div>
+  </div>
+  <!-- end of rule -->
+</div>

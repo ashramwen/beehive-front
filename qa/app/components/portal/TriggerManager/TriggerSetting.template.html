@@ -1,0 +1,8 @@
+<!-- ====================== start of trigger setting ===================== -->
+<summary-trigger ng-if="trigger.type=='Summary'" trigger="trigger" class="trigger-setting"></summary-trigger>
+<!-- ====================== end of trigger setting ===================== -->
+<!-- ====================== start of group trigger ===================== -->
+<group-trigger ng-if="trigger.type=='Group'" trigger="trigger" class="trigger-setting"></group-trigger>
+<!-- ====================== end of group trigger ======================= -->
+
+<schedule-trigger ng-if="trigger.type=='Simple'" trigger="trigger" class="trigger-setting"></schedule-trigger>

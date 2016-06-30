@@ -1,0 +1,40 @@
+<div>
+  <div class="form-group">
+    <label>名称</label>
+    <div>{{myProperty.title}}</div>
+  </div>
+  <div class="form-group">
+    <label>属性</label>
+    <table class="table">
+      <thead>
+        <th>名称</th>
+        <th>种类</th>
+        <th>值域</th>
+        <th>描述</th>
+        <th>必须</th>
+      </thead>
+      <tbody>
+        <tr ng-repeat-start="(propertyKey, propertyValue) in myProperty.properties">
+          <td>
+            <span ng-if="!propertyValue.properties">{{propertyKey}}</span>
+            <a ng-if="propertyValue.properties" style="cursor:pointer" ng-click="collapseControllers[propertyKey] = !collapseControllers[propertyKey]">{{propertyKey}}</a>
+          </td>
+          <td><code class="bg-primary">{{propertyValue.type}}</code></td>
+          <td>
+            <code ng-if="propertyValue.minimum || propertyValue.minimum == 0">{{'> ' + propertyValue.minimum}}</code>
+            <code ng-if="propertyValue.maximum || propertyValue.maximum == 0">{{'< ' + propertyValue.maximum}}</code>
+          </td>
+          <td>{{propertyValue.description}}</td>
+          <td><span class="fa" ng-class="propertyRequired(propertyKey, myProperty.required)?'fa-check text-success': 'fa-remove text-danger'" /></td>
+        </tr>
+        <tr ng-repeat-end>
+          <td colspan="5" ng-if="propertyValue.properties" ng-show="collapseControllers[propertyKey]" style="background: rgba(0,0,0,0.05); padding-left:20px;">
+            <div uib-collapse="!collapseControllers[propertyKey]">
+              <property-tree my-property="propertyValue"></property-tree>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

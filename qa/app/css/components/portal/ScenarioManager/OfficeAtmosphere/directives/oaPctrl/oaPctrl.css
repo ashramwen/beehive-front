@@ -1,0 +1,8 @@
+.oa-pctrl {
+  padding: 15px;
+  width: 380px;
+  max-width: none; }
+  .oa-pctrl hr {
+    margin: 10px -15px; }
+  .oa-pctrl .condition-tree .condition {
+    overflow: auto; }

@@ -1,0 +1,15 @@
+@import 'src/app/shared/global.scss';
+.app-portal-usermanager-usergroup-groupeditor{
+/*
+ * TODO
+ **/
+    .form-group{
+        margin-bottom: 15px;
+    }
+    .fa.fa-remove{
+        cursor: pointer;
+    }
+    .username{
+        margin-right: 10px;
+    }
+}

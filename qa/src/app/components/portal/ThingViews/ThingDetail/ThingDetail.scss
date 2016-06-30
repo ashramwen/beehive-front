@@ -1,0 +1,41 @@
+@import 'src/app/shared/global.scss';
+.app-portal-thingviews-thingdetail{
+/*
+ * TODO
+ **/
+ 
+    .new-trigger, .new-source{
+        @include border-radius(5px);
+        border: #ccc 2px dashed;
+        color: #555;
+        padding: 7px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        &:hover{
+            border: #999 2px dashed;
+            color: #000;
+        }
+    }
+
+    .trigger-when{
+      text-align: left;
+      margin-bottom: 15px;
+    }
+
+    table{
+        tr{
+            td.title{
+                width: 70px;
+                font-weight: bold;
+                text-align: right;
+                padding-right: 10px;
+            }
+        }
+    }
+
+    .panel-heading{
+        .fa{
+            margin-left: 10px;
+        }
+    }
+}

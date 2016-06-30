@@ -6,6 +6,7 @@ gulp.paths = {
   src: 'src',
   dist: 'dist',
   tmp: '.tmp',
+  bower: 'bower_components',
   e2e: 'e2e',
   appPath: 'src/',
   appStructFile: 'construct.json',

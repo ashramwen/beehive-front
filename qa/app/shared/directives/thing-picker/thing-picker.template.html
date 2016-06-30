@@ -1,0 +1,39 @@
+<div ng-init="init()">
+  <div class="col-sm-5 tabs-with-border">
+    <uib-tabset>
+      <uib-tab heading="{{tab.name}}" select="selectLocation()" active="tab.active" ng-repeat="tab in tabs">
+        <!-- things by location -->
+        <treecontrol class="tree-classic"
+           tree-model="tab.treeLeft"
+           options="treeOptions"
+           on-selection="selectLeftNode(node)">
+           {{node.name}}
+        </treecontrol>
+        <!-- end of location -->
+      </uib-tab>
+  </div>
+
+  <!-- mid buttons -->
+  <div class="col-sm-2 mid-column" style="padding-top: 130px;">
+      <div class="portal-row"><button class="btn btn-success pull-mid" ng-disabled="!selectedLeftNode" ng-click="addButtonClick()">赋予》</button></div>
+      <div class="portal-row"><button class="btn btn-danger pull-mid" ng-disabled="!selectedRightNode" ng-click="removeButtonClick()">《撤回</button></div>
+  </div>
+  <!-- end of mid buttons -->
+
+  <!-- right panel -->
+  <div class="col-sm-5 tabs-with-border">
+    <uib-tabset>
+      <uib-tab heading="{{tab.name}}" select="selectLocation()" active="tab.active" ng-repeat="tab in tabs">
+        <!-- things by location -->
+        <treecontrol class="tree-classic"
+           tree-model="tab.treeRight"
+           options="treeOptions"
+           on-selection="selectRightNode(node)">
+           {{node.name}}
+        </treecontrol>
+        <!-- end of location -->
+      </uib-tab>
+    </uib-tabset>
+  </div>
+  <!-- end of right panel -->
+</div>

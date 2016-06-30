@@ -1,0 +1,21 @@
+<div class="modal-content">
+  <div class="modal-header ng-scope">
+      <h3 class="modal-title">新增标签</h3>
+  </div>
+  <div class="modal-body clearfix">
+    <div class="col-sm-12">
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">标签名称</div>
+        <div class="col-sm-8"><input ng-model="newTag.displayName" type="text" class="form-control" placeholder="标签名称" /></div>
+      </div>
+      <div class="row portal-row clearfix">
+        <div class="col-sm-4">描述</div>
+        <div class="col-sm-8"><input ng-model="newTag.description" type="text" class="form-control" placeholder="描述" /></div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer ng-scope">
+      <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+      <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+  </div>
+</div>

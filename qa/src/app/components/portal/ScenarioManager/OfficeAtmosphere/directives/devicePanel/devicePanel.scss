@@ -1,0 +1,13 @@
+.device-panel{
+  padding: 15px;
+  width: 380px;
+  max-width: none;
+  hr{
+    margin: 10px -15px;
+  }
+  .condition-tree{
+    .condition{
+      overflow: auto;
+    }
+  }
+}

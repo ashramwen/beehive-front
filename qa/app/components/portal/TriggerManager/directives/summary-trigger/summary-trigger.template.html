@@ -1,0 +1,123 @@
+<div ng-init="init()">
+  <!-- ====================== start of trigger setting ===================== -->
+  <div class="step-bar">
+    <div class="sui-steps-round steps-round-auto">
+      <div class="wrap" ng-class="{'finished': currentStep>1, 'current': currentStep==1, 'todo': currentStep<1}">
+        <div class="round" ng-click="currentStep = 1">1</div>
+        <div class="bar"></div>
+        <label>触发器源</label>
+      </div>
+      <div class="wrap" ng-class="{'finished': currentStep>2, 'current': currentStep==2, 'todo': currentStep<2}">
+        <div class="round" ng-click="currentStep = 2">2</div>
+        <div class="bar"></div>
+        <label>触发表达式</label>
+      </div>
+      <div class="wrap" ng-class="{'finished': currentStep>3, 'current': currentStep==3, 'todo': currentStep<3}">
+        <div class="round" ng-click="currentStep = 3">3</div>
+        <div class="bar"></div>
+        <label>触发条件</label>
+      </div>
+      <div class="wrap" ng-class="{'finished': currentStep>4, 'current': currentStep==4, 'todo': currentStep<4}">
+        <div class="round" ng-click="currentStep = 4">4</div>
+        <div class="bar"></div>
+        <label>触发目标</label>
+      </div>
+      <div ng-class="{'finished': currentStep>5, 'current': currentStep==5, 'todo': currentStep<5}">
+        <div class="round" ng-click="currentStep = 5">5</div>
+        <label>触发命令</label>
+      </div>
+    </div>
+  </div>
+  <uib-carousel no-wrap="noWrapSlides">
+    <!-- ============================== select source ========================== -->
+    <uib-slide active="currentStep == 1">
+      <div class="new-source" ng-click="createSource()"><span class="fa fa-plus"></span> 新建源</div>
+      <multi-source-picker sources="dataContainer.mySources"></multi-source-picker>
+    </uib-slide>
+    <!-- ========================= end of select source ======================== -->
+
+    <!-- =========================== select aggregation  ==================================== -->
+    <uib-slide active="currentStep == 2">
+      <uib-accordion close-others="oneAtATime" class="multi-source">
+        <uib-accordion-group heading="{{name}}" ng-repeat="(name, source) in trigger.summarySource">
+          <div class="source-aggregation-settings">
+            <table class="table">
+              <thead>
+                <tr role="row">
+                  <th>字段名</th>
+                  <th>聚合函数</th>
+                  <th>聚合名</th>
+                  <th>选择</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="field in source.schema">
+                  <td>{{field.name}}</td>
+                  <td><div app-select selected-model="field['function']" disabled="!field._checked" value-only="true" options="aggregationFunctions"></div></td>
+                  <td><input type="text" ng-model="field.summaryAlias" class="form-control" ng-disabled="!field._checked"/></td>
+                  <td><input type="checkbox" ng-model="field._checked" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </uib-accordion-group>
+      </uib-accordion>
+    </uib-slide>
+    <!-- =========================== end of select aggregation ==================================== -->
+
+    <!-- =========================== set trigger rule  ==================================== -->
+    <uib-slide active="currentStep == 3">
+      <div class="trigger-when">
+        <span>何时触发：</span>
+        <div app-select selected-model="myTrigger.predicate.triggersWhen" options="triggerWhenConditions"></div>
+      </div>
+      <div>
+        <condition-tree schema="summarySchema" result="dataContainer.summaryConditionClause"></condition-tree>
+      </div>
+    </uib-slide>
+    <!-- =========================== end of set trigger rule  ==================================== -->
+
+    <!-- =========================== select trigger target ==================================== -->
+    <uib-slide active="currentStep == 4">
+      <div class="new-source" ng-click="createTarget()"><span class="fa fa-plus"></span> 新建目标</div>
+      <multi-source-picker ready="ready" dataset="dataset" sources="dataContainer.myTargets"></multi-source-picker>
+    </uib-slide>
+    <!-- =========================== end of select trigger target  ==================================== -->
+
+    <!-- =========================== select trigger command  ==================================== -->
+    <uib-slide active="currentStep == 5">
+      <uib-accordion close-others="oneAtATime" class="multi-source">
+        <uib-accordion-group heading="{{ '目标源-' + ($index + 1) }}" ng-repeat="target in myTrigger.targets">
+          <textarea type="text" class="form-control" ng-model="target.command"></textarea>
+        </uib-accordion-group>
+      </uib-accordion>
+    </uib-slide>
+    <!-- =========================== end of select trigger command  ==================================== -->
+  </uib-carousel>
+  <hr/>
+  <div class="panel-foot clearfix">
+    <button class="btn btn-danger pull-right margin-left" ng-click="nextStep(currentStep)">{{currentStep<5?'下一步':'完成'}}</button>
+    <button class="btn btn-success pull-right" ng-click="previousStep(currentStep)" ng-show="currentStep>1">上一步</button>
+  </div>
+  <!-- ====================== end of trigger setting ===================== -->
+  <script type="text/ng-template" id="/app/components/TriggerManager/new-source.html">
+    <div class="modal-content">
+      <div class="modal-header ng-scope">
+          <h3 class="modal-title">新增触发源</h3>
+      </div>
+      <div class="modal-body clearfix">
+        <div class="col-sm-12">
+          <div class="row portal-row clearfix">
+            <div class="col-sm-4">触发源名称</div>
+            <div class="col-sm-8"><input ng-model="sourceName" type="text" class="form-control" placeholder="触发源名称" /></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer ng-scope">
+          <button class="btn btn-primary" type="button" ng-click="createSource(sourceName)" ng-disable="sourceName.length==0">确认</button>
+          <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+      </div>
+    </div>
+  </script>
+  
+</div>

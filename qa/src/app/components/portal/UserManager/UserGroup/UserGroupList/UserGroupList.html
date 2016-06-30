@@ -1,0 +1,64 @@
+<div class="app-portal-usermanager-usergroup-usergrouplist" ng-init="init()">
+  <div class="panel">
+    <div class="panel-body">
+      <div app-select selected-model="groupType" options="groupTypes" class="input-group-btn" text="text"></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-body">
+      <div class="row clearfix">
+        <div class="col-sm-6">
+          <button class="btn btn-danger" ng-click="createGroup()">新增群组+</button>
+        </div>
+        <div class="pull-right col-sm-6">
+          <div class="col-sm-4">
+            <div app-select selected-model="queryFiled" options="queryOptions" class="input-group-btn" text="text"></div>
+          </div>
+          <div class="col-sm-8">
+            <div class="input-group">
+              <input type="text" class="form-control" ng-model="searchValue" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="queryUserGroups(queryFiled.value, searchValue)">Go!</button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="portal-row">
+    <!-- start tile  -->
+    <div class='modules-outputs-content graph-tile' ng-repeat="group in dataset.userGroupsForDisplay">
+      <div class="module-top">
+          <div class="overlay" ng-click="goUserList(group)">
+            <div class="viewReport">
+                 查看
+            </div>                   
+          </div>
+        <div class='outputs-content-img'><img ng-src="{{'images/group.jpg'}}" /></div>   
+      </div>
+      <div class="moduleDetails">
+          <!-- per info-->
+          <div class='per-info'>
+            <span class='info'>{{group.userGroupName}}</span>
+          </div>
+           <!-- end per info -->
+          <div class="modulesActionBottom">
+            <div class="item action-button" ng-click="goThingAuth(group)">
+              <span class="fa fa-cloud-download"></span>
+              <span class="item-text">设置权限</span>
+            </div>
+          </div>
+      </div>
+      
+      <div class="modulesActionsTop">
+        <i class="fa fa-pencil-square-o" uib-tooltip="编辑" uib-tooltip-trigger="mouseenter" uib-tooltip-placement="top" ng-click="goEdit(group)"></i>
+        <i class="fa fa-trash-o" ng-click="deleteGroup(group)" uib-tooltip="删除" uib-tooltip-trigger="mouseenter" uib-tooltip-placement="top"></i>
+      </div>
+    </div>
+    <!-- end tile  -->
+  </div>
+  <div class="pull-right">
+    <pagion collection="dataset.userGroups" display="dataset.userGroupsForDisplay"></pagion>
+  </div>
+</div>

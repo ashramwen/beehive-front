@@ -1,0 +1,10 @@
+.app-portal-usermanager-usergroup-groupeditor {
+  /*
+ * TODO
+ **/ }
+  .app-portal-usermanager-usergroup-groupeditor .form-group {
+    margin-bottom: 15px; }
+  .app-portal-usermanager-usergroup-groupeditor .fa.fa-remove {
+    cursor: pointer; }
+  .app-portal-usermanager-usergroup-groupeditor .username {
+    margin-right: 10px; }

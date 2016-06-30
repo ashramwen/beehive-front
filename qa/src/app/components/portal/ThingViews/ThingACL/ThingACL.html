@@ -1,0 +1,28 @@
+<div class="app-portal-thingviews-thingacl">
+  <div class="panel">
+    <div class="panel-heading">
+      <span>设备使用权限控制</span>
+    </div>
+    <div class="panel-body">
+      <div class="portal-row">
+        <label ng-repeat="acl in acls"><input type="checkbox" ng-model="acl._checked" />{{acl.name}}</label>
+      </div>
+      <div class="portal-row">
+        <table class="table">
+          <thead>
+            <th>用户姓名</th>
+            <th>用户ID</th>
+            <th>选择</th>
+          </thead>
+          <tbody>
+            <tr ng-repeat="user in users">
+              <td>{{user.userName}}</td>
+              <td>{{user.userID}}</td>
+              <td><input type="checkbox" ng-model="user._checked"/></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

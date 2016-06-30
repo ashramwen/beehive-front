@@ -1,0 +1,46 @@
+<div ng-init="init()">
+  <div class="row">
+    <!-- tags -->
+    <div class="col-xs-5" ng-if="!disabled">
+      <uib-tabset>
+        <uib-tab heading="标签">
+          <treecontrol class="tree-classic"
+             tree-model="dataset.tags"
+             options="treeOptions"
+             on-selection="selectLeftItem(node)">
+            {{node['displayName']}}
+          </treecontrol>
+        </uib-tab>
+        <uib-tab heading="位置">
+          <treecontrol class="tree-classic"
+            tree-model="dataset.locations"
+             options="treeOptions"
+             on-selection="selectLeftItem(node)">
+            {{node['name']}}
+          </treecontrol>
+        </uib-tab>
+      </uib-tabset>
+    </div>
+    <!-- end tags -->
+
+    <div class="col-xs-2 mid-column" style="padding-top: 130px;" ng-if="!disabled">
+      <div class="portal-row"><button class="btn btn-success pull-mid" ng-disabled="!selectedLeftItem" ng-click="addItem(selectedLeftItem)">赋予》</button></div>
+      <div class="portal-row"><button class="btn btn-danger pull-mid" ng-disabled="!selectedRightItem" ng-click="removeItem(selectedRightItem)">《撤回</button></div>
+    </div>
+
+    <!-- unselected things -->
+    <div ng-class="{'col-xs-12': disabled, 'col-xs-5': !disabled}">
+      <uib-tabset>
+        <uib-tab heading="已选">
+          <treecontrol class="tree-classic"
+             tree-model="selectedItems"
+             options="treeOptions"
+             on-selection="selectRightItem(node)">
+            {{node.name}}
+          </treecontrol>
+        </uib-tab>
+      </uib-tabset>
+    </div>
+    <!-- end of unselected things -->
+  </div>
+</div>

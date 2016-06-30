@@ -1,0 +1,17 @@
+<div class="select-policy text-left" ng-init="init()">
+  <div class="form-group">
+    当<div app-select options="policyOptions" selected-model="policy.groupPolicy" value-only="true" disabled="disabled"></div>的源设备的条件被满足时触发。
+  </div>
+  <div class="form-group" ng-if="policy.groupPolicy=='Some'">
+    <label>满足条件的设备数量：</label>
+    <div class="range-container">
+      <range-slider min="0" max="thingNumber" ng-model="policy.criticalNumber" disabled="disabled"></range-slider> 个设备
+    </div>
+  </div>
+  <div class="form-group" ng-if="policy.groupPolicy=='Percent'">
+    <label>满足条件的设备百分比：</label>
+    <div class="range-container">
+      <range-slider min="0" max="100" ng-model="policy.criticalPercent" disabled="disabled"></range-slider> %
+    </div>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="text-left trigger-command">
+  <div class="form-group">
+    <label>可选命令：</label>
+    <div>
+      <multi-selector ng-model="selectedActions" options="actionOptions" disabled="disabled"></multi-selector>
+    </div>
+  </div>
+  <div class="form-group">
+    <uib-accordion close-others="oneAtATime">
+      <uib-accordion-group heading="{{action.label}}" ng-repeat="action in selectedActions">
+        <table class="table">
+          <thead>
+            <th>名称</th>
+            <th>种类</th>
+            <th>值</th>
+            <th>值域</th>
+            <th>描述</th>
+            <th>选择</th>
+          </thead>
+          <tbody>
+            <tr ng-repeat="(propertyKey, propertyValue) in action.action.in.properties">
+              <td>
+                <span ng-if="!propertyValue.properties">{{propertyKey}}</span>
+                <a ng-if="propertyValue.properties" style="cursor:pointer" ng-click="collapseControllers[propertyKey] = !collapseControllers[propertyKey]">{{propertyKey}}</a>
+              </td>
+              <td>
+                <code class="bg-primary">{{propertyValue.type}}</code>
+              </td>
+              <td>
+                <div class="clearfix pull-left">
+                  <div ng-if="propertyValue.type=='boolean'">
+                    <div switchery="propertyValue.value" yes-text="开" no-text="关" disabled="disabled"></div>
+                  </div>
+                  <div ng-if="propertyValue.type=='string'">
+                    <input class="form-control" type="text" ng-model="propertyValue.value" ng-disabled="disabled" />
+                  </div>
+                  <div ng-if="propertyValue.type=='integer' || propertyValue.type=='float'">
+                    <div ng-if="(propertyValue.minimum || propertyValue.minimum == 0) && (propertyValue.maximum || propertyValue.maximum == 0)" class="range-type">
+                      <div class="range-container">
+                        <input class="form-control" type="range" min="propertyValue.minimum" max="propertyValue.maximum" ng-model="propertyValue.value" step="{{propertyValue.type=='integer'?1: 0.01}}" ng-disabled="disabled"/>
+                      </div>
+                      <input ng-model="propertyValue.value" class="form-control pull-left" type="text" ng-disabled="true" ng-disabled="disabled" />
+                    </div>
+                    <div ng-if="(!propertyValue.minimum && propertyValue.minimum != 0) || (!propertyValue.maximum && propertyValue.maximum != 0)">
+                      <input class="form-control" type="number" class="form-control" ng-model="propertyValue.value" ng-disabled="disabled" />
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <code ng-if="propertyValue.minimum || propertyValue.minimum == 0">{{'> ' + propertyValue.minimum}}</code>
+                <code ng-if="propertyValue.maximum || propertyValue.maximum == 0">{{'< ' + propertyValue.maximum}}</code>
+              </td>
+              <td>{{propertyValue.description}}</td>
+              <td><input type="checkbox" ng-model="propertyValue._checked" ng-disabled="propertyRequired(propertyKey, myProperty.required) || disabled"/></td>
+            </tr>
+          </tbody>
+        </table>
+      </uib-accordion-group>
+    </uib-accordion>
+  </div>
+</div>
