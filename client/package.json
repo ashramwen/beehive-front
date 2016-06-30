@@ -2,9 +2,10 @@
   "name": "MyApp",
   "version": "0.0.0",
   "dependencies": {
-    "karma": "^0.12.37"
+    "karma": "^0.12.37",
+    "node-sass": "^3.7.0"
   },
-  "scripts":{
+  "scripts": {
     "deploy": "gulp dist && npm start push",
     "push": "git add -A && git commit -m \"save\" && git push"
   },

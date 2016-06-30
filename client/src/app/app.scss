@@ -3,7 +3,9 @@
 body{
    
 }
-
+.md-dialog-container {
+  z-index: 10000;
+}
 table.detail-content{
     width: 100%;
     td{

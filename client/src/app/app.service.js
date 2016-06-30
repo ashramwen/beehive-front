@@ -93,3 +93,4 @@ angular.module('BeehivePortal')
 
     return appService;
   }]);
+

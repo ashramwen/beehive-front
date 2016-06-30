@@ -41,6 +41,7 @@
 
     window.MyAPIs['SCHEMA'] = siteUrl + '/demohelper/api/industrytemplate';
     window.MyAPIs['CLOUD_THING_IF'] = cloudUrl + '/thing-if';
+    window.webSocketPath =  appConfig[appConfig.ENV].wsUrl;
     
     /*
      * tag used as session key
@@ -53,5 +54,6 @@
     };
 
     window.pageListMaxLength = 20;
+    window.siteUrl = siteUrl;
     
 })();

@@ -38,6 +38,8 @@ angular.module('BeehivePortal')
     $scope.toggleMenu = function(){
         $('.left-side').toggleClass('sidebar-offcanvas');
         $('.right-side').toggleClass('shrink');
+        var flag = $('.right-side').hasClass('shrink');
+        $scope.$broadcast('toggle-menu', {isShrink: flag});
     };
 
     $scope.logout = function(){

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('GatewayController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Thing', '$$Type', '$$Location', '$uibModal', function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type, $$Location, $uibModal) {
+  .controller('GatewayController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Thing', '$$Type', '$$Location', '$uibModal', 'WebSocketClient', function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type, $$Location, $uibModal, WebSocketClient) {
     $scope.things = [];
 
     /*
@@ -38,7 +38,15 @@ angular.module('BeehivePortal')
                 $scope.selectLocation($scope.locationTree[0]);
             });
         });
+
+        var wsClient = WebSocketClient.getClient();
     };
+
+    $rootScope.$watch('login', function(flag){
+        if(flag){
+            $scope.init();
+        }
+    });
 
     $scope.selectLocation = function(location){
         $$Thing.byTag({tagType: 'Location', displayName: location.id}, function(things){

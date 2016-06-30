@@ -9393,7 +9393,7 @@ function $HttpProvider() {
         if (isUndefined(reqData)) {
           forEach(headers, function(value, header) {
             if (lowercase(header) === 'content-type') {
-                //delete headers[header];
+                delete headers[header];
             }
           });
         }

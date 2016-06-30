@@ -1,9 +1,11 @@
 'use strict'
 
-var MyApp = angular.module('BeehivePortal', ['ngAnimate', 'ngCookies', 'ngSanitize',
-  'ngResource', 'ui.router', 'ui.bootstrap','LocalStorageModule', 'rzModule', 'treeControl', 
+var MyApp = angular.module('BeehivePortal', [
+  'BeehivePortal.ScenarioManager',
+  'ngAnimate', 'ngCookies', 'ngSanitize',
+  'ngResource', 'ui.router', 'ui.bootstrap','LocalStorageModule', 'rzModule', 'treeControl', 'ngStomp',
   'angular-condition-tree', 'awesome-context-menu', 'monospaced.elastic', 'angularjs-dropdown-multiselect', 'ng.jsoneditor',
-  'angular-cron-jobs'
+  'angular-cron-jobs', 'ui-notification'
 ])
 .constant('ERROR_CODE', {
   'INVALID_INPUT': 'INVALID_INPUT',
@@ -18,7 +20,7 @@ var MyApp = angular.module('BeehivePortal', ['ngAnimate', 'ngCookies', 'ngSaniti
   notAuthenticated: 'UnauthorizedException',
   notAuthorized: 'auth-not-authorized',
 }).
-config(function(localStorageServiceProvider, $httpProvider) {
+config(function(localStorageServiceProvider, $httpProvider, NotificationProvider) {
   localStorageServiceProvider
     .setPrefix("epgApp")
     .setStorageType('localStorage')
@@ -62,6 +64,17 @@ config(function(localStorageServiceProvider, $httpProvider) {
             return $q.reject(response);
         }
       };
+    });
+
+
+    NotificationProvider.setOptions({
+      delay: 10000,
+      startTop: 20,
+      startRight: 10,
+      verticalSpacing: 20,
+      horizontalSpacing: 20,
+      positionX: 'right',
+      positionY: 'top'
     });
 
     /*
