@@ -78,13 +78,21 @@ angular.module('BeehivePortal')
         var schemaContent = editor.get(),
             schema = {
                 thingType: $scope.type.type,
-                name: schemaContent.name,
+                name: $scope.type.type,
                 version: schemaContent.version,
-                content: schemaContent
+                content: schemaContent.content
             };
-        $$Type.saveSchema(schema, function(){
-            $uibModalInstance.close($scope.type);  
-        });
+        if($scope.schema && $scope.schema.id){
+            schema.id = $scope.schema.id;
+            $$Type.updateSchema(schema, function(){
+                $uibModalInstance.close($scope.type); 
+            });
+        }else{
+            $$Type.saveSchema(schema, function(){
+                $uibModalInstance.close($scope.type);  
+            });
+        }
+        
         
     };
 

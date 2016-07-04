@@ -362,6 +362,16 @@ angular.module('BeehivePortal')
               headers: {
                   Authorization: 'Bearer c63Z840BhnyLgyL6TAoKeq0iGdUM6L1vZemenWrWjxc'
               }
+          },
+          getCommands: {
+              method: 'POST',
+              url: MyAPIs.THING_IF + '/commands/list',
+              params: {
+                globalThingID: '@globalThingID',
+                start: '@start',
+                end: '@end'
+              },
+              isArray: true
           }
       });
 
@@ -424,6 +434,13 @@ angular.module('BeehivePortal')
           saveSchema: {
               url: MyAPIs.SCHEMA,
               method: 'POST'
+          },
+          updateSchema: {
+              url: MyAPIs.SCHEMA + '/:id',
+              method: 'PUT',
+              params: {
+                id: '@id'
+              }
           },
           byTags: {
               url: MyAPIs.TYPE + '/fulltagname/:tags',
