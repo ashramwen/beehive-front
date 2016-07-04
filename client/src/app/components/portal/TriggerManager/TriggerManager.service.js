@@ -99,14 +99,14 @@ angular.module('BeehivePortal')
 
     TriggerService.getSchemaProperties = function(schema){
         var result = [];
-        _.each(schema.statesSchema.properties, function(value, key){
+        _.each(schema.content.statesSchema.properties, function(value, key){
             result.push(_.extend({name: key}, value));
         });
         return result;
     };
 
     TriggerService.getSchemaActions = function(schema){
-        return schema.actions;        
+        return schema.content.actions;        
     };
 
     TriggerService.initSchema = function(schema){
@@ -152,13 +152,13 @@ angular.module('BeehivePortal')
     };
 
     TriggerService.initTargetSchema = function(target, schema){
-        _.each(target.command.actions, function(action){
+        _.each(target.content.command.actions, function(action){
             _.each(action, function(actionContent, actionName){
-                if(!schema.actions[actionName]) return;
-                schema.actions[actionName]._checked = true;
+                if(!schema.content.actions[actionName]) return;
+                schema.content.actions[actionName]._checked = true;
                 _.each(actionContent, function(propertyValue, propertyName){
-                    schema.actions[actionName].in.properties[propertyName].value = propertyValue;
-                    schema.actions[actionName].in.properties[propertyName]._checked = true;
+                    schema.content.actions[actionName].in.properties[propertyName].value = propertyValue;
+                    schema.content.actions[actionName].in.properties[propertyName]._checked = true;
                 });
             });
         });
@@ -177,12 +177,12 @@ angular.module('BeehivePortal')
 
     TriggerService.xSchema = function(schema1, schema2){
         var schema = {statesSchema:{}, actions:[]},
-            properties1 = schema1.statesSchema.properties,
-            properties2 = schema2.statesSchema.properties,
+            properties1 = schema1.content.statesSchema.properties,
+            properties2 = schema2.content.statesSchema.properties,
             properties = {},
 
-            actions1 = schema1.actions,
-            actions2 = schema2.actions,
+            actions1 = schema1.content.actions,
+            actions2 = schema2.content.actions,
             actions = {};
 
         _.each(properties1, function(property1, key1){
@@ -206,8 +206,8 @@ angular.module('BeehivePortal')
             }
         });
 
-        schema.statesSchema.properties = properties;
-        schema.actions = actions;
+        schema.content.statesSchema.properties = properties;
+        schema.content.actions = actions;
 
         return schema;
     };

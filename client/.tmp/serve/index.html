@@ -143,9 +143,9 @@
   <script src="app/app.js"></script>
   <script src="app/components/portal/ThingViews/TypeView/directives/property-tree/property-tree.directive.js"></script>
   <script src="app/components/portal/ScenarioManager/OfficeAtmosphere/OfficeAtmosphere.js"></script>
+  <script src="app/components/portal/ScenarioManager/OfficeAtmosphere/directives/oaMctrl/oaMctrl.directive.js"></script>
   <script src="app/components/portal/ScenarioManager/OfficeAtmosphere/directives/oaPctrl/oaPctrl.directive.js"></script>
   <script src="app/components/portal/ScenarioManager/OfficeAtmosphere/directives/devicePanel/devicePanel.directive.js"></script>
-  <script src="app/components/portal/ScenarioManager/OfficeAtmosphere/directives/oaMctrl/oaMctrl.directive.js"></script>
   <script src="app/components/portal/UserManager/UserGroup/UserGroupList/UserGroupList.service.js"></script>
   <script src="app/components/portal/UserManager/UserGroup/UserGroupList/UserGroupList.controller.js"></script>
   <script src="app/components/portal/UserManager/UserGroup/ResourceAuthority/ResourceAuthority.controller.js"></script>
@@ -209,6 +209,9 @@
   <script src="app/shared/directives/check-angular-tree/check-angular-tree.directive.js"></script>
   <script src="app/shared/directives/app-slider/app-slider.directive.js"></script>
   <script src="app/shared/directives/app-select/app-select.js"></script>
+  <script src="app/components/secure/UserLogin/UserLogin.controller.js"></script>
+  <script src="app/components/secure/AdminLogin/AdminLogin.service.js"></script>
+  <script src="app/components/secure/AdminLogin/AdminLogin.controller.js"></script>
   <script src="app/components/portal/Welcome/Welcome.controller.js"></script>
   <script src="app/components/portal/UserManager/UserManager.controller.js"></script>
   <script src="app/components/portal/TriggerManager/TriggerManager.service.js"></script>
@@ -219,19 +222,16 @@
   <script src="app/components/portal/Settings/Settings.controller.js"></script>
   <script src="app/components/portal/ScenarioManager/ScenarioManager.js"></script>
   <script src="app/components/portal/ScenarioManager/ScenarioManager.controller.js"></script>
-  <script src="app/components/secure/UserLogin/UserLogin.controller.js"></script>
-  <script src="app/components/secure/AdminLogin/AdminLogin.service.js"></script>
-  <script src="app/components/secure/AdminLogin/AdminLogin.controller.js"></script>
   <script src="app/shared/models/Trigger.js"></script>
   <script src="app/shared/models/LocationTree.js"></script>
   <script src="app/shared/models/BeehiveThing.js"></script>
   <script src="app/shared/models/BeehiveCommand.js"></script>
   <script src="app/shared/filters/filters.js"></script>
+  <script src="app/components/secure/secure.service.js"></script>
+  <script src="app/components/secure/secure.controller.js"></script>
   <script src="app/components/portal/portal.service.js"></script>
   <script src="app/components/portal/portal.resource.js"></script>
   <script src="app/components/portal/portal.controller.js"></script>
-  <script src="app/components/secure/secure.service.js"></script>
-  <script src="app/components/secure/secure.controller.js"></script>
   <script src="app/shared/utils.js"></script>
   <script src="app/shared/directives.js"></script>
   <script src="app/shared/config.js"></script>
@@ -241,8 +241,8 @@
 
   <!-- route:js -->
   <script src="app/app.route.js"></script>
-  <script src="app/components/secure/secure.route.js"></script>
   <script src="app/components/portal/portal.route.js"></script>
+  <script src="app/components/secure/secure.route.js"></script>
   <script src="app/components/portal/ScenarioManager/ScenarioManager.route.js"></script>
   <script src="app/components/portal/ThingManager/ThingManager.route.js"></script>
   <script src="app/components/portal/ThingViews/ThingViews.route.js"></script>

@@ -40,7 +40,7 @@
             <div app-select value-only="true" selected-model="dataContainer.predicate.triggersWhen" options="triggerWhenConditions" disabled="trigger.triggerID"></div>
           </div>
           <div>
-            <condition-tree schema="dataContainer.sourceSchema.statesSchema.properties" result="dataContainer.predicate.condition" disabled="trigger.triggerID"></condition-tree>
+            <condition-tree schema="dataContainer.sourceSchema.content.statesSchema.properties" result="dataContainer.predicate.condition" disabled="trigger.triggerID"></condition-tree>
           </div>
         </uib-tab>
         <uib-tab heading="触发策略">
@@ -67,7 +67,7 @@
     <uib-slide active="currentStep == 4">
       <uib-accordion close-others="oneAtATime" class="multi-source">
         <uib-accordion-group heading="{{'命令-' + ($index + 1)}}" ng-repeat="targetSchema in dataContainer.targetSchemas">
-          <trigger-command my-actions="targetSchema.actions" disabled="trigger.triggerID"></trigger-command>
+          <trigger-command my-actions="targetSchema.content.actions" disabled="trigger.triggerID"></trigger-command>
         </uib-accordion-group>
       </uib-accordion>
     </uib-slide>
