@@ -2,7 +2,7 @@
     window.appConfig = {
       "DEV": {
         "cloudUrl": "http://api-development-beehivecn3.internal.kii.com",
-        "wsUrl": "http://114.215.196.178:8080/beehive-portal/websocket/stomp",
+        "wsUrl": "ws://114.215.196.178:8080/beehive-portal/websocket/stomp",
         "siteUrl": "http://114.215.196.178:8080",
         "thirdPartyAPIUrl": "http://114.215.196.178:8081/3rdpartyapiserver/app/api_inquiry/apilist.html?vendor=Beehive"
       },
@@ -10,6 +10,12 @@
         "cloudUrl": "http://api-development-beehivecn3.internal.kii.com",
         "wsUrl": "ws://114.215.178.24:8081/beehive-portal/websocket/stomp",
         "siteUrl": "http://114.215.178.24:8081",
+        "thirdPartyAPIUrl": "http://114.215.178.24:8081/3rdpartyapiserver/app/api_inquiry/apilist.html?vendor=Beehive"
+      },
+      "LOCAL": {
+        "cloudUrl": "http://api-development-beehivecn3.internal.kii.com",
+        "wsUrl": "ws://localhost:9090/beehive-portal/websocket/stomp",
+        "siteUrl": "http://localhost:9090",
         "thirdPartyAPIUrl": "http://114.215.178.24:8081/3rdpartyapiserver/app/api_inquiry/apilist.html?vendor=Beehive"
       },
       "ENV": "DEV"

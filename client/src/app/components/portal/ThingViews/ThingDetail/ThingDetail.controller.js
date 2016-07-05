@@ -9,9 +9,17 @@ angular.module('BeehivePortal')
     var customEditor;
 
     $scope.init = function(){
-        $scope.thing = $$Thing.get({globalThingID: $state.params.thingid}, function(thing){
 
-            $$Thing.getOnboardingInfo({globalThingID: thing.vendorThingID}, function(onboardingInfo){
+        $scope.timePickerOptions = {
+            step: 20,
+            timeFormat: 'g:ia',
+            appendTo: 'body'
+        };
+
+        var globalThingID = $state.params.thingid;
+        $scope.thing = $$Thing.get({globalThingID: globalThingID}, function(thing){
+
+            $$Thing.getOnboardingInfo({vendorThingID: thing.vendorThingID}, function(onboardingInfo){
                 _.extend($scope.thing, onboardingInfo);
                 $log.debug(onboardingInfo);
             });
@@ -19,7 +27,7 @@ angular.module('BeehivePortal')
             /**
              * get triggers
              */
-            $$Thing.getTriggers({globalThingID: $state.params.thingid}, function(triggers){
+            $$Thing.getTriggers({globalThingID: globalThingID}, function(triggers){
                 _.each(triggers, function(trigger){
                     var t = new Trigger(trigger.type);
                     t.init(trigger);
@@ -37,6 +45,41 @@ angular.module('BeehivePortal')
                 customEditor = new JSONEditor(customEditor, options);
             },50);
         });
+
+        $scope.dateOptions = {
+            dateDisabled: false,
+            formatYear: 'yy',
+            maxDate: (new Date()).getTime(),
+            minDate: (new Date(2015, 5, 1)).getTime(),
+            startingDay: 1
+        };
+
+        $scope.startDate = new Date();
+        $scope.startDate.setDate($scope.startDate.getDate() - 1);
+        $scope.endDate = new Date();
+        $scope.endDate.setDate($scope.endDate.getDate());
+
+        $scope.searchThingCommands(globalThingID, $scope.startDate, $scope.endDate);
+    };
+
+
+    $scope.openStartDate = function() {
+        $scope.startDateOpened = true;
+    };
+
+    $scope.openEndDate = function(){
+        $scope.endDateOpened = true;
+    };
+
+
+    $scope.searchThingCommands = function(thingID, startDate, endDate){
+        var params = {
+            globalThingID: thingID,
+            start: startDate.getTime(),
+            end: endDate.getTime() + 24 * 60 * 60 * 1000 - 1
+        };
+
+        $scope.thingCommands = $$Thing.getCommands(params);
     };
 
     $scope.editCustom = function(custom){

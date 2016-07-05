@@ -27,7 +27,7 @@
                   <th>描述</th>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="(key, value) in schema.statesSchema.properties">
+                  <tr ng-repeat="(key, value) in schema.content.statesSchema.properties">
                     <td>{{key}}</td>
                     <td><code class="bg-primary">{{value.type}}</code></td>
                     <td>
@@ -43,7 +43,7 @@
             <div class="form-group">
               <h4>命令</h4>
               <uib-accordion close-others="oneAtATime">
-                <uib-accordion-group heading="{{key}}" ng-repeat="(key, value) in schema.actions">
+                <uib-accordion-group heading="{{key}}" ng-repeat="(key, value) in schema.content.actions">
                   <div class="form-group">
                     <uib-tabset>
                       <uib-tab heading="输入">

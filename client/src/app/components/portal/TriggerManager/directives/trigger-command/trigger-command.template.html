@@ -37,7 +37,7 @@
                   <div ng-if="propertyValue.type=='integer' || propertyValue.type=='float'">
                     <div ng-if="(propertyValue.minimum || propertyValue.minimum == 0) && (propertyValue.maximum || propertyValue.maximum == 0)" class="range-type">
                       <div class="range-container">
-                        <input class="form-control" type="range" min="propertyValue.minimum" max="propertyValue.maximum" ng-model="propertyValue.value" step="{{propertyValue.type=='integer'?1: 0.01}}" ng-disabled="disabled"/>
+                        <input class="form-control" type="range" min="{{propertyValue.minimum}}" max="{{propertyValue.maximum}}" ng-model="propertyValue.value" step="{{propertyValue.type=='integer'?1: 0.01}}" ng-disabled="disabled"/>
                       </div>
                       <input ng-model="propertyValue.value" class="form-control pull-left" type="text" ng-disabled="true" ng-disabled="disabled" />
                     </div>

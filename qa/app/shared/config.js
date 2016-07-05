@@ -29,7 +29,8 @@
         ONBOARDING: '/onboardinghelper',
         SUPPLIER: '/devicesuppliers',
         SYSTEM_PERMISSION: '/sys/permissionTree',
-        USER_SYNC: '/usersync'
+        USER_SYNC: '/usersync',
+        SCHEMA: '/industrytemplate'
     };
 
     /*
@@ -38,8 +39,7 @@
     for(apiName in window.MyAPIs){
         window.MyAPIs[apiName] = apiSuffix +  window.MyAPIs[apiName];
     }
-
-    window.MyAPIs['SCHEMA'] = siteUrl + '/demohelper/api/industrytemplate';
+    
     window.MyAPIs['CLOUD_THING_IF'] = cloudUrl + '/thing-if';
     window.webSocketPath =  appConfig[appConfig.ENV].wsUrl;
     

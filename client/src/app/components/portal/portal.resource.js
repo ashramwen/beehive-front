@@ -100,7 +100,10 @@ angular.module('BeehivePortal')
           },
           validate: {
               url: MyAPIs.OPERATOR + '/validatetoken',
-              method: 'POST'
+              method: 'POST',
+              transformRequest: function(){
+                return '{"login": true}';
+              }
           }
       });
 
@@ -320,8 +323,8 @@ angular.module('BeehivePortal')
           },
           getOnboardingInfo: {
               method: 'GET',
-              url: MyAPIs.ONBOARDING + '/:globalThingID',
-              params: {globalThingID: '@globalThingID'}
+              url: MyAPIs.ONBOARDING + '/:vendorThingID',
+              params: {vendorThingID: '@vendorThingID'}
           },
           getEndNodes: {
               url: MyAPIs.THING+ '/:globalThingID/endnodes',
@@ -365,12 +368,7 @@ angular.module('BeehivePortal')
           },
           getCommands: {
               method: 'POST',
-              url: MyAPIs.THING_IF + '/commands/list',
-              params: {
-                globalThingID: '@globalThingID',
-                start: '@start',
-                end: '@end'
-              },
+              url: MyAPIs.THING_IF + '/command/list',
               isArray: true
           }
       });

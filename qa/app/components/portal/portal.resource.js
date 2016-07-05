@@ -100,7 +100,10 @@ angular.module('BeehivePortal')
           },
           validate: {
               url: MyAPIs.OPERATOR + '/validatetoken',
-              method: 'POST'
+              method: 'POST',
+              transformRequest: function(){
+                return '{"login": true}';
+              }
           }
       });
 
@@ -320,8 +323,8 @@ angular.module('BeehivePortal')
           },
           getOnboardingInfo: {
               method: 'GET',
-              url: MyAPIs.ONBOARDING + '/:globalThingID',
-              params: {globalThingID: '@globalThingID'}
+              url: MyAPIs.ONBOARDING + '/:vendorThingID',
+              params: {vendorThingID: '@vendorThingID'}
           },
           getEndNodes: {
               url: MyAPIs.THING+ '/:globalThingID/endnodes',
@@ -362,6 +365,11 @@ angular.module('BeehivePortal')
               headers: {
                   Authorization: 'Bearer c63Z840BhnyLgyL6TAoKeq0iGdUM6L1vZemenWrWjxc'
               }
+          },
+          getCommands: {
+              method: 'POST',
+              url: MyAPIs.THING_IF + '/command/list',
+              isArray: true
           }
       });
 
@@ -424,6 +432,13 @@ angular.module('BeehivePortal')
           saveSchema: {
               url: MyAPIs.SCHEMA,
               method: 'POST'
+          },
+          updateSchema: {
+              url: MyAPIs.SCHEMA + '/:id',
+              method: 'PUT',
+              params: {
+                id: '@id'
+              }
           },
           byTags: {
               url: MyAPIs.TYPE + '/fulltagname/:tags',

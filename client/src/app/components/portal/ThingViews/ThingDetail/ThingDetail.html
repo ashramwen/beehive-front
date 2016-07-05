@@ -89,10 +89,69 @@
   </uib-accordion>
   <!-- rule of a thing -->
 
+  <div class="panel">
+    <div class="panel-heading">
+      控制历史
+    </div>
+    <div class="panel-body">
+      <div class="time-picker-group">
+        <div class="row">
+          <div class="col-xs-6">
+            <label>起始日期</label>
+          </div>
+          <div class="col-xs-6">
+            <label>结束日期</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6">
+            <p class="input-group">
+              <input type="text" class="form-control" uib-datepicker-popup ng-model="startDate" is-open="startDateOpened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="openStartDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+          </div>
+          <div class="col-xs-6">
+            <p class="input-group">
+              <input type="text" class="form-control" uib-datepicker-popup ng-model="endDate" is-open="endDateOpened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="openEndDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+          </div>
+        </div>
+        <div>
+          <button class="btn btn-success" ng-click="searchThingCommands(thing.globalThingID, startDate, endDate)">查询</button>
+        </div>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>行业模板</th>
+            <th>操作</th>
+            <th>状态</th>
+            <th>发送时间</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="command in thingCommands">
+            <td>{{command.commandID}}</td>
+            <td>{{command.schema}}</td>
+            <td>{{command.actions}}</td>
+            <td>{{command.commandState}}</td>
+            <td>{{command.createdAt}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <hr/>
+
   <div class="clearfix">
     <div class="pull-right">
-      <button class="btn btn-danger">控制历史</button>
       <button class="btn btn-danger" ng-click="openRemoteControl(thing)" ng-if="thing.fullKiiThingID">远程控制</button>
       <button class="btn btn-danger" ng-click="goThingACL()">控制权限</button>
     </div>
