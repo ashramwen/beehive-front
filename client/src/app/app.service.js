@@ -22,7 +22,7 @@ angular.module('BeehivePortal')
                 return;
             }
             $http.defaults.headers.common['Authorization'] = 'Bearer ' + credential['accessToken'];
-            $$Auth.validate(function(){
+            $$Auth.validate({token: 'Bearer ' + credential['accessToken']}, function(){
                 session.setCredential(credential);
                 resolve(credential);
                 $rootScope.login = true;

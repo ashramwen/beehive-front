@@ -100,10 +100,7 @@ angular.module('BeehivePortal')
           },
           validate: {
               url: MyAPIs.OPERATOR + '/validatetoken',
-              method: 'POST',
-              transformRequest: function(){
-                return '{"login": true}';
-              }
+              method: 'POST'
           }
       });
 

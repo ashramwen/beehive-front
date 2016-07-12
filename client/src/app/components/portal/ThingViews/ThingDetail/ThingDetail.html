@@ -125,6 +125,7 @@
           <button class="btn btn-success" ng-click="searchThingCommands(thing.globalThingID, startDate, endDate)">查询</button>
         </div>
       </div>
+      <hr/>
       <table class="table">
         <thead>
           <tr>
@@ -141,7 +142,7 @@
             <td>{{command.schema}}</td>
             <td>{{command.actions}}</td>
             <td>{{command.commandState}}</td>
-            <td>{{command.createdAt}}</td>
+            <td>{{command.createdAt | date:'yyyy-MM-dd HH:mm:ss'}}</td>
           </tr>
         </tbody>
       </table>
