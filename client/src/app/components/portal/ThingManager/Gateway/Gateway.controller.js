@@ -33,13 +33,15 @@ angular.module('BeehivePortal')
             };
 
 
+            $scope.selectLocation();
+            /*
             $$Location.queryAll(function(locations){
                 $scope.locationTree = new LocationTree(_.pluck(locations, 'displayName')).tree.children;
-                $scope.selectLocation($scope.locationTree[0]);
             });
+            */
         });
 
-        var wsClient = WebSocketClient.getClient();
+        //var wsClient = WebSocketClient.getClient();
     };
 
     $rootScope.$watch('login', function(flag){
@@ -48,8 +50,8 @@ angular.module('BeehivePortal')
         }
     });
 
-    $scope.selectLocation = function(location){
-        $$Thing.byTag({tagType: 'Location', displayName: location.id}, function(things){
+    $scope.selectLocation = function(){
+        $$Thing.byType({typeName: 'gateway-streetlight'}, function(things){
             $scope.things = _.filter(things, function(thing){
                 return thing.type == 'gateway-streetlight';
             });
