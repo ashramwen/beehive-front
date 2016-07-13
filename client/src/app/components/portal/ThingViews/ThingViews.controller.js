@@ -91,7 +91,7 @@ angular.module('BeehivePortal')
         var schemas = $scope.sourceSchema,
             actions = [];
 
-        _.each(schemas.actions, function(action, actionName){
+        _.each(schemas.content.actions, function(action, actionName){
             var actionToAdd = {},
                 addFlag = false;
                 actionToAdd[actionName] = {};
