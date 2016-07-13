@@ -3,7 +3,7 @@
  */
 
 angular.module('BeehivePortal')
-  .service('Session', ['localStorageService', 'AppUtils', '$http', '$rootScope', '$$Auth', '$q', 'AUTH_EVENTS', function(localStorageService, AppUtils, $http, $rootScope, $$Auth, $q, AUTH_EVENTS) {
+  .service('Session', ['localStorageService', 'AppUtils', '$http', '$rootScope', '$$Auth', '$$User', '$q', 'AUTH_EVENTS', function(localStorageService, AppUtils, $http, $rootScope, $$Auth, $$User, $q, AUTH_EVENTS) {
     var session = {};
     window.MyApp = window.MyApp || {};
 
@@ -22,7 +22,7 @@ angular.module('BeehivePortal')
                 return;
             }
             $http.defaults.headers.common['Authorization'] = 'Bearer ' + credential['accessToken'];
-            $$Auth.validate({token: 'Bearer ' + credential['accessToken']}, function(){
+            $$User.get(function(){
                 session.setCredential(credential);
                 resolve(credential);
                 $rootScope.login = true;
@@ -32,7 +32,7 @@ angular.module('BeehivePortal')
                 }else{
                     reject(AUTH_EVENTS.UnauthorizedException);
                 }
-            }); 
+            });
         });
     };
 
@@ -40,7 +40,7 @@ angular.module('BeehivePortal')
         return AppUtils.getSessionItem('credential');
     };
 
-    
+
     window.MyApp.credential = session.getCredential();
 
     session.StatusType = {
