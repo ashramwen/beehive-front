@@ -2,6 +2,7 @@
 
 var MyApp = angular.module('BeehivePortal', [
   'BeehivePortal.ScenarioManager',
+  'BeehivePortal.MonitorManager',
   'ngAnimate', 'ngCookies', 'ngSanitize',
   'ngResource', 'ui.router', 'ui.bootstrap','LocalStorageModule', 'rzModule', 'treeControl', 'ngStomp',
   'angular-condition-tree', 'awesome-context-menu', 'monospaced.elastic', 'angularjs-dropdown-multiselect', 'ng.jsoneditor',
@@ -47,11 +48,11 @@ config(function(localStorageServiceProvider, $httpProvider, NotificationProvider
             hideLoading();
             $('#spinner').hide();
             switch(response.status){
-                case 401: 
+                case 401:
                     if(!response.data.errorCode == ERROR_CODE.INVALID_TOKEN){
                       window.alertMessage('您没有相应的操作权限。');
                     }
-                    
+
                     break;
                 case 500:
                     switch(response.data.errorCode){
@@ -78,7 +79,7 @@ config(function(localStorageServiceProvider, $httpProvider, NotificationProvider
     });
 
     /*
-     * hide loading 
+     * hide loading
      */
     function hideLoading(){
       requestCount--;
@@ -106,6 +107,13 @@ config(function(localStorageServiceProvider, $httpProvider, NotificationProvider
            */
           AppUtils.initialize();
           window.AppUtils = AppUtils;
+
+          $rootScope.$on('$stateChangeStart', function(evt, to, params) {
+            if (to.redirectTo) {
+              evt.preventDefault();
+              $state.go(to.redirectTo, params, {location: 'replace'})
+            }
+          });
       }
   ]
 );

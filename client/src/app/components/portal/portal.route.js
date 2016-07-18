@@ -52,5 +52,12 @@ angular.module('BeehivePortal')
         stateName: '设备视图',
         abstract: true,
         redirectTo: 'app.portal.ThingViews.LocationView'
+      })
+      .state('app.portal.MonitorManager', {
+        url: '/MonitorManager',
+        templateUrl: 'app/components/portal/MonitorManager/MonitorManager.html',
+        // controller: 'MonitorManagerController',
+        stateName: '设备监控',
+        redirectTo: 'app.portal.MonitorManager.View'
       });
   });
