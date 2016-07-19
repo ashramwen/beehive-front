@@ -59,6 +59,10 @@
         &:hover .module-top{
             height:175px;
         }
+        i{
+            margin-top: 99px;
+            margin-left: 121.5px;
+        }
 
         .module-top{
             height:200px;
@@ -97,7 +101,7 @@
                 margin-top:0px;
             }
         }
-        
+
 
         .per-info{
             display: table;
@@ -107,7 +111,7 @@
         }
         .info{
             position: relative;
-            font-weight: bold; 
+            font-weight: bold;
             z-index: 1;
             font-size: 15px;
             word-wrap: break-word;
@@ -150,7 +154,7 @@
 
 
         .overlay{
-           position: block; 
+           position: block;
            top: 0;
            left: 0;
            background: #000;
@@ -250,12 +254,12 @@
                     margin-left: 7px;
                 }
             }
-            
+
             i{
                 cursor:pointer;
             }
         }
-        
+
         .moduleDetails{
             z-index:2;
             width:298px;
@@ -283,14 +287,14 @@
             }
         }
 
-        
+
         .item i{
-            margin-right: 0; 
-            padding: 6px; 
+            margin-right: 0;
+            padding: 6px;
         }
         .item-text{
             display: none;
-            color: #fff;  
+            color: #fff;
         }
         div.popover{
             word-break:break-word;

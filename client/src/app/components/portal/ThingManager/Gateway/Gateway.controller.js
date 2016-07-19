@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('GatewayController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Thing', '$$Type', '$$Location', '$uibModal', 'WebSocketClient', function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type, $$Location, $uibModal, WebSocketClient) {
+  .controller('GatewayController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Thing', '$$Type', '$$Location', '$uibModal', function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type, $$Location, $uibModal) {
     $scope.things = [];
 
     /*
@@ -40,8 +40,6 @@ angular.module('BeehivePortal')
             });
             */
         });
-
-        //var wsClient = WebSocketClient.getClient();
     };
 
     $rootScope.$watch('login', function(flag){
@@ -99,7 +97,7 @@ angular.module('BeehivePortal')
     };
   }])
   .controller('GatewayController.Replacement', ['$scope', '$uibModalInstance', '$$Thing', 'endNode', '$http', function($scope, $uibModalInstance, $$Thing, endNode, $http){
-    
+
     $scope.endNode = {
         kiiAppID: endNode.kiiAppID,
         kiiThingID: endNode.kiiThingID,

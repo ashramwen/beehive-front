@@ -9,7 +9,20 @@ angular.module('BeehivePortal')
               method: 'PATCH',
               url: MyAPIs.USER + '/me'
           },
-          
+          setCustomData: { //保存用户自定义信息
+              url: MyAPIs.USER + '/me/customData/:name',
+              method: 'PUT',
+              params: {
+                  name: '@name'
+              }
+          },
+          getCustomData: { //获取用户自定义信息
+              url: MyAPIs.USER + '/me/customData/:name',
+              method: 'GET',
+              params: {
+                  name: '@name'
+              }
+          },
           bindThing: {
               url: MyAPIs.THING + '/:globalThingIDs/users/:userIDs',
               params: {
@@ -522,6 +535,6 @@ angular.module('BeehivePortal')
           GROUP: 'Group',
           SUMMARY: 'Summary'
       };
-      
+
       return Trigger;
   }]);
