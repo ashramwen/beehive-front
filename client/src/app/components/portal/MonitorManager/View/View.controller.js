@@ -2,8 +2,9 @@
 
 angular.module('BeehivePortal.MonitorManager')
 
-.controller('ViewController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$User', 'WebSocketClient', function($scope, $rootScope, $state, AppUtils, $$User, WebSocketClient) {
+.controller('ViewController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$User', function($scope, $rootScope, $state, AppUtils, $$User) {
     $scope.init = function() {
+        // WebSocketClient.getClient();
         // $$User.getCustomData({ name: 'monitorView' }, {
         //     id: 1,
         //     name: 'Monitor 1'

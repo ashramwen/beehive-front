@@ -1,10 +1,10 @@
 angular.module('BeehivePortal.MonitorManager')
 
-.factory('WebSocketClient', ['$rootScope', '$stomp', '$q', '$$User', function($rootScope, $stomp, $q, $$User) {
+.factory('WebSocketClient', ['$rootScope', '$stomp', '$q', 'Session', '$$User', function($rootScope, $stomp, $q, Session, $$User) {
     // Open a WebSocket connection
     var WebSocketClient = {};
 
-    // $$User.getThings();
+    $$User.getThings();
 
     var $defer = $q.defer();
     var connect_callback = function(frame) {
@@ -12,9 +12,9 @@ angular.module('BeehivePortal.MonitorManager')
         stompClient.subscribe('/topic/493e83c9/1086', function(frame) {
             console.log(frame.body);
         });
-        stompClient.subscribe('/topic/493e83c9/0807W-F02-15-118', function(frame) {
-            console.log(frame.body);
-        });
+        // stompClient.subscribe('/topic/493e83c9/0807W-F02-15-118', function(frame) {
+        //     console.log(frame.body);
+        // });
     };
     var error_callback = function(error) {
         console.log(error);
@@ -25,10 +25,10 @@ angular.module('BeehivePortal.MonitorManager')
     // var stompClient = Stomp.over(ws);
     stompClient.connect({
         'Authorization': 'Bearer super_token '
-        // 'Authorization': 'Basic ' + $rootScope.credential.accessToken
+        // 'Authorization': 'Bearer ' + Session.getCredential().accessToken
     }, connect_callback, error_callback);
-
     WebSocketClient.getClient = function() {
+
         // var headers = {
         //     Authorization: 'Bearer ' + $rootScope.credential.accessToken,
         //     'Content-type': 'application/json'
