@@ -1,0 +1,23 @@
+.thing-location-selector {
+  .row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .vcenter {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+  .cursor-pointer {
+    cursor: pointer;
+    outline: none;
+  }
+  tr {
+    outline: none;
+  }
+}

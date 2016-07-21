@@ -1,5 +1,5 @@
 <div class="app-portal-monitormanager-viewmanager">
-  <div class="container-fluid">
+  <div class="container-fluid" ng-if="views">
 
     <!-- 频道信息 -->
     <div class="row">
@@ -11,13 +11,13 @@
               <div class="form-group">
                 <label for="inputViewName" class="col-sm-2 control-label">频道名称</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputViewName" />
+                  <input type="text" class="form-control" id="inputViewName" ng-model="view.name" required />
                 </div>
               </div>
               <div class="form-group">
                 <label for="inputViewDesc" class="col-sm-2 control-label">频道说明</label>
                 <div class="col-sm-10">
-                  <textarea class="form-control" id="inputViewDesc" rows="10"></textarea>
+                  <textarea class="form-control" id="inputViewDesc" rows="10" maxlength="100" ng-model="view.desc"></textarea>
                 </div>
               </div>
             </div>
@@ -33,11 +33,17 @@
         <section class="panel">
           <header class="panel-heading">添加监控设备</header>
           <div class="panel-body">
-
+            <thing-location-selector monitor-view="view"></thing-location-selector>
           </div>
         </section>
       </div>
     </div>
     <!-- END 添加监控设备 -->
+
+    <div class="bottom-btn">
+      <button class="btn btn-danger" ng-click="newView()" ng-if="view.id===0">创建频道</button>
+      <button class="btn btn-danger" ng-click="modifyView()" ng-if="view.id>0">保存提交</button>
+      <button class="btn btn-success" ng-click="fallback()">返回</button>
+    </div>
   </div>
 </div>

@@ -1,0 +1,69 @@
+<div class="thing-location-selector">
+  <div class="row row-eq-height">
+    <div class="col-sm-4">
+      <div class="row row-eq-height form-group">
+        <div class="col-sm-4">
+          <label class="sr-only" for="selectBuilding">Building</label>
+          <select class="form-control" id="selectBuilding" placeholder="Building">
+            <option value="1">1</option>
+          </select>
+        </div>
+        <div class="col-sm-4">
+          <label class="sr-only" for="selectFloor">Floor</label>
+          <select class="form-control" id="selectFloor" placeholder="Floor">
+            <option value="1">1</option>
+          </select>
+        </div>
+        <div class="col-sm-4">
+          <label class="sr-only" for="selectArea">Area</label>
+          <select class="form-control" id="selectArea" placeholder="Area">
+            <option value="1">1</option>
+          </select>
+        </div>
+      </div>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <th>设备名</th>
+          <th>类型</th>
+        </thead>
+        <tbody>
+          <tr ng-class="{'success':o.select}" ng-repeat="o in things track by o.globalThingID" ng-click="o.select=!o.select">
+            <td>{{o.vendorThingID}}</td>
+            <td>{{o.type}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2"><button class="btn btn-success" ng-click="selectAll(things)">全选</button></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="col-sm-2 vcenter">
+      <div class="fa fa-plus fa-5x cursor-pointer" ng-class="{'text-success': hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" ng-click="add()"></div>
+    </div>
+
+    <div class="col-sm-6">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <th>设备名</th>
+          <th>类型</th>
+          <th>位置</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="o in viewDetail track by o.globalThingID">
+            <td>{{o.vendorThingID}}</td>
+            <td>{{o.type}}</td>
+            <th>栋1-F2-B区</th>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3"><button class="btn btn-success" ng-click="selectAll(things)">全选</button></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

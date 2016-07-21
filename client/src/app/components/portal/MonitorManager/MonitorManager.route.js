@@ -12,7 +12,8 @@ angular.module('BeehivePortal.MonitorManager')
             previous: 'app.portal.MonitorManager.View',
             params: {
                 'id': 0,
-                'name': '0',
+                'name': '',
+                'desc': '',
                 'count': 0
             }
         })
@@ -27,7 +28,13 @@ angular.module('BeehivePortal.MonitorManager')
             url: '/ViewManager',
             templateUrl: 'app/components/portal/MonitorManager/ViewManager/ViewManager.html',
             controller: 'ViewManagerController',
-            stateName: '监控',
-            previous: 'app.portal.MonitorManager.View'
+            stateName: '频道信息',
+            previous: 'app.portal.MonitorManager.View',
+            params: {
+                'id': 0,
+                'name': '',
+                'desc': '',
+                'count': 0
+            }
         });
 });

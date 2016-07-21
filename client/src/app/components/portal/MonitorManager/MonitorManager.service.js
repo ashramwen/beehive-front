@@ -4,8 +4,6 @@ angular.module('BeehivePortal.MonitorManager')
     // Open a WebSocket connection
     var WebSocketClient = {};
 
-    $$User.getThings();
-
     var $defer = $q.defer();
     var connect_callback = function(frame) {
         console.log('Connected: ' + frame);

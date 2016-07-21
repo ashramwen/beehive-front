@@ -1,3 +1,8 @@
-.app-portal-monitormanager{
-
+.app-portal-monitormanager {
+  .bottom-btn {
+    text-align: center;
+    button:not(:first-child) {
+      margin-left: 20px;
+    }
+  }
 }
