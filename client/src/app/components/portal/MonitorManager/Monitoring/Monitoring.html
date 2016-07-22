@@ -22,10 +22,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>XXXXXXXXX</td>
-                  <td>air</td>
-                  <td>F1-A区</td>
+                <tr ng-repeat="o in view.detail track by o.globalThingID">
+                  <td>{{o.vendorThingID}}</td>
+                  <td>{{o.type}}</td>
+                  <td></td>
                   <td>√</td>
                   <td>
                     <div>温度：26</div>

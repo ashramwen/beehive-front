@@ -9,10 +9,10 @@ angular.module('BeehivePortal')
         },
         templateUrl: 'app/shared/directives/thing-location-selector/thing-location-selector.template.html',
         controller: ['$scope', '$$Tag', '$$Thing', '$$Location', '$$Type', '$timeout', '$q', '$$User', function($scope, $$Tag, $$Thing, $$Location, $$Type, $timeout, $q, $$User) {
-            $scope.viewDetail = [];
+            $scope.view.detail = [];
             if ($scope.view.id !== 0) {
-                $$User.getCustomData({ name: view.id }).$promise.then(function(res) {
-                    $scope.viewDetail = res.view;
+                $$User.getCustomData({ name: 'mv_' + $scope.view.id }).$promise.then(function(res) {
+                    $scope.view.detail = res.detail || [];
                 })
             }
             $$User.getThings().$promise.then(function(res) {
@@ -31,10 +31,10 @@ angular.module('BeehivePortal')
                 for (; i < $scope.things.length; i++) {
                     if (!$scope.things[i].select) continue;
                     $scope.things[i].select = false;
-                    if (!_.find($scope.viewDetail, function(thing) {
+                    if (!_.find($scope.view.detail, function(thing) {
                             return thing.globalThingID === $scope.things[i].globalThingID;
                         }))
-                        $scope.viewDetail.push(angular.copy($scope.things[i]));
+                        $scope.view.detail.push(angular.copy($scope.things[i]));
                 }
             }
         }]
