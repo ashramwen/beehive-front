@@ -11,7 +11,7 @@ angular.module('BeehivePortal.MonitorManager')
     })
 
     function subscription() {
-        WebSocketClient.reconnect().then(function(res) {
+        WebSocketClient.init().then(function(res) {
             var i = 0;
             for (; i < $scope.view.detail.length; i++) {
                 subscribeThing($scope.view.detail[i]);
@@ -34,4 +34,14 @@ angular.module('BeehivePortal.MonitorManager')
     $scope.fallback = function() {
         $state.go($state.current.previous);
     }
+
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+        if (toState.name !== 'app.portal.MonitorManager.Monitoring') {
+            var i = 0;
+        }
+        // console.log(toState);
+        // event.preventDefault();
+        // transitionTo() promise will be rejected with
+        // a 'transition prevented' error
+    })
 }]);
