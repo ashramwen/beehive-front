@@ -8,16 +8,49 @@ angular.module('BeehivePortal')
             view: '=monitorView'
         },
         templateUrl: 'app/shared/directives/thing-location-selector/thing-location-selector.template.html',
-        controller: ['$scope', '$$Tag', '$$Thing', '$$Location', '$$Type', '$timeout', '$q', '$$User', function($scope, $$Tag, $$Thing, $$Location, $$Type, $timeout, $q, $$User) {
+        controller: ['$scope', '$timeout', '$q', '$$User', '$$Location', function($scope, $timeout, $q, $$User, $$Location) {
+            $scope.location = {};
+            $scope.level = {};
             $scope.view.detail = [];
+
+            // get all things
+            // $$User.getThings().$promise.then(function(res) {
+            //     $scope.things = res;
+            // });
+
             if ($scope.view.id !== 0) {
                 $$User.getCustomData({ name: 'mv_' + $scope.view.id }).$promise.then(function(res) {
                     $scope.view.detail = res.detail || [];
                 })
             }
-            $$User.getThings().$promise.then(function(res) {
-                $scope.things = res;
+
+            $$Location.getTopLevel().$promise.then(function(res) {
+                $scope.location.building = res;
             });
+
+            $scope.changeBuilding = function() {
+                $scope.location.floor = [];
+                $scope.location.area = [];
+                $scope.things = [];
+                $$Location.getSubLevel({ location: $scope.level.building.location }).$promise.then(function(res) {
+                    $scope.location.floor = res;
+                });
+            }
+
+            $scope.changeFloor = function() {
+                $scope.location.area = [];
+                $scope.things = [];
+                $$Location.getSubLevel({ location: $scope.level.floor.location }).$promise.then(function(res) {
+                    $scope.location.area = res;
+                });
+            }
+
+            $scope.changeArea = function() {
+                $scope.things = [];
+                $$Location.getThingsByLocation({ location: $scope.level.area.location }).$promise.then(function(res) {
+                    $scope.things = res;
+                });
+            }
 
             $scope.selectAll = function(things) {
                 var i = 0;

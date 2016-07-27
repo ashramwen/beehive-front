@@ -3,45 +3,49 @@
 angular.module('BeehivePortal.MonitorManager')
 
 .controller('MonitoringController', ['$scope', '$rootScope', '$state', '$stateParams', 'AppUtils', '$$User', 'WebSocketClient', function($scope, $rootScope, $state, $stateParams, AppUtils, $$User, WebSocketClient) {
+    // get monitoring view
     $scope.view = $stateParams;
 
+    // get monitoring view detail
     $$User.getCustomData({ name: 'mv_' + $scope.view.id }).$promise.then(function(res) {
         $scope.view.detail = res.detail || [];
-        subscription();
+        websocketInit();
     })
 
-    function subscription() {
+    // websocket connection
+    function websocketInit() {
         WebSocketClient.init().then(function(res) {
             var i = 0;
             for (; i < $scope.view.detail.length; i++) {
-                subscribeThing($scope.view.detail[i]);
+                subscription($scope.view.detail[i]);
             }
         });
     }
 
-    function subscribeThing(thing) {
+    // thing subscription
+    function subscription(thing) {
         WebSocketClient.subscribe('/topic/' + thing.kiiAppID + '/' + thing.kiiThingID, function(res) {
             var a = thing;
         });
     }
 
-    // 編輯
+    // modify view
     $scope.modify = function() {
         $state.go('^.ViewManager', $scope.view);
     }
 
-    // 返回
+    // go back
     $scope.fallback = function() {
         $state.go($state.current.previous);
     }
 
+    // leave page
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
         if (toState.name !== 'app.portal.MonitorManager.Monitoring') {
             var i = 0;
+            for (; i < WebSocketClient.subscription.length; i++) {
+                WebSocketClient.subscription[i].unsubscribe();
+            }
         }
-        // console.log(toState);
-        // event.preventDefault();
-        // transitionTo() promise will be rejected with
-        // a 'transition prevented' error
     })
 }]);
