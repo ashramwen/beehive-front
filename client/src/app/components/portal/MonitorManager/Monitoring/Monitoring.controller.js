@@ -3,6 +3,10 @@
 angular.module('BeehivePortal.MonitorManager')
 
 .controller('MonitoringController', ['$scope', '$rootScope', '$state', '$stateParams', 'AppUtils', '$$User', 'WebSocketClient', function($scope, $rootScope, $state, $stateParams, AppUtils, $$User, WebSocketClient) {
+    if ($stateParams.id === 0) {
+        $state.go('^');
+    }
+
     // get monitoring view
     $scope.view = $stateParams;
 
@@ -14,12 +18,10 @@ angular.module('BeehivePortal.MonitorManager')
 
     // websocket connection
     function websocketInit() {
-        WebSocketClient.init().then(function(res) {
-            var i = 0;
-            for (; i < $scope.view.detail.length; i++) {
-                subscription($scope.view.detail[i]);
-            }
-        });
+        var i = 0;
+        for (; i < $scope.view.detail.length; i++) {
+            subscription($scope.view.detail[i]);
+        }
     }
 
     // thing subscription
@@ -36,7 +38,7 @@ angular.module('BeehivePortal.MonitorManager')
 
     // go back
     $scope.fallback = function() {
-        $state.go($state.current.previous);
+        $state.go('^');
     }
 
     // leave page
