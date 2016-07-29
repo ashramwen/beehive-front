@@ -51,12 +51,14 @@
     <div class="col-sm-8">
       <table class="table table-bordered table-hover">
         <thead>
+          <th></th>
           <th>设备名</th>
           <th>类型</th>
           <th>位置</th>
         </thead>
         <tbody>
-          <tr ng-repeat="o in view.detail track by o.globalThingID">
+          <tr ng-repeat="o in view.detail track by o.globalThingID" ng-click="o.select=!o.select">
+            <td><input type="checkbox" ng-model="o.select" ng-click="o.select=!o.select"></td>
             <td>{{o.vendorThingID}}</td>
             <td>{{o.type}}</td>
             <th>栋1-F2-B区</th>
@@ -65,8 +67,8 @@
         <tfoot>
           <tr>
             <td colspan="3">
-              <button class="btn btn-success" ng-click="selectAll(things)">全选</button>
-              <button class="btn btn-success" ng-click="">刪除</button>
+              <button class="btn btn-success" ng-click="selectAll(view.detail)">全选</button>
+              <button class="btn btn-success" ng-click="delete(view.detail)">刪除</button>
             </td>
           </tr>
         </tfoot>

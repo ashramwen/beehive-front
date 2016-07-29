@@ -1,14 +1,14 @@
 angular.module('BeehivePortal')
 
-.directive('thingLocationSelector', ['$compile', '$timeout', function($compile, $timeout) {
+.directive('thingLocationSelector', [function() {
     return {
         restrict: 'E',
         replace: true,
         scope: {
-            view: '=monitorView'
+            view: '=ngDetail'
         },
         templateUrl: 'app/shared/directives/thing-location-selector/thing-location-selector.template.html',
-        controller: ['$scope', '$timeout', '$q', '$$User', '$$Location', function($scope, $timeout, $q, $$User, $$Location) {
+        controller: ['$scope', '$$User', '$$Location', function($scope, $$User, $$Location) {
             $scope.location = {};
             $scope.level = {};
             $scope.view.detail = [];
@@ -56,6 +56,15 @@ angular.module('BeehivePortal')
                 var i = 0;
                 for (; i < things.length; i++) {
                     things[i].select = true;
+                }
+            }
+
+            $scope.delete = function(things) {
+                var i = things.length - 1;
+                for (; i >= 0; i--) {
+                    if (things[i].select) {
+                        things.splice(i, 1);
+                    }
                 }
             }
 
