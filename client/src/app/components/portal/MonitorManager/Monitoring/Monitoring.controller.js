@@ -44,10 +44,7 @@ angular.module('BeehivePortal.MonitorManager')
     // leave page
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
         if (toState.name !== 'app.portal.MonitorManager.Monitoring') {
-            var i = 0;
-            for (; i < WebSocketClient.subscription.length; i++) {
-                WebSocketClient.subscription[i].unsubscribe();
-            }
+            WebSocketClient.unsubscribeAll();
         }
     })
 }]);

@@ -31,6 +31,7 @@ angular.module('BeehivePortal.MonitorManager')
         if (!$scope.view.name) return;
         $scope.view.id = new Date().getTime();
         $scope.view.count = $scope.view.detail.length;
+        $scope.view.createDate = new Date().getTime();
         $scope.views.push($scope.view);
         saveMonitorView('创建成功！', '频道创建成功！');
     }
@@ -41,6 +42,7 @@ angular.module('BeehivePortal.MonitorManager')
     $scope.modifyView = function() {
         if (!$scope.view.name) return;
         $scope.view.count = $scope.view.detail.length;
+        $scope.view.modifyDate = new Date().getTime();
         $scope.views[viewIndex] = $scope.view;
         saveMonitorView('提交成功！', '编辑内容提交成功！');
     }

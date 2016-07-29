@@ -1,27 +1,21 @@
 <div class="app-portal-monitormanager-view" ng-init="init()">
-  <!-- start tile  -->
-  <div class="graph-tile new" ng-click="newView()">
-    <div class="graph-content">
-      <div class="fa fa-plus" aria-hidden="true"></div>
-      <div>添加监控频道</div>
-    </div>
-  </div>
-  <div class="graph-tile" ng-repeat="v in views track by v.id ">
-    <div class="module-top ">
-      <div class="overlay ">
-        <div class="viewReport " ng-click="monitoring(v) ">
-          查看
-        </div>
+  <div class="tile-wrap clearfix">
+    <!-- start tile  -->
+    <div class="graph-tile new" ng-click="newView()">
+      <div class="graph-content">
+        <div class="fa fa-plus" aria-hidden="true"></div>
+        <div>添加监控频道</div>
       </div>
-      <div class='outputs-content-img'>
+    </div>
+    <div class="graph-tile view" ng-repeat="v in views track by v.id">
+      <i class="fa fa-minus-circle" aria-hidden="true" ng-click="delete($index)"></i>
+      <div class="graph-content" uib-tooltip="{{v.desc}}" tooltip-placement="bottom" tooltip-class="tooltip" ng-click="monitoring(v)">
+        <div class="fa fa-plus" aria-hidden="true"></div>
         <div>{{v.name}}</div>
-      </div>
-    </div>
-    <div class="moduleDetails ">
-      <div class='per-info'>
-        <span class='info'>设备数量： {{v.count}}</span>
+        <div>设备数量： {{v.count}}</div>
       </div>
     </div>
   </div>
+  <div class="clearfix"></div>
   <!-- end tile  -->
 </div>
