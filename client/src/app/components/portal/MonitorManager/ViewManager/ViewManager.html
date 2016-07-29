@@ -1,4 +1,4 @@
-<div class="app-portal-monitormanager-viewmanager">
+<div class="app-portal-monitormanager-viewmanager" ng-init="init()">
   <div class="container-fluid" ng-if="views">
 
     <!-- 频道信息 -->
@@ -33,7 +33,7 @@
         <section class="panel">
           <header class="panel-heading">添加监控设备</header>
           <div class="panel-body">
-            <thing-location-selector ng-detail="view"></thing-location-selector>
+            <thing-location-selector ng-detail="view.detail"></thing-location-selector>
           </div>
         </section>
       </div>
