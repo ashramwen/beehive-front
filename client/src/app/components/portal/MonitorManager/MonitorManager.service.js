@@ -31,6 +31,12 @@ angular.module('BeehivePortal.MonitorManager')
         unsubscribe: function(destination) {
             _client.unsubscribe(destination);
         },
+        unsubscribeAll: function(destination) {
+            var i = 0;
+            for (; i < _client.subscriptions.length; i++) {
+                _client.subscriptions[i].unsubscribe();
+            }
+        },
         send: function(destination, headers, body) {
             _client.send(destination, headers, body);
         },

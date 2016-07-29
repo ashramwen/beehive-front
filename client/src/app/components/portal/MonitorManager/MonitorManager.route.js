@@ -5,7 +5,7 @@ angular.module('BeehivePortal.MonitorManager')
 .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('app.portal.MonitorManager.Monitoring', {
-            url: '/Monitoring',
+            url: '/Monitoring/{id:int}',
             templateUrl: 'app/components/portal/MonitorManager/Monitoring/Monitoring.html',
             controller: 'MonitoringController',
             stateName: '实时监控',
@@ -25,7 +25,7 @@ angular.module('BeehivePortal.MonitorManager')
             previous: 'app.portal.MonitorManager'
         })
         .state('app.portal.MonitorManager.ViewManager', {
-            url: '/ViewManager',
+            url: '/ViewManager/{id:int}',
             templateUrl: 'app/components/portal/MonitorManager/ViewManager/ViewManager.html',
             controller: 'ViewManagerController',
             stateName: '频道信息',

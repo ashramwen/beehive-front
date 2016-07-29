@@ -2,7 +2,7 @@
 
 angular.module('BeehivePortal.MonitorManager')
 
-.controller('MonitoringController', ['$scope', '$rootScope', '$state', '$stateParams', 'AppUtils', '$$User', 'WebSocketClient', function($scope, $rootScope, $state, $stateParams, AppUtils, $$User, WebSocketClient) {
+.controller('MonitoringController', ['$scope', '$rootScope', '$state', '$stateParams', '$location', '$$User', 'WebSocketClient', function($scope, $rootScope, $state, $stateParams, $location, $$User, WebSocketClient) {
     if ($stateParams.id === 0) {
         $state.go('^');
     }
@@ -12,7 +12,7 @@ angular.module('BeehivePortal.MonitorManager')
 
     // get monitoring view detail
     $$User.getCustomData({ name: 'mv_' + $scope.view.id }).$promise.then(function(res) {
-        $scope.view.detail = res.detail || [];
+        $scope.view = res.view || {};
         websocketInit();
     })
 
@@ -44,10 +44,7 @@ angular.module('BeehivePortal.MonitorManager')
     // leave page
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
         if (toState.name !== 'app.portal.MonitorManager.Monitoring') {
-            var i = 0;
-            for (; i < WebSocketClient.subscription.length; i++) {
-                WebSocketClient.subscription[i].unsubscribe();
-            }
+            WebSocketClient.unsubscribeAll();
         }
     })
 }]);

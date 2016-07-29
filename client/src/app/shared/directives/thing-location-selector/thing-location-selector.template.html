@@ -57,7 +57,7 @@
           <th>位置</th>
         </thead>
         <tbody>
-          <tr ng-repeat="o in view.detail track by o.globalThingID" ng-click="o.select=!o.select">
+          <tr ng-repeat="o in detail track by o.globalThingID" ng-click="o.select=!o.select">
             <td><input type="checkbox" ng-model="o.select" ng-click="o.select=!o.select"></td>
             <td>{{o.vendorThingID}}</td>
             <td>{{o.type}}</td>

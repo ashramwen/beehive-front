@@ -1,24 +1,45 @@
 @import 'src/app/shared/global.scss';
 $light-blue: #acd4ef;
-$ping: #ff7c73;
-
+$light-green: #42c3ce;
+$pink: #ff7c73;
 .app-portal-monitormanager-view {
     .graph-tile {
         position: relative;
         float: left;
         display: table;
-        margin: 10px 20px 0 0;
+        margin: 10px 20px 50px 0;
         cursor: pointer;
         width: 180px;
         height: 146px;
+        border: 2px solid transparent;
         @include border-radius(4px);
         // @include box-shadow(0 0 8px #bebebe);
         &.new {
             border: 2px dashed $light-blue;
             color: $light-blue;
         }
-        .remove {
-            position: absolute;
+        &.view {
+            background-color: $light-green;
+            &:hover {
+                border-color: $pink;
+                .fa-minus-circle {
+                    display: block;
+                    position: absolute;
+                    top: -15px;
+                    right: -11px;
+                    font-size: 24px;
+                    color: $pink;
+                }
+            }
+            .name {
+                color: #fff;
+            }
+            .desc {
+                color: #90f1f9;
+            }
+        }
+        .fa-minus-circle {
+            display: none;
         }
         .graph-content {
             display: table-cell;
@@ -28,6 +49,18 @@ $ping: #ff7c73;
         .fa-plus {
             font-size: 39px;
             color: $light-blue;
+        }
+    }
+    .tooltip {
+        margin-bottom: 120px;
+        .tooltip-arrow {
+            border-bottom-color: rgba(206, 231, 245, 0.7);
+            @include box-shadow(0 0 8px #cee7f5);
+        }
+        .tooltip-inner {
+            color: #6594b5;
+            background-color: rgba(240, 245, 249, 0.7);
+            @include box-shadow(0 0 8px #cee7f5);
         }
     }
 }

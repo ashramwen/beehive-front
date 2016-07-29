@@ -5,24 +5,24 @@ angular.module('BeehivePortal')
         restrict: 'E',
         replace: true,
         scope: {
-            view: '=ngDetail'
+            detail: '=ngDetail'
         },
         templateUrl: 'app/shared/directives/thing-location-selector/thing-location-selector.template.html',
         controller: ['$scope', '$$User', '$$Location', function($scope, $$User, $$Location) {
             $scope.location = {};
             $scope.level = {};
-            $scope.view.detail = [];
+            $scope.detail = $scope.detail || [];
 
             // get all things
             // $$User.getThings().$promise.then(function(res) {
             //     $scope.things = res;
             // });
 
-            if ($scope.view.id !== 0) {
-                $$User.getCustomData({ name: 'mv_' + $scope.view.id }).$promise.then(function(res) {
-                    $scope.view.detail = res.detail || [];
-                })
-            }
+            // if ($scope.view.id !== 0) {
+            //     $$User.getCustomData({ name: 'mv_' + $scope.view.id }).$promise.then(function(res) {
+            //         $scope.detail = res.detail || [];
+            //     })
+            // }
 
             $$Location.getTopLevel().$promise.then(function(res) {
                 $scope.location.building = res;
@@ -73,10 +73,10 @@ angular.module('BeehivePortal')
                 for (; i < $scope.things.length; i++) {
                     if (!$scope.things[i].select) continue;
                     $scope.things[i].select = false;
-                    if (!_.find($scope.view.detail, function(thing) {
+                    if (!_.find($scope.detail, function(thing) {
                             return thing.globalThingID === $scope.things[i].globalThingID;
                         }))
-                        $scope.view.detail.push(angular.copy($scope.things[i]));
+                        $scope.detail.push(angular.copy($scope.things[i]));
                 }
             }
         }]
