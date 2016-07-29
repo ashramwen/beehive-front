@@ -31,6 +31,12 @@ $pink: #ff7c73;
                     color: $pink;
                 }
             }
+            .name {
+                color: #fff;
+            }
+            .desc {
+                color: #90f1f9;
+            }
         }
         .fa-minus-circle {
             display: none;
@@ -49,10 +55,12 @@ $pink: #ff7c73;
         margin-bottom: 120px;
         .tooltip-arrow {
             border-bottom-color: rgba(206, 231, 245, 0.7);
+            @include box-shadow(0 0 8px #cee7f5);
         }
         .tooltip-inner {
             color: #6594b5;
-            background-color: rgba(206, 231, 245, 0.7);
+            background-color: rgba(240, 245, 249, 0.7);
+            @include box-shadow(0 0 8px #cee7f5);
         }
     }
 }
