@@ -13,8 +13,7 @@
         transition: all 0.3s;
         margin-top: -41px;
         position: relative;
-        z-index: 2;
-        position: relative; }
+        z-index: 2; }
         .app-portal-reporting-customcharts .gridster .gridster-item .panel .panel-heading .fa-edit {
           position: absolute;
           right: 15px;

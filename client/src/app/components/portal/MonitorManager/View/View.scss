@@ -1,0 +1,33 @@
+@import 'src/app/shared/global.scss';
+$light-blue: #acd4ef;
+$ping: #ff7c73;
+
+.app-portal-monitormanager-view {
+    .graph-tile {
+        position: relative;
+        float: left;
+        display: table;
+        margin: 10px 20px 0 0;
+        cursor: pointer;
+        width: 180px;
+        height: 146px;
+        @include border-radius(4px);
+        // @include box-shadow(0 0 8px #bebebe);
+        &.new {
+            border: 2px dashed $light-blue;
+            color: $light-blue;
+        }
+        .remove {
+            position: absolute;
+        }
+        .graph-content {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+        .fa-plus {
+            font-size: 39px;
+            color: $light-blue;
+        }
+    }
+}

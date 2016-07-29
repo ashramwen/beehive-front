@@ -22,7 +22,7 @@ angular.module('BeehivePortal')
     };
 
     /**
-     * if given state name is in involved state chan 
+     * if given state name is in involved state chan
      * @param  {[type]}  stateName [description]
      * @return {Boolean}           [description]
      */
@@ -88,15 +88,15 @@ angular.module('BeehivePortal')
                 icon: 'fa-table',
                 subViews: [
                     {
-                        name: '位置视图', 
+                        name: '位置视图',
                         state: $state.get('app.portal.ThingViews.LocationView')
                     },
                     {
-                        name: '标签视图', 
+                        name: '标签视图',
                         state: $state.get('app.portal.ThingViews.TagView')
                     },
                     {
-                        name: '种类视图', 
+                        name: '种类视图',
                         state: $state.get('app.portal.ThingViews.TypeView')
                     }
                 ]
@@ -124,6 +124,11 @@ angular.module('BeehivePortal')
                 name: '触发器管理',
                 state: $state.get('app.portal.TriggerManager'),
                 icon: 'fa-exchange'
+            },
+            {
+                name: '设备监控',
+                state: $state.get('app.portal.MonitorManager'),
+                icon: 'fa-tv'
             },
             {
                 name: '设置',
@@ -179,7 +184,7 @@ angular.module('BeehivePortal')
 
   .factory('PermissionControl', ['AppUtils', '$state', function(AppUtils, $state){
     var PermissionControl = {};
-  
+
     PermissionControl._init = function(){
         PermissionControl.allowedPermissions = AppUtils.getSessionItem(AppTags.PERMISSION)|| [];
     };
@@ -195,8 +200,8 @@ angular.module('BeehivePortal')
 
         'GET_ALL_GROUPS': 'GET /usergroup/list',
         'GET_GROUP': 'GET /usergroup/*',
-        'SERACH_GROUPS': 'POST /usergroup/simplequery*', 
-        'CREATE_USER_GROUP': 'POST /usergroup', 
+        'SERACH_GROUPS': 'POST /usergroup/simplequery*',
+        'CREATE_USER_GROUP': 'POST /usergroup',
         'DELETE_USERGROUP': 'DELETE /usergroup/*',
         'ADD_GROUP_MEMBER': 'POST /usergroup/*/user/*',
         'REMOVE_GROUP_MEMBER': 'DELETE /usergroup/*/user/*',
@@ -215,11 +220,11 @@ angular.module('BeehivePortal')
 
         'BING_TAG': 'POST /things/*/tags/*',
         'BIND_THING_TAG_CUSTOM': 'POST /things/*/tags/custom/*',
-        'UNBIND_TAG': 'DELETE /things/*/tags/*', 
+        'UNBIND_TAG': 'DELETE /things/*/tags/*',
         'UNBIND_TAG_CUSTOM': 'DELETE /things/*/tags/custom/*',
 
-        'GET_GROUP_PERMISSIONS': 'GET /permission/userGroup/*', 
-        'GET_ALL_PERMISSIONS': 'GET /permission/list', 
+        'GET_GROUP_PERMISSIONS': 'GET /permission/userGroup/*',
+        'GET_ALL_PERMISSIONS': 'GET /permission/list',
         'BIND_PERMISSION': 'POST /permission/*/userGroup/*',
         'UNBIND_PERMISSION': 'DELETE /permission/*/userGroup/*',
 

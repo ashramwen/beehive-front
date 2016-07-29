@@ -1,0 +1,78 @@
+<div class="thing-location-selector">
+  <div class="row row-eq-height">
+    <div class="col-sm-4">
+      <div class="row row-eq-height form-group">
+        <div class="col-sm-4">
+          <label class="sr-only" for="selectBuilding">Building</label>
+          <select class="form-control" id="selectBuilding" placeholder="Building" ng-options="building.displayName for building in location.building track by building.location" ng-model="level.building" ng-change="changeBuilding()">
+            <option value="">-- 请选择 --</option>
+          </select>
+        </div>
+        <div class="col-sm-4">
+          <label class="sr-only" for="selectFloor">Floor</label>
+          <select class="form-control" id="selectFloor" placeholder="Floor" ng-options="floor.displayName for floor in location.floor track by floor.location" ng-model="level.floor" ng-change="changeFloor()">
+            <option value="">-- 请选择 --</option>
+          </select>
+        </div>
+        <div class="col-sm-4">
+          <label class="sr-only" for="selectArea">Area</label>
+          <select class="form-control" id="selectArea" placeholder="Area" ng-options="area.displayName for area in location.area track by area.location" ng-model="level.area" ng-change="changeArea()">
+            <option value="">-- 请选择 --</option>
+          </select>
+        </div>
+      </div>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <th></th>
+          <th>设备名</th>
+          <th>类型</th>
+        </thead>
+        <tbody>
+          <tr ng-class="{'success':o.select}" ng-repeat="o in things track by o.id" ng-click="o.select=!o.select">
+            <td>
+              <input type="checkbox" ng-model="o.select" ng-click="o.select=!o.select">
+            </td>
+            <td>{{o.vendorThingID}}</td>
+            <td>{{o.type}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td colspan="2">
+              <button class="btn btn-success" ng-click="selectAll(things)">全选</button>
+              <div class="fa fa-plus-circle fa-2x cursor-pointer pull-right" ng-class="{'text-success': hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" ng-click="add()"></div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="col-sm-8">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <th></th>
+          <th>设备名</th>
+          <th>类型</th>
+          <th>位置</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="o in view.detail track by o.globalThingID" ng-click="o.select=!o.select">
+            <td><input type="checkbox" ng-model="o.select" ng-click="o.select=!o.select"></td>
+            <td>{{o.vendorThingID}}</td>
+            <td>{{o.type}}</td>
+            <th>栋1-F2-B区</th>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">
+              <button class="btn btn-success" ng-click="selectAll(view.detail)">全选</button>
+              <button class="btn btn-success" ng-click="delete(view.detail)">刪除</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

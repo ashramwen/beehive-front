@@ -16,22 +16,24 @@
     var apiSuffix = siteUrl + '/beehive-portal/api';
 
     window.MyAPIs = {
-        OPERATOR: '/oauth2',
-        USER:'/users',
-        USER_MANAGER: '/usermanager',
-        USER_GROUP:'/usergroup',
-        THING:'/things',
-        TAG: '/tags',
-        TYPE: '/things/types',
-        PERMISSION: '/permission',
-        TRIGGER: '/triggers',
-        THING_IF: '/thing-if',
-        ONBOARDING: '/onboardinghelper',
-        SUPPLIER: '/devicesuppliers',
-        SYSTEM_PERMISSION: '/sys/permissionTree',
-        USER_SYNC: '/usersync',
-        SCHEMA: '/industrytemplate'
+        'LOCATION_TAGS': '/locationTags',
+        'OPERATOR': '/oauth2',
+        'USER': '/users',
+        'USER_MANAGER': '/usermanager',
+        'USER_GROUP': '/usergroup',
+        'THING': '/things',
+        'TAG': '/tags',
+        'TYPE': '/things/types',
+        'PERMISSION': '/permission',
+        'TRIGGER': '/triggers',
+        'THING_IF': '/thing-if',
+        'ONBOARDING': '/onboardinghelper',
+        'SUPPLIER': '/devicesuppliers',
+        'SYSTEM_PERMISSION': '/sys/permissionTree',
+        'USER_SYNC': '/usersync',
+        'SCHEMA': '/industrytemplate'
     };
+
 
     /*
      * init api urls
@@ -39,10 +41,10 @@
     for(apiName in window.MyAPIs){
         window.MyAPIs[apiName] = apiSuffix +  window.MyAPIs[apiName];
     }
-    
+
     window.MyAPIs['CLOUD_THING_IF'] = cloudUrl + '/thing-if';
     window.webSocketPath =  appConfig[appConfig.ENV].wsUrl;
-    
+
     /*
      * tag used as session key
      * by George Lin
@@ -55,5 +57,5 @@
 
     window.pageListMaxLength = 20;
     window.siteUrl = siteUrl;
-    
+
 })();
