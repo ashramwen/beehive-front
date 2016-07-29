@@ -20,13 +20,11 @@
             <thead>
                 <tr role="row">
                   <th class="sorting_asc" rowspan="1" colspan="1">ID</th>
-                  <th class="sorting" rowspan="1" colspan="1" aria-sort="ascending">种类</th>
                 </tr>
             </thead>
             <tbody>
               <tr class="gradeA" ng-class="{'odd':$index%2==1}" role="row" ng-repeat="gateway in gateways" ng-click="showGatewayThings(gateway)">
-                <td>{{thing.globalThingID}}</td>
-                <td class="sorting_1">{{thing.type}}</td>
+                <td>{{gateway.globalThingID}}</td>
               </tr>
             </tbody>
           </table>

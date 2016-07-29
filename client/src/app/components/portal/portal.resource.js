@@ -271,7 +271,8 @@ angular.module('BeehivePortal')
       var Thing = $resource(MyAPIs.THING + '/:globalThingID', {}, {
           getGateways: {
               url: MyAPIs.THING + '/gateway',
-              method: 'GET'
+              method: 'GET',
+              isArray: true
           },
           save: {
               url: MyAPIs.THING,
