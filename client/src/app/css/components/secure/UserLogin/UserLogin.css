@@ -1,3 +1,7 @@
+.inline {
+  display: inline-block;
+  margin-right: 10px; }
+
 .app-secure-userlogin .margin-bottom-sm {
   margin-bottom: 20px; }
 
@@ -18,7 +22,7 @@
 
 .app-secure-userlogin .login-form-box {
   min-height: 300px;
-  width: 392px;
+  max-width: 392px;
   margin: 0 auto;
   margin-top: 10px;
   border-radius: 4px;

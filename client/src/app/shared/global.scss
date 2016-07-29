@@ -58,3 +58,8 @@ $click-cursor: pointer;
   -o-filter: $filter;
   -ms-filter: $filter;
 }
+
+.inline{
+  display: inline-block;
+  margin-right: 10px;
+}

@@ -1,26 +1,18 @@
 <div class="app-portal-usermanager-usergroup-usergrouplist" ng-init="init()">
   <div class="panel">
     <div class="panel-body">
-      <div app-select selected-model="groupType" options="groupTypes" class="input-group-btn" text="text"></div>
-    </div>
-  </div>
-  <div class="panel">
-    <div class="panel-body">
       <div class="row clearfix">
         <div class="col-sm-6">
+          <div app-select selected-model="groupType" options="groupTypes" class="inline" text="text"></div>
           <button class="btn btn-danger" ng-click="createGroup()">新增群组+</button>
         </div>
         <div class="pull-right col-sm-6">
-          <div class="col-sm-4">
-            <div app-select selected-model="queryFiled" options="queryOptions" class="input-group-btn" text="text"></div>
-          </div>
-          <div class="col-sm-8">
-            <div class="input-group">
-              <input type="text" class="form-control" ng-model="searchValue" placeholder="Search for...">
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="button" ng-click="queryUserGroups(queryFiled.value, searchValue)">Go!</button>
-              </span>
-            </div>
+          <div class="input-group">
+            <div app-select disabled="true" selected-model="queryFiled" options="queryOptions" class="input-group-addon" text="text"></div>
+            <input type="text" class="form-control" ng-model="searchValue" placeholder="Search for...">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" ng-click="queryUserGroups(queryFiled.value, searchValue)">Go!</button>
+            </span>
           </div>
         </div>
       </div>

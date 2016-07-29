@@ -10,16 +10,19 @@
   <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
   <!-- bower:css -->
   <link rel="stylesheet" href="../bower_components/angularjs-slider/dist/rzslider.css" />
-  <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" />
+  <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="../bower_components/angular-tree-control/css/tree-control.css" />
   <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="../bower_components/angular-condition-tree/dist/css/condition-tree.css" />
   <link rel="stylesheet" href="../bower_components/jsoneditor/dist/jsoneditor.min.css" />
   <link rel="stylesheet" href="../bower_components/angular-cron-jobs/dist/angular-cron-jobs.min.css" />
   <link rel="stylesheet" href="../bower_components/angular-material/angular-material.css" />
   <link rel="stylesheet" href="../bower_components/mdPickers/dist/mdPickers.min.css" />
   <link rel="stylesheet" href="../bower_components/angular-ui-notification/dist/angular-ui-notification.css" />
+  <link rel="stylesheet" href="../bower_components/angular-datepicker/dist/angular-datepicker.css" />
+  <link rel="stylesheet" href="../bower_components/angular-gridster/dist/angular-gridster.css" />
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css({.tmp/serve,src}) styles/app.css -->
@@ -31,6 +34,7 @@
   <link rel="stylesheet" href="app/css/components/secure/secure.css">
   <link rel="stylesheet" href="app/css/shared/scss/step-bar.css">
   <link rel="stylesheet" href="app/css/shared/templates/switchery.css">
+  <link rel="stylesheet" href="app/css/components/portal/Reporting/Reporting.css">
   <link rel="stylesheet" href="app/css/components/portal/ScenarioManager/ScenarioManager.css">
   <link rel="stylesheet" href="app/css/components/portal/Settings/Settings.css">
   <link rel="stylesheet" href="app/css/components/portal/ThingManager/ThingManager.css">
@@ -40,13 +44,20 @@
   <link rel="stylesheet" href="app/css/components/portal/Welcome/welcome.css">
   <link rel="stylesheet" href="app/css/components/secure/AdminLogin/AdminLogin.css">
   <link rel="stylesheet" href="app/css/components/secure/UserLogin/UserLogin.css">
+  <link rel="stylesheet" href="app/css/shared/directives/app-select/app-select.css">
   <link rel="stylesheet" href="app/css/shared/directives/check-angular-tree/check-angular-tree.css">
   <link rel="stylesheet" href="app/css/shared/directives/input-options/input-options.css">
   <link rel="stylesheet" href="app/css/shared/directives/json-editor/json-editor.css">
   <link rel="stylesheet" href="app/css/shared/directives/multi-selector/multi-selector.css">
   <link rel="stylesheet" href="app/css/shared/directives/range-slider/range-slider.css">
+  <link rel="stylesheet" href="app/css/shared/directives/rp-date-picker/rp-date-picker.css">
+  <link rel="stylesheet" href="app/css/shared/directives/rp-time-slicer/rp-time-slicer.css">
+  <link rel="stylesheet" href="app/css/shared/directives/rp-time-slider/rp-time-slicer.css">
   <link rel="stylesheet" href="app/css/shared/directives/switchery/switchery.css">
   <link rel="stylesheet" href="app/css/shared/directives/swtichery/switchery.css">
+  <link rel="stylesheet" href="app/css/components/portal/Reporting/CustomCharts/CustomCharts.css">
+  <link rel="stylesheet" href="app/css/components/portal/Reporting/FaceDetection/FaceDetection.css">
+  <link rel="stylesheet" href="app/css/components/portal/Reporting/LineChart/LineChart.css">
   <link rel="stylesheet" href="app/css/components/portal/ScenarioManager/OfficeAtmosphere/OfficeAtmosphere.css">
   <link rel="stylesheet" href="app/css/components/portal/ThingManager/Gateway/Gateway.css">
   <link rel="stylesheet" href="app/css/components/portal/ThingManager/LocationView/LocationView.css">
@@ -63,8 +74,8 @@
   <link rel="stylesheet" href="app/css/components/portal/UserManager/ThingAuthority/ThingAuthority.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/User.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/UserGroup/UserGroup.css">
-  <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/select-policy/select-policy.css">
   <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/group-trigger/group-trigger.css">
+  <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/select-policy/select-policy.css">
   <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/select-schedule/select-schedule.css">
   <link rel="stylesheet" href="app/css/components/portal/TriggerManager/directives/trigger-command/trigger-command.css">
   <link rel="stylesheet" href="app/css/components/portal/UserManager/User/NewUser/NewUser.css">
@@ -104,8 +115,6 @@
   <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
   <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
   <script src="../bower_components/angular-mocks/angular-mocks.js"></script>
-  <script src="../bower_components/lodash/dist/lodash.compat.js"></script>
-  <script src="../bower_components/restangular/dist/restangular.js"></script>
   <script src="../bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
   <script src="../bower_components/angular-smart-table/dist/smart-table.js"></script>
   <script src="../bower_components/angularjs-slider/dist/rzslider.js"></script>
@@ -114,13 +123,12 @@
   <script src="../bower_components/angular-condition-tree/dist/angular-condition-tree.js"></script>
   <script src="../bower_components/awesome-context-menu/dist/context-menu.js"></script>
   <script src="../bower_components/angular-elastic/elastic.js"></script>
+  <script src="../bower_components/lodash/dist/lodash.compat.js"></script>
   <script src="../bower_components/angularjs-dropdown-multiselect/src/angularjs-dropdown-multiselect.js"></script>
   <script src="../bower_components/jsoneditor/dist/jsoneditor.min.js"></script>
   <script src="../bower_components/ng-jsoneditor/ng-jsoneditor.min.js"></script>
   <script src="../bower_components/angular-cron-jobs/dist/angular-cron-jobs.min.js"></script>
   <script src="../bower_components/angular-translate/angular-translate.js"></script>
-  <script src="../bower_components/d3/d3.js"></script>
-  <script src="../bower_components/jquery-ui/jquery-ui.js"></script>
   <script src="../bower_components/angular-aria/angular-aria.js"></script>
   <script src="../bower_components/angular-messages/angular-messages.js"></script>
   <script src="../bower_components/angular-material/angular-material.js"></script>
@@ -131,12 +139,17 @@
   <script src="../bower_components/stomp-websocket/lib/stomp.js"></script>
   <script src="../bower_components/ng-stomp/src/ng-stomp.js"></script>
   <script src="../bower_components/sockjs-client/dist/sockjs.js"></script>
+  <script src="../bower_components/echarts/dist/echarts.min.js"></script>
+  <script src="../bower_components/moment-timezone/builds/moment-timezone-with-data-2010-2020.js"></script>
+  <script src="../bower_components/angular-datepicker/dist/angular-datepicker.js"></script>
+  <script src="../bower_components/javascript-detect-element-resize/detect-element-resize.js"></script>
+  <script src="../bower_components/angular-gridster/src/angular-gridster.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
 
   <!-- app:js -->
-  <script src="bin/html5-cloud-sdk-v2.3.0.js"></script>
+  <!-- js files will be automaticaly insert here -->
   <!-- endinject -->
 
   <!-- inject:js -->
@@ -195,14 +208,23 @@
   <script src="app/components/portal/ThingManager/AddThing/AddThing.controller.js"></script>
   <script src="app/components/portal/ScenarioManager/OfficeAtmosphere/OfficeAtmosphere.service.js"></script>
   <script src="app/components/portal/ScenarioManager/OfficeAtmosphere/OfficeAtmosphere.controller.js"></script>
+  <script src="app/components/portal/Reporting/LineChart/LineChart.service.js"></script>
+  <script src="app/components/portal/Reporting/LineChart/LineChart.controller.js"></script>
+  <script src="app/components/portal/Reporting/FaceDetection/FaceDetection.service.js"></script>
+  <script src="app/components/portal/Reporting/FaceDetection/FaceDetection.controller.js"></script>
+  <script src="app/components/portal/Reporting/CustomCharts/CustomCharts.service.js"></script>
+  <script src="app/components/portal/Reporting/CustomCharts/CustomCharts.controller.js"></script>
   <script src="app/shared/directives/thing-selector/thing-selector.js"></script>
   <script src="app/shared/directives/thing-picker/thing-picker.js"></script>
   <script src="app/shared/directives/tag-selector/tag-selector.js"></script>
   <script src="app/shared/directives/switchery/switchery.js"></script>
+  <script src="app/shared/directives/rp-time-slicer/rp-time-slicer.js"></script>
+  <script src="app/shared/directives/rp-date-picker/rp-date-picker.js"></script>
   <script src="app/shared/directives/range-slider/range-slider.directive.js"></script>
   <script src="app/shared/directives/pagion/pagion.js"></script>
   <script src="app/shared/directives/multi-selector/multi-selector.directive.js"></script>
   <script src="app/shared/directives/location-selector/location-selector.directive.js"></script>
+  <script src="app/shared/directives/kii-chart/kii-chart.js"></script>
   <script src="app/shared/directives/json-editor/json-editor.directive.js"></script>
   <script src="app/shared/directives/item-selector/item-selector.js"></script>
   <script src="app/shared/directives/input-options/input-options.directive.js"></script>
@@ -210,8 +232,6 @@
   <script src="app/shared/directives/app-slider/app-slider.directive.js"></script>
   <script src="app/shared/directives/app-select/app-select.js"></script>
   <script src="app/components/secure/UserLogin/UserLogin.controller.js"></script>
-  <script src="app/components/secure/AdminLogin/AdminLogin.service.js"></script>
-  <script src="app/components/secure/AdminLogin/AdminLogin.controller.js"></script>
   <script src="app/components/portal/Welcome/Welcome.controller.js"></script>
   <script src="app/components/portal/UserManager/UserManager.controller.js"></script>
   <script src="app/components/portal/TriggerManager/TriggerManager.service.js"></script>
@@ -222,6 +242,8 @@
   <script src="app/components/portal/Settings/Settings.controller.js"></script>
   <script src="app/components/portal/ScenarioManager/ScenarioManager.js"></script>
   <script src="app/components/portal/ScenarioManager/ScenarioManager.controller.js"></script>
+  <script src="app/components/portal/Reporting/Reporting.service.js"></script>
+  <script src="app/components/portal/Reporting/Reporting.controller.js"></script>
   <script src="app/shared/models/Trigger.js"></script>
   <script src="app/shared/models/LocationTree.js"></script>
   <script src="app/shared/models/BeehiveThing.js"></script>
@@ -243,6 +265,7 @@
   <script src="app/app.route.js"></script>
   <script src="app/components/portal/portal.route.js"></script>
   <script src="app/components/secure/secure.route.js"></script>
+  <script src="app/components/portal/Reporting/Reporting.route.js"></script>
   <script src="app/components/portal/ScenarioManager/ScenarioManager.route.js"></script>
   <script src="app/components/portal/ThingManager/ThingManager.route.js"></script>
   <script src="app/components/portal/ThingViews/ThingViews.route.js"></script>
@@ -256,7 +279,8 @@
   <!-- endinject -->
 
   <!-- endbuild -->
-  <script type="text/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script type="text/javascript" src="bin/KiiReporting/Polyfills.js"></script>
+  <script type="text/javascript" src="bin/KiiReporting/KiiReporting.js"></script>
 </body>
 
 </html>

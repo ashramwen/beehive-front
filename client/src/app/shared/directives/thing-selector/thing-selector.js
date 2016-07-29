@@ -43,9 +43,26 @@ angular.module('BeehivePortal')
             $scope.init = function(){
 
                 $scope.dataset.tags = $$Tag.queryAll();
+                $$Type.getAll(function(types){
+                    $scope.dataset.types = _.map(types, function(type){
+                        return{
+                            name: type.type,
+                            id: type.type
+                        };
+                    });
+                });
 
                 $$Location.queryAll(function(locations){
                     $scope.dataset.locations = (new LocationTree(_.pluck(locations, 'displayName'))).tree.children;
+                });
+            };
+
+            $scope.selectType = function(type){
+                $$Thing.byType({}, {typeName: type.id}, function(things){
+                    loadThings(things);
+                    $timeout(function(){
+                        $scope.whenThingChange();
+                    });
                 });
             };
 

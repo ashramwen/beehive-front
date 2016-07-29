@@ -1,3 +1,7 @@
+.inline {
+  display: inline-block;
+  margin-right: 10px; }
+
 .app-portal-scenariomanager-officeatmosphere {
   background: #63b7e6;
   position: relative;

@@ -23,6 +23,16 @@
           </treecontrol>
         </uib-tab>
         <!-- end tags -->
+        <!-- tags -->
+        <uib-tab heading="种类">
+          <treecontrol class="tree-classic"
+             tree-model="dataset.types"
+             options="treeOptions"
+             on-selection="selectType(node)">
+             {{node.name}}
+          </treecontrol>
+        </uib-tab>
+        <!-- end tags -->
       </uib-tabset>
     </div>
     <!-- unselected things -->

@@ -32,11 +32,28 @@ gulp.task('inject', function () {
 
   var wiredepOptions = {
     directory: 'bower_components',
-    exclude: [/bootstrap\.js/]
+    exclude: [/bootstrap\.js/],
+    overrides: {
+      bootstrap: {
+        main: [
+          './dist/js/bootstrap.js',
+          './dist/css/*.min.*',
+          './dist/fonts/*.*'
+        ]
+      },
+      'font-awesome': {
+        main: [
+          './css/font-awesome.min.css'
+        ]
+      },
+      'echarts': {
+        main:['./dist/echarts.min.js']
+      }
+    }
   };
 
   var injectBin = gulp.src([
-    paths.src + '/bin/*.js'
+    paths.src + '/bin/**/*.js'
   ]);
 
   var injectBinOptions = {
@@ -51,9 +68,8 @@ gulp.task('inject', function () {
     addRootSlash: false
   };
 
-
   return gulp.src(paths.src + '/*.html')
-    .pipe($.inject(injectBin, injectBinOptions))
+    //.pipe($.inject(injectBin, injectBinOptions))
     .pipe($.inject(injectStyles, injectOptions))
     .pipe($.inject(injectScripts, injectOptions))
     .pipe($.inject(injectRouteScripts, injectRouteOptions))

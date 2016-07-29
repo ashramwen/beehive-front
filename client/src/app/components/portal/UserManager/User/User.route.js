@@ -7,28 +7,28 @@ angular.module('BeehivePortal')
         url: '/SearchUser',
         templateUrl: 'app/components/portal/UserManager/User/SearchUser/SearchUser.html',
         controller: 'SearchUserController',
-        stateName: '查询业主',
+        stateName: '查询用户',
         previous: 'app.portal.UserManager.User.UserList'
       })
       .state('app.portal.UserManager.User.NewUser', {
         url: '/NewUser',
         templateUrl: 'app/components/portal/UserManager/User/NewUser/NewUser.html',
         controller: 'NewUserController',
-        stateName: '新建业主',
+        stateName: '新建用户',
         previous: 'app.portal.UserManager.User.UserList'
       })
       .state('app.portal.UserManager.User.UserList', {
         url: '/UserList',
         templateUrl: 'app/components/portal/UserManager/User/UserList/UserList.html',
         controller: 'UserListController',
-        stateName: '业主列表',
+        stateName: '用户列表',
         previous: 'app.portal.UserManager'
       })
       .state('app.portal.UserManager.User.UserInfo', {
         url: '/:userID/UserInfo',
         templateUrl: 'app/components/portal/UserManager/User/UserInfo/UserInfo.html',
         controller: 'UserInfoController',
-        stateName: '业主详情',
+        stateName: '用户详情',
         previous: 'app.portal.UserManager.User.UserList'
       })
       .state('app.portal.UserManager.User.UserThingAuthority', {

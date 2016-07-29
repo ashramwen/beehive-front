@@ -33,6 +33,14 @@ angular.module('BeehivePortal')
         controller: 'SettingsController',
         stateName: '设置'
       })
+      .state('app.portal.Reporting', {
+        url: '/Reporting',
+        templateUrl: 'app/components/portal/Reporting/Reporting.html',
+        controller: 'ReportingController',
+        redirectTo: 'app.portal.Reporting.LineChart',
+        abstract: true,
+        stateName: '数据报表'
+      })
       .state('app.portal.Welcome', {
         url: '/Welcome',
         templateUrl: 'app/components/portal/Welcome/Welcome.html',

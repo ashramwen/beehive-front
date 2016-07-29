@@ -1,3 +1,7 @@
+.inline {
+  display: inline-block;
+  margin-right: 10px; }
+
 .md-dialog-container {
   z-index: 10000; }
 
@@ -65,14 +69,6 @@ ol.breadcrumb li a {
 
 .inline {
   display: inline-block; }
-
-.select-inline {
-  display: inline-block; }
-  .select-inline .dropdown-menu {
-    min-width: auto; }
-
-.select-inline.btn-group {
-  display: table-cell; }
 
 .position-fixed {
   position: fixed !important; }
@@ -180,9 +176,6 @@ treecontrol ul {
 
 tag .fa-remove:hover {
   color: #333; }
-
-.breadcrumb, .panel {
-  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2) !important; }
 
 /**
  * awesome font

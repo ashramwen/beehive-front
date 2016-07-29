@@ -24,7 +24,7 @@
                 </tr>
             </thead>
             <tbody>
-              <tr class="gradeA" ng-class="{'odd':$index%2==1}" role="row" ng-repeat="thing in things" ng-click="showGatewayThings(thing)">
+              <tr class="gradeA" ng-class="{'odd':$index%2==1}" role="row" ng-repeat="gateway in gateways" ng-click="showGatewayThings(gateway)">
                 <td>{{thing.globalThingID}}</td>
                 <td class="sorting_1">{{thing.type}}</td>
               </tr>

@@ -5,11 +5,21 @@ angular.module('BeehivePortal')
               method: 'GET',
               url: MyAPIs.USER + '/me'
           },
+          getCustomData: {
+              method: 'GET',
+              url: MyAPIs.USER + '/me/customData/:type',
+              params: {
+                type: '@type'
+              }
+          },
+          putCustomData: {
+              method: 'PUT',
+              url: MyAPIs.USER + '/me/customData/:type',
+          },
           update: {
               method: 'PATCH',
               url: MyAPIs.USER + '/me'
           },
-          
           bindThing: {
               url: MyAPIs.THING + '/:globalThingIDs/users/:userIDs',
               params: {
@@ -259,6 +269,10 @@ angular.module('BeehivePortal')
   }])
   .factory('$$Thing', ['$resource', function($resource){
       var Thing = $resource(MyAPIs.THING + '/:globalThingID', {}, {
+          getGateways: {
+              url: MyAPIs.THING + '/gateway',
+              method: 'GET'
+          },
           save: {
               url: MyAPIs.THING,
               params: {

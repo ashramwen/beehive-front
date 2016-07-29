@@ -1,0 +1,52 @@
+.app-portal-reporting-customcharts{
+  .gridster-mobile{
+    .gridster-item{
+      height: 300px;
+    }
+  }
+  .gridster{
+    margin-left: -10px;
+    margin-right: -10px;
+    .gridster-item{
+      overflow: hidden;
+      .panel{
+        margin-bottom: 0px;
+        height: 100%;
+        .panel-heading{
+          transition: all 0.3s;
+          margin-top: -41px;
+          position: relative;
+          z-index: 2;
+          .fa-edit{
+            position: absolute;
+            right: 15px;
+            top: 15px;
+          }
+        }
+        .panel-body{
+          transition: all 0.3s;
+          overflow: auto;
+          height: 100%;
+          margin-top: 0px;
+          position: relative;
+          z-index: 1;
+          .grid-content{
+            height: 100%;
+          }
+        }
+        &:hover,&.active{
+          .panel-heading{
+            margin-top: 0px;
+          }
+          .panel-body{
+            padding-top: 41px;
+            margin-top: -41px;
+            textarea{
+              height: 200px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

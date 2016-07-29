@@ -1,0 +1,143 @@
+<div class="app-portal-reporting-linechart">
+  <div class="panel header">
+    <div class="panel-body">
+      <div class="panel-row">
+        <div class="pull-left">
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>指数类型</td>
+                <td>
+                  <div app-select options="chartSources" selected-model="selectedSource" value-only="true"></div>
+                </td>
+                <td>
+                  值
+                </td>
+                <td>
+                  <div app-select options="aggMethods" selected-model="selectedMethod" value-only="true"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="v-hr pull-left"></div>
+        <div class="pull-left">
+          <div class="pull-left">
+            <div class="title pull-left">
+              <span class="fa fa-clock-o"></span>
+              时间段
+            </div>
+            <div class="pull-left time-picker">
+              <rp-date-picker output="onPeriodChange"></rp-date-picker>
+            </div>
+          </div>
+          <div class="pull-left">
+            <div class="pull-left">
+              <div class="title pull-left">
+                <span class="fa fa-map-marker"></span>
+                <span>坐标</span>
+              </div>
+              <div class="pull-left">
+                <div app-select options="locations" selected-model="selectedLocation"></div>
+              </div>
+            </div>
+            <div class="pull-left">
+              <button class="btn btn-info pull-left" ng-click="queryData()">刷新</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="panel chart-panel">
+        <div class="panel-heading">
+        </div>
+        <div class="panel-body">
+          <div style="height: 420px;font-size:30px; font-weight: bold; text-align: center; position:relative;">
+            <div style="position: absolute; width: 100%; top: 190px">
+              {{sumKwh}}
+              <br/>
+              <span>耗电总量</span>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="panel chart-panel">
+        <div class="panel-heading">电量消耗</div>
+        <div class="panel-body">
+          <div class="chart-container">
+            <div class="chart-content">
+              <kii-chart 
+                query="lineQuery"
+                period="period"
+                window="0"
+                location=""
+                refresh="refreshLine"
+                stage="false"
+                level="lineLevel"
+                style="height: 400px;">
+              </kii-chart>
+            </div>
+            <div class="chart-control">
+              <div class="form-group">
+                <label>单位时长</label>
+                <rp-time-slicer output="onTimeSliceChange"></rp-time-slicer>
+              </div>
+              <div>
+                <button ng-click="refreshLine()" class="btn btn-success btn-split">刷新</button>
+                <button ng-click="groupLines()" ng-if="split" class="btn btn-warning btn-split">合并</button>
+                <button ng-click="splitLine()" ng-if="!split" class="btn btn-info btn-split">拆分</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="panel chart-panel">
+        <div class="panel-heading">
+          电量消耗
+        </div>
+        <div class="panel-body">
+          <kii-chart 
+            query="barQuery"
+            period="period"
+            window="0"
+            location=""
+            refresh="refreshPie"
+            stage="false"
+            level="0"
+            output="getSummary"
+            style="height: 400px;">
+          </kii-chart>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="panel chart-panel">
+        <div class="panel-heading">
+          电量消耗
+        </div>
+        <div class="panel-body">
+          <kii-chart 
+            query="barQuery"
+            period="period"
+            window="0"
+            chart="pie"
+            location=""
+            refresh="refreshBar"
+            stage="false"
+            level="0"
+            style="height: 400px;">
+          </kii-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

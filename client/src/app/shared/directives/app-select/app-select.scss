@@ -1,0 +1,25 @@
+.directive-app-select{
+  .btn{
+    background: #fff;
+    border-radius: 1px;
+    .caret{
+      margin-left: 20px;
+    }
+  }
+  &.btn-group{
+    display: table-cell;
+  }
+  &.input-group-addon{
+    button{
+      padding: 0px;
+      display: inline-block;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+  }
+  .dropdown-menu{
+    min-width: auto;
+  }
+}
+

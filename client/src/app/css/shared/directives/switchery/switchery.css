@@ -1,3 +1,7 @@
+.inline {
+  display: inline-block;
+  margin-right: 10px; }
+
 .switchery {
   width: 55px;
   height: 21px;

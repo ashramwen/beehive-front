@@ -1,0 +1,85 @@
+<div class="app-portal-reporting-customcharts">
+  <div class="panel header">
+    <div class="panel-body">
+      <div class="panel-row">
+        <div class="pull-left">
+          <div class="pull-left">
+            <div class="title pull-left">
+              <span class="fa fa-clock-o"></span>
+              时间段
+            </div>
+            <div class="pull-left time-picker">
+              <rp-date-picker output="onPeriodChange"></rp-date-picker>
+            </div>
+          </div>
+          <div class="pull-left">
+            <div class="pull-left">
+              <div class="title pull-left">
+                <span class="fa fa-map-marker"></span>
+                <span>坐标</span>
+              </div>
+              <div class="pull-left">
+                <div app-select options="locations" selected-model="selectedLocation"></div>
+              </div>
+            </div>
+            <div class="pull-left">
+              <button class="btn btn-info" ng-click="queryData()">刷新</button>
+              <button class="btn btn-info" ng-click="factoryChart()">新建图表</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div gridster="gridsterOpts">
+    <div ng-repeat="chart in charts | filter: displayTagFilter" gridster-item="customChartMap">
+      <div class="panel" ng-class="{'active': onEdit[$index]}">
+        <div class="panel-heading">{{chart.name}} <span class="fa fa-edit" ng-click="onEdit[$index] = !onEdit[$index]"></span></div>
+        <div class="panel-body">
+          <!-- Chart options editor -->
+          <div ng-show="onEdit[$index]">
+            <div class="form-group grid-content">
+              <div>
+                <label>图表名称</label>
+                <input type="text" name="" ng-model="chart.name" class="form-control">
+              </div>
+              <div>
+                <label>层数</label>
+                <input type="number" name="" ng-model="chart.options.level" class="form-control">
+              </div>
+              <div>
+                <label>单位时长</label>
+                <rp-time-slicer output="onTimeSliceChange"></rp-time-slicer>
+              </div>
+              <div>
+                <label>视图</label>
+                <textarea class="form-control" ng-model="chart.options.query"></textarea>
+              </div>
+            </div>
+            <div>
+              <button class="btn btn-success" ng-click="saveChart(chart, $index)">保存</button>
+            </div>
+          </div>
+          <!-- end of editor -->
+
+          <!-- Kii Chart -->
+          <div class="grid-content" ng-hide="onEdit[$index]">
+            <kii-chart 
+              query="chart.options.query"
+              period="period"
+              window="0"
+              location=""
+              refresh-when-ready="!onEdit[$index]"
+              stage="false"
+              level="chart.options.level"
+              style="height: 100%">
+            </kii-chart>
+          </div>
+          <!-- end of chart -->
+        </div>
+      </div>
+      <input type="hidden" class="chart-id" ng-model="chart.id">
+    </div>
+  </div>
+</div>

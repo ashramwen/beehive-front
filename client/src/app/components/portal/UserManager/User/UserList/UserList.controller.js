@@ -19,7 +19,7 @@ angular.module('BeehivePortal')
             value: "userID"
         },
         {
-            text: "用户名称",
+            text: "用户名",
             value: "userName"
         }
     ];

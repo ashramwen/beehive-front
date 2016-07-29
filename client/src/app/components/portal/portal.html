@@ -20,11 +20,6 @@
                             <i class="fa fa-envelope"></i>
                         </a>
                     </li>
-                    <li class="dropdown tasks-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-tasks"></i>
-                        </a>
-                    </li>
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu" uib-dropdown>
                         <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
@@ -57,15 +52,6 @@
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
-                <!-- search form -->
-                <form action="#" method="get" class="sidebar-form">
-                    <div class="input-group">
-                        <input type="text" name="q" class="form-control" placeholder="Search...">
-                        <span class="input-group-btn">
-                            <button type="submit" name="seach" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-                        </span>
-                    </div>
-                </form>
                 <ul class="sidebar-menu">
                     <li ng-repeat="nav in portalNavs | orderBy: 'order'" ng-class="{'active':isActive(nav.state.name)}" ng-if="!nav.hidden" >
                         <a ui-sref="{{(!nav.state.abstract? nav.state.name: getFirstChild(nav).state.name)}}($state.params)"><i class="fa fa-fw" ng-class="nav.icon"></i> {{nav.name}}<span class="fa arrow"></span></a>

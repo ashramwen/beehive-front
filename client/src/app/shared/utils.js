@@ -2,6 +2,7 @@ angular.module('BeehivePortal')
     .factory('AppUtils', ['$http', '$location', '$q', '$state', '$timeout', '$uibModal', '$rootScope',
     function ($http, $location, $q, $state, $timeout, $uibModal, $rootScope) {
         window.app = {};
+        requestCount = 0;
         app.utils = {
             initialize: function(){
                 this._initialize();
@@ -36,7 +37,6 @@ angular.module('BeehivePortal')
                 window.alertMessage = function(msg){
                     app.utils.alert(msg, '提示');
                 };
-
             },
             /**
              * placeholder for IE
@@ -100,7 +100,7 @@ angular.module('BeehivePortal')
                 template += '    </div>';
                 template += '  </div>';
                 template += '  <div class="modal-footer ng-scope">';
-                template += '      <button class="btn btn-primary" style="width:100%;" type="button" ng-click="ok()">OK</button>';
+                template += '      <button class="btn btn-primary" style="width:100%;" type="button" ng-click="ok()">提交</button>';
                 template += '  </div>';
                 template += '</div>';
                 var modalInstance = $uibModal.open({
@@ -132,8 +132,8 @@ angular.module('BeehivePortal')
                 template += '    </div>';
                 template += '  </div>';
                 template += '  <div class="modal-footer ng-scope">';
-                template += '      <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>';
-                template += '      <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>';
+                template += '      <button class="btn btn-primary" type="button" ng-click="ok()">提交</button>';
+                template += '      <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>';
                 template += '  </div>';
                 template += '</div>';
                 var modalInstance = $uibModal.open({
@@ -147,6 +147,22 @@ angular.module('BeehivePortal')
                 });
 
                 return modalInstance.result;
+            },
+            doLoading: function(){
+                requestCount++;
+                if(requestCount>0)
+                    $('#spinner').show();
+                
+            },
+            whenLoaded: function(){
+                requestCount--;
+                if(requestCount<=0){
+                    requestCount = 0;
+                    $('#spinner').hide();
+                }
+            },
+            preventLoading: function(){
+                requestCount--;
             }
         };
         return app.utils;

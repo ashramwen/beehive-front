@@ -8,21 +8,14 @@
         <tr>
           <td>姓名</td>
           <td>
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="姓名" required ng-model="user.userName">
-              <div app-select selected-model="user.custom.sex" options="sexOptions" class="btn-group input-group-btn" text="text"></div>
-            </div>
+            <input type="text" class="form-control" placeholder="姓名" required ng-model="user.userName"/>
           </td>
         </tr>
         <tr>
-          <td>身份证</td>
+          <td>用户ID</td>
           <td>
-            <input ng-model="user.userID" type="text" required class="form-control" placeholder="身份证" ng-disabled="true" />
+            <input ng-model="user.userID" type="text" required class="form-control" placeholder="用户ID" ng-disabled="true" />
           </td>
-        </tr>
-        <tr>
-          <td>公司</td>
-          <td><input ng-model="user.company" type="text" class="form-control" placeholder="公司" /></td>
         </tr>
         <tr>
           <td>电话</td>
@@ -103,7 +96,7 @@
     </uib-tabset>
   </div>
   <div class="modal-footer ng-scope">
-      <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-      <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+      <button class="btn btn-primary" type="button" ng-click="ok()">提交</button>
+      <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
   </div>
 </div>

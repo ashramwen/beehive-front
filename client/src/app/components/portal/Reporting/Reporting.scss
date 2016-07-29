@@ -1,0 +1,73 @@
+.app-portal-reporting{
+  .panel.header{
+    .panel-body{
+      padding: 5px 10px;
+    }
+    .panel-row{
+      line-height: 50px;
+      .fa{
+        position: relative;
+        top: 4px;
+        margin-right: 5px;
+        font-size: 24px;
+      }
+      .title{
+        margin-right: 10px;
+      }
+    }
+    .table{
+      &>tbody>tr>td{
+        border-top: none;
+        line-height: 32px;
+      }
+      margin-bottom: 0px;
+    }
+    .v-hr{
+      border-right: 1px solid #ddd;
+      height: 34px;
+      font-size: 32px;
+      font-weight: 100;
+      color: #ddd;
+      margin: 8px 5px;
+    }
+    .time-picker{
+      max-width: 390px;
+      margin-top: 7px;
+      margin-right: 5px;
+    }
+    .fa-clock-o{
+      color: #ffb589;
+    }
+    .fa-map-marker{
+      color: #5dd6d6;
+    }
+  }
+  .btn-info{
+    margin: 8px;
+    background-color: #39babd;
+  }
+  .chart-panel{
+    .panel-heading{
+      background: transparent;
+      border-bottom: none;
+    }
+    .chart-container{
+      .chart-content{
+        float: left;
+        padding-right: 160px;
+        width: 100%;
+      }
+      .chart-control{
+        .btn-split{
+          width: 100%;
+          margin: 0px;
+          margin-bottom: 5px;
+        }
+        float: left;
+        width: 140px;
+        margin-left: -140px;
+      }
+    }
+  }
+  
+}

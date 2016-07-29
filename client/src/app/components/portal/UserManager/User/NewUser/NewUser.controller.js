@@ -33,12 +33,8 @@ angular.module('BeehivePortal')
         userName: '', // required
         phone: '',
         mail: '',
-        company: '',
         role: '4', // required
-        roleName: '',
-        custom: {
-          sex: null
-        }
+        roleName: ''
     };
 
     /*
@@ -46,7 +42,7 @@ angular.module('BeehivePortal')
      */
     
     $scope.init = function(){
-        
+      
     };
 
     /*
@@ -57,7 +53,7 @@ angular.module('BeehivePortal')
             var userID = userRegistrationInfo.userID;
             var activityToken = userRegistrationInfo.activityToken;
 
-            AppUtils.alert('新创建的用户ID为：' + userID + ',注册码为：' + activityToken + '。请前往登录页面进行激活。');
+            AppUtils.alert('新创建的用户ID为：' + userID + ',激活码为：' + activityToken + '。请前往登录页面进行激活。');
             
             $scope.navigateTo($scope.navMapping.USER_LIST);
         },function(response){

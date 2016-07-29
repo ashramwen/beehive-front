@@ -109,16 +109,6 @@ ol.breadcrumb{
 .inline{
     display: inline-block;
 }
-
-.select-inline{
-    display: inline-block;
-    .dropdown-menu{
-        min-width: auto;
-    }
-}
-.select-inline.btn-group{
-    display: table-cell;
-}
 .position-fixed{
     position: fixed !important;
 }
@@ -249,9 +239,6 @@ tag{
   }
 }
 
-.breadcrumb,.panel{
-  box-shadow: 0px 1px 5px rgba(0,0,0,0.2) !important;
-}
 
 /**
  * awesome font

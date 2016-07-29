@@ -1,3 +1,7 @@
+.inline {
+  display: inline-block;
+  margin-right: 10px; }
+
 /*@import url(//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);
 @import url(//fonts.googleapis.com/css?family=Kaushan+Script);*/
 /*!
@@ -31,7 +35,8 @@ a:focus {
 
 /* Layouts */
 .wrapper {
-  min-height: 100%; }
+  min-height: 100%;
+  position: relative; }
 
 .wrapper:before,
 .wrapper:after {
@@ -56,8 +61,9 @@ body .app-portal > .header {
   -o-transition: left 0.5s, margin-left 0.5s;
   -webkit-transition: left 0.5s, margin-left 0.5s;
   transition: left 0.5s, margin-left 0.5s;
-  min-height: 100%;
-  display: block; }
+  height: 100%;
+  display: block;
+  padding-bottom: 50px; }
 
 .left-side.sidebar-offcanvas {
   margin-top: 0px !important;
@@ -77,6 +83,42 @@ body .app-portal > .header {
 
 .right-side.shrink {
   margin-left: 220px; }
+
+@media (max-width: 1170px) {
+  .col-lg-1, .col-lg-2, .col-lg-3,
+  .col-lg-4, .col-lg-5, .col-lg-6,
+  .col-lg-7, .col-lg-8, .col-lg-9,
+  .col-lg-10, .col-lg-11, .col-lg-12 {
+    margin-bottom: 10px; }
+    .col-lg-1:last-child, .col-lg-2:last-child, .col-lg-3:last-child,
+    .col-lg-4:last-child, .col-lg-5:last-child, .col-lg-6:last-child,
+    .col-lg-7:last-child, .col-lg-8:last-child, .col-lg-9:last-child,
+    .col-lg-10:last-child, .col-lg-11:last-child, .col-lg-12:last-child {
+      margin-bottom: 0px; } }
+
+@media (max-width: 970px) {
+  .col-md-1, .col-md-2, .col-md-3,
+  .col-md-4, .col-md-5, .col-md-6,
+  .col-md-7, .col-md-8, .col-md-9,
+  .col-md-10, .col-md-11, .col-md-12 {
+    margin-bottom: 10px; }
+    .col-md-1:last-child, .col-md-2:last-child, .col-md-3:last-child,
+    .col-md-4:last-child, .col-md-5:last-child, .col-md-6:last-child,
+    .col-md-7:last-child, .col-md-8:last-child, .col-md-9:last-child,
+    .col-md-10:last-child, .col-md-11:last-child, .col-md-12:last-child {
+      margin-bottom: 0px; } }
+
+@media (max-width: 768px) {
+  .col-sm-1, .col-sm-2, .col-sm-3,
+  .col-sm-4, .col-sm-5, .col-sm-6,
+  .col-sm-7, .col-sm-8, .col-sm-9,
+  .col-sm-10, .col-sm-11, .col-sm-12 {
+    margin-bottom: 10px; }
+    .col-sm-1:last-child, .col-sm-2:last-child, .col-sm-3:last-child,
+    .col-sm-4:last-child, .col-sm-5:last-child, .col-sm-6:last-child,
+    .col-sm-7:last-child, .col-sm-8:last-child, .col-sm-9:last-child,
+    .col-sm-10:last-child, .col-sm-11:last-child, .col-sm-12:last-child {
+      margin-bottom: 0px; } }
 
 @media screen and (min-width: 992px) {
   .left-side {
@@ -740,9 +782,10 @@ Gradient Background colors
   position: absolute;
   top: 15px;
   right: 10px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px; }
+  border-radius: 0px;
+  -webkit-box-shadow: 1px -1px 1px 1px rgba(0, 0, 0, 0.02);
+  -moz-box-shadow: 1px -1px 1px 1px rgba(0, 0, 0, 0.02);
+  box-shadow: 1px -1px 1px 1px rgba(0, 0, 0, 0.02); }
 
 .breadcrumb-alt {
   overflow: hidden;
@@ -820,6 +863,12 @@ Gradient Background colors
 @media screen and (max-width: 560px) {
   .app-portal > .header {
     position: relative; }
+  .left-side {
+    top: 100px; }
+    .left-side.sidebar-offcanvas {
+      margin-top: 0px; }
+  .user-panel, .sidebar-form {
+    display: none; }
   .app-portal > .header .logo,
   .app-portal > .header .navbar {
     width: 100%;
@@ -829,8 +878,7 @@ Gradient Background colors
     margin: 0; }
   body.fixed .app-portal > .header {
     position: fixed; }
-  body.fixed .app-portal > .wrapper,
-  body.fixed .sidebar-offcanvas {
+  body.fixed .app-portal > .wrapper {
     margin-top: 100px !important; } }
 
 /*
@@ -838,6 +886,7 @@ Gradient Background colors
 --------------------------
 */
 .sidebar {
+  height: 100%;
   margin-bottom: 5px; }
 
 .sidebar .sidebar-form input:focus {
@@ -848,8 +897,11 @@ Gradient Background colors
 
 .sidebar .sidebar-menu {
   list-style: none;
+  height: 100%;
+  display: block;
   margin: 0;
-  padding: 0; }
+  padding: 0 0 81px 0px;
+  overflow: auto; }
 
 .sidebar .sidebar-menu > li {
   margin: 0;
@@ -1331,6 +1383,7 @@ Gradient Background colors
   /*-webkit-border-radius: 3px !important;
   -moz-border-radius: 3px !important;
   border-radius: 3px !important;*/
+  border-radius: 2px;
   box-shadow: none; }
 
 .form-control:focus {
@@ -3165,9 +3218,10 @@ Gradient Background colors
   margin-left: 10px; }
 
 .panel {
-  /*box-shadow: none;*/
-  -webkit-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 0px rgba(0, 0, 0, 0.05); }
+  border-radius: 0px;
+  -webkit-box-shadow: 1px -1px 1px 1px rgba(0, 0, 0, 0.02);
+  -moz-box-shadow: 1px -1px 1px 1px rgba(0, 0, 0, 0.02);
+  box-shadow: 1px -1px 1px 1px rgba(0, 0, 0, 0.02); }
 
 .panel-heading {
   border-bottom: 1px solid #eee;

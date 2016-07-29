@@ -45,10 +45,6 @@ angular.module('BeehivePortal')
     $scope.searchValue = "";
     $scope.queryOptions = [
         {
-            text: "群组ID",
-            value: "userGroupID"
-        },
-        {
             text: "群组名称",
             value: "userGroupName"
         }

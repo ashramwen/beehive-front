@@ -1,0 +1,14 @@
+<div class="row rp-date-picker" ng-init="init()">
+  <div class="col-sm-6">
+    <div class="input-group">
+      <span class="input-group-addon">从</span>
+      <input readonly="true" date-time="timePeriod.from" max-date="now" class="form-control" type="text" name="" ng-model="timePeriod.from">
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="input-group">
+      <span class="input-group-addon">至</span>
+      <input readonly="true" date-time="timePeriod.to" format="YYYY-MM-DD HH:mm" max-date="now" class="form-control" type="text" name="" ng-model="timePeriod.to">
+    </div>
+  </div>
+</div>

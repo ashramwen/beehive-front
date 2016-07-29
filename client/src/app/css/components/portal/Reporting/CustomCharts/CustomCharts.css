@@ -1,0 +1,37 @@
+.app-portal-reporting-customcharts .gridster-mobile .gridster-item {
+  height: 300px; }
+
+.app-portal-reporting-customcharts .gridster {
+  margin-left: -10px;
+  margin-right: -10px; }
+  .app-portal-reporting-customcharts .gridster .gridster-item {
+    overflow: hidden; }
+    .app-portal-reporting-customcharts .gridster .gridster-item .panel {
+      margin-bottom: 0px;
+      height: 100%; }
+      .app-portal-reporting-customcharts .gridster .gridster-item .panel .panel-heading {
+        transition: all 0.3s;
+        margin-top: -41px;
+        position: relative;
+        z-index: 2;
+        position: relative; }
+        .app-portal-reporting-customcharts .gridster .gridster-item .panel .panel-heading .fa-edit {
+          position: absolute;
+          right: 15px;
+          top: 15px; }
+      .app-portal-reporting-customcharts .gridster .gridster-item .panel .panel-body {
+        transition: all 0.3s;
+        overflow: auto;
+        height: 100%;
+        margin-top: 0px;
+        position: relative;
+        z-index: 1; }
+        .app-portal-reporting-customcharts .gridster .gridster-item .panel .panel-body .grid-content {
+          height: 100%; }
+      .app-portal-reporting-customcharts .gridster .gridster-item .panel:hover .panel-heading, .app-portal-reporting-customcharts .gridster .gridster-item .panel.active .panel-heading {
+        margin-top: 0px; }
+      .app-portal-reporting-customcharts .gridster .gridster-item .panel:hover .panel-body, .app-portal-reporting-customcharts .gridster .gridster-item .panel.active .panel-body {
+        padding-top: 41px;
+        margin-top: -41px; }
+        .app-portal-reporting-customcharts .gridster .gridster-item .panel:hover .panel-body textarea, .app-portal-reporting-customcharts .gridster .gridster-item .panel.active .panel-body textarea {
+          height: 200px; }

@@ -102,6 +102,25 @@ angular.module('BeehivePortal')
                 ]
             },
             {
+                name: '数据报表',
+                state: $state.get('app.portal.Reporting'),
+                icon: 'fa-area-chart',
+                subViews: [
+                    {
+                        name: '折线图',
+                        state: $state.get('app.portal.Reporting.LineChart')
+                    },
+                    {
+                        name: '感知',
+                        state: $state.get('app.portal.Reporting.FaceDetection')
+                    },
+                    {
+                        name: '自定义图表',
+                        state: $state.get('app.portal.Reporting.CustomCharts')
+                    }
+                ]
+            },
+            {
                 name: '触发器管理',
                 state: $state.get('app.portal.TriggerManager'),
                 icon: 'fa-exchange'

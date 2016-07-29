@@ -2,7 +2,7 @@
 
 angular.module('BeehivePortal')
   .controller('GatewayController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Thing', '$$Type', '$$Location', '$uibModal', 'WebSocketClient', function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type, $$Location, $uibModal, WebSocketClient) {
-    $scope.things = [];
+    $scope.gateways = [];
 
     /*
      * Init app
@@ -34,11 +34,6 @@ angular.module('BeehivePortal')
 
 
             $scope.selectLocation();
-            /*
-            $$Location.queryAll(function(locations){
-                $scope.locationTree = new LocationTree(_.pluck(locations, 'displayName')).tree.children;
-            });
-            */
         });
 
         //var wsClient = WebSocketClient.getClient();
@@ -51,11 +46,7 @@ angular.module('BeehivePortal')
     });
 
     $scope.selectLocation = function(){
-        $$Thing.byType({typeName: 'gateway-streetlight'}, function(things){
-            $scope.things = _.filter(things, function(thing){
-                return thing.type == 'gateway-streetlight';
-            });
-        });
+        $scope.gateways = $$Thing.getGateways();
     };
 
     $scope.showGatewayThings = function(gateway){

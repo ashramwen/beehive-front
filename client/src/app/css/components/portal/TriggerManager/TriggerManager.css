@@ -1,3 +1,7 @@
+.inline {
+  display: inline-block;
+  margin-right: 10px; }
+
 .app-portal-triggermanager {
   /*
  * TODO

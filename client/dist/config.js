@@ -8,9 +8,9 @@
       },
       "QA": {
         "cloudUrl": "http://api-development-beehivecn3.internal.kii.com",
-        "wsUrl": "ws://114.215.178.24:8081/beehive-portal/websocket/stomp",
-        "siteUrl": "http://114.215.178.24:8081",
-        "thirdPartyAPIUrl": "http://114.215.178.24:8081/3rdpartyapiserver/app/api_inquiry/apilist.html?vendor=Beehive"
+        "wsUrl": "ws://114.215.178.24:8080/beehive-portal/websocket/stomp",
+        "siteUrl": "http://114.215.178.24:8080",
+        "thirdPartyAPIUrl": "http://114.215.178.24:9081/index.html"
       },
       "LOCAL": {
         "cloudUrl": "http://api-development-beehivecn3.internal.kii.com",

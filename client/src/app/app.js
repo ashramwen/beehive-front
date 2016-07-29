@@ -3,9 +3,9 @@
 var MyApp = angular.module('BeehivePortal', [
   'BeehivePortal.ScenarioManager',
   'ngAnimate', 'ngCookies', 'ngSanitize',
-  'ngResource', 'ui.router', 'ui.bootstrap','LocalStorageModule', 'rzModule', 'treeControl', 'ngStomp',
+  'ngResource', 'ui.router', 'ui.bootstrap','LocalStorageModule', 'rzModule', 'treeControl', 'ngStomp', 'datePicker',
   'angular-condition-tree', 'awesome-context-menu', 'monospaced.elastic', 'angularjs-dropdown-multiselect', 'ng.jsoneditor',
-  'angular-cron-jobs', 'ui-notification'
+  'angular-cron-jobs', 'ui-notification', 'gridster'
 ])
 .constant('ERROR_CODE', {
   'INVALID_INPUT': 'INVALID_INPUT',
@@ -35,16 +35,15 @@ config(function(localStorageServiceProvider, $httpProvider, NotificationProvider
     $httpProvider.interceptors.push(function($q, AUTH_EVENTS, ERROR_CODE) {
       return {
         request: function(request) {
-            $('#spinner').show();
-            requestCount++;
+            app.utils.doLoading();
             return request;
         },
         response: function(response){
-          hideLoading();
-          return response;
+            app.utils.whenLoaded();
+            return response;
         },
         responseError: function(response){
-            hideLoading();
+            app.utils.whenLoaded();
             $('#spinner').hide();
             switch(response.status){
                 case 401: 
@@ -76,17 +75,6 @@ config(function(localStorageServiceProvider, $httpProvider, NotificationProvider
       positionX: 'right',
       positionY: 'top'
     });
-
-    /*
-     * hide loading 
-     */
-    function hideLoading(){
-      requestCount--;
-      if(requestCount==0){
-        $('#spinner').hide();
-      }
-    }
-
 }).run(
   ['$rootScope', '$state', '$stateParams', 'AppUtils',
       function($rootScope, $state, $stateParams, AppUtils) {
@@ -106,6 +94,23 @@ config(function(localStorageServiceProvider, $httpProvider, NotificationProvider
            */
           AppUtils.initialize();
           window.AppUtils = AppUtils;
+
+          window.ECharts = echarts;
+          
+          
+          KiiReporting.KiiQueryConfig.setConfig({
+            site: 'http://121.199.7.69',
+            port: 9200,
+            token: 'Bearer super_token'
+          });
+          
+          /*
+          KiiReporting.KiiQueryConfig.setConfig({
+            site: 'http://localhost',
+            port: 9200,
+            //token: 'Bearer super_token'
+          });    
+          */      
       }
   ]
 );
