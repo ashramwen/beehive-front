@@ -1,8 +1,66 @@
+@import 'src/app/shared/global.scss';
 .app-portal-monitormanager-monitoring {
     .func-group {
         margin-top: -6px;
         .btn-link {
             color: #fba141;
+        }
+    }
+    .tile {
+        // display: table;
+        // vertical-align: middle;
+        // text-align: center;
+        float: left;
+        position: relative;
+        margin: 10px;
+        padding: 8px;
+        width: 275px;
+        height: 182px;
+        background-color: #fbfbfb;
+        @include border-radius(2px 1px 1px 2px/2px);
+        @include box-shadow(0 0 4px rgba(39, 39, 77, .75));
+        &.off {
+            background-color: #f1f7fb;
+        }
+        .light {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: #61c9d2;
+            @include border-radius(50%);
+            &.off {
+                background-color: #878d96;
+            }
+        }
+        .name {
+            text-align: center;
+            padding: 0 18px;
+        }
+        .tile-content {
+            height: 90px;
+            width: 261px;
+            margin-top: 28px;
+            padding: 10px 14px;
+            div {
+                display: inline-block;
+                .value {
+                    margin-right: 8px;
+                    margin-bottom: 8px;
+                }
+            }
+        }
+        .type {
+            position: absolute;
+            bottom: 8px;
+        }
+        .icon {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 69px;
+            height: 25px;
+            background-image: url("/images/icon_monitoring.png");
+            background-position: -25px 0;
         }
     }
 }
