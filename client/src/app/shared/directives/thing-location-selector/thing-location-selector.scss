@@ -1,23 +1,56 @@
-.thing-location-selector {
-  .row-eq-height {
+@import 'src/app/shared/global.scss';
+.display-flex {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-  }
-  .vcenter {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-justify-content: center;
-    justify-content: center;
-  }
-  .cursor-pointer {
-    cursor: pointer;
-    outline: none;
-  }
-  tr {
-    outline: none;
-  }
+}
+
+.thing-location-selector {
+    .row-eq-height {
+        @extend .display-flex;
+    }
+    .vcenter {
+        @extend .display-flex;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .table {
+        thead {
+            tr {
+                background-color: #e1edf5;
+                td:first-child {
+                    width: 41px;
+                }
+            }
+        }
+        tbody {
+            tr {
+                &:nth-child(even) {
+                    background-color: #f2f7fa;
+                }
+                &:hover {
+                    background-color: #52d7ee;
+                }
+                td:first-child {
+                    width: 41px;
+                    text-align: center;
+                }
+            }
+        }
+        tr {
+            outline: none;
+        }
+        .fa-plus-circle {
+            font-size: 29px;
+            color: #62c479;
+            cursor: pointer;
+            outline: none;
+        }
+    }
+    select.form-control {
+        // min-width: 90px;
+    }
 }

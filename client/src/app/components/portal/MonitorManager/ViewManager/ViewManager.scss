@@ -1,5 +1,16 @@
+@import 'src/app/shared/global.scss';
 .app-portal-monitormanager-viewmanager {
-  textarea {
-    resize: none;
-  }
+    .sub-title {
+        height: 57px;
+        line-height: 57px;
+        background-color: #fff;
+        margin-bottom: 8px;
+        font-size: 16px;
+        padding-left: 41px;
+        @include border-radius(4px 4px 0 0);
+        // @include box-shadow(0 0 4px rgba(39, 39, 77, .75));
+    }
+    textarea {
+        resize: none;
+    }
 }

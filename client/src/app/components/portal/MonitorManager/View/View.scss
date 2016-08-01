@@ -45,6 +45,15 @@ $pink: #ff7c73;
             display: table-cell;
             vertical-align: middle;
             text-align: center;
+            img {
+                margin-bottom: 7px;
+            }
+            .name {
+                font-size: 16px;
+            }
+            .desc {
+                font-size: 12px;
+            }
         }
         .fa-plus {
             font-size: 39px;

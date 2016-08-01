@@ -10,7 +10,7 @@
     <div class="graph-tile view" ng-repeat="v in views track by v.id">
       <i class="fa fa-minus-circle" aria-hidden="true" ng-click="delete($index)"></i>
       <div class="graph-content" uib-tooltip="{{v.desc}}" tooltip-placement="bottom" tooltip-class="tooltip" ng-click="monitoring(v)">
-        <div class="fa fa-plus" aria-hidden="true"></div>
+        <img src="images/icon_monitoring_view.png" alt="">
         <div class="name">{{v.name}}</div>
         <div class="desc">设备数量： {{v.count}}</div>
       </div>

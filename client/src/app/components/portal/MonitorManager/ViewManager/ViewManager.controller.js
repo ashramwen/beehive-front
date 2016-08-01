@@ -38,9 +38,7 @@ angular.module('BeehivePortal.MonitorManager')
      */
     $scope.newView = function() {
         if (!$scope.view.name) return;
-        $scope.view.id = new Date().getTime();
-        $scope.view.count = $scope.view.detail.length;
-        $scope.view.createDate = new Date().getTime();
+        preprocessView($scope.view);
         var temp = angular.copy($scope.view);
         delete temp.detail;
         $scope.views.push(temp);
@@ -52,11 +50,21 @@ angular.module('BeehivePortal.MonitorManager')
      */
     $scope.modifyView = function() {
         if (!$scope.view.name) return;
-        $scope.view.count = $scope.view.detail.length;
-        $scope.view.modifyDate = new Date().getTime();
+        preprocessView($scope.view);
         $scope.views[viewIndex] = angular.copy($scope.view);
         delete $scope.views[viewIndex].detail;
         saveMonitorView('提交成功！', '编辑内容提交成功！');
+    }
+
+    // preprocess view before save
+    function preprocessView(view) {
+        var _date = new Date().getTime();
+        if (!view.id) view.id = _date;
+        return angular.extend(view, {
+            count: view.detail.length,
+            createDate: _date,
+            modifyDate: _date
+        });
     }
 
     // save monitor view
