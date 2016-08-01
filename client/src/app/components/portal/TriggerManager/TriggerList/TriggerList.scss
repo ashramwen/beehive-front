@@ -1,0 +1,108 @@
+.app-portal-triggermanager-triggerlist{
+    position: relative;
+
+    $color-schedule: #ffc888;
+    $color-schedule-title: #d87500;
+    $color-conditional: #9bd1c0;
+    $color-conditional-title: #71ac9b;
+
+    $color-disabled-background: #dcdcdc;
+    $color-disabled: #b8b8b8;
+    $color-disabled-title: #9d9d9d;
+
+    .main-content{
+        padding-right: 100px;
+        width: 100%;
+        .trigger-tile{
+            width: 130px;
+            height: 130px;
+            float: left;
+            margin: 0px 20px 20px 0px;
+            background: #fff;
+            border: solid 2px #fff;
+            cursor: pointer;
+            .trigger-img{
+                font-size: 47px;
+                margin-top: 18px;
+                width: 100%;
+                text-align: center;
+            }
+            .description{
+                text-align: center;
+                margin-top: -5px;
+                h4{
+                    display: block;
+                    margin: 0px;
+                }
+                span{
+                    font-size: 12px;
+                }
+            }
+            &.schedule{
+                color: $color-schedule;
+                .description{
+                    h4{
+                        color: $color-schedule-title;
+                    }
+                }
+                &:hover, &.active{
+                    border: solid 2px $color-schedule;
+                }
+            }
+            &.conditional{
+                color: $color-conditional;
+                .description{
+                    h4{
+                        color: $color-conditional-title;
+                    }
+                }
+                &:hover, &.active{
+                    border: solid 2px $color-conditional;
+                }
+            }
+            &.disabled{
+                background-color: $color-disabled-background;
+                border: solid 2px $color-disabled-background;
+                color: $color-disabled;
+                .description{
+                    h4{
+                        color: $color-disabled-title;
+                    }
+                }
+                &:hover, &.active{
+                    border: solid 2px $color-disabled;
+                }
+            }
+        }
+    }
+    ul.view-control{
+        list-style: none;
+        top: 0px;
+        position: absolute;
+        right: 0px;
+        li{
+            color: #fff;
+            padding: 5px 7px;
+            cursor: pointer;
+            .fa{
+                display: block;
+                width: 14px;
+                margin-right: 8px;
+                float: left;
+                font-size: 16px;
+                line-height: 20px;
+                text-align: center;
+            }
+            &.view{
+                color: #000;
+                background:#fff;
+            }
+            &.schedule{
+                background: $color-schedule;
+            }
+            &.conditional{
+                background: $color-conditional;
+            }
+        }
+    }
+}

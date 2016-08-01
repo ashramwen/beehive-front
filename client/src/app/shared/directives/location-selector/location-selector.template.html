@@ -1,12 +1,31 @@
-<div>
-  <uib-tabset>
-    <uib-tab heading="位置">
-      <treecontrol class="tree-classic"
-             tree-model="locations"
-             options="treeOptions"
-             on-selection="selectLocation(node, selected)">
-            {{node['name']}}
-      </treecontrol>
-    </uib-tab>
-  </uib-tabset>
+<div uib-dropdown class="location-selector">
+  <button id="search-filter" ng-disabled="disabled" type="button" class="btn btn-default" uib-dropdown-toggle>
+    {{getDisplayName()}} <span class="caret"></span>
+  </button>
+  <div class="dropdown-menu" role="menu" aria-labelledby="search-filter" ng-click="$event.stopPropagation()">
+    <div class="panel">
+      <div class="panel-body">
+        <div class="location-select">
+          <label for="selectBuilding">楼号</label>
+          <select class="form-control" id="selectBuilding" placeholder="Building" ng-options="building.displayName for building in location.building track by building.location" ng-model="level.building" ng-change="changeBuilding()" ng-click="$event.stopPropagation()">
+            <option value="">请选择</option>
+          </select>
+        </div>
+        <div class="location-select">
+          <label for="selectFloor">层数</label>
+          <select class="form-control" id="selectFloor" placeholder="Floor" ng-options="floor.displayName for floor in location.floor track by floor.location" ng-model="level.floor" ng-change="changeFloor()" ng-click="$event.stopPropagation()">
+            <option value="">请选择</option>
+          </select>
+        </div>
+        <div class="location-select">
+          <label for="selectArea">区域</label>
+          <select class="form-control" id="selectArea" placeholder="Area" ng-options="area.displayName for area in location.area track by area.location" ng-model="level.area" ng-change="changeArea()" ng-click="$event.stopPropagation()">
+            <option value="">请选择</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+

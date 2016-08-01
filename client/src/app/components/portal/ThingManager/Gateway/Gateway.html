@@ -38,12 +38,14 @@
       <table class="table">
         <thead>
           <th>设备ID</th>
+          <th>设备种类</th>
           <th>状态</th>
           <th>操作</th>
         </thead>
         <tbody>
           <tr ng-repeat="thing in endNodes">
             <td>{{thing.vendorThingID}}</td>
+            <td>{{thing.type}}</td>
             <td>{{thing.status}}</td>
             <td width="124px">
               <button class="btn btn-info" ng-click="showReplaceModal(thing)">替换</button>

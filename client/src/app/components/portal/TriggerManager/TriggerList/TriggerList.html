@@ -1,0 +1,53 @@
+<div class="app-portal-triggermanager-triggerlist">
+  <div class="main-content clearfix">
+
+    <!-- schedule -->
+    <div class="trigger-tile schedule" ui-sref="app.portal.TriggerManager.TriggerDetail({triggerID: 1})">
+      <div class="trigger-img">
+        <span class="fa fa-clock-o"></span>
+      </div>
+      <div class="description">
+        <h4>规则1</h4>
+        <span>2016-07-06</span>
+      </div>
+    </div>
+
+    <!-- conditional -->
+    <div class="trigger-tile conditional">
+      <div class="trigger-img">
+        <span class="fa fa-clock-o"></span>
+      </div>
+      <div class="description">
+        <h4>规则1</h4>
+        <span>2016-07-06</span>
+      </div>
+    </div>
+
+    <!-- disabled -->
+    <div class="trigger-tile disabled">
+      <div class="trigger-img">
+        <span class="fa fa-clock-o"></span>
+      </div>
+      <div class="description">
+        <h4>规则1</h4>
+        <span>2016-07-06</span>
+      </div>
+    </div>
+
+  </div>
+  
+
+  <ul class="view-control">
+    <li class="view"><span class="fa fa-table"></span>视图</li>
+    <li class="schedule"><span class="fa fa-clock-o"></span>定时规则</li>
+    <li class="conditional"><span class="fa fa-code-fork"></span>条件规则</li>
+  </ul>
+  <!--
+  <div class="new-trigger" ng-click="createTrigger()"><span class="fa fa-plus"></span> 新建触发器</div>
+  <uib-accordion close-others="true">
+    <uib-accordion-group heading="{{trigger.triggerName}}" ng-repeat="trigger in triggers">
+      <div ng-include="'app/components/portal/TriggerManager/TriggerSetting.template.html'"></div>
+    </uib-accordion-group>
+  </uib-accordion>
+  -->
+</div>

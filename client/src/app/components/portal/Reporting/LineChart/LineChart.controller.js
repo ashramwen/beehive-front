@@ -85,5 +85,9 @@ angular.module('BeehivePortal')
       }
     });
 
+    $scope.locationChange = function(location){
+      console.log(location);
+    };
+
 
   }]);

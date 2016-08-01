@@ -122,7 +122,7 @@ angular.module('BeehivePortal')
             },
             {
                 name: '触发器管理',
-                state: $state.get('app.portal.TriggerManager'),
+                state: $state.get('app.portal.TriggerManager.TriggerList'),
                 icon: 'fa-exchange'
             },
             {

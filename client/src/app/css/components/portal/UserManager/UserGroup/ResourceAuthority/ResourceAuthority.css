@@ -2,6 +2,42 @@
   display: inline-block;
   margin-right: 10px; }
 
+.table.form-table tbody > tr > td {
+  border-top: none; }
+  .table.form-table tbody > tr > td:first-child {
+    line-height: 30px;
+    padding-left: 0px;
+    width: 80px; }
+
+.btn-add-param {
+  cursor: pointer;
+  border: solid 1px;
+  border-color: #ccc;
+  padding: 4px 10px;
+  border-radius: 40px; }
+  .btn-add-param .fa {
+    font-size: 10px;
+    position: relative;
+    top: -1px;
+    color: #88ab1e; }
+  .btn-add-param:hover {
+    border-color: #89ccdf;
+    color: #89ccdf; }
+    .btn-add-param:hover .fa {
+      color: #89ccdf; }
+
+.btn.btn-warning {
+  background-color: #fba141; }
+
+.btn.btn-lg {
+  padding: 10px 60px;
+  font-size: 14px; }
+
+.panel .panel-body > h4 {
+  font-size: 16px;
+  line-height: 20px;
+  margin-bottom: 30px; }
+
 .app-portal-usermanager-usergroup-resourceauthority {
   /*
  * TODO

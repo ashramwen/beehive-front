@@ -51,7 +51,8 @@ angular.module('BeehivePortal')
         url: '/TriggerManager',
         templateUrl: 'app/components/portal/TriggerManager/TriggerManager.html',
         controller: 'TriggerManagerController',
-        stateName: '触发器管理'
+        stateName: '触发器管理',
+        abstract: true
       })
       .state('app.portal.ThingViews', {
         url: '/ThingViews',

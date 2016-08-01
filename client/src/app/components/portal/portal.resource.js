@@ -427,7 +427,8 @@ angular.module('BeehivePortal')
             getTopLevel: {
                 method: 'GET',
                 url: MyAPIs.LOCATION_TAGS + '/topLevel',
-                isArray: true
+                isArray: true,
+                cache: true
             },
             getSubLevel: {
                 method: 'GET',
@@ -435,7 +436,8 @@ angular.module('BeehivePortal')
                 params: {
                     type: '@location'
                 },
-                isArray: true
+                isArray: true,
+                cache: true
             },
             getThingsByLocation: {
                 method: 'GET',

@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-sm-3"></div>
+  <div class="">
+    <div>
+      <span class="fa fa-map-marker"></span>
+      <span>坐标</span>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <label class="sr-only" for="selectBuilding">Building</label>
+        <select class="form-control" id="selectBuilding" placeholder="Building" ng-options="building.displayName for building in location.building track by building.location" ng-model="level.building" ng-change="changeBuilding()">
+          <option value="">-- 请选择 --</option>
+        </select>
+      </div>
+      <div class="col-sm-4">
+        <label class="sr-only" for="selectFloor">Floor</label>
+        <select class="form-control" id="selectFloor" placeholder="Floor" ng-options="floor.displayName for floor in location.floor track by floor.location" ng-model="level.floor" ng-change="changeFloor()">
+          <option value="">-- 请选择 --</option>
+        </select>
+      </div>
+      <div class="col-sm-4">
+        <label class="sr-only" for="selectArea">Area</label>
+        <select class="form-control" id="selectArea" placeholder="Area" ng-options="area.displayName for area in location.area track by area.location" ng-model="level.area" ng-change="changeArea()">
+          <option value="">-- 请选择 --</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

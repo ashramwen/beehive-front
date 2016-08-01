@@ -9,7 +9,7 @@ angular.module('BeehivePortal')
       refresh: function(){
         var $defer = $q.defer();
 
-        $$User.getCustomData({type: CHART_ID_FIELD_NAME}, function(response){
+        $$User.getCustomData({name: CHART_ID_FIELD_NAME}, function(response){
           if(!response) return;
           _chartIDs = response.dataset || [];
 
@@ -17,10 +17,10 @@ angular.module('BeehivePortal')
             return CustomChartsService.getChart(id);
           });
 
-          $q.all(quries).then(function(response){
-            CustomChartsService.charts = response;
-            CustomChartsService.charts = _.map(CustomChartsService.charts, function(chart){
-              return new CustomChart(chart);
+          $q.all(quries).then(function(charts){
+            CustomChartsService.charts = charts;
+            CustomChartsService.charts = _.map(CustomChartsService.charts, function(chartData){
+              return new CustomChart(chartData.dataset);
             });
             CustomChartsService.charts = CustomChartsService.charts || [];
             $defer.resolve(CustomChartsService.charts);
@@ -31,28 +31,28 @@ angular.module('BeehivePortal')
         return $defer.promise;
       },
       update: function(){
-        return $$User.putCustomData({type: CHART_ID_FIELD_NAME}, {dataset: _chartIDs}).$promise;
+        return $$User.setCustomData({name: CHART_ID_FIELD_NAME, dataset: _chartIDs}).$promise;
       },
       getChart: function(id){
-        return $$User.getCustomData({type: id}).$promise;
+        return $$User.getCustomData({name: id}).$promise;
       },
       addChart: function(chart){
         var id = chart.id;
         _chartIDs.push(chart.id);
         CustomChartsService.update();
 
-        return $$User.putCustomData({type: id}, chart).$promise;
+        return $$User.setCustomData({name: id, dataset: chart}).$promise;
       },
       updateChart: function(chart){
         var id = chart.id;
-        return $$User.putCustomData({type: id}, chart).$promise;
+        return $$User.setCustomData({name: id, dataset: chart}).$promise;
       },
       deleteChart: function(chart){
         var id = chart.id;
-        return $$User.putCustomData({type: id}, {}).$promise;
+        return $$User.setCustomData({name: id}).$promise;
       },
       refreshChart: function(id){
-        return $$User.getCustomData({type: id}, function(data){
+        return $$User.getCustomData({name: id}, function(data){
           var index = _.findIndex(CustomChartsService.charts, {id: id});
           CustomChartsService.charts[index] = new CustomChart(data);
         }).$promise;
