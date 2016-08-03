@@ -6,12 +6,13 @@
         <button class="btn btn-link" ng-click="modify()"><i class="fa fa-pencil" aria-hidden="true"></i> 编辑</button>
       </div>
     </div>
-    <div class="row">
 
-      <div class="tile" ng-repeat="o in view.detail track by o.globalThingID">
+    <div class="card-columns">
+
+      <div class="card" ng-repeat="o in view.detail track by o.globalThingID">
         <div class="light power"></div>
-        <div class="name">WWWWWWWWWWWWWWWWW</div>
-        <div class="tile-content">
+        <div class="name">{{o.vendorThingID}}</div>
+        <div class="card-content">
           <thing-if-state ng-state="o.state"></thing-if-state>
         </div>
         <div class="type">{{o.type | typeName}} | {{o.vendorThingID | locTag}}</div>

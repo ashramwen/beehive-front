@@ -6,7 +6,7 @@
             color: #fba141;
         }
     }
-    .tile {
+    .card {
         float: left;
         position: relative;
         margin: 10px;
@@ -44,7 +44,7 @@
             font-size: 13px;
             color: #a1a1a1;
         }
-        .tile-content {
+        .card-content {
             min-height: 90px;
             width: 261px;
             margin-top: 28px;
@@ -63,6 +63,16 @@
             height: 25px;
             background-image: url("/images/icon_monitoring.png");
             background-position: 0 0;
+        }
+    }
+    .wf-column {
+        float: left;
+        &:before {
+            content: '';
+            display: table;
+        }
+        &:after {
+            clear: both;
         }
     }
 }
