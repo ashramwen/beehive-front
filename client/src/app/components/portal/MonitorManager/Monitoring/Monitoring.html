@@ -9,15 +9,19 @@
 
     <div class="card-columns">
 
-      <div class="card" ng-repeat="o in view.detail track by o.globalThingID">
+      <!-- START card -->
+      <div class="card" ng-class="{'off': o.off}" ng-repeat="o in view.detail track by o.globalThingID">
         <div class="light power"></div>
         <div class="name">{{o.vendorThingID}}</div>
         <div class="card-content">
-          <thing-if-state ng-state="o.state"></thing-if-state>
+          <div class="state-wrap" ng-repeat="s in o.state">
+            <span class="state">{{s.name}}：</span><span class="value">{{s.value}}</span>
+          </div>
         </div>
         <div class="type">{{o.type | typeName}} | {{o.vendorThingID | locTag}}</div>
         <div class="icon"></div>
       </div>
+      <!-- END card -->
 
     </div>
   </div>

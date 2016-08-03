@@ -30,12 +30,39 @@ $pink: #ff7c73;
                     font-size: 24px;
                     color: $pink;
                 }
+                .tooltip-desc {
+                    display: block;
+                    position: fixed;
+                    overflow: hidden;
+                }
             }
             .name {
                 color: #fff;
             }
             .desc {
                 color: #90f1f9;
+            }
+            .tooltip-desc {
+                display: none;
+                div {
+                    position: relative;
+                    margin: 6px;
+                    padding: 9px;
+                    max-width: 300px;
+                    background-color: rgba(240, 246, 250, .9);
+                    @include border-radius(4px);
+                    @include box-shadow(1px 1px 4px rgba(15, 50, 75, .35));
+                    &:before {
+                        content: ' ';
+                        position: absolute;
+                        top: -6px;
+                        width: 0;
+                        height: 0;
+                        border-style: solid;
+                        border-width: 0 5.5px 6px 5.5px;
+                        border-color: transparent transparent rgba(240, 246, 250, .9) transparent;
+                    }
+                }
             }
         }
         .fa-minus-circle {

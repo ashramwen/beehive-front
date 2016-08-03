@@ -7,12 +7,15 @@
         <div>添加监控频道</div>
       </div>
     </div>
-    <div class="graph-tile view" ng-repeat="v in views track by v.id">
-      <i class="fa fa-minus-circle" aria-hidden="true" ng-click="delete($index)"></i>
-      <div class="graph-content" uib-tooltip="{{v.desc}}" tooltip-placement="bottom" tooltip-class="tooltip" ng-click="monitoring(v)">
+    <div class="graph-tile view" ng-repeat="v in views track by v.id" ng-mousemove="mousemove($event, v)">
+      <i class="fa fa-minus-circle" aria-hidden="true" ng-click="delete($index, v)"></i>
+      <div class="graph-content" ng-click="monitoring(v)">
         <img src="images/icon_monitoring_view.png" alt="">
         <div class="name">{{v.name}}</div>
         <div class="desc">设备数量： {{v.count}}</div>
+        <div id="v_{{v.id}}" class="tooltip-desc">
+          <div>{{v.desc}}</div>
+        </div>
       </div>
     </div>
   </div>

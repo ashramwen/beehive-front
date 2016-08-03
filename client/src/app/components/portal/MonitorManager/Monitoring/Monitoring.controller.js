@@ -35,22 +35,26 @@ angular.module('BeehivePortal.MonitorManager')
     // thing subscription
     function subscription(thing) {
         WebSocketClient.subscribe('/topic/' + thing.kiiAppID + '/' + thing.kiiThingID, function(res) {
-            thing.state = parseState(JSON.parse(res.body));
+            parseState(thing, JSON.parse(res.body).state);
             $timeout(function() { waterfall('.card-columns') }, 0);
         });
     }
 
     // parse the data from websocket
-    function parseState(state) {
+    function parseState(thing, states) {
         var ret = [];
-        for (var k in state.state) {
+        for (var k in states) {
+            if (k === 'novalue') { // power off
+                thing.off = !states[k];
+                continue;
+            }
             if (!StateType[k]) continue;
             ret.push({
-                'name': k,
-                'value': state.state[k]
+                'name': StateType[k],
+                'value': states[k]
             })
         }
-        return ret;
+        thing.states = ret;
     }
 
     // modify view

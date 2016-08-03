@@ -50,6 +50,23 @@
             margin-top: 28px;
             margin-bottom: 20px;
             padding: 10px 14px;
+            .state-wrap {
+                // margin-bottom: 7px;
+                line-height: 29px;
+                .state {
+                    font-size: 12px;
+                    color: #878d96;
+                }
+                .value {
+                    margin-right: 8px;
+                    margin-bottom: 8px;
+                    font-size: 18px;
+                    color: #354047;
+                }
+                &:not(:first-child) {
+                    border-top: 1px solid #e1edf5;
+                }
+            }
         }
         .type {
             position: absolute;
@@ -65,14 +82,14 @@
             background-position: 0 0;
         }
     }
-    .wf-column {
-        float: left;
-        &:before {
-            content: '';
-            display: table;
-        }
-        &:after {
-            clear: both;
-        }
-    }
+    // .wf-column {
+    //     float: left;
+    //     &:before {
+    //         content: '';
+    //         display: table;
+    //     }
+    //     &:after {
+    //         clear: both;
+    //     }
+    // }
 }
