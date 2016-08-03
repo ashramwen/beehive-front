@@ -1,46 +1,28 @@
 <div class="app-portal-monitormanager-monitoring">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-12">
-        <section class="panel">
-          <header class="panel-heading">
-            <span>monitor</span>
-            <div class="func-group pull-right">
-              <button class="btn btn-info hide"><i class="fa fa-refresh" aria-hidden="true"></i> 实时刷新</button>
-              <button class="btn btn-link" ng-click="modify()"><i class="fa fa-pencil" aria-hidden="true"></i> 编辑</button>
-            </div>
-          </header>
-          <div class="panel-body">
-            <table class="table table-striped table-hover">
-              <thead>
-                <tr>
-                  <th>网关ID</th>
-                  <th>设备类型</th>
-                  <th>位置</th>
-                  <th>连接状态</th>
-                  <th>实时数据</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="o in view.detail track by o.globalThingID">
-                  <td>{{o.vendorThingID}}</td>
-                  <td>{{o.type}}</td>
-                  <td></td>
-                  <td>√</td>
-                  <td>
-                    <div>温度：26</div>
-                    <div>CO2:4000</div>
-                    <div>PM2.5：390</div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
+      <div class="func-group pull-right">
+        <button class="btn btn-info hide"><i class="fa fa-refresh" aria-hidden="true"></i> 实时刷新</button>
+        <button class="btn btn-link" ng-click="modify()"><i class="fa fa-pencil" aria-hidden="true"></i> 编辑</button>
       </div>
     </div>
-    <div class="bottom-btn">
-      <button class="btn btn-success" ng-click="fallback()">返回</button>
+
+    <div class="card-columns">
+
+      <!-- START card -->
+      <div class="card" ng-class="{'off': o.off}" ng-repeat="o in view.detail track by o.globalThingID">
+        <div class="light power"></div>
+        <div class="name">{{o.vendorThingID}}</div>
+        <div class="card-content">
+          <div class="state-wrap" ng-repeat="s in o.state">
+            <span class="state">{{s.name}}：</span><span class="value">{{s.value}}</span>
+          </div>
+        </div>
+        <div class="type">{{o.type | typeName}} | {{o.vendorThingID | locTag}}</div>
+        <div class="icon"></div>
+      </div>
+      <!-- END card -->
+
     </div>
   </div>
 </div>
