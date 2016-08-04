@@ -8,9 +8,9 @@ angular.module('BeehivePortal.MonitorManager')
     // the specific view
     $scope.view = $stateParams;
 
-    $$User.getThings().$promise.then(function(res) {
-        $scope.things = res;
-    });
+    // $$User.getThings().$promise.then(function(res) {
+    //     $scope.things = res;
+    // });
 
     $scope.init = function() {
         // get monitoring views
