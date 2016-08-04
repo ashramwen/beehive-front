@@ -61,12 +61,12 @@
             <td><input type="checkbox" ng-model="o.select" ng-click="o.select=!o.select"></td>
             <td>{{o.vendorThingID}}</td>
             <td>{{o.type}}</td>
-            <th></th>
+            <td>{{o.vendorThingID | locTag}}</td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="3">
+            <td colspan="4">
               <button class="btn btn-link" ng-click="selectAll(detail)">全选</button>
               <button class="btn btn-link text-yellow" ng-click="delete(detail)">刪除</button>
             </td>
