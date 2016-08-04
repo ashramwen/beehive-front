@@ -1,11 +1,12 @@
 angular.module('BeehivePortal.MonitorManager')
 
-.factory('WebSocketClient', ['$rootScope', '$stomp', '$q', 'Session', '$$User', function($rootScope, $stomp, $q, Session, $$User) {
+.factory('WebSocketClient', ['$rootScope', 'Session', function($rootScope, Session) {
     var _client = {};
     var init = (function() {
         _client = Stomp.client(webSocketPath);
         var connect_callback = function(frame) {
             console.log('Connected: ' + frame);
+            $rootScope.$broadcast('stomp.connected');
         };
         var error_callback = function(error) {
             console.log(error);

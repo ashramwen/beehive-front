@@ -10,7 +10,7 @@
     <div class="card-columns">
 
       <!-- START card -->
-      <div class="card" ng-class="{'off': o.off}" ng-repeat="o in view.detail track by o.globalThingID">
+      <div class="card" ng-class="{'off': o.off}" ng-repeat="o in view.detail track by o.id">
         <div class="light power"></div>
         <div class="name">{{o.vendorThingID}}</div>
         <div class="card-content">
