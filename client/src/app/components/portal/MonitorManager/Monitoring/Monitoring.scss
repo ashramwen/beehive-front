@@ -1,3 +1,4 @@
+@import 'src/app/shared/global.scss';
 .app-portal-monitormanager-monitoring {
     .func-group {
         margin-top: -6px;
@@ -5,4 +6,90 @@
             color: #fba141;
         }
     }
+    .card {
+        float: left;
+        position: relative;
+        margin: 10px;
+        padding: 8px;
+        width: 275px;
+        background-color: #fbfbfb;
+        @include border-radius(2px 1px 1px 2px/2px);
+        @include box-shadow(0 0 4px rgba(39, 39, 77, .75));
+        &.off {
+            background-color: #f1f7fb;
+            .light {
+                background-color: #878d96;
+            }
+            .icon {
+                background-position: 0 -25px;
+            }
+        }
+        .power {
+            position: absolute;
+        }
+        .light {
+            width: 12px;
+            height: 12px;
+            background-color: #61c9d2;
+            @include border-radius(50%);
+        }
+        .name {
+            text-align: center;
+            margin-top: 10px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 256px;
+            padding: 0 18px;
+            font-size: 13px;
+            color: #a1a1a1;
+        }
+        .card-content {
+            min-height: 90px;
+            width: 261px;
+            margin-top: 28px;
+            margin-bottom: 20px;
+            padding: 10px 14px;
+            .state-wrap {
+                // margin-bottom: 7px;
+                line-height: 29px;
+                .state {
+                    font-size: 12px;
+                    color: #878d96;
+                }
+                .value {
+                    margin-right: 8px;
+                    margin-bottom: 8px;
+                    font-size: 18px;
+                    color: #354047;
+                }
+                &:not(:first-child) {
+                    border-top: 1px solid #e1edf5;
+                }
+            }
+        }
+        .type {
+            position: absolute;
+            bottom: 8px;
+        }
+        .icon {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 69px;
+            height: 25px;
+            background-image: url("/images/icon_monitoring.png");
+            background-position: 0 0;
+        }
+    }
+    // .wf-column {
+    //     float: left;
+    //     &:before {
+    //         content: '';
+    //         display: table;
+    //     }
+    //     &:after {
+    //         clear: both;
+    //     }
+    // }
 }

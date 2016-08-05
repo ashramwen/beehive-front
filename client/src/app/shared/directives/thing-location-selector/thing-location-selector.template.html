@@ -57,18 +57,18 @@
           <th>位置</th>
         </thead>
         <tbody>
-          <tr ng-repeat="o in detail track by o.globalThingID" ng-click="o.select=!o.select">
+          <tr ng-repeat="o in detail track by o.id" ng-click="o.select=!o.select">
             <td><input type="checkbox" ng-model="o.select" ng-click="o.select=!o.select"></td>
             <td>{{o.vendorThingID}}</td>
             <td>{{o.type}}</td>
-            <th></th>
+            <td>{{o.vendorThingID | locTag}}</td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="3">
-              <button class="btn btn-link" ng-click="selectAll(view.detail)">全选</button>
-              <button class="btn btn-link text-yellow" ng-click="delete(view.detail)">刪除</button>
+            <td colspan="4">
+              <button class="btn btn-link" ng-click="selectAll(detail)">全选</button>
+              <button class="btn btn-link text-yellow" ng-click="delete(detail)">刪除</button>
             </td>
           </tr>
         </tfoot>

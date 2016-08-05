@@ -74,7 +74,7 @@ angular.module('BeehivePortal')
                     if (!$scope.things[i].select) continue;
                     $scope.things[i].select = false;
                     if (!_.find($scope.detail, function(thing) {
-                            return thing.globalThingID === $scope.things[i].globalThingID;
+                            return thing.id === $scope.things[i].id;
                         }))
                         $scope.detail.push(angular.copy($scope.things[i]));
                 }
