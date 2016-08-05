@@ -19,8 +19,13 @@ angular.module('BeehivePortal')
             scope.myClass = attrs.class;
             scope.setting = _.extend(scope.setting, scope.extraSetting);
             scope.selectedOption = {};
+            var initialized = false;
 
             scope.$watch('selectedModel', function(newVal, oldVal){
+                if(angular.equals(newVal, oldVal))return;
+                init();
+            });
+            scope.$watch('options', function(newVal, oldVal){
                 if(angular.equals(newVal, oldVal))return;
                 init();
             });
@@ -29,18 +34,18 @@ angular.module('BeehivePortal')
             scope.setting.value = attrs.value || scope.setting.value;
             
             scope.selectOption = function(option){
+                
                 if(attrs.valueOnly){
                     scope.selectedModel = option[scope.setting.value];
                 }else{
                     scope.selectedModel = _.clone(option);
                 }
-                scope.selectedOption = option;
-                
+
                 if(_.isFunction(scope.change)){
-                    $timeout(function(){
-                        scope.change(scope.selectedModel);    
-                    });
+                    scope.change(scope.selectedModel, initialized);
                 }
+                
+                scope.selectedOption = option;
             };
             
             if(scope.options && scope.options[0]){
@@ -48,6 +53,7 @@ angular.module('BeehivePortal')
             }
 
             function init(){
+                initialized = false;
                 var existFlag = false;
                 if(attrs.valueOnly){
                     existFlag = _.find(scope.options,function(option){
@@ -60,10 +66,13 @@ angular.module('BeehivePortal')
                 }
                 
                 if(!existFlag){
-                    scope.selectOption(scope.options[0]);
+                    if(scope.options && scope.options.length > 0){
+                        scope.selectOption(scope.options[0]);
+                    }
                 }else{
                     scope.selectOption(existFlag);
                 }
+                initialized = true;
             }
         }
     }

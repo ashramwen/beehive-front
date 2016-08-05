@@ -1,6 +1,21 @@
+@import 'src/app/shared/global.scss';
 .app-portal-triggermanager-triggerdetail{
   .btn-submit{
     margin: 0px auto;
     display: block;
+  }
+  .page-footer{
+    width: 100%;
+    @include justify-content(center);
+    @include display-flex();
+
+    .btn{
+      display: inline-block;
+      margin-right: 10px;
+      margin-left: 0px;
+      &:last-child{
+        margin-right: 0px;
+      }
+    }
   }
 }

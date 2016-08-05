@@ -36,6 +36,24 @@
 
   </div>
   
+  <div class="edit-group" uib-dropdown>
+    <ul class="edit-options" role="menu">
+      <li class="conditional">
+        <div class="btn-add-param" ng-click="createConditionalTrigger()">
+          <span class="fa fa-plus-circle"></span>
+          <span>条件规则</span>
+        </div>
+      </li>
+      <li class="schedule">
+        <div class="btn-add-param" ng-click="createScheduleTrigger()">
+          <span class="fa fa-plus-circle"></span>
+          <span>定时规则</span>
+        </div>
+      </li>
+    </ul>
+
+    <span class="fa fa-plus edit-toggle" uib-dropdown-toggle></span>
+  </div>
 
   <ul class="view-control">
     <li class="view"><span class="fa fa-table"></span>视图</li>

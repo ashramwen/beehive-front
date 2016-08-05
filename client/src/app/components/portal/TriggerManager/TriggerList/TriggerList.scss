@@ -1,3 +1,4 @@
+@import 'src/app/shared/global.scss';
 .app-portal-triggermanager-triggerlist{
     position: relative;
 
@@ -105,4 +106,62 @@
             }
         }
     }
+
+    $toggle-size: 60px;
+    .edit-toggle{
+        display: block;
+        @include border-radius(100%);
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #fff;
+        color: #72c0f1;
+        font-size: 30px;
+        width: $toggle-size;
+        height: $toggle-size;
+        line-height: $toggle-size;
+        text-align: center;
+        border: solid 1px #eee;
+        cursor: pointer;
+        @include box-shadow(3px 3px 5px 1px rgba(0,0,0,0.05));
+        @include transition(all 0.2s);
+        &:hover, &.active{
+            @include box-shadow(3px 3px 5px 1px rgba(0,0,0,0.1));
+        }
+    }
+    .edit-group{
+        &.open{
+            .edit-options{
+                display: block;
+            }
+        }
+        ul.edit-options{
+            margin-bottom: 0px;
+            display: none;
+            list-style: none;
+            position: fixed;
+            bottom: 40 + $toggle-size;
+            right: 20px;
+
+            li{
+                margin-bottom: 5px;
+                .btn-add-param{
+                    background: #fff;
+                }
+
+                &.conditional{
+                    .btn-add-param .fa{
+                        color: $color-conditional;
+                    }
+                }
+                &.schedule{
+                    .btn-add-param .fa{
+                        color: $color-schedule;
+                    }
+                }
+            }
+        }
+    }
+
+    
 }

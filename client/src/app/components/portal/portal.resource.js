@@ -384,6 +384,11 @@ angular.module('BeehivePortal')
                 method: 'POST',
                 url: MyAPIs.THING_IF + '/command/list',
                 isArray: true
+            },
+            getThingsByLocationType: {
+                url: MyAPIs.REPORTS + '/thingQuery',
+                method: 'POST',
+                isArray: true
             }
         });
 
@@ -460,9 +465,6 @@ angular.module('BeehivePortal')
             },
             getSchema: {
                 url: MyAPIs.SCHEMA + '?thingType=:type&name=:type&version=1',
-                params: {
-                    type: '@type'
-                },
                 method: 'GET',
                 //cache : true
             },
@@ -529,6 +531,11 @@ angular.module('BeehivePortal')
                     });
                     return response;
                 }
+            },
+            get: {
+                url: MyAPIs.TRIGGER + '/:triggerID',
+                method: 'GET',
+                isArray: true
             },
             save: {
                 url: MyAPIs.TRIGGER + '/createTrigger',

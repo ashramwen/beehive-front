@@ -1,0 +1,61 @@
+.app-portal-triggermanager-triggerdetail-triggerconditionlist{
+  .panel-body{
+    position: relative;
+  }
+  .table-holder{
+    margin-right: 100px;
+  }
+  table.property-table{
+    border-top: solid 1px #d7dcdf;
+    border-bottom: solid 1px #d7dcdf;
+    width: 100%;
+    margin-bottom: 30px;
+    tr:first-child{
+      td{
+        padding-top: 20px;
+      }
+    }
+    tr:last-child{
+      td{
+        padding-bottom: 20px;
+      }
+    }
+
+    tbody > tr > td{
+      padding-top: 5px;
+      padding-bottom: 5px;
+      &:first-child{
+        width: 140px;
+        padding-left: 25px;
+        .fa{
+          color: #ffc888;
+          margin-right: 10px;
+          font-size: 10px;
+          position: relative;
+          top: -1px;
+        }
+        .v-hr{
+          height: 20px;
+          border-right: 1px solid #d7dcdf;
+          float: right;
+        }
+      }
+      &:first-child+td{
+        padding-left: 50px;
+        span{
+          background-color: #e6ecf0;
+          padding: 5px 8px;
+          color: #000;
+          margin: 0px 10px 10px 0px;
+          float: left;
+          display: block;
+        }
+      }
+    }
+  }
+  .btn-add-param{
+    position: absolute;
+    right: 10px;
+    top: 43px;
+  }
+}

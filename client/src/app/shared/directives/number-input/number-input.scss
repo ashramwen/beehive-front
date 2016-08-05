@@ -1,0 +1,29 @@
+.directive-number-input{
+  display: inline-block;
+  border: solid 1px #e4e8eb;
+  background-color: #fff;
+  label{
+    font-size: 21px; 
+    line-height: 36px;
+    width: 30px;
+    text-align: center;
+    display: block;
+    float: left;
+    height: 36px;
+    margin-bottom: 0px;
+    outline: none;
+  }
+  input{
+    -webkit-appearance: none;
+    background-color: transparent;
+    float: left;
+    padding: 0px;
+    display: block;
+    line-height: 36px;
+    height: 36px;
+    border: none;
+    outline: none;
+    width: 50px;
+    text-align: center;
+  }
+}

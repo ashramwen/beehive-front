@@ -1,4 +1,4 @@
-.trigger-action-list{
+.app-portal-triggermanager-triggerdetail-triggeractionlist{
   .panel-body{
     position: relative;
   }
@@ -46,7 +46,9 @@
           background-color: #e6ecf0;
           padding: 5px 8px;
           color: #000;
-          margin-right: 10px;
+          margin: 0px 10px 10px 0px;
+          float: left;
+          display: block;
         }
       }
     }

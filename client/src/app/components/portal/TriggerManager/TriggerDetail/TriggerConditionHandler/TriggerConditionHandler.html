@@ -1,0 +1,48 @@
+<div class="app-portal-triggermanager-triggerconditionhandler">
+  <div class="panel">
+    <div class="panel-body">
+      设备选择
+    </div>
+  </div>
+  <thing-location-type-selector single-type="true" change="selectedChange(selectedThings, type)" input="inputThingDataset"></thing-location-type-selector>
+  <div class="panel trigger-conditions">
+    <div class="panel-body">
+      <h4>触发条件</h4>
+      <div class="row">
+        <div class="col-sm-4">
+          <span class="action" ng-class="{'active': property._selected}" ng-repeat="property in properties" ng-click="toggleProperty(property)">
+            {{property.displayName}}
+          </span>
+        </div>
+        <div class="col-sm-8">
+          <div class="selected-property clearfix" ng-repeat="property in conditionGroup.properties">
+            <!-- not enum -->
+            <div ng-if="!property.enumType && (property.type=='int' || property.type=='float')">
+              <label>{{property.displayName}} <span class="fa fa-info-circle" ng-if="property.tooltip" uib-tooltip="{{property.tooltip}}"></span></label>
+              <condition-input property="property" min="property.minimum" max="property.maximum" type="property.type" condition="property.condition"></condition-input>
+            </div>
+
+            <!-- enmu: number -->
+            <div ng-if="property.enumType == 'BOOLEAN' || property.type=='boolean'">
+              <label>{{property.displayName}}</label>
+              <div switchery="property.value" yes-text="{{property.options[1].text || '是'}}" no-text="{{property.options[0].text || '否'}}"></div>
+            </div>
+
+            <!-- enmu: number -->
+            <div ng-if="property.enumType == 'NUMBER'">
+              <label>{{property.displayName}}</label>
+              <div app-select options="property.options" selected-model="property.value"></div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <button class="btn btn-md btn-submit btn-warning" ng-click="save()">保存</button>
+    <button class="btn btn-md btn-submit btn-info" ng-click="goBack()">返回</button>
+  </div>
+  
+</div>

@@ -1,0 +1,21 @@
+<div class="app-portal-triggermanager-triggerdetail-triggeractionlist" ng-controller="TriggerActionListController">
+  <div class="panel">
+    <div class="panel-body">
+      <h4>规则行为</h4>
+      <div class="table-holder">
+        <table class="property-table">
+          <tbody>
+            <tr ng-repeat="actionGroup in triggerData.actionGroups" ng-click="editActionGroup(actionGroup.type)">
+              <td><span class="fa fa-circle-o"></span>{{actionGroup.typeDisplayName}} <div class="v-hr"></div></td>
+              <td><span ng-repeat="action in actionGroup.actions">{{action.displayName}}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="btn-add-param" ng-click="addActionGroup()">
+        <span class="fa fa-plus-circle"></span>
+        <span>添加参数</span>
+      </div>
+    </div>
+  </div>
+</div>

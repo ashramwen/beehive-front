@@ -42,6 +42,10 @@ angular.module('BeehivePortal')
         $scope.$broadcast('toggle-menu', {isShrink: flag});
     };
 
+    $scope.goBack = function(){
+      $rootScope.$state.go($rootScope.$state.current.previous, $rootScope.$state.params); 
+    }
+
     $scope.logout = function(){
         Session.destroy();
         $state.go('app.secure.UserLogin');

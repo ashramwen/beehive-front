@@ -163,6 +163,9 @@ angular.module('BeehivePortal')
             },
             preventLoading: function(){
                 requestCount--;
+            },
+            clone: function(val){
+                return JSON.parse(JSON.stringify(val));
             }
         };
         return app.utils;

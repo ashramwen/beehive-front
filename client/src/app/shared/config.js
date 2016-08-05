@@ -31,7 +31,8 @@
         'SUPPLIER': '/devicesuppliers',
         'SYSTEM_PERMISSION': '/sys/permissionTree',
         'USER_SYNC': '/usersync',
-        'SCHEMA': '/industrytemplate'
+        'SCHEMA': '/industrytemplate',
+        'REPORTS': '/reports' 
     };
 
 

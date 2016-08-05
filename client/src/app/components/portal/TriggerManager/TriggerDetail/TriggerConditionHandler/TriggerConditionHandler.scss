@@ -1,0 +1,29 @@
+.app-portal-triggermanager-triggerconditionhandler{
+  .trigger-conditions{
+    .col-sm-4{
+      border-right: solid 1px #e4e8eb;
+      min-height: 100px;
+    }
+    .action{
+      display: block;
+      float: left;
+      padding: 6px;
+      font-size: 13px;
+      background: #e6ecf0;
+      color: #4f5457;
+      margin: 0px 3px 10px 0px;
+      outline: none;
+      &.active{
+        background-color: #8bdae8;
+        color: #fff;
+      }
+    }
+    .selected-property{
+      label{
+        display: block;
+      }
+      float: left;
+      margin: 0px 10px 10px 0px;
+    }
+  }
+}

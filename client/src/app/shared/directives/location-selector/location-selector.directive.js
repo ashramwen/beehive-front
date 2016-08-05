@@ -19,7 +19,7 @@ angular.module('BeehivePortal')
             });
 
             $scope.onChange = function(location){
-                $scope.change({location: location});
+                $scope.change({location: location, fullLocation: $scope.level, displayName: $scope.displayName});
                 $scope.$emit('location-change', location);
             };
 

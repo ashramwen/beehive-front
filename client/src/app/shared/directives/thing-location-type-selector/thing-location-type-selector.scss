@@ -1,0 +1,106 @@
+@import 'src/app/shared/global.scss';
+
+.thing-location-type-selector{
+    table.table {
+      margin-bottom: 0px;
+        thead {
+            tr {
+                background-color: #e1edf5;
+            }
+        }
+        tbody {
+            tr {
+                &:nth-child(even) {
+                    background-color: #f2f7fa;
+                }
+                &:hover {
+                    background-color: #52d7ee;
+                }
+                & > td{
+                    height: 30px;
+                    &:first-child {
+                        width: 41px;
+                        text-align: center;
+                    }
+                }
+                &.empty-row:hover{
+                    background-color: transparent;
+                    &:nth-child(even){
+                        background-color: #f2f7fa;
+                    }
+                }
+            }
+        }
+        tr {
+            outline: none;
+        }
+        thead, tbody, tfoot{
+          & > tr > td, & > tr > th{
+              &:first-child{
+                width: 41px;
+              }
+              border: none;
+          }
+        }
+    }
+    .content-title{
+        min-height: 54px;
+        line-height: 34px;
+        padding: 10px 10px;
+        .select{
+            float: left;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            .fa{
+                position: relative;
+                top: 4px;
+                margin-right: 5px;
+                font-size: 24px;
+                &.fa-lightbulb-o{
+                    color: #fba141;
+                }
+                &.fa-map-marker{
+                    color: #5dd6d6;
+                }
+            }
+        }
+    }
+    .flex-row{
+      margin-bottom: 20px;
+      & > .col-md-5, .col-md-7{
+        & > .panel{
+          height: 100%;
+          margin-bottom: 0px;
+          & > .panel-body{
+            height: 100%;
+            padding-bottom: 50px;
+            position: relative;
+            @include display-flex();
+            @include flex-direction(column);
+            .btm-control-panel{
+              line-height: 50px;
+              height: 50px;
+              width: 100%;
+              position: absolute;
+              bottom: 0px;
+              .fa-plus-circle {
+                  font-size: 29px;
+                  color: #62c479;
+                  cursor: pointer;
+                  outline: none;
+                  position: relative;
+                  float: right;
+                  top: 12px;
+                  right: 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .table-container{
+      max-height: 345px;
+      overflow: auto;
+      @include flex(1);
+    }
+}

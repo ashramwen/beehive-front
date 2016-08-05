@@ -1,0 +1,131 @@
+@import 'src/app/shared/global.scss';
+
+.app-portal-triggermanager-triggerdetail-triggerschedule{
+
+  .btn-link{
+    padding: 0px;
+  }
+  .btn-container{
+    margin-bottom: 20px;
+    > .col-xs-4 > .btn{
+      width: 100%;
+    }
+  }
+  .time-span-settings{
+    min-height: 169px;
+  }
+
+  .interval-settings{
+    height: 169px;
+    @include display-flex;
+    .repeat-options{
+      width: 80px;
+
+      label{
+        display: block;
+        text-align: center;
+        height: 84px;
+        width: 100%;
+        outline: none;
+        margin-bottom: 0px;
+        &.active{
+          color: #93cdf4;
+        }
+        &:first-child{
+          line-height: 100px;
+        }
+        &:last-child{
+          line-height: 68px;
+        }
+      }
+
+      hr{
+        margin-top: 0px;
+        margin-bottom: 0px;
+        width: 57px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+    .repeat-sub-options{
+      width: 100px;
+      text-align: center;
+      display: none;
+      outline: none;
+      .option{
+        outline: none;
+      }
+
+      &.active{
+        display: block;
+      }
+
+      &.no-repeat{
+        .option{
+          margin-bottom: -1px;
+          height: 85px;
+          width: 100%;
+          background-color: #f5fcff;
+          color: #93cdf4;
+          .fa{
+            position: relative; 
+            top: 10px;
+            font-size: 40px;
+          }
+          label{
+            width: 100%;
+            position: relative;
+            top: 9px;
+          }
+          &.active{
+            color: #fff;
+            background-color: #72c0f1;
+          }
+        }
+      }
+      &.repeat{
+        .option{
+          height: 100%;
+          width: 100%;
+          color: #fff;
+          background-color: #72c0f1;
+          .fa{
+            position: relative; 
+            top: 50px;
+            font-size: 40px;
+          }
+          label{
+            width: 100%;
+            position: relative;
+            top: 53px;
+          }
+        }
+      }
+
+    }
+    .repeat-settings{
+      text-align: center;
+      line-height: 170px;
+      flex: 1;
+
+      .form-group{
+        height: 100%;
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+
+        .form-control{
+          height: 50px;
+          font-size: 30px;
+          display: inline-block;
+        }
+      }
+      .form-group.repeat{
+        .form-control{
+          width: 48%;
+        }
+      }
+    }
+  }
+  
+}

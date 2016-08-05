@@ -11,30 +11,22 @@ angular.module('BeehivePortal')
     $scope.triggers = [];
 
     $scope.init = function(){
-
         $$Trigger.getAll(function(triggers){
             console.log(triggers);
-            _.each(triggers, function(trigger){
+            $scope.triggers = _.map(triggers, function(trigger){
                 var t = new Trigger(trigger.type);
                 t.init(trigger);
-                $scope.triggers.push(t);
+                return t;
             });
         });
     };
 
-    $scope.createTrigger = function(){
-        var modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'app/components/portal/TriggerManager/CreateTrigger.template.html',
-            controller: 'TriggerManagerController.CreateTrigger',
-            size: 'md',
-            resolve: {
-            }
-        });
+    $scope.createScheduleTrigger = function(){
+        $state.go('app.portal.TriggerManager.NewTrigger.ScheduleTrigger');
+    };
 
-        modalInstance.result.then(function (trigger) {
-            $scope.triggers.splice(0, 0, trigger);
-        });
+    $scope.createConditionalTrigger = function(){
+        $state.go('app.portal.TriggerManager.NewTrigger.ConditionTrigger');
     };
 
     /**
@@ -88,37 +80,5 @@ angular.module('BeehivePortal')
             $scope.disableTrigger(trigger);
         }); 
     });
-
-    $scope.dataset = {};
     
-  }])
-  .controller('TriggerManagerController.CreateTrigger', ['$scope', '$uibModalInstance', function($scope, $uibModalInstance){
-    $scope.triggerTypes = [
-        {
-            text: '定时任务',
-            value: Trigger.TypeEnum.SIMPLE
-        },
-        {
-            text: '多触发源',
-            value: Trigger.TypeEnum.GROUP
-        },
-        {
-            text: '汇总',
-            value: Trigger.TypeEnum.SUMMARY
-        }
-    ];
-
-    $scope.triggerBO = {};
-
-    
-    $scope.ok = function(triggerBO){
-
-        var trigger = new Trigger(triggerBO.triggerType);
-        trigger.setName(triggerBO.triggerName);
-      
-        $uibModalInstance.close(trigger);
-    };
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-}]);
+  }]);
