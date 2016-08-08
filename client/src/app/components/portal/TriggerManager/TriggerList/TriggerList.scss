@@ -1,6 +1,7 @@
 @import 'src/app/shared/global.scss';
 .app-portal-triggermanager-triggerlist{
     position: relative;
+    min-height: 400px;
 
     $color-schedule: #ffc888;
     $color-schedule-title: #d87500;
@@ -15,6 +16,7 @@
         padding-right: 100px;
         width: 100%;
         .trigger-tile{
+            position: relative;
             width: 130px;
             height: 130px;
             float: left;
@@ -22,6 +24,20 @@
             background: #fff;
             border: solid 2px #fff;
             cursor: pointer;
+            text-align: center;
+            .fa-ban{
+                position: absolute;
+                font-size: 90px;
+                color: rgba(255,255,255,0.9);
+                left: 26px;
+                top: 20px;
+            }
+            .fa-server{
+                position: absolute;
+                right: 15px;
+                top: 15px;
+                color: #72c0f1;
+            }
             .trigger-img{
                 font-size: 47px;
                 margin-top: 18px;
@@ -65,6 +81,9 @@
                 background-color: $color-disabled-background;
                 border: solid 2px $color-disabled-background;
                 color: $color-disabled;
+                .fa-server{
+                    color: $color-disabled;
+                }
                 .description{
                     h4{
                         color: $color-disabled-title;
@@ -97,12 +116,20 @@
             &.view{
                 color: #000;
                 background:#fff;
+                input{
+                    margin-right: 5px;
+                }
             }
-            &.schedule{
-                background: $color-schedule;
-            }
-            &.conditional{
-                background: $color-conditional;
+            &.type-item{
+                &.schedule{
+                    background: $color-schedule;
+                }
+                &.conditional{
+                    background: $color-conditional;
+                }
+                &.disabled{
+                    background: #dcdcdc !important;
+                }
             }
         }
     }

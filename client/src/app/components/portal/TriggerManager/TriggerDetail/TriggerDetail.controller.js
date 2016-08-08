@@ -1,21 +1,20 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('TriggerDetailController', ['$scope', '$rootScope', '$$Trigger', 'TriggerDetailService', 'ConditionTriggerDetailService', '$q', function($scope, $rootScope, $$Trigger, TriggerDetailService, ConditionTriggerDetailService, $q) {
-
-    $scope.trigger = null;
+  .controller('TriggerDetailController', ['$scope', '$rootScope', '$$Trigger', 'TriggerDetailService', 'ConditionTriggerDetailService', '$q', 'AppUtils', function($scope, $rootScope, $$Trigger, TriggerDetailService, ConditionTriggerDetailService, $q, AppUtils) {
 
     $scope.triggerData = null;
 
     $scope.init = function(){
       var triggerID = $scope.$state.params.triggerID;
+      var $defer = $q.defer();
+
       if(triggerID){
         $$Trigger.get({triggerID: triggerID}, function(trigger){
-          $scope.trigger = trigger;
+          $defer.resolve(trigger);
         });
       }else{
-        /*
-        $scope.trigger = {
+        var trigger = {
           "type" : "Summary",
           "predicate" : {
             "triggersWhen" : "CONDITION_TRUE"
@@ -26,21 +25,31 @@ angular.module('BeehivePortal')
             "criticalNumber" : 100
           }
         };
-        */
-       $scope.trigger = ConditionTriggerDetailService.example;
+        $defer.resolve(trigger);
       }
 
-      var promiseList = [];
+      $defer.promise.then(function(trigger){
+        var promiseList = [];
 
-      promiseList.push(TriggerDetailService.parseTriggerConditions($scope.trigger));
-      promiseList.push(TriggerDetailService.parseTriggerActions($scope.trigger));
+        promiseList.push(TriggerDetailService.parseTriggerConditions(trigger));
+        promiseList.push(TriggerDetailService.parseTriggerActions(trigger));
 
-      $q.all(promiseList).then(function(result){
-        $scope.triggerData = {};
-        $scope.triggerData.conditionGroups = result[0];
-        $scope.triggerData.actionGroups = result[1];
-        console.log($scope.triggerData);
+        $q.all(promiseList).then(function(result){
+          $scope.triggerData = {
+            triggerID: trigger.triggerID,
+            enabled: !(trigger.recordStatus == 'disable'),
+            name: trigger.name || '',
+            description: trigger.description || '',
+            any: (trigger.predicate.condition && trigger.predicate.condition.type == "or") ? true: false,
+            conditionGroups: result[0] || [],
+            actionGroups: result[1] || [],
+            timeSpan: TriggerDetailService.parseTimeSpan(trigger) || {},
+            schedule: TriggerDetailService.parseSchedule(trigger) || {}
+          };
+          console.log($scope.triggerData);
+        });
       });
+      
     };
 
     $rootScope.$watch('login', function(newVal){

@@ -52,7 +52,6 @@ angular.module('BeehivePortal').controller('TriggerActionHandlerController',
             things: things
           };
         }else {
-          $scope.type = type;
           _.each($scope.actions, function(action){
             var selectedAction = _.find($scope.actionGroup.actions, {actionName: action.actionName})
             action._selected = !!selectedAction;

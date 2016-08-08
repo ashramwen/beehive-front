@@ -1,6 +1,6 @@
 angular.module('BeehivePortal')
-  .factory('LineChartService', ['$q', '$timeout', function($q, $timeout){
-    var LineChartService = {};
+  .factory('EnvironmentService', ['$q', '$timeout', function($q, $timeout){
+    var EnvironmentService = {};
 
     var lineQuery = {
       "_kii_agg_name": "测试数据",
@@ -274,7 +274,7 @@ angular.module('BeehivePortal')
     };
 
 
-    LineChartService.getQuery = function () {
+    EnvironmentService.getQuery = function () {
       var $defer = $q.defer();
 
       $timeout(function() {
@@ -289,5 +289,5 @@ angular.module('BeehivePortal')
     };
 
 
-    return LineChartService;
+    return EnvironmentService;
   }]);

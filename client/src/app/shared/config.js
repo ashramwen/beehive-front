@@ -39,7 +39,7 @@
     /*
      * init api urls
      */
-    for(apiName in window.MyAPIs){
+    for(var apiName in window.MyAPIs){
         window.MyAPIs[apiName] = apiSuffix +  window.MyAPIs[apiName];
     }
 

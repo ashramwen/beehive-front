@@ -9,16 +9,49 @@ angular.module('BeehivePortal')
      */
     
     $scope.triggers = [];
+    $scope.typeList = [
+        {name: 'conditional', displayName: '条件规则', disabled: false, icon:'fa-clock-o'},
+        {name: 'schedule', displayName: '定时规则', disabled: false, icon:'fa-code-fork'}
+    ];
+
+    $rootScope.$watch('login', function(newVal){
+      if(newVal){
+        $scope.init();
+      }
+    });
+
 
     $scope.init = function(){
         $$Trigger.getAll(function(triggers){
-            console.log(triggers);
             $scope.triggers = _.map(triggers, function(trigger){
-                var t = new Trigger(trigger.type);
-                t.init(trigger);
-                return t;
+                return {
+                    triggerID: trigger.triggerID,
+                    name: trigger.name,
+                    description: trigger.description,
+                    disabled: trigger.recordStatus == 'disable',
+                    type: (!!trigger.predicate.schedule)? 'schedule': 'conditional',
+                    createdAt: '2016-07-06',
+                    fromGateway: trigger.type == 'gateway'
+                };
             });
         });
+    };
+
+    $scope.viewTrigger = function(trigger){
+        var params = _.extend({triggerID: trigger.triggerID}, $state.params);
+        switch(trigger.type){
+            case 'schedule':
+                $state.go('app.portal.TriggerManager.TriggerDetail.ScheduleTrigger', params);
+                break;
+            case 'conditional':
+                $state.go('app.portal.TriggerManager.TriggerDetail.ConditionTrigger', params);
+                break;
+        }
+    };
+
+    $scope.getTriggerClass = function(trigger){
+        if(trigger.disabled) return 'disabled';
+        return trigger.type;
     };
 
     $scope.createScheduleTrigger = function(){
@@ -28,6 +61,10 @@ angular.module('BeehivePortal')
     $scope.createConditionalTrigger = function(){
         $state.go('app.portal.TriggerManager.NewTrigger.ConditionTrigger');
     };
+
+    $scope.toggleType = function(type){
+        type.disabled = !type.disabled;
+    }
 
     /**
      * delete trigger
@@ -80,5 +117,12 @@ angular.module('BeehivePortal')
             $scope.disableTrigger(trigger);
         }); 
     });
+
+    $scope.triggerFilter = function(trigger){
+        if(!$scope.showDisabled && trigger.disabled){
+            return false;
+        }
+        return _.find($scope.typeList, {name: trigger.type});
+    };
     
   }]);

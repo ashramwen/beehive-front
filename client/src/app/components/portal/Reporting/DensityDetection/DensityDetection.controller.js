@@ -1,14 +1,13 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('LineChartController', ['$scope', '$rootScope', '$state', 'AppUtils', 'LineChartService', '$timeout',function($scope, $rootScope, $state, AppUtils, LineChartService, $timeout) {
-    
+  .controller('DensityDetectionController', ['$scope', '$rootScope', '$state', 'AppUtils', 'DensityDetectionService', '$timeout', function($scope, $rootScope, $state, AppUtils, DensityDetectionService, $timeout) {
 
     $scope.period = new KiiReporting.KiiTimePeriod(null);
-    
+
     $scope.chartSources = [
-      {value: 'value', text: '电量使用'},
-      {value: 'rate', text: '功率'}
+      {value: 'value', text: '人气值'},
+      {value: 'rate', text: '占用率'}
     ];
 
     $scope.selectedSource = 'value';
@@ -22,19 +21,16 @@ angular.module('BeehivePortal')
 
     $scope.selectedMethod = 'avg';
 
-    $scope.locations = [
-      {text: '栋11-F22-A区', value: 'B11-F22-bA'}
-    ];
-    $scope.selectedLocation = 'B11-F22-bA';
+    $scope.locationChange = function(){
+      
+    };
 
     $scope.init = function(){
-      LineChartService.getQuery().then(function(result){
-        $scope.lineLevel = 0;
-        $scope.lineSplitQuery = result.lineQuery;
-        $scope.barQuery = result.barQuery;
-        $scope.lineGroupQuery = result.lineGroupQuery;
-        $scope.lineQuery = result.lineGroupQuery;
-      });
+      $scope.lineQuery = DensityDetectionService.ganzhiGroupSample;
+      $scope.lineLevel = 0;
+      $scope.barQuery = DensityDetectionService.ganzhiByLocSample;
+      $scope.pieQuery = DensityDetectionService.ganzhiByLocSample;
+      $scope.summaryQuery = DensityDetectionService.summaryQuery;
     };
 
     $scope.onPeriodChange = function(_period){
@@ -48,35 +44,34 @@ angular.module('BeehivePortal')
     };
 
     $scope.queryData = function(){
-      $scope.refreshLine();
-      $scope.refreshPie();
       $scope.refreshBar();
+      $scope.refreshPie1();
+      $scope.refreshLine();
+      $scope.refreshPie2();
     };
 
     $scope.groupLines = function(){
+      $scope.lineQuery = DensityDetectionService.ganzhiGroupSample;
       $scope.lineLevel = 0;
-      $scope.lineQuery = $scope.lineGroupQuery;
       $scope.split = false;
-
       $timeout(function(){
         $scope.refreshLine();
       });
     };
 
     $scope.splitLine = function(){
+      $scope.lineQuery = DensityDetectionService.ganzhiSample;
       $scope.lineLevel = 1;
-      $scope.lineQuery = $scope.lineSplitQuery;
       $scope.split = true;
 
       $timeout(function(){
         $scope.refreshLine();
       });
-    }
+    };
 
-    $scope.getSummary = function(data){
-      $timeout(function(){
-        $scope.sumKwh = (data.summary.MaxKwh - data.summary.MinKwh) | 0;
-      });
+    $scope.getFigure = function(response){
+      $scope.numberDetected = response.data.Detected['已使用空间'].countT;
+      $scope.$apply();
     };
 
     $rootScope.$watch('login', function(newVal){
@@ -84,10 +79,5 @@ angular.module('BeehivePortal')
         $scope.init();
       }
     });
-
-    $scope.locationChange = function(location){
-      console.log(location);
-    };
-
 
   }]);

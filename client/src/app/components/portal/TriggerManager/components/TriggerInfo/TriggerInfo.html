@@ -6,11 +6,15 @@
         <tbody>
           <tr>
             <td>规则名称</td>
-            <td><input type="text" class="form-control"></td>
+            <td><input type="text" class="form-control" ng-model="trigger.name"></td>
+          </tr>
+          <tr ng-if="trigger.triggerID">
+            <td>启用状态</td>
+            <td><div yes-text="启用" no-text="禁用" switchery="trigger.enabled" change="toggleTriggerState(value)"></div></td>
           </tr>
           <tr>
             <td>规则说明</td>
-            <td><textarea class="form-control" rows="4"></textarea></td>
+            <td><textarea class="form-control" rows="4" ng-model="trigger.description"></textarea></td>
           </tr>
         </tbody>
       </table>

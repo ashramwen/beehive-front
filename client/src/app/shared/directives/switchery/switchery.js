@@ -4,6 +4,7 @@ angular.module('BeehivePortal')
             restrict: 'A',
             scope: {
                 on: '=?switchery',
+                change: '&',
                 disabled: '=?'
             },
             templateUrl: 'app/shared/directives/switchery/switchery.template.html',
@@ -16,7 +17,9 @@ angular.module('BeehivePortal')
                 scope.switch = function(){
                     if(scope.disabled) return;
                     scope.on = !scope.on;
+                    scope.change({value: scope.on});
                 }
+
             }
         };
   }]);

@@ -1,8 +1,8 @@
 angular.module('BeehivePortal')
-  .factory('FaceDetectionService', ['$q', '$timeout', function($q, $timeout){
-    var FaceDetectionService = {};
+  .factory('DensityDetectionService', ['$q', '$timeout', function($q, $timeout){
+    var DensityDetectionService = {};
 
-    FaceDetectionService.ganzhiSample =
+    DensityDetectionService.ganzhiSample =
     {
       "_kii_agg_name": "测试数据",
       "_kii_query_path": "/reporting/_search",
@@ -88,7 +88,7 @@ angular.module('BeehivePortal')
         }
     };
 
-    FaceDetectionService.ganzhiGroupSample = {
+    DensityDetectionService.ganzhiGroupSample = {
       "_kii_agg_name": "测试数据",
       "_kii_query_path": "/reporting/_search",
       "query": {
@@ -159,7 +159,7 @@ angular.module('BeehivePortal')
     };
 
 
-    FaceDetectionService.ganzhiByLocSample =
+    DensityDetectionService.ganzhiByLocSample =
     {
       "_kii_agg_name": "测试数据",
       "_kii_query_path": "/reporting/_search",
@@ -226,7 +226,7 @@ angular.module('BeehivePortal')
         }
     };
 
-    FaceDetectionService.summaryQuery = {
+    DensityDetectionService.summaryQuery = {
       "_kii_agg_name": "测试数据",
       "_kii_query_path": "/reporting/_search",
       "query": {
@@ -287,5 +287,5 @@ angular.module('BeehivePortal')
 
 
 
-    return FaceDetectionService;
+    return DensityDetectionService;
   }]);

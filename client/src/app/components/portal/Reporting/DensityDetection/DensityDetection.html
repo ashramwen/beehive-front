@@ -1,4 +1,4 @@
-<div class="app-portal-reporting-facedetection">
+<div class="app-portal-reporting-densitydetection">
   <div class="panel header">
     <div class="panel-body">
       <div class="panel-row">
@@ -38,7 +38,7 @@
                 <span>坐标</span>
               </div>
               <div class="pull-left">
-                <div app-select options="locations" selected-model="selectedLocation"></div>
+                <location-selector change="locationChange(location, subLevels)"></location-selector>
               </div>
             </div>
             <div class="pull-left">

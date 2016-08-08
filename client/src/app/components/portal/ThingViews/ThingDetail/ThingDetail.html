@@ -137,7 +137,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="command in thingCommands">
+          <tr ng-repeat="command in thingCommandsForDisplay">
             <td>{{command.commandID}}</td>
             <td>{{command.schema}}</td>
             <td>{{command.actions}}</td>
@@ -146,6 +146,7 @@
           </tr>
         </tbody>
       </table>
+      <pagion collection="thingCommands" display="thingCommandsForDisplay"></pagion>
     </div>
   </div>
 

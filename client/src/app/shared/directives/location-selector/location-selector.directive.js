@@ -13,13 +13,14 @@ angular.module('BeehivePortal')
             $scope.location = {};
             $scope.level = {};
             $scope.detail = $scope.detail || [];
+            $scope.subLevels = [];
 
             $$Location.getTopLevel().$promise.then(function(res) {
                 $scope.location.building = res;
             });
 
             $scope.onChange = function(location){
-                $scope.change({location: location, fullLocation: $scope.level, displayName: $scope.displayName});
+                $scope.change({location: location, fullLocation: $scope.level, displayName: $scope.displayName, subLevels: $scope.subLevels});
                 $scope.$emit('location-change', location);
             };
 
@@ -36,7 +37,9 @@ angular.module('BeehivePortal')
                 }
 
                 $$Location.getSubLevel({ location: $scope.level.building.location }).$promise.then(function(res) {
+
                     $scope.location.floor = res;
+                    $scope.subLevels = $scope.location.floor;
                 });
                 $scope.onChange($scope.level.building.location);
             };
@@ -44,7 +47,6 @@ angular.module('BeehivePortal')
             $scope.changeFloor = function() {
                 $scope.location.area = [];
                 $scope.level.area = null;
-                $scope.things = [];
 
                 if(!$scope.level.floor){
                     $scope.onChange($scope.level.building.location);
@@ -53,12 +55,14 @@ angular.module('BeehivePortal')
 
                 $$Location.getSubLevel({ location: $scope.level.floor.location }).$promise.then(function(res) {
                     $scope.location.area = res;
+                    $scope.subLevels = $scope.location.area;
                 });
                 $scope.onChange($scope.level.floor.location);
             };
 
             $scope.changeArea = function() {
-                $scope.things = [];
+                $scope.subLevels = [];
+                
                 if(!$scope.level.area){
                     $scope.onChange($scope.level.floor.location);
                     return;

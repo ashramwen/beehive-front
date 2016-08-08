@@ -16,7 +16,8 @@ angular.module('BeehivePortal')
 
             scope.pageChanged = function(){
                 findItemsForDisplay();
-                $location.search({'pageIndex': scope.index});
+
+                $location.search(_.extend({'pageIndex': scope.index}, scope.$state.params));
                 if(_.isFunction(scope.onChanged)){
                     scope.onChanged(index, scope.display);
                 }

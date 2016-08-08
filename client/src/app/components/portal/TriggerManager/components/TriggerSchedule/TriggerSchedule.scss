@@ -5,15 +5,6 @@
   .btn-link{
     padding: 0px;
   }
-  .btn-container{
-    margin-bottom: 20px;
-    > .col-xs-4 > .btn{
-      width: 100%;
-    }
-  }
-  .time-span-settings{
-    min-height: 169px;
-  }
 
   .interval-settings{
     height: 169px;
@@ -52,6 +43,7 @@
       text-align: center;
       display: none;
       outline: none;
+      height: 100%;
       .option{
         outline: none;
       }

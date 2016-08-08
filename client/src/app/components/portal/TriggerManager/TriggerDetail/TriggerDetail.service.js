@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .factory('TriggerDetailService',['$rootScope', '$$Type', '$q' , '$$Thing', function($rootScope, $$Type, $q, $$Thing) {
+  .factory('TriggerDetailService',['$rootScope', '$$Type', '$q' , '$$Thing', '$$Location', function($rootScope, $$Type, $q, $$Thing, $$Location) {
     var TriggerDetailService = {};
     TriggerDetailService.targetTrigger = null;
     TriggerDetailService.targetCondtion = null;
@@ -29,7 +29,32 @@ angular.module('BeehivePortal')
       NEW_TRIGGER_ROOT: 'app.portal.TriggerManager.NewTrigger'
     };
 
+    TriggerDetailService.getExpressionDisplay = {
+      'eq': '＝',
+      'gt': '＞',
+      'gte': '≥',
+      'lt': '＜',
+      'lte': '≤'
+    };
+
+    TriggerDetailService.timeUnits = [
+      {text: '小时', value: 'Hour'},
+      {text: '分钟', value: 'Minute'}
+    ];
+
+    TriggerDetailService.CronTypes = {
+      'DAILY': '? * *',
+      'WEEKDAY': '? * 2-6',
+      'WEEKEND': '? * 1,7'
+    };
+
+    TriggerDetailService.ScheduleTypes = {
+      'CRON': 'Cron',
+      'INTERVAL': 'Interval'
+    };
+
     TriggerDetailService.parseSchema = function(schema){
+      if(!schema || !schema.content) return {};
       return {
         displayName: schema.content.statesSchema.title,
         properties: TriggerDetailService.parseProperties(schema.content.statesSchema.properties),
@@ -127,7 +152,6 @@ angular.module('BeehivePortal')
     TriggerDetailService.parseTriggerActions = function(trigger){
       var promiseList = [];
 
-
       _.each(trigger.targets, function(target){
         var $defer = $q.defer();
         promiseList.push($defer.promise);
@@ -142,6 +166,8 @@ angular.module('BeehivePortal')
             locationDisplayName: ''
           };
         });
+
+        var $thingsPromise = TriggerDetailService.getThingsDetail(things);
 
         var actions = _.map(target.command.actions, function(action){
           var actionName = _.keys(action)[0];
@@ -162,7 +188,7 @@ angular.module('BeehivePortal')
           actions: actions
         };
 
-        $$Type.getSchema({type: type}, function(schema){
+        var $typePromise = $$Type.getSchema({type: type}, function(schema){
           var _schema = TriggerDetailService.parseSchema(schema);
 
           _.each(actions, function(action){
@@ -184,6 +210,10 @@ angular.module('BeehivePortal')
           resultMap.typeDisplayName = _schema.displayName;
 
           $defer.resolve(resultMap);
+        }).$promise;
+
+        $q.all([$typePromise, $thingsPromise], function(){
+          $defer.resolve(resultMap);
         });
 
       });
@@ -199,8 +229,11 @@ angular.module('BeehivePortal')
         var $defer = $q.defer();
         promiseList.push($defer.promise);
 
+        var thingPromiseList = [];
+
         var type = key;
         var things = _.map(typeSource.source.thingList, function(globalThingID){
+
           return {
             globalThingID: globalThingID,
             typeDisplayName: '',
@@ -209,33 +242,43 @@ angular.module('BeehivePortal')
             locationDisplayName: ''
           };
         });
+
+        var $thingsPromise = TriggerDetailService.getThingsDetail(things);
+
         var propertyNames = _.pluck(typeSource.expressList, 'stateName');
 
         var properties = _.map(propertyNames, function(propertyName){
+          var clauses = [];
+          trigger.predicate.condition.clauses.pop();
+          _.each(trigger.predicate.condition.clauses, function(clause){
+            clause.clauses.pop();
+            clauses = clauses.concat(clause.clauses);
+          });
 
-          var propertyExp =_.find(trigger.predicate.condition.clauses, {field: type + '.' + propertyName});
+          var propertyExp = _.find(clauses, {field: type + '.' + propertyName});
           var expression = '';
           var value = null;
           if(!propertyExp) return;
-          if(propertyExp.hasOwnProperty('upperLimit')){
-            if(propertyExp.upperIncluded){
-              expression = 'lte'
-            }else{
-              expression = 'lt';
+          if(propertyExp.type == 'range'){
+            if(propertyExp.hasOwnProperty('upperLimit')){
+              if(propertyExp.upperIncluded){
+                expression = 'lte'
+              }else{
+                expression = 'lt';
+              }
+              value = propertyExp.upperLimit;
             }
-            value = propertyExp.upperLimit;
-          }
-          if(propertyExp.hasOwnProperty('lowerLimit')){
-            if(propertyExp.lowerIncluded){
-              expression = 'gte';
-            }else{
-              expression = 'gt';
+            if(propertyExp.hasOwnProperty('lowerLimit')){
+              if(propertyExp.lowerIncluded){
+                expression = 'gte';
+              }else{
+                expression = 'gt';
+              }
+              value = propertyExp.lowerLimit;
             }
-            value = propertyExp.lowerLimit;
-          }
-          if(propertyExp.hasOwnProperty('equals')){
+          }else{
             expression = 'eq';
-            value = propertyExp.equals;
+            value = propertyExp.value;
           }
 
           return {
@@ -252,7 +295,7 @@ angular.module('BeehivePortal')
           things: things
         };
 
-        $$Type.getSchema({type: type}, function(schema){
+        var $typePromise = $$Type.getSchema({type: type}, function(schema){
           var _schema = TriggerDetailService.parseSchema(schema);
 
           _.each(properties, function(property){
@@ -264,7 +307,10 @@ angular.module('BeehivePortal')
             thing.typeDisplayName = _schema.displayName;
           });
           resultMap.typeDisplayName = _schema.displayName;
+          
+        }).$promise;
 
+        $q.all([$typePromise, $thingsPromise], function(){
           $defer.resolve(resultMap);
         });
       });
@@ -272,22 +318,206 @@ angular.module('BeehivePortal')
       return $q.all(promiseList);
     };
 
-    TriggerDetailService.getExpressionDisplay = {
-      'eq': '＝',
-      'gt': '＞',
-      'gte': '≥',
-      'lt': '＜',
-      'lte': '≤'
-    };
+    TriggerDetailService.getThingsDetail = function(things){
+          var $defer = $q.defer();
+          $$Thing.getThingsByIDs({}, _.pluck(things, 'globalThingID'), function(thingsWithLocation){
+            var locationPromiseList = [];
+            
+            _.each(things, function(thing){
+              var _thing = _.find(thingsWithLocation, {id: thing.globalThingID});
+              thing.location = _thing.locations[0];
+              locationPromiseList.push(TriggerDetailService.getLocationTree(thing.location));
+            });
 
-    TriggerDetailService.timeUnits = [
-      {text: '小时', value: 'hour'},
-      {text: '分钟', value: 'minute'}
-    ];
+            $q.all(locationPromiseList, function(locationGroups){
+              _.each(things, function(thing, i){
+                things.locationDisplayName = _.pluck(locationGroups[i], 'displayName').join('-');
+              });
+            });
+
+            $defer.resolve(things);
+          });
+          return $defer.promise;
+        }
+
+    
+    TriggerDetailService.getLocationTree = function(locationID){
+      var locationID = '';
+      var $defer = $q.defer();
+
+      $$Location.getParent({location: locationID}, function(locations){
+        var location = _.find(locations, {location: locationID});
+        var orderedLocations = getOrderedLocations(locations, location).reverse();
+
+        $defer.resolve(orderedLocations);
+
+        function getOrderedLocations(locationArr, location){
+          if(location.parent){
+            return [location].concat(_.find(locationArr, {location: location.parent}));
+          }else{
+            return [location]
+          }
+        }
+      });
+
+      return $defer.promise;
+    }
+
+    TriggerDetailService.parseSchedule = function(trigger){
+      var scheduleObj = trigger.predicate.schedule;
+      if(!scheduleObj) return {
+        type: 'Cron'
+      };
+      var type = scheduleObj.type;
+
+      var result = {
+        type: type
+      };
+
+      if(type == TriggerDetailService.ScheduleTypes.CRON){
+        var cronArr = scheduleObj.cron.split(' ');
+
+        _.extend(result, {
+          cron: scheduleObj.cron,
+          hour: parseInt(cronArr[2]) || null,
+          minute: parseInt(cronArr[1]),
+        });
+
+        if(result.hour == null){
+          result.onceType = 'hourly';
+        }else{
+          result.onceType = 'exact';
+          var d = new Date();
+          d.setHours(result.hour);
+          d.setMinutes(result.minute);
+          d.setSeconds(0);
+          d.setMilliseconds(0);
+          result.time = d;
+        }
+
+      }else{
+        _.extend(result, {
+          timeUnit: scheduleObj.timeUnit, //'Day|Minute|Hour|Second'
+          interval: scheduleObj.interval 
+        });
+      }
+
+      return result;
+    }
+
+    TriggerDetailService.parseTimeSpan = function(trigger){
+      if(!trigger.prepareCondition) return null;
+      if(trigger.prepareCondition.type == 'cron'){
+        var startCron = trigger.prepareCondition.startCron.split(' ');
+        var endCron = trigger.prepareCondition.endCron.split(' ');
+        var intervalType = '';
+
+        var _cronTypeString = startCron.slice(3, 6).join(' ');
+        
+        switch(_cronTypeString){
+          case TriggerDetailService.CronTypes.DAILY:
+            intervalType = 'DAILY';
+            break;
+          case TriggerDetailService.CronTypes.WEEKDAY:
+            intervalType = 'WEEKDAY';
+            break;
+          case TriggerDetailService.CronTypes.WEEKEND:
+            intervalType = 'WEEKEND';
+            break;
+        }
+
+        var cronSpan = {
+          startAt: convertCronToTime(startCron),
+          endAt: convertCronToTime(endCron),
+          intervalType: intervalType
+        };
+
+        return cronSpan;
+
+        function convertCronToTime(cronArr){
+          var d = new Date();
+          d.setHours(parseInt(cronArr[2]));
+          d.setMinutes(parseInt(cronArr[1]));
+          d.setSeconds(parseInt(cronArr[0]));
+          d.setMilliseconds(0);
+
+          return d;
+        }
+
+      }else{
+
+      }
+    }
+
+
 
     TriggerDetailService.isNewTrigger = function(){
       return ($rootScope.$state.current.name.indexOf(TriggerDetailService.States.NEW_TRIGGER_ROOT) > -1);
     };
+
+    
+    TriggerDetailService.generatePrepareCondition = function(triggerDataset){
+      if(!triggerDataset) return null;
+
+      var startAt = triggerDataset.timeSpan.startAt,
+          endAt = triggerDataset.timeSpan.endAt;
+
+      if(!startAt) return null;
+
+      if(!endAt){
+        endAt = new Date();
+        endAt.setHours(23);
+        endAt.setMinutes(59);
+      }
+
+      var startCron = [
+          0, 
+          startAt.getMinutes(),
+          startAt.getHours(),
+          TriggerDetailService.CronTypes[triggerDataset.timeSpan.intervalType]
+        ].join(' '),
+
+          endCron = [
+          0, 
+          endAt.getMinutes(),
+          endAt.getHours(),
+          TriggerDetailService.CronTypes[triggerDataset.timeSpan.intervalType]
+        ].join(' ');
+
+      return {
+        "type": 'cron',
+        "startCron": startCron,
+        "endCron": endCron
+      };
+    };
+
+    TriggerDetailService.generateTargets = function(triggerDataset){
+      return _.map(triggerDataset.actionGroups, function(actionGroup){
+        var _action = {};
+        var target = {
+          "thingList": _.pluck(actionGroup.things, 'globalThingID'),
+          "command" : {
+            "actions" : [_action],
+            "schemaVersion" : 0,
+            "metadata" : {
+              "type": actionGroup.type
+            }
+          }
+        };
+
+        _.each(actionGroup.actions, function(action){
+          _action[action.actionName] = {};
+
+          _.each(action.properties, function(property){
+            _action[action.actionName][property.propertyName] = property.value;
+          });
+        });
+
+        return target;
+      });
+    };
+
+
 
     return TriggerDetailService;
   }

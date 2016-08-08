@@ -389,6 +389,11 @@ angular.module('BeehivePortal')
                 url: MyAPIs.REPORTS + '/thingQuery',
                 method: 'POST',
                 isArray: true
+            },
+            getThingsByIDs: {
+                url: MyAPIs.THING + '/queryDetailByIDs',
+                method: 'POST',
+                isArray: true
             }
         });
 
@@ -451,6 +456,11 @@ angular.module('BeehivePortal')
                     type: '@location'
                 },
                 isArray: true
+            },
+            getParent: {
+                method: 'GET',
+                url: MyAPIs.LOCATION_TAGS + '/:location/parent',
+                isArray: true
             }
         })
 
@@ -461,12 +471,12 @@ angular.module('BeehivePortal')
             getAll: {
                 method: 'GET',
                 isArray: true,
-                //cache: true
+                cache: true
             },
             getSchema: {
                 url: MyAPIs.SCHEMA + '?thingType=:type&name=:type&version=1',
                 method: 'GET',
-                //cache : true
+                cache : true
             },
             saveSchema: {
                 url: MyAPIs.SCHEMA,
@@ -534,8 +544,7 @@ angular.module('BeehivePortal')
             },
             get: {
                 url: MyAPIs.TRIGGER + '/:triggerID',
-                method: 'GET',
-                isArray: true
+                method: 'GET'
             },
             save: {
                 url: MyAPIs.TRIGGER + '/createTrigger',
@@ -543,10 +552,7 @@ angular.module('BeehivePortal')
             },
             remove: {
                 url: MyAPIs.TRIGGER + '/:triggerID',
-                method: 'DELETE',
-                params: {
-                    triggerID: '@triggerID'
-                }
+                method: 'DELETE'
             },
             enable: {
                 url: MyAPIs.TRIGGER + '/:triggerID/enable',

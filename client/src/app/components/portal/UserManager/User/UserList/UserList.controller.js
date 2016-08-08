@@ -83,7 +83,6 @@ angular.module('BeehivePortal')
         $$UserManager.query(request,function(userList){
             console.log(userList);
             $scope.userList = userList;
-            $scope.pageChanged();
         },function(){
             AppUtils.alert('Failed to load group user list!');
         });
@@ -103,11 +102,6 @@ angular.module('BeehivePortal')
         });
         
     };
-
-    $scope.pageChanged = function(){
-        $location.search({'pageIndex': $scope.currentIndex});
-        findUsersForDisplay();
-    }
 
     function findUsersForDisplay(){
         $scope.userListForDisplay = _.filter($scope.userList, function(user, index){

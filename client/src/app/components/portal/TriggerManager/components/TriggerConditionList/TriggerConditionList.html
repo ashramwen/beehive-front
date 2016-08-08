@@ -3,9 +3,10 @@
     <div class="panel-body">
       <h4>规则条件</h4>
       <div class="table-holder">
+        <div app-select options="options" selected-model="trigger.all" value-only="true"></div>
         <table class="property-table">
           <tbody>
-            <tr ng-repeat="conditionGroup in triggerData.conditionGroups" ng-click="editConditionGroup(conditionGroup.type)">
+            <tr ng-repeat="conditionGroup in trigger.conditionGroups" ng-click="editConditionGroup(conditionGroup.type)">
               <td><span class="fa fa-circle-o"></span>{{conditionGroup.typeDisplayName}} <div class="v-hr"></div></td>
               <td><span ng-repeat="property in conditionGroup.properties">{{property.displayName}}{{property.expressionDisplay}}{{property.value}}</span></td>
             </tr>

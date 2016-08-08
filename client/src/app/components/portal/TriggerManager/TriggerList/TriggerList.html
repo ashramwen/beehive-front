@@ -1,37 +1,17 @@
 <div class="app-portal-triggermanager-triggerlist">
   <div class="main-content clearfix">
 
-    <!-- schedule -->
-    <div class="trigger-tile schedule" ui-sref="app.portal.TriggerManager.TriggerDetail({triggerID: 1})">
+    <div class="trigger-tile" ng-class="getTriggerClass(trigger)" ng-repeat="trigger in triggers | filter:triggerFilter" ng-click="viewTrigger(trigger)">
       <div class="trigger-img">
         <span class="fa fa-clock-o"></span>
       </div>
+      <span class="fa fa-ban" ng-if="trigger.disabled"></span>
       <div class="description">
-        <h4>规则1</h4>
-        <span>2016-07-06</span>
+        <h4>{{trigger.name}}</h4>
+        <span>{{trigger.createdAt}}</span>
       </div>
-    </div>
 
-    <!-- conditional -->
-    <div class="trigger-tile conditional">
-      <div class="trigger-img">
-        <span class="fa fa-clock-o"></span>
-      </div>
-      <div class="description">
-        <h4>规则1</h4>
-        <span>2016-07-06</span>
-      </div>
-    </div>
-
-    <!-- disabled -->
-    <div class="trigger-tile disabled">
-      <div class="trigger-img">
-        <span class="fa fa-clock-o"></span>
-      </div>
-      <div class="description">
-        <h4>规则1</h4>
-        <span>2016-07-06</span>
-      </div>
+      <span class="fa fa-server" uib-tooltip="这是一个网管端的规则。" ng-if="!trigger.fromGateway"></span>
     </div>
 
   </div>
@@ -56,9 +36,11 @@
   </div>
 
   <ul class="view-control">
-    <li class="view"><span class="fa fa-table"></span>视图</li>
-    <li class="schedule"><span class="fa fa-clock-o"></span>定时规则</li>
-    <li class="conditional"><span class="fa fa-code-fork"></span>条件规则</li>
+    <li class="view"><span class="fa fa-table""></span>视图</li>
+    <li ng-click="toggleType(type)" class="{{type.name}} type-item" ng-class="{'disabled': type.disabled}" ng-repeat="type in typeList">
+      <span class="fa" ng-class="type.icon"></span>{{type.displayName}}
+    </li>
+    <li class="view"><label><input type="checkbox" name="" ng-model="showDisabled">显示禁用</label></li>
   </ul>
   <!--
   <div class="new-trigger" ng-click="createTrigger()"><span class="fa fa-plus"></span> 新建触发器</div>

@@ -3,10 +3,16 @@
 angular.module('BeehivePortal')
   .controller('TriggerConditionListController', ['$scope', 'AppUtils', 'TriggerDetailService', function($scope, AppUtils, TriggerDetailService){
 
+    $scope.options = [
+      {text: '任何一个', value: false},
+      {text: '全部', value: true}
+    ];
+
     $scope.init = function(){
+      $scope.trigger = $scope.triggerData;
     };
 
-    $scope.$watch('trigger', function(val){
+    $scope.$watch('triggerData', function(val){
       if(val){
         $scope.init();
       }

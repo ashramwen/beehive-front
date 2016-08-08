@@ -11,6 +11,7 @@ angular.module('BeehivePortal')
 
 
     $scope.login = function(credentials){
+        /*
         if(credentials.userName == 'admin' && credentials.password == 'admin'){
             var credentials = {
                 accessToken: "super_token",
@@ -30,14 +31,15 @@ angular.module('BeehivePortal')
             $state.go('app.portal.Welcome');
             $rootScope.login = true;
         }else{
-            $$Auth.login(credentials ,function(credentials){
-                Session.setCredential(credentials);
-                $state.go('app.portal.Welcome');
-                $rootScope.login = true;
-            }, function(erro){
-                AppUtils.alert('登陆失败');
-            });
-        }
+            */
+        $$Auth.login(credentials ,function(credentials){
+            Session.setCredential(credentials);
+            $state.go('app.portal.Welcome');
+            $rootScope.login = true;
+        }, function(erro){
+            AppUtils.alert('登陆失败');
+        });
+        //}
     };
 
     $scope.register = function(){

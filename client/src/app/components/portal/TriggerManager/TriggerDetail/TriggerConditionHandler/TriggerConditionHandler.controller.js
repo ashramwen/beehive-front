@@ -51,7 +51,6 @@ angular.module('BeehivePortal').controller('TriggerConditionHandlerController',
             things: things
           };
         }else {
-          $scope.type = type;
           _.each($scope.properties, function(property){
             property._selected = !!_.find($scope.conditionGroup.properties, {propertyName: property.propertyName});
           });

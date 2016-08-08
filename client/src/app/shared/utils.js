@@ -2,7 +2,7 @@ angular.module('BeehivePortal')
     .factory('AppUtils', ['$http', '$location', '$q', '$state', '$timeout', '$uibModal', '$rootScope',
     function ($http, $location, $q, $state, $timeout, $uibModal, $rootScope) {
         window.app = {};
-        requestCount = 0;
+        var requestCount = 0;
         app.utils = {
             initialize: function(){
                 this._initialize();

@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('FaceDetectionController', ['$scope', '$rootScope', '$state', 'AppUtils', 'FaceDetectionService', '$timeout', function($scope, $rootScope, $state, AppUtils, FaceDetectionService, $timeout) {
+  .controller('EnvironmentController', ['$scope', '$rootScope', '$state', 'AppUtils', 'EnvironmentService', '$timeout',function($scope, $rootScope, $state, AppUtils, EnvironmentService, $timeout) {
+    
 
     $scope.period = new KiiReporting.KiiTimePeriod(null);
-
+    
     $scope.chartSources = [
-      {value: 'value', text: '人气值'},
-      {value: 'rate', text: '占用率'}
+      {value: 'value', text: '电量使用'},
+      {value: 'rate', text: '功率'}
     ];
 
     $scope.selectedSource = 'value';
@@ -27,11 +28,13 @@ angular.module('BeehivePortal')
     $scope.selectedLocation = 'B11-F22-bA';
 
     $scope.init = function(){
-      $scope.lineQuery = FaceDetectionService.ganzhiGroupSample;
-      $scope.lineLevel = 0;
-      $scope.barQuery = FaceDetectionService.ganzhiByLocSample;
-      $scope.pieQuery = FaceDetectionService.ganzhiByLocSample;
-      $scope.summaryQuery = FaceDetectionService.summaryQuery;
+      EnvironmentService.getQuery().then(function(result){
+        $scope.lineLevel = 0;
+        $scope.lineSplitQuery = result.lineQuery;
+        $scope.barQuery = result.barQuery;
+        $scope.lineGroupQuery = result.lineGroupQuery;
+        $scope.lineQuery = result.lineGroupQuery;
+      });
     };
 
     $scope.onPeriodChange = function(_period){
@@ -45,34 +48,35 @@ angular.module('BeehivePortal')
     };
 
     $scope.queryData = function(){
-      $scope.refreshBar();
-      $scope.refreshPie1();
       $scope.refreshLine();
-      $scope.refreshPie2();
+      $scope.refreshPie();
+      $scope.refreshBar();
     };
 
     $scope.groupLines = function(){
-      $scope.lineQuery = FaceDetectionService.ganzhiGroupSample;
       $scope.lineLevel = 0;
+      $scope.lineQuery = $scope.lineGroupQuery;
       $scope.split = false;
+
       $timeout(function(){
         $scope.refreshLine();
       });
     };
 
     $scope.splitLine = function(){
-      $scope.lineQuery = FaceDetectionService.ganzhiSample;
       $scope.lineLevel = 1;
+      $scope.lineQuery = $scope.lineSplitQuery;
       $scope.split = true;
 
       $timeout(function(){
         $scope.refreshLine();
       });
-    };
+    }
 
-    $scope.getFigure = function(response){
-      $scope.numberDetected = response.data.Detected['已使用空间'].countT;
-      $scope.$apply();
+    $scope.getSummary = function(data){
+      $timeout(function(){
+        $scope.sumKwh = (data.summary.MaxKwh - data.summary.MinKwh) | 0;
+      });
     };
 
     $rootScope.$watch('login', function(newVal){
@@ -80,5 +84,10 @@ angular.module('BeehivePortal')
         $scope.init();
       }
     });
+
+    $scope.locationChange = function(location){
+      console.log(location);
+    };
+
 
   }]);

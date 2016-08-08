@@ -7,69 +7,41 @@
   </div>
   <div class="row simple-settings">
     <div class="col-md-5">
-      <div class="panel">
-        <div class="panel-body time-span-settings">
-          <h4>时间区间</h4>
-          <div class="btn-container row">
-            <div class="col-xs-4">
-              <button class="btn" ng-class="{'btn-info': timePeriod.timeSpan=='daily', 'btn-default': timePeriod.timeSpan!='daily'}" ng-click="timePeriod.timeSpan='daily'">每天</button>
-            </div>
-            <div class="col-xs-4">
-              <button class="btn" ng-class="{'btn-info': timePeriod.timeSpan=='weekday', 'btn-default': timePeriod.timeSpan!='weekday'}" ng-click="timePeriod.timeSpan='weekday'">周一至周五</button>
-            </div>
-            <div class="col-xs-4">
-              <button class="btn" ng-class="{'btn-info': timePeriod.timeSpan=='weekend', 'btn-default': timePeriod.timeSpan!='weekend'}" ng-click="timePeriod.timeSpan='weekend'">每周末</button>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="input-group">
-                <span class="input-group-addon">从</span>
-                <input class="form-control" type="time" name="" ng-model="timePeriod.from">
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="input-group">
-                <span class="input-group-addon">至</span>
-                <input class="form-control" type="time" name="" ng-model="timePeriod.to">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ng-include src="'app/components/portal/TriggerManager/components/TriggerTimeSpan/TriggerTimeSpan.html'"></ng-include>
     </div>
     <div class="col-md-7">
       <div class="panel">
         <div class="panel-body no-padding interval-settings">
           <div class="repeat-options">
-            <label class="option" ng-class="{'active': intervalType!='repeat'}" ng-click="intervalType='once'">准点准时</label>
+            <label class="option" ng-class="{'active': triggerData.schedule.type!='Interval'}" ng-click="triggerData.schedule.type='Cron'">准点准时</label>
             <hr/>
-            <label class="option" ng-class="{'active': intervalType=='repeat'}" ng-click="intervalType='repeat'">阶段重复</label>
+            <label class="option" ng-class="{'active': triggerData.schedule.type=='Interval'}" ng-click="triggerData.schedule.type='Interval'">阶段重复</label>
           </div>
-          <div class="repeat-sub-options no-repeat" ng-class="{'active': intervalType!='repeat'}">
-            <div class="option" ng-class="{'active': onceType != 'hourly'}" ng-click="onceType='exact'">
+          <div class="repeat-sub-options no-repeat" ng-class="{'active': triggerData.schedule.type!='Interval'}">
+            <div class="option" ng-class="{'active': triggerData.schedule.onceType != 'hourly'}" ng-click="triggerData.schedule.onceType='exact'">
               <span class="fa fa-clock-o"></span>
               <label>标准定时</label>
             </div>
-            <div class="option" ng-class="{'active': onceType == 'hourly'}" ng-click="onceType='hourly'">
+            <div class="option" ng-class="{'active': triggerData.schedule.onceType == 'hourly'}" ng-click="triggerData.schedule.onceType='hourly'">
               <span class="fa fa-clock-o"></span>
               <label>每小时</label>
             </div>
           </div>
-          <div class="repeat-sub-options repeat"  ng-class="{'active': intervalType=='repeat'}">
-            <div class="option" ng-class="{'active': onceType == 'hourly'}" ng-click="onceType='hourly'">
+          <div class="repeat-sub-options repeat"  ng-class="{'active': triggerData.schedule.type=='Interval'}">
+            <div class="option" ng-class="{'active': triggerData.schedule.onceType == 'hourly'}">
               <span class="fa fa-clock-o"></span>
               <label>间隔时间</label>
             </div>
           </div>
           <div class="repeat-settings">
-            <div ng-show="intervalType!='repeat'" class="form-group no-repeat">
-              <input type="time" class="form-control" ng-if="onceType!='hourly'">
-              <input type="number" class="form-control" name="" min="0" max="59" ng-if="onceType=='hourly'">
+            <div ng-show="triggerData.schedule.type!='Interval'" class="form-group no-repeat">
+              <input type="time" class="form-control" ng-model="triggerData.schedule.time" ng-if="triggerData.schedule.onceType!='hourly'">
+              <input type="number" class="form-control" name="" min="0" max="59" ng-if="triggerData.schedule.onceType=='hourly'" ng-model="triggerData.schedule.minute">
             </div>
-            <div ng-show="intervalType=='repeat'" class="form-group repeat">
-              <input type="number" class="form-control" name="" min="1">
-              <select class="form-control" ng-options="unit.text for unit in timeUnits track by area.location" ng-model="selectedUnit">
+            <div ng-show="triggerData.schedule.type=='Interval'" class="form-group repeat">
+              <input type="number" class="form-control" name="" min="1" ng-model="triggerData.schedule.interval">
+              <select class="form-control" ng-model="triggerData.schedule.timeUnit">
+                <option ng-repeat="unit in timeUnits" value="{{unit.value}}">{{unit.text}}</option>
               </select>
             </div>
           </div>

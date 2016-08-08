@@ -1,0 +1,32 @@
+<div class="app-portal-triggermanager-triggerdetail-triggertimespan" ng-controller="TriggerTimeSpanController">
+  <div class="panel">
+    <div class="panel-body time-span-settings">
+      <h4>时间区间</h4>
+      <div class="btn-container row">
+        <div class="col-xs-4">
+          <button class="btn" ng-class="{'btn-info': triggerData.timeSpan.intervalType=='DAILY', 'btn-default': triggerData.timeSpan.intervalType!='DAILY'}" ng-click="triggerData.timeSpan.intervalType='DAILY'">每天</button>
+        </div>
+        <div class="col-xs-4">
+          <button class="btn" ng-class="{'btn-info': triggerData.timeSpan.intervalType=='WEEKDAY', 'btn-default': triggerData.timeSpan.intervalType!='WEEKDAY'}" ng-click="triggerData.timeSpan.intervalType='WEEKDAY'">周一至周五</button>
+        </div>
+        <div class="col-xs-4">
+          <button class="btn" ng-class="{'btn-info': triggerData.timeSpan.intervalType=='WEEKEND', 'btn-default': triggerData.timeSpan.intervalType!='WEEKEND'}" ng-click="triggerData.timeSpan.intervalType='WEEKEND'">每周末</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="input-group">
+            <span class="input-group-addon">从</span>
+            <input class="form-control" type="time" name="" ng-model="triggerData.timeSpan.startAt">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="input-group">
+            <span class="input-group-addon">至</span>
+            <input class="form-control" type="time" name="" ng-model="triggerData.timeSpan.endAt">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

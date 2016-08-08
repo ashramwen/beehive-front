@@ -107,12 +107,12 @@ angular.module('BeehivePortal')
                 icon: 'fa-area-chart',
                 subViews: [
                     {
-                        name: '折线图',
-                        state: $state.get('app.portal.Reporting.LineChart')
+                        name: '环境监测',
+                        state: $state.get('app.portal.Reporting.Environment')
                     },
                     {
-                        name: '感知',
-                        state: $state.get('app.portal.Reporting.FaceDetection')
+                        name: '人流密度',
+                        state: $state.get('app.portal.Reporting.DensityDetection')
                     },
                     {
                         name: '自定义图表',
