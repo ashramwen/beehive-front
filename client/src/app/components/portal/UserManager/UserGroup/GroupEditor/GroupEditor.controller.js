@@ -3,7 +3,7 @@
 angular.module('BeehivePortal')
   .controller('GroupEditorController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$UserGroup', '$$User', '$$Tag', '$$Permission', '$q', '$location', '$$Thing',
     function($scope, $rootScope, $state, AppUtils, $$UserGroup, $$User, $$Tag, $$Permission, $q, $location, $$Thing) {
-    
+
     $scope.dataset = {};
     $scope.group = {};
     $scope.isOwner = false;
@@ -59,7 +59,7 @@ angular.module('BeehivePortal')
                 $scope.group.things = $$UserGroup.getThings({}, {userGroupID: userGroupID});
                 $scope.isOwner = $scope.isCreator(group);
             });
-            
+
             // get user
             $scope.queryUsers();
 
@@ -78,7 +78,7 @@ angular.module('BeehivePortal')
             $scope.group._users = _.reject(group._users, function(groupUser){
                 return user == groupUser;
             });
-        }); 
+        });
     };
 
     $scope.addTag = function(tag, group){
@@ -128,5 +128,5 @@ angular.module('BeehivePortal')
         });
     };
 
-    
+
   }]);

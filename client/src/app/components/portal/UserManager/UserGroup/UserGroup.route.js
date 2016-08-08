@@ -28,7 +28,7 @@ angular.module('BeehivePortal')
         url: '/:userGroupID/UserInfo/:userID',
         templateUrl: 'app/components/portal/UserManager/User/UserInfo/UserInfo.html',
         controller: 'UserInfoController',
-        stateName: '用户列表',
+        stateName: '用户信息',
         previous: 'app.portal.UserManager.UserGroup.GroupUserList'
       })
       .state('app.portal.UserManager.UserGroup.GroupThingAuthority', {
