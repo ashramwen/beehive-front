@@ -1,27 +1,29 @@
-.directive-app-select{
+.directive-app-select {
   display: inline-block;
-  .btn{
+  .btn {
     background: #fff;
     border-radius: 1px;
-    .caret{
+    .caret {
       margin-left: 20px;
     }
   }
-  &.btn-group{
+  &.btn-group {
     display: table-cell;
   }
-  &.input-group-addon{
+  &.input-group-addon {
     display: table-cell;
-    button{
-      padding: 0px;
+    button {
+      padding: 0;
       display: inline-block;
       background: transparent;
       border: none;
       box-shadow: none;
     }
   }
-  .dropdown-menu{
+  .dropdown-menu {
     min-width: auto;
+    li :hover {
+      background: #000;
+    }
   }
 }
-

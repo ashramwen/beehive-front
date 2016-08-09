@@ -10,10 +10,12 @@
   .directive-app-select.input-group-addon {
     display: table-cell; }
     .directive-app-select.input-group-addon button {
-      padding: 0px;
+      padding: 0;
       display: inline-block;
       background: transparent;
       border: none;
       box-shadow: none; }
   .directive-app-select .dropdown-menu {
     min-width: auto; }
+    .directive-app-select .dropdown-menu li :hover {
+      background: #000; }

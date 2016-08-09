@@ -10,18 +10,10 @@
         <!-- search user in group -->
         <div class="pull-right col-sm-6">
           <div class="input-group">
-            <div class="btn-group input-group-btn" uib-dropdown>
-              <button id="search-filter" type="button" class="btn btn-default" uib-dropdown-toggle>
-                用户名<span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="search-filter">
-                <li role="menuitem"><a>用户名</a></li>
-                <li role="menuitem"><a>ID</a></li>
-              </ul>
-            </div>
-            <input type="text" class="form-control" placeholder="Search for...">
+            <div app-select selected-model="queryField" options="queryOptions" class="input-group-addon" text="text"></div>
+            <input type="text" class="form-control" ng-model="searchValue" placeholder="Search for...">
             <span class="input-group-btn">
-              <button class="btn btn-default" type="button">Go!</button>
+              <button class="btn btn-default" type="button" ng-click="queryUsers(queryField.value, searchValue)">Go!</button>
             </span>
           </div>
         </div>
@@ -41,7 +33,7 @@
               </tr>
           </thead>
           <tbody>
-            <tr class="gradeA" ng-class="{'odd':$index%2==1}" role="row" ng-repeat="user in userListForDisplay" context-menu="myMenu" target="user">
+            <tr class="gradeA" ng-class="{'odd':$index%2==1}" role="row" ng-repeat="user in userListForDisplay | filter:filters" context-menu="myMenu" target="user">
               <td>{{user.userID}}</td>
               <td class="sorting_1">{{user.userName}}</td>
               <td>{{user.email}}</td>
@@ -58,5 +50,5 @@
       </div>
     </div>
   </section>
-  
+
 </div>
