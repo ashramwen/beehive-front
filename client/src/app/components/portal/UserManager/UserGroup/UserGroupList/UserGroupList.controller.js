@@ -49,23 +49,21 @@ angular.module('BeehivePortal')
          * search group by option
          */
         $scope.queryUserGroups = function(queryField, value) {
-            console.log('query field', queryField);
-            console.log('value', value);
-            var request = {};
-            if (value) {
-                request[queryField] = value;
-                request.includeUserData = '0';
-                console.log('request', request);
-                $scope.dataset.userGroups = $$UserGroup.query({}, request);
-            } else {
-                if ($rootScope.credential.roleName == 'commUser') {
-                    $scope.dataset.userGroups = $$UserGroup.getMyGroups();
-                } else {
-                    $scope.dataset.userGroups = $$UserGroup.getList();
-                }
-            }
-
-
+            $scope.filters = {};
+            $scope.filters[queryField] = value;
+            // var request = {};
+            // if (value) {
+            //     request[queryField] = value;
+            //     request.includeUserData = '0';
+            //     console.log('request', request);
+            //     $scope.dataset.userGroups = $$UserGroup.query({}, request);
+            // } else {
+            //     if ($rootScope.credential.roleName == 'commUser') {
+            //         $scope.dataset.userGroups = $$UserGroup.getMyGroups();
+            //     } else {
+            //         $scope.dataset.userGroups = $$UserGroup.getList();
+            //     }
+            // }
         }
 
 
@@ -135,7 +133,6 @@ angular.module('BeehivePortal')
             }, function(response) {
                 AppUtils.alert("新增群组失败！")
             })
-
         };
 
         $scope.cancel = function() {

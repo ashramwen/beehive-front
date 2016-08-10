@@ -6,7 +6,7 @@
           <div app-select selected-model="groupType" options="groupTypes" class="inline" text="text"></div>
           <button class="btn btn-danger" ng-click="createGroup()">新增群组+</button>
         </div>
-        <div class="pull-right col-sm-6" ng-hide="true">
+        <div class="pull-right col-sm-6">
           <div class="input-group">
             <div app-select disabled="true" selected-model="queryField" options="queryOptions" class="input-group-addon" text="text"></div>
             <input type="text" class="form-control" ng-model="searchValue" placeholder="Search for...">
@@ -20,7 +20,7 @@
   </div>
   <div class="portal-row">
     <!-- start tile  -->
-    <div class='modules-outputs-content graph-tile' ng-repeat="group in dataset.userGroupsForDisplay">
+    <div class='modules-outputs-content graph-tile' ng-repeat="group in dataset.userGroupsForDisplay | filter:filters">
       <div class="module-top">
           <div class="overlay" ng-click="goUserList(group)">
             <div class="viewReport">
