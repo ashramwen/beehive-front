@@ -11,7 +11,8 @@
         <span>{{trigger.createdAt}}</span>
       </div>
 
-      <span class="fa fa-server" uib-tooltip="这是一个网管端的规则。" ng-if="!trigger.fromGateway"></span>
+      <span class="fa fa-server" uib-tooltip="这是一个网管端的规则。" ng-if="trigger.fromGateway"></span>
+      <span class="fa fa-trash" ng-click="deleteTrigger(trigger); $event.stopPropagation()"></span>
     </div>
 
   </div>

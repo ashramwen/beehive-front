@@ -1,1 +1,0 @@
-angular.module('BeehivePortal.ScenarioManager', ['ui.router', 'BeehivePortal.ScenarioManager.OfficeAtmosphere']);

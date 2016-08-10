@@ -1,9 +1,0 @@
-.json-editor .add-arg {
-  border: dashed 1px #ddd;
-  text-align: center;
-  cursor: pointer;
-  height: 23px;
-  line-height: 23px;
-  width: 100%; }
-  .json-editor .add-arg:hover {
-    border: dashed 1px #ccc; }

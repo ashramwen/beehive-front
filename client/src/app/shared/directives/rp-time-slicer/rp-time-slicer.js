@@ -21,13 +21,16 @@ angular.module('BeehivePortal')
                 {value: 'y', text: '年'}
             ];
 
+            $scope.$on('timeslice-input', function(e, options){
+                _.extend($scope.settings, options);
+                _.extend($scope.selectedSlice, options);
+            });
+
             $scope.init = function(){
-                $scope.settings = {
+                $scope.settings = $scope.settings || {
                     interval: 1,
                     unit: 'H'
                 }
-
-                _.extend($scope.settings, $scope.input);
 
                 $scope.selectedSlice = {
                     interval: $scope.settings.interval,

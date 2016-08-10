@@ -1,6 +1,6 @@
 angular.module('BeehivePortal')
-    .factory('AppUtils', ['$http', '$location', '$q', '$state', '$timeout', '$uibModal', '$rootScope',
-    function ($http, $location, $q, $state, $timeout, $uibModal, $rootScope) {
+    .factory('AppUtils', ['$http', '$location', '$q', '$state', '$timeout', '$rootScope', '$uibModal',
+    function ($http, $location, $q, $state, $timeout, $rootScope, $uibModal) {
         window.app = {};
         var requestCount = 0;
         app.utils = {

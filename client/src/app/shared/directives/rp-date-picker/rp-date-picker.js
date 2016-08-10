@@ -12,15 +12,6 @@ angular.module('BeehivePortal')
         templateUrl: 'app/shared/directives/rp-date-picker/rp-date-picker.html',
         controller:['$scope', '$$Location', function($scope, $$Location){
             
-            $scope.options = [
-                {value: 'm', text: '分钟'},
-                {value: 'h', text: '小时'},
-                {value: 'd', text: '天'},
-                {value: 'w', text: '星期'},
-                {value: 'M', text: '月'},
-                {value: 'y', text: '年'}
-            ];
-
             
             function dateOffset(date, offset){
                 var d = new Date(date.getTime());
@@ -38,18 +29,10 @@ angular.module('BeehivePortal')
                 $scope.now = moment(now);
 
                 $scope.settings = {
-                    period: true,
                     from: yesterday,
                     to: now,
-                    interval: 1,
-                    unit: 'd'
                 };
                 _.extend($scope.settings, $scope.lastDate);
-
-                $scope.selectedLastTime = {
-                    interval: $scope.settings.interval,
-                    unit: $scope.settings.unit
-                };
 
                 $scope.selectedPeriod = {
                     from: $scope.settings.from,
@@ -63,29 +46,18 @@ angular.module('BeehivePortal')
 
                 $scope.$watch('timePeriod.from', output);
                 $scope.$watch('timePeriod.to', output);
-                $scope.$watch('selectedLastTime.interval', output);
-                $scope.$watch('selectedLastTime.unit', output);
-                $scope.$watch('settings.period', output);
             }
 
             function output(){
                 if(!_.isFunction($scope.output)) return;
 
-                var result = {
-                    isPeriod: !!$scope.settings.period
-                };
-                if(result.isPeriod){
-                    _.extend(result, {
-                        from: $scope.timePeriod.from._d,
-                        to: $scope.timePeriod.to._d
-                    });
-                }else{
-                    _.extend(result, {
-                        interval: $scope.selectedLastTime.interval,
-                        unit: $scope.selectedLastTime.unit
-                    });
-                }
-
+                var result = {};
+                
+                _.extend(result, {
+                    from: $scope.timePeriod.from._d,
+                    to: $scope.timePeriod.to._d
+                });
+                
                 $scope.output(result);
             }
 

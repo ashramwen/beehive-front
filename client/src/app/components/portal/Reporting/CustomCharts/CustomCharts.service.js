@@ -1,5 +1,5 @@
 angular.module('BeehivePortal')
-  .factory('CustomChartsService', ['$q', '$timeout', '$$User', 'AppUtils', function($q, $timeout, $$User, AppUtils){
+  .factory('CustomChartsService', ['$q', '$timeout', '$$User', 'AppUtils', 'ReportingService', function($q, $timeout, $$User, AppUtils, ReportingService){
     var CHART_ID_FIELD_NAME = 'KII_CHART';
 
     var _chartIDs = [];
@@ -31,7 +31,7 @@ angular.module('BeehivePortal')
         return $defer.promise;
       },
       update: function(){
-        return $$User.setCustomData({name: CHART_ID_FIELD_NAME, dataset: _chartIDs}).$promise;
+        return $$User.setCustomData({}, {name: CHART_ID_FIELD_NAME, dataset: _chartIDs}).$promise;
       },
       getChart: function(id){
         return $$User.getCustomData({name: id}).$promise;
@@ -39,16 +39,31 @@ angular.module('BeehivePortal')
       addChart: function(chart){
         var id = chart.id;
         _chartIDs.push(chart.id);
+
+        var _chart = AppUtils.clone(chart);
+
+        if(_chart['period']){
+          delete _chart['period'];
+        }
+
         CustomChartsService.update();
 
-        return $$User.setCustomData({name: id, dataset: chart}).$promise;
+        return $$User.setCustomData({name: id, dataset: _chart}).$promise;
       },
       updateChart: function(chart){
         var id = chart.id;
-        return $$User.setCustomData({name: id, dataset: chart}).$promise;
+        var _chart = AppUtils.clone(chart);
+
+        if(_chart['period']){
+          delete _chart['period'];
+        }
+
+        return $$User.setCustomData({name: id, dataset: _chart}).$promise;
       },
       deleteChart: function(chart){
         var id = chart.id;
+        _chartIDs.remove(chart.id);
+        CustomChartsService.update();
         return $$User.setCustomData({name: id}).$promise;
       },
       refreshChart: function(id){
@@ -60,7 +75,6 @@ angular.module('BeehivePortal')
       CustomChart: CustomChart,
       factoryChart: function(){
         var chart = CustomChart.factory();
-        CustomChartsService.charts.unshift(chart);
         return chart;
       }
     };
@@ -74,7 +88,7 @@ angular.module('BeehivePortal')
           level: 0,
           query:'',
           interval: 1,
-          unit: 'H'
+          timeUnit: 'H'
         },
         widgetSetting: {
             size: {
@@ -91,7 +105,31 @@ angular.module('BeehivePortal')
       if(data){
         _.extend(this, data);
       }
+
+      this.period = new KiiReporting.KiiTimePeriod(null);
+      this.period.setUnit(this.options.timeUnit);
+      this.period.setInterval(this.options.interval);
+
+      var fromTime = new Date();
+      var toTime = new Date();
+      fromTime.setDate(fromTime.getDate() - 1);
+
+      this.period.setFromTime(fromTime);
+      this.period.setToTime(toTime);
     }
+
+    CustomChart.prototype.setPeriod = function(period){
+      this.period.setFromTime(period.from);
+      this.period.setToTime(period.to);
+    };
+
+    CustomChart.prototype.refresh = function(){
+      this.period.setUnit(this.options.timeUnit);
+      this.period.setInterval(this.options.interval);
+      if(this.refreshChart){
+        this.refreshChart();
+      }
+    };
 
     CustomChart.prototype.getWidgetSetting = function(){
       return this.widgetSetting;
@@ -188,5 +226,127 @@ angular.module('BeehivePortal')
       }
     };
 
+    CustomChartsService.buildQueryFromOptions = function(options){
+      var $defer = $q.defer();
+
+      ReportingService.getLocationThings(options.type.typeName, options.locations).then(function(locations){
+        var allThings = ReportingService.getAllThings(locations);
+        var enumObj = ReportingService.getLocationEnums(locations);
+
+        var filter = {
+          "filtered": {
+            "query": {
+              "query_string": {
+                "query": "*",
+                "analyze_wildcard": true
+              }
+            },
+            "filter": {
+              "bool": {
+                "must": [
+                  {
+                    "terms" : { 
+                      "id" : allThings
+                    }
+                  }
+                ],
+                "must_not": []
+              }
+            }
+          }
+        };
+
+        var rootAggs = {};
+        var aggs = rootAggs;
+        if(options.dimensions.time){
+          _.extend(aggs, {
+            "aggs":{
+              "byTime": {
+                "_kii_agg_field_name": "日期",
+                "_kii_agg_chart": options.chartType,
+                "date_histogram": {
+                  "field": "date",
+                  "interval": options.interval + options.timeUnit
+                }
+              }
+            }
+          });
+          aggs = aggs.aggs.byTime;
+        }
+        if(options.dimensions.location){
+          _.extend(aggs, {
+            "aggs":{
+              "byLocation": {
+                "_kii_agg_field_name": "位置",
+                "_kii_agg_chart": options.chartType,
+                "enum": enumObj
+              }
+            }
+          });
+          aggs = aggs.aggs.byLocation;
+        }
+
+        _.extend(aggs, {
+          "aggs": {
+            "CALC": {
+              "_kii_agg_field_name": options.property.displayName
+            }
+          }
+        });
+
+        aggs.aggs.CALC[options.aggMethod] = {
+          "field": options.property.propertyName
+        };
+
+        var result = {
+          "_kii_agg_name": options.name,
+          "_kii_query_path": '/' + options.index + '/_search',
+          "query": filter,
+          "size": 0,
+          "aggs": null,
+        };
+
+        _.extend(result, rootAggs);
+
+        $defer.resolve(result);
+      });
+      return $defer.promise;
+    };
+
     return CustomChartsService;
+  }])
+  .factory('EditChartService', ['$$Type', 'TriggerDetailService', '$q', function($$Type, TriggerDetailService, $q){
+    var EditChartService = {};
+
+    // get type and properties accordingly
+    EditChartService.getAllTypes = function(){
+      var $defer = $q.defer();
+
+      var typeOptions = [];
+      $$Type.getAll(function(types){
+        var schemaQueries = [];
+
+        _.each(types, function(type){
+          var $promise = $$Type.getSchema({type: type.type}).$promise;
+          schemaQueries.push($promise);
+        });
+
+        $q.all(schemaQueries).then(function(schemas){
+          _.each(schemas, function(schema, i){
+            schema = TriggerDetailService.parseSchema(schema);
+
+            typeOptions.push({
+              text: schema.displayName,
+              value: types[i].type,
+              properties: schema.properties
+            });
+          });
+          $defer.resolve(typeOptions);
+        });
+      });
+
+      return $defer.promise;
+    };
+
+    return EditChartService;
   }]);

@@ -71,13 +71,16 @@ angular.module('BeehivePortal')
      * @return {[type]} [description]
      */
     $scope.deleteTrigger = function(trigger){
-        if(trigger.triggerID){
-            $$Trigger.remove({}, trigger, function(){
+        var confirm = function(){
+            if(trigger.triggerID){
+                $$Trigger.remove({triggerID: trigger.triggerID}, function(){
+                    $scope.triggers.remove(trigger);
+                });
+            }else{
                 $scope.triggers.remove(trigger);
-            });
-        }else{
-            $scope.triggers.remove(trigger);
-        }
+            }
+        };
+        AppUtils.confirm('提示信息', '确认要删除这个触发器吗？', confirm);
     };
 
     /**
@@ -122,7 +125,7 @@ angular.module('BeehivePortal')
         if(!$scope.showDisabled && trigger.disabled){
             return false;
         }
-        return _.find($scope.typeList, {name: trigger.type});
+        return _.find($scope.typeList, {name: trigger.type, disabled: false});
     };
     
   }]);

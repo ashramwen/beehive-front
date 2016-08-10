@@ -19,8 +19,8 @@ angular.module('BeehivePortal')
                 $scope.location.building = res;
             });
 
-            $scope.onChange = function(location){
-                $scope.change({location: location, fullLocation: $scope.level, displayName: $scope.displayName, subLevels: $scope.subLevels});
+            $scope.onChange = function(location, obj){
+                $scope.change({location: location, locationName: obj.displayName, fullLocation: $scope.level, displayName: $scope.getDisplayName(), subLevels: $scope.subLevels});
                 $scope.$emit('location-change', location);
             };
 
@@ -40,8 +40,10 @@ angular.module('BeehivePortal')
 
                     $scope.location.floor = res;
                     $scope.subLevels = $scope.location.floor;
+
+                    $scope.onChange($scope.level.building.location, $scope.level.building);
                 });
-                $scope.onChange($scope.level.building.location);
+                
             };
 
             $scope.changeFloor = function() {
@@ -49,25 +51,25 @@ angular.module('BeehivePortal')
                 $scope.level.area = null;
 
                 if(!$scope.level.floor){
-                    $scope.onChange($scope.level.building.location);
+                    $scope.onChange($scope.level.building.location, $scope.level.building);
                     return;
                 }
 
                 $$Location.getSubLevel({ location: $scope.level.floor.location }).$promise.then(function(res) {
                     $scope.location.area = res;
                     $scope.subLevels = $scope.location.area;
+                    $scope.onChange($scope.level.floor.location, $scope.level.floor);
                 });
-                $scope.onChange($scope.level.floor.location);
             };
 
             $scope.changeArea = function() {
                 $scope.subLevels = [];
                 
                 if(!$scope.level.area){
-                    $scope.onChange($scope.level.floor.location);
+                    $scope.onChange($scope.level.floor.location, $scope.level.floor);
                     return;
                 }
-                $scope.onChange($scope.level.area.location);
+                $scope.onChange($scope.level.area.location, $scope.level.area);
             };
 
             $scope.getDisplayName = function(){

@@ -8,7 +8,7 @@
             <td>规则名称</td>
             <td><input type="text" class="form-control" ng-model="trigger.name"></td>
           </tr>
-          <tr ng-if="trigger.triggerID">
+          <tr ng-if="trigger.triggerID && !trigger.fromGateway">
             <td>启用状态</td>
             <td><div yes-text="启用" no-text="禁用" switchery="trigger.enabled" change="toggleTriggerState(value)"></div></td>
           </tr>

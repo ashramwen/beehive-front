@@ -1,8 +1,8 @@
 angular.module('BeehivePortal')
-  .factory('DensityDetectionService', ['$q', '$timeout', function($q, $timeout){
+  .factory('DensityDetectionService', ['$q', '$timeout', 'AppUtils', 'ReportingService', function($q, $timeout, AppUtils, ReportingService){
     var DensityDetectionService = {};
 
-    DensityDetectionService.ganzhiSample =
+    var detectedByTimeLocation = 
     {
       "_kii_agg_name": "测试数据",
       "_kii_query_path": "/reporting/_search",
@@ -18,17 +18,8 @@ angular.module('BeehivePortal')
             "bool": {
               "must": [
                 {
-                  "range": {
-                    "date": {
-                      "gte": 0,
-                      "lte": 1562120800000,
-                      "format": "epoch_millis"
-                    }
-                  }
-                },
-                {
                   "terms" : { 
-                    "id" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
+                    "id" : [1300,1301,1302,1303,1304,1305,1306,1307,1308]
                   }
                 }
               ],
@@ -39,7 +30,7 @@ angular.module('BeehivePortal')
       },
       "size": 0,
       "aggs": {
-          "byHour": {
+          "byTime": {
               "_kii_agg_field_name": "日期",
               "_kii_agg_chart": "line",
               "aggs": {
@@ -50,16 +41,16 @@ angular.module('BeehivePortal')
                         "keys": ["1楼","2楼","3楼"],
                         "field": "id",
                         "values": [
-                          [45650,32159,24001],
-                          [67962,1484,63412,6360],
-                          [89901,43668,60765]
+                          [1300,1301,1302],
+                          [1303,1304,1305],
+                          [1306,1307,1308]
                         ]
                       },
                       "aggs": {
                           "ganzhiRate": {
                               "enum": {
                                   "keys": ["detectedT", "detectedF"],
-                                  "field": "detected",
+                                  "field": "PIR",
                                   "values": [
                                       [true],
                                       [false]
@@ -76,6 +67,10 @@ angular.module('BeehivePortal')
                           "rate": {
                             "_kii_agg_field_name": "空间占用率",
                             "script": "doc.ganzhiRate.detectedT.count/(doc.ganzhiRate.detectedT.count + doc.ganzhiRate.detectedF.count)"
+                          },
+                          "value": {
+                            "_kii_agg_field_name": "人气值",
+                            "script": "doc.ganzhiRate.detectedT.count"
                           }
                       }
                   }
@@ -88,7 +83,7 @@ angular.module('BeehivePortal')
         }
     };
 
-    DensityDetectionService.ganzhiGroupSample = {
+    var detectedByTime = {
       "_kii_agg_name": "测试数据",
       "_kii_query_path": "/reporting/_search",
       "query": {
@@ -103,15 +98,6 @@ angular.module('BeehivePortal')
             "bool": {
               "must": [
                 {
-                  "range": {
-                    "date": {
-                      "gte": 0,
-                      "lte": 1562120800000,
-                      "format": "epoch_millis"
-                    }
-                  }
-                },
-                {
                   "terms" : { 
                     "id" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
                   }
@@ -124,14 +110,14 @@ angular.module('BeehivePortal')
       },
       "size": 0,
       "aggs": {
-          "byHour": {
+          "byTime": {
               "_kii_agg_field_name": "日期",
               "_kii_agg_chart": "line",
               "aggs": {
                 "ganzhiRate": {
                     "enum": {
                         "keys": ["detectedT", "detectedF"],
-                        "field": "detected",
+                        "field": "PIR",
                         "values": [
                             [true],
                             [false]
@@ -148,6 +134,10 @@ angular.module('BeehivePortal')
                 "rate": {
                   "_kii_agg_field_name": "空间占用率",
                   "script": "doc.ganzhiRate.detectedT.count/(doc.ganzhiRate.detectedT.count + doc.ganzhiRate.detectedF.count)"
+                },
+                "value": {
+                  "_kii_agg_field_name": "人气值",
+                  "script": "doc.ganzhiRate.detectedT.count"
                 }
               },
               "date_histogram": {
@@ -159,74 +149,79 @@ angular.module('BeehivePortal')
     };
 
 
-    DensityDetectionService.ganzhiByLocSample =
+    var detectedByLocation =
     {
-      "_kii_agg_name": "测试数据",
-      "_kii_query_path": "/reporting/_search",
-      "query": {
-        "filtered": {
-          "query": {
-            "query_string": {
-              "query": "*",
-              "analyze_wildcard": true
-            }
-          },
-          "filter": {
-            "bool": {
-              "must": [
-                {
-                  "range": {
-                    "date": {
-                      "gte": 0,
-                      "lte": 1562120800000,
-                      "format": "epoch_millis"
-                    }
-                  }
-                },
-                {
-                  "terms" : { 
-                    "id" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
-                  }
-                },
-                {
-                  "term": {
-                     "detected": true
-                  }
-                }
-              ],
-              "must_not": []
-            }
-          }
-        }
-      },
-      "size": 0,
-      "aggs": {
-          "byLocation": {
-              "_kii_agg_chart": "bar",
-              "_kii_agg_field_name": "楼层号",
-              "enum": {
-                "keys": ["1楼","2楼","3楼"],
-                "field": "id",
-                "values": [
-                  [45650,32159,24001],
-                  [67962,1484,63412,6360],
-                  [89901,43668,60765]
-                ]
-              },
-              "aggs": {
-                  "count": {
-                    "_kii_agg_field_name": "人气值",
-                    "value_count": {
-                      "field": "id"
-                    }
-                  }
+        "_kii_agg_name": "测试数据",
+        "_kii_query_path": "/reporting/_search",
+        "query": {
+          "filtered": {
+            "query": {
+              "query_string": {
+                "query": "*",
+                "analyze_wildcard": true
               }
+            },
+            "filter": {
+              "bool": {
+                "must": [
+                  {
+                    "terms" : { 
+                      "id" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
+                    }
+                  }
+                ],
+                "must_not": []
+              }
+            }
           }
-              
+        },
+        "size": 0,
+        "aggs": {
+            "byLocation": {
+                "_kii_agg_chart": "bar",
+                "_kii_agg_field_name": "位置",
+                "enum": {
+                  "keys": ["1楼","2楼","3楼"],
+                  "field": "id",
+                  "values": [
+                    [45650,32159,24001],
+                    [67962,1484,63412,6360],
+                    [89901,43668,60765]
+                  ]
+                },
+                "aggs": {
+                    "ganzhiRate": {
+                        "enum": {
+                            "keys": ["detectedT", "detectedF"],
+                            "field": "PIR",
+                            "values": [
+                                [true],
+                                [false]
+                            ]
+                        },
+                        "aggs":{
+                            "count": {
+                                "value_count": {
+                                    "field": "id"
+                                }
+                            }
+                        }
+                    },
+                    "rate": {
+                      "_kii_agg_field_name": "空间占用率",
+                      "script": "doc.ganzhiRate.detectedT.count/(doc.ganzhiRate.detectedT.count + doc.ganzhiRate.detectedF.count)"
+                    },
+                    "value": {
+                      "_kii_agg_field_name": "人气值",
+                      "script": "doc.ganzhiRate.detectedT.count"
+                    }
+                }
+            }
+                
         }
     };
 
-    DensityDetectionService.summaryQuery = {
+    var summaryQuery = {
       "_kii_agg_name": "测试数据",
       "_kii_query_path": "/reporting/_search",
       "query": {
@@ -240,15 +235,6 @@ angular.module('BeehivePortal')
           "filter": {
             "bool": {
               "must": [
-                {
-                  "range": {
-                    "date": {
-                      "gte": 0,
-                      "lte": 1562120800000,
-                      "format": "epoch_millis"
-                    }
-                  }
-                },
                 {
                   "terms" : { 
                     "id" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
@@ -266,7 +252,7 @@ angular.module('BeehivePortal')
           "_kii_agg_chart": "pie",
           "enum": {
             "keys": ['已使用空间', '未使用空间'],
-            "field": "detected",
+            "field": "PIR",
             "values": [
               [true],
               [false]
@@ -283,8 +269,97 @@ angular.module('BeehivePortal')
         }
       }
     };
-          
 
+
+    DensityDetectionService.generateLineQuery = function(split, source, subLevels){
+      var query = split? detectedByTimeLocation: detectedByTime;
+      query = AppUtils.clone(query);
+
+      var aggObj;
+      var allThings = ReportingService.getAllThings(subLevels);
+      var terms = query.query.filtered.filter.bool.must[0].terms;
+
+      if(split){
+        var enumObj = ReportingService.getLocationEnums(subLevels);
+        var locationObj = query.aggs.byTime.aggs.byLocation;
+        _.extend(locationObj.enum, enumObj);
+
+        aggObj = query.aggs.byTime.aggs.byLocation.aggs;
+      }else{
+        aggObj = query.aggs.byTime.aggs;
+      }
+
+      terms.id = allThings;
+      
+
+      if(split){
+        if(source == 'rate'){
+          delete aggObj.value;
+        }else{
+          delete aggObj.rate;
+        }
+      }else{
+        if(source == 'rate'){
+          delete aggObj.value;
+        }else{
+          delete aggObj.rate;
+        }
+      }
+      
+      return query;
+    };
+
+    DensityDetectionService.generateBarQuery = function(source, subLevels){
+      var allThings = ReportingService.getAllThings(subLevels);
+      var enumObj = ReportingService.getLocationEnums(subLevels);
+
+      var query = AppUtils.clone(detectedByLocation);
+      var terms = query.query.filtered.filter.bool.must[0].terms;
+      var locationObj = query.aggs.byLocation;
+
+      terms.id = allThings;
+      _.extend(locationObj.enum, enumObj); 
+
+      if(source == 'rate'){
+        delete query.aggs.byLocation.aggs.value;
+      }else{
+        delete query.aggs.byLocation.aggs.rate;
+      }
+
+      return query;
+    };
+
+    DensityDetectionService.generatePieQuery = function(subLevels){
+      var query = AppUtils.clone(detectedByLocation);
+
+      var allThings = ReportingService.getAllThings(subLevels);
+      var enumObj = ReportingService.getLocationEnums(subLevels);
+
+      var query = AppUtils.clone(detectedByLocation);
+      var terms = query.query.filtered.filter.bool.must[0].terms;
+      var locationObj = query.aggs.byLocation;
+
+
+      terms.id = allThings;
+      _.extend(locationObj.enum, enumObj); 
+
+      delete query.aggs.byLocation.aggs.rate;
+
+      return query;
+    };
+
+    DensityDetectionService.generateSummaryQuery = function(subLevels){
+      var query = AppUtils.clone(summaryQuery);
+
+      var allThings = ReportingService.getAllThings(subLevels);
+      var terms = query.query.filtered.filter.bool.must[0].terms;
+
+      terms.id = allThings;
+
+      return query;
+    };
+
+    
 
 
     return DensityDetectionService;

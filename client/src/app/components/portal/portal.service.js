@@ -71,18 +71,6 @@ angular.module('BeehivePortal')
                 ]
             },
             {
-                name: '场景管理',
-                state: $state.get('app.portal.ScenarioManager'),
-                icon: 'fa-cubes',
-                hidden: true,
-                subViews: [
-                    {
-                        name: '办公室气候',
-                        state: $state.get('app.portal.ScenarioManager.OfficeAtmosphere')
-                    }
-                ]
-            },
-            {
                 name: '设备视图',
                 state: $state.get('app.portal.ThingViews'),
                 icon: 'fa-table',
@@ -106,6 +94,10 @@ angular.module('BeehivePortal')
                 state: $state.get('app.portal.Reporting'),
                 icon: 'fa-area-chart',
                 subViews: [
+                    {
+                        name: '能耗监测',
+                        state: $state.get('app.portal.Reporting.Electricity')
+                    },
                     {
                         name: '环境监测',
                         state: $state.get('app.portal.Reporting.Environment')

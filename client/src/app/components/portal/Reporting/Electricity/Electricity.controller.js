@@ -1,20 +1,19 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('DensityDetectionController', ['$scope', '$rootScope', '$state', 'AppUtils', 'DensityDetectionService', '$timeout', 'ReportingService', function($scope, $rootScope, $state, AppUtils, DensityDetectionService, $timeout, ReportingService) {
+  .controller('ElectricityController', ['$scope', '$rootScope', '$state', 'AppUtils', 'ElectricityService', '$timeout', 'ReportingService', function($scope, $rootScope, $state, AppUtils, ElectricityService, $timeout, ReportingService) {
+    
 
     $scope.period = new KiiReporting.KiiTimePeriod(null);
-
+    
     $scope.chartSources = [
-      {value: 'value', text: '人气值'},
-      {value: 'rate', text: '占用率'}
+      {value: 'value', text: '电量使用'}
     ];
 
-    $scope.selectedSource = $scope.chartSources[0];
-    $scope.queriedSource = $scope.selectedSource;
+    $scope.selectedSource = 'value';
 
     $scope.init = function(){
-      
+
     };
 
     $scope.onPeriodChange = function(_period){
@@ -31,29 +30,29 @@ angular.module('BeehivePortal')
 
       ReportingService.getLocationThings('EnvironmentSensor', $scope.selectedSubLevels).then(function(queriedSubLevels){
         var queriedSubLevels = queriedSubLevels;
-        $scope.queriedSource = $scope.selectedSource;
 
         $scope.lineLevel = 0;
         $scope.split = false;
-        $scope.summaryQuery = DensityDetectionService.generateSummaryQuery(queriedSubLevels);
-        $scope.lineQuery = DensityDetectionService.generateLineQuery($scope.split, $scope.selectedSource.value, queriedSubLevels);
-        $scope.barQuery = DensityDetectionService.generateBarQuery($scope.selectedSource.value, queriedSubLevels);
-        $scope.pieQuery = DensityDetectionService.generatePieQuery(queriedSubLevels);
+        $scope.lineQuery = ElectricityService.generateConsumption(true, false, queriedSubLevels);
+        $scope.barQuery = ElectricityService.generateConsumption(false, false, queriedSubLevels);
+        $scope.pieQuery = ElectricityService.generateConsumption(false, false, queriedSubLevels);
+
+        ElectricityService.getConsumeSummary($scope.period, queriedSubLevels).then(function(result){
+          $scope.totalConsump = result;
+        });
 
         $timeout(function(){
-          $scope.refreshBar();
           $scope.refreshLine();
-          $scope.refreshSummary();
           $scope.refreshPie();
+          $scope.refreshBar();
         });
       });
-
     };
 
     $scope.groupLines = function(){
       $scope.lineLevel = 0;
       $scope.split = false;
-      $scope.lineQuery = DensityDetectionService.generateLineQuery($scope.split, $scope.selectedSource.value, queriedSubLevels);
+      $scope.lineQuery = ElectricityService.generateConsumption(true,  $scope.split);
 
       $timeout(function(){
         $scope.refreshLine();
@@ -63,18 +62,12 @@ angular.module('BeehivePortal')
     $scope.splitLine = function(){
       $scope.lineLevel = 1;
       $scope.split = true;
-      $scope.lineQuery = DensityDetectionService.generateLineQuery($scope.split, $scope.selectedSource.value, queriedSubLevels);
+      $scope.lineQuery = ElectricityService.generateConsumption(true,  $scope.split);
 
       $timeout(function(){
         $scope.refreshLine();
       });
     };
-
-    $rootScope.$watch('login', function(newVal){
-      if(newVal){
-        $scope.init();
-      }
-    });
 
     $scope.locationChange = function(location, locationName, subLevels){
       $scope.selectedLocation = {
@@ -84,5 +77,12 @@ angular.module('BeehivePortal')
 
       $scope.selectedSubLevels = subLevels;
     };
+
+    $rootScope.$watch('login', function(newVal){
+      if(newVal){
+        $scope.init();
+      }
+    });
+
 
   }]);

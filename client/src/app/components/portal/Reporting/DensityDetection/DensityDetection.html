@@ -8,13 +8,7 @@
               <tr>
                 <td>指数类型</td>
                 <td>
-                  <div app-select options="chartSources" selected-model="selectedSource" value-only="true"></div>
-                </td>
-                <td>
-                  值
-                </td>
-                <td>
-                  <div app-select options="aggMethods" selected-model="selectedMethod" value-only="true"></div>
+                  <div app-select options="chartSources" selected-model="selectedSource"></div>
                 </td>
               </tr>
             </tbody>
@@ -38,7 +32,7 @@
                 <span>坐标</span>
               </div>
               <div class="pull-left">
-                <location-selector change="locationChange(location, subLevels)"></location-selector>
+                <location-selector change="locationChange(location, locationName, subLevels)"></location-selector>
               </div>
             </div>
             <div class="pull-left">
@@ -61,11 +55,10 @@
             period="period"
             window="0"
             location=""
-            refresh="refreshPie1"
+            refresh="refreshSummary"
             stage="false"
             level="0"
             chart="pie"
-            output="getFigure"
             style="height: 250px;">
           </kii-chart>
           <div style="height: 182px;font-size:30px; font-weight: bold; margin:-16px; text-align: center; position:relative;">
@@ -81,7 +74,7 @@
     </div>
     <div class="col-md-9">
       <div class="panel chart-panel">
-        <div class="panel-heading">空间占用率</div>
+        <div class="panel-heading">{{queriedSource.text}}</div>
         <div class="panel-body">
           <div class="chart-container">
             <div class="chart-content">
@@ -114,15 +107,15 @@
     <div class="col-md-3">
       <div class="panel chart-panel">
         <div class="panel-heading">
-          人气值比例
+          {{queriedSource.text}}
         </div>
         <div class="panel-body">
           <kii-chart
-          query="barQuery"
+          query="pieQuery"
           period="period"
           window="0"
           location=""
-          refresh="refreshPie2"
+          refresh="refreshPie"
           stage="false"
           level="0"
           chart="pie"
@@ -134,11 +127,11 @@
     <div class="col-md-9">
       <div class="panel chart-panel">
         <div class="panel-heading">
-          人气值
+          {{queriedSource.text}}
         </div>
         <div class="panel-body">
           <kii-chart
-            query="pieQuery"
+            query="barQuery"
             period="period"
             window="0"
             location=""

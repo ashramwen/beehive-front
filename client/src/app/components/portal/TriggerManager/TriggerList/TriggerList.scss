@@ -32,9 +32,17 @@
                 left: 26px;
                 top: 20px;
             }
+            .fa-trash{
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                color: red;
+                display: none;
+                cursor: pointer;
+            }
             .fa-server{
                 position: absolute;
-                right: 15px;
+                left: 15px;
                 top: 15px;
                 color: #72c0f1;
             }
@@ -53,6 +61,11 @@
                 }
                 span{
                     font-size: 12px;
+                }
+            }
+            &:hover{
+                .fa-trash{
+                    display: block;
                 }
             }
             &.schedule{

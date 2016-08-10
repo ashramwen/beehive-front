@@ -1,8 +1,0 @@
-<div>
-  <uib-accordion close-others="true" class="multi-source">
-    <uib-accordion-group heading="{{source.name ||('源-' + ($index + 1))}}" ng-repeat="source in sources">
-      <div ng-if="!disabled"><button class="btn btn-danger pull-right" ng-click="removeSource(source)"><span class="fa fa-remove"></span>删除源</button> </div>
-      <source-picker my-source="source" disabled="disabled"></source-picker>
-    </uib-accordion-group>
-  </uib-accordion>
-</div>

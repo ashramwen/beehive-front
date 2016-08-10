@@ -1,7 +1,6 @@
 'use strict'
 
 var MyApp = angular.module('BeehivePortal', [
-  'BeehivePortal.ScenarioManager',
   'BeehivePortal.MonitorManager',
   'ngAnimate', 'ngCookies', 'ngSanitize',
   'ngResource', 'ui.router', 'ui.bootstrap','LocalStorageModule', 'rzModule', 'treeControl', 'ngStomp', 'datePicker',
@@ -18,7 +17,7 @@ var MyApp = angular.module('BeehivePortal', [
   loginFailed: 'auth-login-failed',
   logoutSuccess: 'auth-logout-success',
   sessionTimeout: 'auth-session-timeout',
-  notAuthenticated: 'UnauthorizedException',
+  notAuthenticated: 'LOGIN_TOKEN_INVALID',
   notAuthorized: 'auth-not-authorized',
 }).
 config(function(localStorageServiceProvider, $httpProvider, NotificationProvider) {
@@ -36,15 +35,15 @@ config(function(localStorageServiceProvider, $httpProvider, NotificationProvider
     $httpProvider.interceptors.push(function($q, AUTH_EVENTS, ERROR_CODE) {
       return {
         request: function(request) {
-            app.utils.doLoading();
+            window.app.utils.doLoading();
             return request;
         },
         response: function(response){
-            app.utils.whenLoaded();
+            window.app.utils.whenLoaded();
             return response;
         },
         responseError: function(response){
-            app.utils.whenLoaded();
+            window.app.utils.whenLoaded();
             $('#spinner').hide();
             switch(response.status){
                 case 401:

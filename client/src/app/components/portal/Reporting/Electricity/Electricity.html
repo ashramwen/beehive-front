@@ -1,4 +1,4 @@
-<div class="app-portal-reporting-environment">
+<div class="app-portal-reporting-electricity">
   <div class="panel header">
     <div class="panel-body">
       <div class="panel-row">
@@ -8,13 +8,7 @@
               <tr>
                 <td>指数类型</td>
                 <td>
-                  <div app-select options="chartSources" selected-model="selectedSource"></div>
-                </td>
-                <td>
-                  值
-                </td>
-                <td>
-                  <div app-select options="aggMethods" selected-model="selectedMethod" value-only="true"></div>
+                  <div app-select disabled="true" options="chartSources" selected-model="selectedSource" value-only="true"></div>
                 </td>
               </tr>
             </tbody>
@@ -58,9 +52,9 @@
         <div class="panel-body">
           <div style="height: 420px;font-size:30px; font-weight: bold; text-align: center; position:relative;">
             <div style="position: absolute; width: 100%; top: 190px">
-              {{summaryData}}
+              {{totalConsump}}
               <br/>
-              <span>当前{{queriedSource.text}}</span>
+              <span>耗电总量</span>
             </div>
             
           </div>
@@ -69,26 +63,7 @@
     </div>
     <div class="col-md-9">
       <div class="panel chart-panel">
-        <div class="panel-heading">
-          各位置{{queriedSource.text}}
-        </div>
-        <div class="panel-body">
-          <kii-chart 
-            query="barQuery"
-            period="barChartPeriod"
-            window="0"
-            location=""
-            refresh="refreshBar"
-            stage="false"
-            level="0"
-            style="height: 400px;">
-          </kii-chart>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="panel chart-panel">
-        <div class="panel-heading">{{queriedSource.text}}走势</div>
+        <div class="panel-heading">电量消耗</div>
         <div class="panel-body">
           <div class="chart-container">
             <div class="chart-content">
@@ -115,6 +90,45 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="panel chart-panel">
+        <div class="panel-heading">
+          电量消耗
+        </div>
+        <div class="panel-body">
+          <kii-chart 
+            query="pieQuery"
+            period="period"
+            window="0"
+            location=""
+            refresh="refreshPie"
+            stage="false"
+            level="0"
+            style="height: 400px;">
+          </kii-chart>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="panel chart-panel">
+        <div class="panel-heading">
+          电量消耗
+        </div>
+        <div class="panel-body">
+          <kii-chart 
+            query="barQuery"
+            period="period"
+            window="0"
+            chart="pie"
+            location=""
+            refresh="refreshBar"
+            stage="false"
+            level="0"
+            style="height: 400px;">
+          </kii-chart>
         </div>
       </div>
     </div>

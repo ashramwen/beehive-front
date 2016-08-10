@@ -13,7 +13,7 @@
      * by George Lin
      */
 
-    var apiSuffix = siteUrl + '/beehive-portal/api';
+    var apiSuffix = siteUrl + '/api';
 
     window.MyAPIs = {
         'LOCATION_TAGS': '/locationTags',

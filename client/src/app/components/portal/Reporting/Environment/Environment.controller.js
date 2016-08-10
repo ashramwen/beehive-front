@@ -1,45 +1,49 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('EnvironmentController', ['$scope', '$rootScope', '$state', 'AppUtils', 'EnvironmentService', '$timeout',function($scope, $rootScope, $state, AppUtils, EnvironmentService, $timeout) {
+  .controller('EnvironmentController', ['$scope', '$rootScope', '$state', 'AppUtils', 'EnvironmentService', '$timeout', '$$Thing', '$q', 'ReportingService', function($scope, $rootScope, $state, AppUtils, EnvironmentService, $timeout, $$Thing, $q, ReportingService) {
     
 
     $scope.period = new KiiReporting.KiiTimePeriod(null);
+    $scope.barChartPeriod = new KiiReporting.KiiTimePeriod(null);
+    $scope.barChartPeriod.setUnit('m');
+    $scope.barChartPeriod.setInterval(1);
+
     
     $scope.chartSources = [
-      {value: 'value', text: '电量使用'},
-      {value: 'rate', text: '功率'}
+      {value: 'CO2', text: '二氧化碳'},
+      {value: 'Temp', text: '温度'},
+      {value: 'Noise', text: '噪音指数'},
+      {value: 'Bri', text: '亮度'},
+      {value: 'PM25', text: 'PM25'},
+      {value: 'Humidity', text: '湿度'},
+      {value: 'VOC', text: '空气质量'},
+      {value: 'Smoke', text: '烟尘'}
     ];
 
-    $scope.selectedSource = 'value';
+    $scope.selectedSource = $scope.chartSources[0];
+    $scope.queriedSource = $scope.selectedSource
 
     $scope.aggMethods = [
       {value: 'avg', text: '平均值'},
       {value: 'max', text: '最大值'},
-      {value: 'min', text: '最小值'},
-      {value: 'count', text: '计数'}
+      {value: 'min', text: '最小值'}
     ];
 
     $scope.selectedMethod = 'avg';
 
-    $scope.locations = [
-      {text: '栋11-F22-A区', value: 'B11-F22-bA'}
-    ];
-    $scope.selectedLocation = 'B11-F22-bA';
-
     $scope.init = function(){
-      EnvironmentService.getQuery().then(function(result){
-        $scope.lineLevel = 0;
-        $scope.lineSplitQuery = result.lineQuery;
-        $scope.barQuery = result.barQuery;
-        $scope.lineGroupQuery = result.lineGroupQuery;
-        $scope.lineQuery = result.lineGroupQuery;
-      });
+      $scope.lineLevel = 0;
+      $scope.getSummaryData();
+      $scope.barQuery = EnvironmentService.getEnvironmentQuery($scope.selectedMethod, $scope.selectedSource.value, $scope.selectedSource.text, false);
+      $scope.lineQuery = EnvironmentService.getEnvironmentQuery($scope.selectedMethod, $scope.selectedSource.value, $scope.selectedSource.text, true, false);
     };
 
     $scope.onPeriodChange = function(_period){
       $scope.period.setFromTime(_period.from);
       $scope.period.setToTime(_period.to);
+      $scope.barChartPeriod.setFromTime(_period.from);
+      $scope.barChartPeriod.setToTime(_period.to);
     };
 
     $scope.onTimeSliceChange = function(_timeSlice){
@@ -48,14 +52,28 @@ angular.module('BeehivePortal')
     };
 
     $scope.queryData = function(){
-      $scope.refreshLine();
-      $scope.refreshPie();
-      $scope.refreshBar();
+      $scope.getSummaryData();
+
+      ReportingService.getLocationThings('EnvironmentSensor', $scope.selectedSubLevels).then(function(queriedSubLevels){
+        var queriedSubLevels = queriedSubLevels;
+
+        $scope.lineLevel = 0;
+        $scope.split = false;
+
+        $scope.barQuery = EnvironmentService.getEnvironmentQuery($scope.selectedMethod, $scope.selectedSource.value, $scope.selectedSource.text, false);
+        $scope.lineQuery = EnvironmentService.getEnvironmentQuery($scope.selectedMethod, $scope.selectedSource.value, $scope.selectedSource.text, true, false);
+
+        $scope.queriedSource = $scope.selectedSource;
+        $timeout(function(){
+          $scope.refreshLine();
+          $scope.refreshBar();
+        });
+      });
     };
 
     $scope.groupLines = function(){
       $scope.lineLevel = 0;
-      $scope.lineQuery = $scope.lineGroupQuery;
+      $scope.lineQuery = EnvironmentService.getEnvironmentQuery($scope.selectedMethod, $scope.selectedSource.value, $scope.selectedSource.text, true, false);
       $scope.split = false;
 
       $timeout(function(){
@@ -65,17 +83,11 @@ angular.module('BeehivePortal')
 
     $scope.splitLine = function(){
       $scope.lineLevel = 1;
-      $scope.lineQuery = $scope.lineSplitQuery;
+      $scope.lineQuery = EnvironmentService.getEnvironmentQuery($scope.selectedMethod, $scope.selectedSource.value, $scope.selectedSource.text, true, true);
       $scope.split = true;
 
       $timeout(function(){
         $scope.refreshLine();
-      });
-    }
-
-    $scope.getSummary = function(data){
-      $timeout(function(){
-        $scope.sumKwh = (data.summary.MaxKwh - data.summary.MinKwh) | 0;
       });
     };
 
@@ -85,8 +97,20 @@ angular.module('BeehivePortal')
       }
     });
 
-    $scope.locationChange = function(location){
-      console.log(location);
+    $scope.locationChange = function(location, locationName, subLevels){
+      $scope.selectedLocation = {
+        location: location,
+        displayName: locationName
+      };
+
+      $scope.selectedSubLevels = subLevels;
+    };
+
+    $scope.getSummaryData = function(){
+      EnvironmentService.getSummaryData($scope.selectedSource.value).then(function(data){
+        if(data) data = data.toFixed(2);
+        $scope.summaryData = data;
+      });
     };
 
 

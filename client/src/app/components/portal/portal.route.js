@@ -11,14 +11,6 @@ angular.module('BeehivePortal')
         abstract: true,
         stateName: '用户管理'
       })
-      .state('app.portal.ScenarioManager', {
-        url: '/ScenarioManager',
-        templateUrl: 'app/components/portal/ScenarioManager/ScenarioManager.html',
-        controller: 'ScenarioManagerController',
-        abstract: true,
-        stateName: '场景管理',
-        redirectTo: 'app.portal.ScenarioManager.OfficeAtmosphere'
-      })
       .state('app.portal.ThingManager', {
         url: '/ThingManager',
         templateUrl: 'app/components/portal/ThingManager/ThingManager.html',

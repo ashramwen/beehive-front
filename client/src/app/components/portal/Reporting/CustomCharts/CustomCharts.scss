@@ -17,11 +17,20 @@
           margin-top: -41px;
           position: relative;
           z-index: 2;
-          .fa-edit{
-            position: absolute;
-            right: 15px;
-            top: 15px;
+          .fa{
+            cursor: pointer;
+            &.fa-edit{
+              position: absolute;
+              right: 40px;
+              top: 15px;
+            }
+            &.fa-trash{
+              position: absolute;
+              right: 15px;
+              top: 15px;
+            }
           }
+          
         }
         .panel-body{
           transition: all 0.3s;
@@ -32,6 +41,20 @@
           z-index: 1;
           .grid-content{
             height: 100%;
+            title{
+              display: block;
+              width: 100%;
+              height: 40px;
+              line-height: 40px;
+              text-align: center;
+              font-size: 17px;
+              position: absolute;
+              left: 0px;
+              top: 0px;
+            }
+            kii-chart{
+              padding-top: 20px;
+            }
           }
         }
         &:hover,&.active{

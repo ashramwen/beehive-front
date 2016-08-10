@@ -1183,6 +1183,9 @@ webpackJsonp([1,2],{
                   this._toolTip = new components_1.ToolTip({ trigger: 'item' });
                   break;
           }
+          if(this._aggTree.chart == 'pie'){
+            this._toolTip.formatter = "{b}<br/> {c} ({d}%)";
+          }
       }
       _getSeriesDatasetByValue(myMetric) {
           let _aggs = [];
@@ -1883,6 +1886,7 @@ webpackJsonp([1,2],{
       }
       getProperties() {
           return {
+              formatter: this.formatter,
               axisPointer: this.axisPointer,
               trigger: this.trigger
           };
@@ -1989,7 +1993,7 @@ webpackJsonp([1,2],{
               let _context = new KiiQueryDataParser_1.KiiMetricParserContext({
                   doc: parentContext.doc[this.fieldName][key],
                   index: index,
-                  docs: _.map(parentContext.doc[this.fieldName], (obj) => { return obj; }),
+                  //docs: _.map(parentContext.doc[this.fieldName], (obj) => { return obj; }),
                   parent: parentContext,
                   children: [],
                   level: parentContext.level + 1
@@ -2092,7 +2096,7 @@ webpackJsonp([1,2],{
           dateFilter.range[KiiQueryUtils_1.DATE_FIELD] = {
               gte: 0,
               lte: 0,
-              formate: 'epoch_millis'
+              format: 'epoch_millis'
           };
           this._timeFilter = KiiQueryUtils_1.KiiQueryUtils.findDateFilter(this._query.filtered.filter.bool.must);
           if (!this._timeFilter) {
@@ -2195,7 +2199,9 @@ webpackJsonp([1,2],{
                       trace: trace
                   });
                   if (KiiQueryUtils_1.KiiQueryUtils._isTimeAgg(obj)) {
-                      _query.setTimeAgg(obj[constants_1.constants.ESAggregationMethods.TIME]);
+                      if(!_query._timeAgg){
+                        _query.setTimeAgg(obj[constants_1.constants.ESAggregationMethods.TIME]);
+                      }
                       aggNode.displayName = constants_1.constants.DATE_DISPLAY_NAME;
                       aggNode.type = 'time';
                       aggNode.aggMethod = 'time';
@@ -2293,7 +2299,7 @@ webpackJsonp([1,2],{
                   let _child = {};
                   _child[bucket.key] = {};
                   _.each(aggNode.children, (childNode) => {
-                      _child[bucket.key] = retrieval(childNode, bucket[childNode.fieldName]);
+                      _.extend(_child[bucket.key], retrieval(childNode, bucket[childNode.fieldName]));
                   });
                   _.each(aggNode.metrics, (agg) => {
                       _child[bucket.key][agg.fieldName] = bucket[agg.fieldName].value;

@@ -9,23 +9,12 @@
               时间段
             </div>
             <div class="pull-left time-picker">
-              <rp-date-picker output="onPeriodChange"></rp-date-picker>
+              <rp-date-picker last-date="defaultTime" output="onPeriodChange"></rp-date-picker>
             </div>
           </div>
           <div class="pull-left">
-            <div class="pull-left">
-              <div class="title pull-left">
-                <span class="fa fa-map-marker"></span>
-                <span>坐标</span>
-              </div>
-              <div class="pull-left">
-                <div app-select options="locations" selected-model="selectedLocation"></div>
-              </div>
-            </div>
-            <div class="pull-left">
-              <button class="btn btn-info" ng-click="queryData()">刷新</button>
-              <button class="btn btn-info" ng-click="factoryChart()">新建图表</button>
-            </div>
+            <button class="btn btn-info" ng-click="queryData()">刷新</button>
+            <button class="btn btn-info" ng-click="factoryChart()">新建图表</button>
           </div>
         </div>
       </div>
@@ -34,43 +23,22 @@
 
   <div gridster="gridsterOpts">
     <div ng-repeat="chart in charts | filter: displayTagFilter" gridster-item="customChartMap">
-      <div class="panel" ng-class="{'active': onEdit[$index]}">
-        <div class="panel-heading">{{chart.name}} <span class="fa fa-edit" ng-click="onEdit[$index] = !onEdit[$index]"></span></div>
+      <div class="panel">
+        <div class="panel-heading">{{chart.name}} 
+          <span class="fa fa-edit" ng-click="editChart(chart)"></span>
+          <span class="fa fa-trash" ng-click="removeChart(chart)"></span>
+        </div>
         <div class="panel-body">
-          <!-- Chart options editor -->
-          <div ng-show="onEdit[$index]">
-            <div class="form-group grid-content">
-              <div>
-                <label>图表名称</label>
-                <input type="text" name="" ng-model="chart.name" class="form-control">
-              </div>
-              <div>
-                <label>层数</label>
-                <input type="number" name="" ng-model="chart.options.level" class="form-control">
-              </div>
-              <div>
-                <label>单位时长</label>
-                <rp-time-slicer output="onTimeSliceChange"></rp-time-slicer>
-              </div>
-              <div>
-                <label>视图</label>
-                <textarea class="form-control" ng-model="chart.options.query"></textarea>
-              </div>
-            </div>
-            <div>
-              <button class="btn btn-success" ng-click="saveChart(chart, $index)">保存</button>
-            </div>
-          </div>
-          <!-- end of editor -->
 
           <!-- Kii Chart -->
-          <div class="grid-content" ng-hide="onEdit[$index]">
+          <div class="grid-content">
+            <title>{{chart.name}}</title>
             <kii-chart 
               query="chart.options.query"
-              period="period"
+              period="chart.period"
               window="0"
               location=""
-              refresh-when-ready="!onEdit[$index]"
+              refresh="chart.refreshChart"
               stage="false"
               level="chart.options.level"
               style="height: 100%">
@@ -83,3 +51,78 @@
     </div>
   </div>
 </div>
+
+<!-- chart editor -->
+<script type="text/ng-template" id="edit-custom-chart">
+
+  <div class="modal-content app-portal-reporting-customcharts">
+    <div class="modal-header ng-scope">
+      <h3 class="modal-title">编辑图表</h3>
+    </div>
+    <div class="modal-body ng-scope">
+      <div class="form-group">
+        <div>
+          <label>图表名称</label>
+          <input type="text" name="" ng-model="options.name" class="form-control">
+        </div>
+        <div>
+          <label>图表类型</label>
+          <div>
+            <div app-select options="chartTypes" selected-model="options.chartType" value-only="true"></div>
+          </div>
+        </div>
+        <div>
+          <label>设备种类</label>
+          <div><div app-select options="typeOptions" selected-model="selectedType"></div></div>
+          <div ng-show="selectedType">
+            <label>Y轴</label>
+            <div>
+              <div app-select options="selectedType.properties" text="displayName" value="propertyName" selected-model="options.property"></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label>聚合方法</label>
+          <div>
+            <div app-select options="aggMethods" selected-model="options.aggMethod" value-only="true"></div>
+          </div>
+        </div>
+        <div>
+          <label>维度</label>
+          <!-- dimension - time -->
+          <div>
+            <label><input type="checkbox" name="" ng-model="options.dimensions.time">时间</label>
+            <div ng-show="options.dimensions.time">
+              <div>
+                <label>时间间隔</label>
+                <div>
+                  <rp-time-slicer input="timeSliceInput" output="onTimeSliceChange"></rp-time-slicer>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end of time dimension -->
+          <!-- location dimension -->
+          <div>
+            <label><input type="checkbox" name="" ng-model="options.dimensions.location">地址</label>
+            <div ng-show="options.dimensions.location">
+              <label>默认地址</label>
+              <location-selector change="locationChange(location, locationName, subLevels)"></location-selector>
+              <button class="btn btn-info" ng-click="addLocation()">添加地址</button>
+            </div>
+            <div><button class="btn btn-warning" ng-repeat="location in options.locations">{{location.displayName}}</button></div>
+          </div>
+          <!-- end of location dimension -->
+        </div>
+        <div>
+          <label>描述</label>
+          <textarea class="form-control" ng-model="options.description"></textarea>
+        </div>
+      </div>
+      <div>
+        <button class="btn btn-success" ng-click="saveChart()">保存</button>
+      </div>
+    </div>
+  </div>
+</script>
+<!-- end of editor -->

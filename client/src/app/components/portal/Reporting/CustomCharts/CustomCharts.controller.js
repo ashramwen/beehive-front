@@ -1,13 +1,21 @@
 
 angular.module('BeehivePortal')
-  .controller('CustomChartsController', ['$scope', '$rootScope', '$state', 'AppUtils', 'CustomChartsService', '$timeout', function($scope, $rootScope, $state, AppUtils, CustomChartsService, $timeout) {
+  .controller('CustomChartsController', ['$scope', '$rootScope', '$state', 'AppUtils', 'CustomChartsService', '$timeout', '$uibModal', function($scope, $rootScope, $state, AppUtils, CustomChartsService, $timeout, $uibModal) {
     
-    $scope.onEdit = [];
-    $scope.period = new KiiReporting.KiiTimePeriod(null);
-    $scope.period.setFromTime(new Date('2015-01-01'));
-    $scope.period.setToTime(new Date('2016-12-30'));
-    $scope.period.setUnit('H');
-    $scope.period.setInterval(1);
+    var from = new Date();
+    var to = new Date();
+
+    from.setDate(from.getDate() - 1);
+
+    $scope.defaultTime = {
+      from: from,
+      to: to
+    };
+
+    $scope.period = {
+      from: $scope.defaultTime.from,
+      to: $scope.defaultTime.to
+    };
 
     $scope.init = function(){
       $scope.gridsterOpts = CustomChartsService.gridsterOpts 
@@ -15,11 +23,33 @@ angular.module('BeehivePortal')
       CustomChartsService.refresh().then(function(charts){
         $scope.charts = charts;
       });
+
+    };
+
+    $scope.onPeriodChange = function(period){
+      $scope.period.from = period.from;
+      $scope.period.to = period.to;
+    };
+
+    $scope.queryData = function(){
+      _.each($scope.charts, function(chart){
+        chart.setPeriod($scope.period);
+        chart.refresh();
+      });
     };
 
     $scope.factoryChart = function(){
-      CustomChartsService.factoryChart();
-      $scope.onEdit = [true].concat($scope.onEdit);
+
+      var newChart = CustomChartsService.factoryChart();
+
+      editChart(newChart).then(function(){
+        CustomChartsService.charts.unshift(chart);
+        $timeout(function(){
+          chart.setPeriod($scope.period);
+          chart.refresh();
+        });
+        console.log(CustomChartsService.charts);
+      });
     };
 
     $rootScope.$watch('login', function(newVal){
@@ -28,9 +58,149 @@ angular.module('BeehivePortal')
       }
     });
 
-    $scope.saveChart = function(chart, index){
-      chart.save().then(function(){
-        $scope.onEdit[index] = false;
+    $scope.removeChart = function(chart){
+      chart.remove();
+    };
+    $scope.editChart = function(chart){
+      editChart(chart).then(function(){
+        $timeout(function(){
+          chart.setPeriod($scope.period);
+          chart.refresh();
+        });
       });
     };
+
+    function editChart(chart){
+      return $uibModal.open({
+        animation: true,
+        templateUrl: 'edit-custom-chart',
+        controller: 'CustomChartsController.editChart',
+        size: 'sm',
+        resolve: {
+            chart: function() {
+                return chart;
+            }
+        }
+      }).result;
+    };
+  }])
+  .controller('CustomChartsController.editChart', ['$scope', '$uibModalInstance', 'chart', '$q', 'EditChartService', 'CustomChartsService', '$timeout', function($scope, $uibModalInstance, chart, $q, EditChartService, CustomChartsService, $timeout){
+
+    $scope.chartTypes = [
+      {text: '折线图', value: 'line'},
+      {text: '柱状图', value: 'bar'},
+      {text: '饼图', value: 'pie'}
+    ];
+
+    $scope.typeOptions = [];
+    $scope.selectedType = null;
+    $scope.selectedLocation = null;
+
+    $scope.options = {
+      name: '',
+      type: '',
+      index: 'reporting',
+      chartType: 'line',
+      dimensions: {
+        location: false,
+        time: false
+      },
+      locations: [],
+      timeUnit: 'm',
+      interval: 30,
+      aggMethod: 'avg',
+      property: null
+    };
+
+    $scope.aggMethods = [
+      {value: 'avg', text: '平均值'},
+      {value: 'max', text: '最大值'},
+      {value: 'min', text: '最小值'}
+    ];
+
+    $scope.$watch('selectedType', function(type){
+      if(!type)return;
+      $scope.options.type = {
+        typeName: type.value,
+        displayName: type.text
+      };
+    });
+
+    $scope.init = function(){
+      EditChartService.getAllTypes().then(function(types){
+        $scope.typeOptions = types;
+
+        if($scope.typeOptions.length > 0){
+          if(chart.options.type){
+            $scope.selectedType = _.find($scope.typeOptions, {value: chart.options.type.typeName});
+          }else{
+            $scope.selectedType = $scope.typeOptions[0];
+          }
+        }
+        _.extend($scope.options, chart.options);
+        _.extend($scope.options, {
+          name: chart.name,
+          description: chart.description
+        });
+
+        $scope.$broadcast('timeslice-input', {
+          unit: $scope.options.timeUnit, 
+          interval: $scope.options.interval
+        });
+      });
+    };
+
+    $scope.$watch('login', function(val){
+      if(!val) return;
+      $scope.init();
+    });
+
+    $scope.locationChange = function(location, locationName){
+      $scope.selectedLocation = {
+        location: location,
+        displayName: locationName
+      };
+    };
+
+    $scope.addLocation = function(){
+      if(!$scope.selectedLocation) return;
+      if(! _.find($scope.options.locations, {location: $scope.selectedLocation.location})){
+        $scope.options.locations.push($scope.selectedLocation);
+      }
+    };
+
+    $scope.removeLocation = function(location){
+      $scope.options.locations = _.reject($scope.options.locations, {location: location.location});
+    };
+
+    $scope.onTimeSliceChange = function(timeSlice){
+      $scope.options.timeUnit = timeSlice.unit;
+      $scope.options.interval = timeSlice.interval;
+    };
+
+    $scope.saveChart = function(){
+
+      $scope.options.query = CustomChartsService.buildQueryFromOptions($scope.options);
+      $scope.options.level = ($scope.options.dimensions.time 
+              && $scope.options.dimensions.location) ? 1 : 0;
+        
+      chart.name = $scope.options.name;
+      chart.description = $scope.options.description;
+      chart.options = $scope.options;
+
+      CustomChartsService.buildQueryFromOptions($scope.options).then(function(query){
+        chart.options.query = query;
+        delete $scope.options.name;
+        delete $scope.options.description;
+        console.log(chart);
+        chart.save().then(function(){
+          $uibModalInstance.close(chart);
+        });
+      });
+    };
+
+    $scope.cancel = function(){
+      $uibModalInstance.dismiss();
+    };
+
   }]);

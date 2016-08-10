@@ -104,11 +104,11 @@ gulp.task('config', function () {
 });
 
 gulp.task('bin', function(){
-  return gulp.src(paths.src + '/**/*')
-    pipe(gulp.dest(paths.dist + '/bin'));
+  return gulp.src(paths.src + '/bin/**/*')
+    .pipe(gulp.dest(paths.dist + '/bin'));
 });
 
-gulp.task('dist', ['html', 'images', 'misc', 'fonts', 'fonts-local', 'config']);
+gulp.task('dist', ['html', 'images', 'misc', 'fonts', 'fonts-local', 'config', 'bin']);
 gulp.task('build',['sass','inject','partials','watch']);
 
 gulp.task('mbower', function(){

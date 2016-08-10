@@ -3,6 +3,13 @@
 angular.module('BeehivePortal')
   .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
+      .state('app.portal.Reporting.Electricity', {
+        url: '/Electricity',
+        templateUrl: 'app/components/portal/Reporting/Electricity/Electricity.html',
+        controller: 'ElectricityController',
+        stateName: '能耗监测',
+        previous: 'app.portal.Reporting'
+      })
       .state('app.portal.Reporting.Environment', {
         url: '/Environment',
         templateUrl: 'app/components/portal/Reporting/Environment/Environment.html',
