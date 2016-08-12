@@ -36,7 +36,7 @@ angular.module('BeehivePortal')
 
         $q.all(promiseList).then(function(result){
           $scope.triggerData = {
-            fromGateway: trigger.type == 'gateway',
+            fromGateway: trigger.type == 'Gateway',
             triggerID: trigger.triggerID,
             enabled: !(trigger.recordStatus == 'disable'),
             name: trigger.name || '',

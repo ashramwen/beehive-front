@@ -11,11 +11,14 @@ angular.module('BeehivePortal')
      * query all things
      */
     $scope.queryThings = function(from, id){
-        if(from == 'type'){
-            $scope.things = $$Thing.byType({}, {typeName: id});
-        }else{
-            $scope.things = $$Thing.byTag({tagType:'Custom',displayName:id});
-        }
+        $$Thing.byType({}, {typeName: id}, function(things){
+
+          var ids = _.pluck(things, 'globalThingID');
+
+          $$Thing.getThingsByIDs({}, ids, function(things){
+            $scope.things = things;
+          });
+        });
     }
 
     /*
@@ -44,8 +47,12 @@ angular.module('BeehivePortal')
           return item.text == '查看详情';
         });
         _.extend(showDetailItem,{callback:function(thing){
-            $scope.navigateTo(navObj,_.extend({thingid: thing.globalThingID},$state.params));
+            $scope.navigateTo(navObj,_.extend({thingid: thing.id},$state.params));
         }});
+
+        $scope.viewThing = function(thing){
+          $scope.navigateTo(navObj, _.extend({thingid: thing.id},$state.params));
+        };
     };
 
   }]);

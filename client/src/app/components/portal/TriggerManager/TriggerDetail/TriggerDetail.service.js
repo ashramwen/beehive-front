@@ -56,7 +56,9 @@ angular.module('BeehivePortal')
     TriggerDetailService.parseSchema = function(schema){
       if(!schema || !schema.content) return {};
       return {
+        name: schema.name,
         displayName: schema.content.statesSchema.title,
+        version: schema.version,
         properties: TriggerDetailService.parseProperties(schema.content.statesSchema.properties),
         actions: TriggerDetailService.parseActions(schema.content.actions)
       };
@@ -188,7 +190,10 @@ angular.module('BeehivePortal')
           actions: actions
         };
 
-        var $typePromise = $$Type.getSchema({type: type}, function(schema){
+        var $typeDefer = $q.defer();
+        var $typePromise = $typeDefer.promise;
+
+        $$Type.getSchema({type: type}, function(schema){
           var _schema = TriggerDetailService.parseSchema(schema);
 
           _.each(actions, function(action){
@@ -208,14 +213,12 @@ angular.module('BeehivePortal')
             thing.typeDisplayName = _schema.displayName;
           });
           resultMap.typeDisplayName = _schema.displayName;
-
-          $defer.resolve(resultMap);
-        }).$promise;
-
-        $q.all([$typePromise, $thingsPromise], function(){
-          $defer.resolve(resultMap);
+          $typeDefer.resolve();
         });
 
+        $q.all([$typePromise, $thingsPromise]).then(function(){
+          $defer.resolve(resultMap);
+        });
       });
 
       return $q.all(promiseList);
@@ -295,7 +298,10 @@ angular.module('BeehivePortal')
           things: things
         };
 
-        var $typePromise = $$Type.getSchema({type: type}, function(schema){
+        var $typeDefer = $q.defer();
+        var $typePromise = $typeDefer.promise;
+
+        $$Type.getSchema({type: type}, function(schema){
           var _schema = TriggerDetailService.parseSchema(schema);
 
           _.each(properties, function(property){
@@ -307,10 +313,10 @@ angular.module('BeehivePortal')
             thing.typeDisplayName = _schema.displayName;
           });
           resultMap.typeDisplayName = _schema.displayName;
-          
-        }).$promise;
+          $typeDefer.resolve();
+        });
 
-        $q.all([$typePromise, $thingsPromise], function(){
+        $q.all([$typePromise, $thingsPromise]).then(function(){
           $defer.resolve(resultMap);
         });
       });
@@ -319,44 +325,49 @@ angular.module('BeehivePortal')
     };
 
     TriggerDetailService.getThingsDetail = function(things){
-          var $defer = $q.defer();
-          $$Thing.getThingsByIDs({}, _.pluck(things, 'globalThingID'), function(thingsWithLocation){
-            var locationPromiseList = [];
-            
-            _.each(things, function(thing){
-              var _thing = _.find(thingsWithLocation, {id: thing.globalThingID});
-              thing.location = _thing.locations[0];
-              locationPromiseList.push(TriggerDetailService.getLocationTree(thing.location));
-            });
+      var $defer = $q.defer();
+      var locationsSuffix = ['楼','层', '区域'];
 
-            $q.all(locationPromiseList, function(locationGroups){
-              _.each(things, function(thing, i){
-                things.locationDisplayName = _.pluck(locationGroups[i], 'displayName').join('-');
-              });
-            });
+      $$Thing.getThingsByIDs({}, _.pluck(things, 'globalThingID'), function(thingsWithLocation){
+        var locationPromiseList = [];
+        
+        _.each(things, function(thing){
+          var _thing = _.find(thingsWithLocation, {id: thing.globalThingID});
+          thing.location = _thing.locations[0];
+          locationPromiseList.push(TriggerDetailService.getLocationTree(thing.location));
+        });
 
-            $defer.resolve(things);
+        $q.all(locationPromiseList).then(function(locationGroups){
+          _.each(things, function(thing, i){
+            var parent = '';
+            locationGroups[0].push({displayName: thing.location, location: thing.location});
+
+            thing.locationDisplayName = _.map(locationGroups[i], function(location, i){
+              var displayName = location.displayName.substr(parent.length) + locationsSuffix[i];
+              parent = location.displayName;
+              return displayName;
+            }).join(' ');
           });
-          return $defer.promise;
-        }
+          $defer.resolve(things);
+
+        });
+
+      });
+      return $defer.promise;
+    }
 
     
     TriggerDetailService.getLocationTree = function(locationID){
-      var locationID = '';
       var $defer = $q.defer();
 
       $$Location.getParent({location: locationID}, function(locations){
         var location = _.find(locations, {location: locationID});
-        var orderedLocations = getOrderedLocations(locations, location).reverse();
+        var orderedLocations = getOrderedLocations(locations);
 
         $defer.resolve(orderedLocations);
 
-        function getOrderedLocations(locationArr, location){
-          if(location.parent){
-            return [location].concat(_.find(locationArr, {location: location.parent}));
-          }else{
-            return [location]
-          }
+        function getOrderedLocations(locationArr){
+          return locationArr;
         }
       });
 

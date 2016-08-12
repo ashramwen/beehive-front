@@ -432,7 +432,7 @@ angular.module('BeehivePortal')
                 method: 'GET',
                 isArray: true,
                 url: MyAPIs.TAG + '/search?tagType=Location',
-                //cache: true
+                cache: true
             },
             getTopLevel: {
                 method: 'GET',

@@ -10,8 +10,8 @@ angular.module('BeehivePortal')
     
     $scope.triggers = [];
     $scope.typeList = [
-        {name: 'conditional', displayName: '条件规则', disabled: false, icon:'fa-clock-o'},
-        {name: 'schedule', displayName: '定时规则', disabled: false, icon:'fa-code-fork'}
+        {name: 'conditional', displayName: '条件规则', disabled: false, icon:'fa-code-fork'},
+        {name: 'schedule', displayName: '定时规则', disabled: false, icon:'fa-clock-o'}
     ];
 
     $rootScope.$watch('login', function(newVal){
@@ -31,7 +31,7 @@ angular.module('BeehivePortal')
                     disabled: trigger.recordStatus == 'disable',
                     type: (!!trigger.predicate.schedule)? 'schedule': 'conditional',
                     createdAt: '2016-07-06',
-                    fromGateway: trigger.type == 'gateway'
+                    fromGateway: trigger.type == 'Gateway'
                 };
             });
         });

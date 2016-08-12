@@ -5,13 +5,13 @@ angular.module('BeehivePortal')
     var ConditionTriggerDetailService = {};
 
     ConditionTriggerDetailService.dataValidation = function(triggerData){
-      if(!triggerData.conditionGroup || triggerData.conditionGroup.length == 0){
+      if(!triggerData.conditionGroups || !triggerData.conditionGroups.length){
         throw(new Error());
       }
-      if(_.isEmpty(triggerData.conditionGroups.name)){
+      if(_.isEmpty(triggerData.name)){
         throw(new Error());
       }
-      if(triggerData.actionGroups || triggerData.actionGroups.length){
+      if(!triggerData.actionGroups || !triggerData.actionGroups.length){
         throw(new Error);
       }
       return true;

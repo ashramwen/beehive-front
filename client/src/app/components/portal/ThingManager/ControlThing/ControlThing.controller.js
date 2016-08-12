@@ -1,97 +1,73 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('ControlThingController', ['$scope', '$state', 'AppUtils', '$$Thing', '$$Type', 'TriggerService', '$timeout', '$rootScope', function($scope, $state, AppUtils, $$Thing, $$Type, TriggerService, $timeout, $rootScope) {
+  .controller('ControlThingController', ['$scope', '$state', 'AppUtils', '$$Thing', '$$Type', 'TriggerDetailService', '$timeout', '$rootScope', function($scope, $state, AppUtils, $$Thing, $$Type, TriggerDetailService, $timeout, $rootScope) {
     
+    $scope.schema = null;
+    $scope.actionGroup = {
+      type: null, 
+      typeDisplayName: '', 
+      things: [],
+      actions: []
+    };
+
+
     $scope.init = function(){
-        $scope.currentStep = 1;
-        $rootScope.$watch('login', function(newVal){
-            if(!newVal) return;
-            initData();
-            $scope.refreshed = true;
-        });
+
     };
 
-    $scope.nextStep = function(step){
-        switch(step){
-            case 1:
-                saveSource();
-                break;
-            case 2: 
-                sendCommand();
-                break;
-        }
-        $scope.currentStep = (step == 2?2: $scope.currentStep+1);
-    };
+    
+    $scope.selectedChange = function(things, type){
+      
+      $$Type.getSchema({type: type}, function(schema){
+        var _schema = TriggerDetailService.parseSchema(schema);
+        $scope.schema = _schema;
+        $scope.actions = _schema.actions;
 
-    function saveSource(){
-        var type = $scope.dataContainer.mySource.sourceType;
-        if(type == 'tag'){
-            if($scope.dataContainer.mySource.thingList){
-                delete $scope.dataContainer.mySource.thingList;
-            }
-            $scope.dataContainer.mySource.type = $scope.dataContainer.mySource.selectedType.id;
-        }else{
-            if($scope.dataContainer.mySource.tagList){
-                delete $scope.dataContainer.mySource.tagList;
-            }
-        }
-        var source = $scope.dataContainer.mySource;
-        
-        TriggerService.getSourceTypes(source).then(function(types){
-            TriggerService.getTypeSchemas(types).then(function(schemas){
-                $scope.dataContainer.sourceSchema = schemas[0];
-            });
-        });
-    }
-
-    function initData(){
-        $scope.dataContainer = {
-            mySource: {},
-            command: {}
+        $scope.actionGroup = {
+          type: type, 
+          typeDisplayName: _schema.displayName,
+          actions: [],
+          things: things
         };
-        
-    }
+      });
+      
+      $scope.actionGroup.things = things;
+    };
 
-    function sendCommand(){
-        var schemas = $scope.dataContainer.sourceSchema,
-            actions = [];
+    $scope.toggleAction = function(action){
+      if(!action._selected){
+        var _action = AppUtils.clone(action);
+        $scope.actionGroup.actions.push(_action);
+        delete _action._selected;
+      }else{
+        $scope.actionGroup.actions = _.reject($scope.actionGroup.actions, {actionName: action.actionName});
+      }
 
-        _.each(schemas.content.actions, function(action, actionName){
-            var actionToAdd = {},
-                addFlag = false;
-                actionToAdd[actionName] = {};
+      action._selected = !action._selected;
+    };
 
-            if(action._checked){
-                _.each(action.in.properties, function(propertyValue, propertyName){
-                    if(propertyValue._checked){
-                        actionToAdd[actionName][propertyName] = propertyValue.value;
-                        addFlag = true;
-                    }
-                })
+    $scope.sendCommand = function(){
+
+        var command = {
+            thingList: _.pluck($scope.actionGroup.things, 'globalThingID'),
+            command: {
+                schema: $scope.schema.name,
+                schemaVersion: $scope.schema.version,
+                actions: []
             }
-            if(addFlag){
-                actions.push(actionToAdd);
-            }
+        };
+
+        command.command.actions = _.map($scope.actionGroup.actions, function(action){
+            var actionObj = {};
+            actionObj[action.actionName] = {};
+            _.each(action.properties, function(property){
+                actionObj[action.actionName][property.propertyName] = property.value;
+            });
+            return actionObj;
         });
 
-        var fieldsExisting = ['thingList', 'tagList', 'andExpress', 'type'];
-        _.each($scope.dataContainer.mySource, function(value, key){
-            if(fieldsExisting.indexOf(key) == -1){
-                delete $scope.dataContainer.mySource[key];
-            }
-        });
-        var command = new BeehiveCommand(),
-            commands = [];
-
-        _.extend(command, $scope.dataContainer.mySource);
-        command.command.actions = actions;
-
-        commands.push(command);
-
-
-        $$Thing.sendCommand(commands, function(){
-            initData();
+        $$Thing.sendCommand([command], function(){
             AppUtils.alert('命令已发送成功', '提示信息');
             $state.go($state.current.name, {refreshId: ~~(Math.random()*100)});
             $scope.refreshed = false;

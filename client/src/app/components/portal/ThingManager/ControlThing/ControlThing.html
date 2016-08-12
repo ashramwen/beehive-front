@@ -1,22 +1,50 @@
 <div class="app-portal-thingmanager-controlthing" ng-init="init()">
   <div class="panel">
-    <div class="panel-heading">发送设备命令</div>
     <div class="panel-body">
-      <uib-carousel no-wrap="noWrapSlides">
-        <!-- ============================== select source ========================== -->
-        <uib-slide active="currentStep == 1">
-          <source-picker my-source="dataContainer.mySource" init="init" ng-if="refreshed"></source-picker>
-        </uib-slide>
-        <!-- ========================= end of select source ======================== -->
-        <uib-slide active="currentStep == 2">
-          <trigger-command my-actions="dataContainer.sourceSchema.content.actions" ng-if="refreshed"></trigger-command>
-        </uib-slide>
-      </uib-carousel>
-      <hr/>
-      <div class="panel-foot clearfix">
-        <button class="btn btn-danger pull-right margin-left" ng-click="nextStep(currentStep)">{{currentStep < 2?'下一步':'完成'}}</button>
-        <button class="btn btn-success pull-right" ng-click="currentStep = currentStep - 1" ng-show="currentStep>1">上一步</button>
+      设备选择
+    </div>
+  </div>
+  <thing-location-type-selector single-type="true" change="selectedChange(selectedThings, type)"></thing-location-type-selector>
+  <div class="panel trigger-actions">
+    <div class="panel-body">
+      <h4>规则行为</h4>
+      <div class="row flex-row">
+        <div class="col-sm-4">
+          <span class="action" ng-class="{'active': action._selected}" ng-repeat="action in actions" ng-click="toggleAction(action)">
+            {{action.displayName}}
+          </span>
+        </div>
+        <div class="col-sm-8">
+          <div class="selected-action clearfix" ng-repeat="action in actionGroup.actions">
+            <h4>{{action.displayName}}</h4>
+            <hr/>
+            <div class="selected-property" ng-repeat="property in action.properties">
+              <!-- not enum -->
+              <div ng-if="!property.enumType && (property.type=='int' || property.type=='float')">
+                <label>{{property.displayName}} <span class="fa fa-info-circle" ng-if="property.tooltip" uib-tooltip="{{property.tooltip}}"></span></label>
+                <number-input ng-model="property.value" min="property.minimum" max="property.maximum" type="property.type"></number-input>
+              </div>
+
+              <!-- enmu: boolean -->
+              <div ng-if="property.enumType == 'BOOLEAN' || property.type == 'boolean'">
+                <label>{{property.displayName}}</label>
+                <div switchery="property.value" yes-text="{{property.options[1].text || '是'}}" no-text="{{property.options[0].text || '否'}}"></div>
+              </div>
+
+              <!-- enmu: number -->
+              <div ng-if="property.enumType == 'NUMBER'">
+                <label>{{property.displayName}}</label>
+                <div app-select options="property.options" selected-model="property.value"></div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  <div>
+    <button class="btn btn-warning btn-lg pull-center" ng-click="sendCommand()">发送</button>
+  </div>
+
 </div>

@@ -1,22 +1,17 @@
 <div class="app-portal-thingmanager-gateway">
-  <section class="panel">
-    <header class="panel-heading">设备列表</header>
-    <div class="panel-body">
-      <div class="row clearfix">
-        <div class="col-xs-4 clearfix">
-          <uib-tabset>
-            <uib-tab heading="位置">
-              <treecontrol class="tree-classic"
-                 tree-model="locationTree"
-                 options="treeOptions"
-                 on-selection="selectLocation(node)">
-                 {{node.name}}
-              </treecontrol>
-            </uib-tab>
-          </uib-tabset>
-        </div>
-        <div class="col-xs-8 clearfix">
-          <table class="table table-striped table-bordered table-hover dataTable no-footer">
+  <div class="form-group"><button class="btn btn-info" ng-click="addGateway()">添加网关</button></div>
+  <div class="row flex-row">
+    <div class="col-md-5">
+      <section class="panel table" id="gateway-list">
+        <header class="panel-heading clearfix">
+          <span class="title">网关列表</span>
+          <div class="select">
+            <span class="fa fa-map-marker"></span>
+            <location-selector change="locationChange(location, fullLocation, displayName)"></location-selector>
+          </div>
+        </header>
+        <div class="panel-body">
+          <table class="table table-striped table-hover dataTable no-footer">
             <thead>
                 <tr role="row">
                   <th class="sorting_asc" rowspan="1" colspan="1">ID</th>
@@ -29,31 +24,61 @@
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
     </div>
-  </section>
-  <section class="panel">
-    <header class="panel-heading">设备列表</header>
-    <div class="panel-body">
-      <table class="table">
-        <thead>
-          <th>设备ID</th>
-          <th>设备种类</th>
-          <th>状态</th>
-          <th>操作</th>
-        </thead>
+    <div class="col-md-7">
+      <section class="panel table">
+        <header class="panel-heading">设备列表</header>
+        <div class="panel-body">
+          <table class="table">
+            <thead>
+              <th>设备ID</th>
+              <th>设备种类</th>
+              <th>状态</th>
+              <th>操作</th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="thing in endNodes">
+                <td>{{thing.vendorThingID}}</td>
+                <td>{{thing.type}}</td>
+                <td>{{thing.status}}</td>
+                <td width="124px">
+                  <button class="btn btn-danger" ng-click="removeEndNode(thing)">删除</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script type="text/ng-template" id="app-portal-thingmanager-addgateway">
+  <div class="modal-header">
+      <h3 class="modal-title">网关信息</h3>
+  </div>
+  <div class="modal-body clearfix">
+    <div class="app-portal-thingmanager-addgateway" ng-init="init()">
+      <table id="gateway-info">
         <tbody>
-          <tr ng-repeat="thing in endNodes">
-            <td>{{thing.vendorThingID}}</td>
-            <td>{{thing.type}}</td>
-            <td>{{thing.status}}</td>
-            <td width="124px">
-              <button class="btn btn-info" ng-click="showReplaceModal(thing)">替换</button>
-              <button class="btn btn-danger" ng-click="removeEndNode(thing)">删除</button>
+          <tr>
+            <td>设备编号</td>
+            <td><input class="form-control" type="text" ng-model="gateway.vendorThingID" /></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="fa fa-map-marker"></span>坐标
+            </td>
+            <td>
+              <location-selector change="locationChange(location, fullLocation, displayName)"></location-selector>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-  </section>
-</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning btn-lg pull-center" ng-click="createGateway(gateway)">添加网关</button>
+  </div>
+</script>

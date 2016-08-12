@@ -56,10 +56,6 @@ angular.module('BeehivePortal')
                 icon: 'fa-desktop',
                 subViews: [
                     {
-                        name: '新设备',
-                        state: $state.get('app.portal.ThingManager.AddThing')
-                    },
-                    {
                         hidden: $rootScope.credential.roleName == 'commUser',
                         name: '网关管理',
                         state: $state.get('app.portal.ThingManager.Gateway')
@@ -79,10 +75,12 @@ angular.module('BeehivePortal')
                         name: '位置视图',
                         state: $state.get('app.portal.ThingViews.LocationView')
                     },
+                    /*
                     {
                         name: '标签视图',
                         state: $state.get('app.portal.ThingViews.TagView')
                     },
+                    */
                     {
                         name: '种类视图',
                         state: $state.get('app.portal.ThingViews.TypeView')

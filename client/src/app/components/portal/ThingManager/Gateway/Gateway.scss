@@ -9,5 +9,55 @@
             }
         }
     }
-    
+    .col-md-5, .col-md-7 {
+        & > .panel{
+            height: 100%;
+            margin-bottom: 0px;
+            min-height: 200px;
+        }
+    }
+    #gateway-list{
+        .panel-heading{
+            height: 54px;
+        }
+        .title{
+            display: block;
+            float: left;
+            line-height: 34px;
+        }
+        .select{
+            float: left;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            padding-left: 15px;
+            .fa{
+                position: relative;
+                top: 4px;
+                margin-right: 5px;
+                font-size: 24px;
+                &.fa-lightbulb-o{
+                    color: #fba141;
+                }
+                &.fa-map-marker{
+                    color: #5dd6d6;
+                }
+            }
+        }
+    }
+}
+
+
+.app-portal-thingmanager-addgateway{
+  #gateway-info{
+    td{
+      padding: 5px;
+      .fa-map-marker{
+        position: relative;
+        top: 4px;
+        margin-right: 5px;
+        font-size: 24px;
+        color: #5dd6d6;
+      }
+    }
+  }
 }

@@ -12,6 +12,10 @@ angular.module('BeehivePortal')
         $rootScope.credential = credential;
         window.MyApp.credential = credential;
         $http.defaults.headers.common['Authorization'] = 'Bearer ' + credential['accessToken'];
+        KiiReporting.KiiQueryConfig.setConfig({
+            //token: 'Bearer ' + credential['accessToken']
+            token: 'Bearer super_token'
+        });
     };
 
     session.useCredential = function(){

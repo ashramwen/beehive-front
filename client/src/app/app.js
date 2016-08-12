@@ -95,12 +95,11 @@ config(function(localStorageServiceProvider, $httpProvider, NotificationProvider
           AppUtils.initialize();
           window.AppUtils = AppUtils;
           window.ECharts = echarts;
-          
+          _.noConflict();
           
           KiiReporting.KiiQueryConfig.setConfig({
             site: 'http://121.199.7.69',
-            port: 9200,
-            token: 'Bearer super_token'
+            port: 9200
           });
           
           $rootScope.$on('$stateChangeStart', function(evt, to, params) {

@@ -42,6 +42,20 @@ angular.module('BeehivePortal')
         }
     });
 
+    $scope.addGateway = function(){
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'app-portal-thingmanager-addgateway',
+            controller: 'GatewayController.CreateGateway',
+            size: 'sm'
+        });
+
+        modalInstance.result.then(function (gateway) {
+            AppUtils.alert('网关添加成功！', '提示信息');
+            $scope.gateways.push(gateway);
+        });
+    };
+
     $scope.selectLocation = function(){
         $scope.gateways = $$Thing.getGateways();
     };
@@ -58,6 +72,7 @@ angular.module('BeehivePortal')
         });
     };
 
+    /*
     $scope.showReplaceModal = function(endNode){
         var modalInstance = $uibModal.open({
             animation: true,
@@ -77,6 +92,7 @@ angular.module('BeehivePortal')
             console.log('Modal dismissed at: ' + new Date());
         });
     };
+    */
 
     $scope.removeEndNode = function(endNode){
         AppUtils.confirm('删除节点','您确认要删除这个节点吗？', function(){
@@ -86,6 +102,10 @@ angular.module('BeehivePortal')
         });
     };
   }])
+  .controller('GatewayController.CreateGateway', ['$scope', '$uibModalInstance', '$$Thing', function($scope, $uibModalInstance, $$Thing){
+
+  }]);
+  /*
   .controller('GatewayController.Replacement', ['$scope', '$uibModalInstance', '$$Thing', 'endNode', '$http', function($scope, $uibModalInstance, $$Thing, endNode, $http){
 
     $scope.endNode = {
@@ -106,3 +126,4 @@ angular.module('BeehivePortal')
         $uibModalInstance.dismiss('cancel');
     };
   }]);
+  */

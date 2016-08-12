@@ -1,5 +1,5 @@
 angular.module('BeehivePortal')
-  .directive('pagion', ['$compile', '$location', function($compile, $location){
+  .directive('pagion', ['$compile', '$location', '$rootScope', function($compile, $location, $rootScope){
     return{
         restrict: 'E',
         replace: true,
@@ -17,7 +17,7 @@ angular.module('BeehivePortal')
             scope.pageChanged = function(){
                 findItemsForDisplay();
 
-                $location.search(_.extend({'pageIndex': scope.index}, scope.$state.params));
+                $location.search(_.extend({'pageIndex': scope.index}, $rootScope.$state.params));
                 if(_.isFunction(scope.onChanged)){
                     scope.onChanged(index, scope.display);
                 }

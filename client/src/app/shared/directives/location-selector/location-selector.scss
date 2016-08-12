@@ -4,18 +4,25 @@
     outline: none;
   }
   .panel{
-    width: 400px; margin-bottom:0px;
+    margin-bottom:0px;
   }
   .location-select{
-    float: left;
+    white-space: nowrap;
     margin-right: 10px;
     line-height: 34px;
-    label{
+    & > label{
       display: inline-block;
+      margin-right: 5px;
     }
     select{
       width: auto;
       display: inline-block;
+    }
+  }
+  &.right{
+    .dropdown-menu{
+      left: inherit;
+      right: 0px;
     }
   }
 }

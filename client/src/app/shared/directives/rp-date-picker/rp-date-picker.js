@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .directive('rpDatePicker', ['$compile', function($compile){
+  .directive('rpDatePicker', ['$compile', '$$Location', function($compile, $$Location){
     return{
         restrict: 'E',
         replace: true,
@@ -10,8 +10,16 @@ angular.module('BeehivePortal')
             output: '=?'
         },
         templateUrl: 'app/shared/directives/rp-date-picker/rp-date-picker.html',
-        controller:['$scope', '$$Location', function($scope, $$Location){
+        link:function($scope, attr, ele){
             
+            var pickerID = attr['id'];
+            $scope.timePeriod = {};
+
+            $scope.$on('rpDatePicker-settime', function($event, update){
+                if(update.id && update.id != pickerID)return;
+                $scope.timePeriod.from = moment(update.from);
+                $scope.timePeriod.to = moment(update.to);
+            });
             
             function dateOffset(date, offset){
                 var d = new Date(date.getTime());
@@ -48,6 +56,8 @@ angular.module('BeehivePortal')
                 $scope.$watch('timePeriod.to', output);
             }
 
+            $scope.init();
+
             function output(){
                 if(!_.isFunction($scope.output)) return;
 
@@ -61,6 +71,6 @@ angular.module('BeehivePortal')
                 $scope.output(result);
             }
 
-        }]
+        }
     };
   }]);

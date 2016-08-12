@@ -175,6 +175,123 @@ $click-cursor: pointer;
   }
 }
 
+
+.panel.header{
+  .panel-body{
+    padding: 5px 10px;
+  }
+  .panel-row{
+    line-height: 50px;
+    .fa{
+      position: relative;
+      top: 4px;
+      margin-right: 5px;
+      font-size: 24px;
+    }
+    .title{
+      margin-right: 10px;
+    }
+  }
+  .btn-ctrl{
+    margin-top: -3px;
+  }
+  .table{
+    &>tbody>tr>td{
+      border-top: none;
+      line-height: 32px;
+    }
+    margin-bottom: 0px;
+  }
+  .v-hr{
+    border-right: 1px solid #ddd;
+    height: 34px;
+    font-size: 32px;
+    font-weight: 100;
+    color: #ddd;
+    margin: 8px 5px;
+  }
+  .time-picker{
+    max-width: 390px;
+    margin-top: 7px;
+    margin-right: 5px;
+  }
+  .fa-clock-o{
+    color: #ffb589;
+  }
+  .fa-map-marker{
+    color: #5dd6d6;
+  }
+}
+
+.panel.table{
+  & > .panel-heading{
+    background: #fff;
+    border-bottom: none;
+  }
+  & > .panel-body{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    .table{
+      margin-bottom: 0px;
+      & > tbody, & > thead{
+        & > tr{
+          & > th, & > td{
+            &:first-child{
+              padding-left: 20px;
+            }
+          }
+        }
+      }
+
+      & > tbody > tr{
+        background-color: #fff;
+        cursor: pointer;
+        &:nth-child(2n){
+          background-color: #f9fafb;
+        }
+        &:hover{
+          background-color: #f9fafb;
+        }
+        &:first-child{
+          & > td{
+            border-top: none;
+          }
+        }
+        & > td{
+          background-color: transparent;
+          border: none;
+          border-top: solid 1px #ddd;
+        }
+      }
+      & > thead > tr{
+        & > th{
+          background: #f5fafd;
+        }
+      }
+    }
+  }
+}
+.modal-dialog{
+  .modal-content{
+    border: none;
+    border-radius: 20px;
+    .modal-header{
+      border-radius: 20px 20px 0px 0px;
+      background: #61c9d2;
+      color: #fff;
+    }
+  }
+}
+
+.pull-center{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
 @media(min-width: 768px){
   .flex-row{
     @include display-flex();

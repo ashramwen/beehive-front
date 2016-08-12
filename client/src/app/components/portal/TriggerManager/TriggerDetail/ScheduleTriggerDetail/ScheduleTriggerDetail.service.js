@@ -18,10 +18,10 @@ angular.module('BeehivePortal')
         }
       }
 
-      if(_.isEmpty(triggerData.conditionGroups.name)){
+      if(_.isEmpty(triggerData.name)){
         throw(new Error());
       }
-      if(triggerData.actionGroups || triggerData.actionGroups.length){
+      if(!triggerData.actionGroups || !triggerData.actionGroups.length){
         throw(new Error);
       }
       return true;
@@ -57,7 +57,7 @@ angular.module('BeehivePortal')
             0, 
             triggerDataset.schedule.time.getMinutes(), 
             triggerDataset.schedule.time.getHours(),
-            '？',
+            '?',
             '*',
             '*'
           ].join(' ');
@@ -66,7 +66,7 @@ angular.module('BeehivePortal')
             0, 
             triggerDataset.schedule.time.getMinutes(), 
             '*',
-            '？',
+            '?',
             '*',
             '*'
           ].join(' ');

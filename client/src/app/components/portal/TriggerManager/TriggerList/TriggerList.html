@@ -3,7 +3,7 @@
 
     <div class="trigger-tile" ng-class="getTriggerClass(trigger)" ng-repeat="trigger in triggers | filter:triggerFilter" ng-click="viewTrigger(trigger)">
       <div class="trigger-img">
-        <span class="fa fa-clock-o"></span>
+        <span class="fa" ng-class="{'fa-clock-o': trigger.type == 'schedule', 'fa-code-fork': trigger.type=='conditional'}"></span>
       </div>
       <span class="fa fa-ban" ng-if="trigger.disabled"></span>
       <div class="description">

@@ -6,7 +6,8 @@ angular.module('BeehivePortal')
         restrict: 'E',
         replace: true,
         scope:{
-            change: '&'
+            change: '&',
+            position: '=?'
         },
         templateUrl: 'app/shared/directives/location-selector/location-selector.template.html',
         controller:['$scope', '$$Location', function($scope, $$Location){
@@ -78,9 +79,9 @@ angular.module('BeehivePortal')
                 }
                 var displayName = $scope.level.building.displayName + '楼';
                 if(_.isEmpty($scope.level.floor)) return displayName;
-                displayName += ' ' + $scope.level.floor.displayName + '层';
+                displayName += ' ' + $scope.level.floor.displayName.substr($scope.level.building.displayName.length) + '层';
                 if(_.isEmpty($scope.level.area)) return displayName;
-                displayName += ' ' + $scope.level.area.displayName + '区域';
+                displayName += ' ' + $scope.level.area.displayName.substr($scope.level.floor.displayName.length) + '区域';
                 return displayName;
             };
         }]

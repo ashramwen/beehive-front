@@ -75,7 +75,7 @@ angular.module('BeehivePortal')
         animation: true,
         templateUrl: 'edit-custom-chart',
         controller: 'CustomChartsController.editChart',
-        size: 'sm',
+        size: 'md',
         resolve: {
             chart: function() {
                 return chart;

@@ -1,4 +1,4 @@
-<div uib-dropdown class="location-selector">
+<div uib-dropdown class="location-selector" ng-class="position">
   <button id="search-filter" ng-disabled="disabled" type="button" class="btn btn-default" uib-dropdown-toggle>
     {{getDisplayName()}} <span class="caret"></span>
   </button>
@@ -6,20 +6,20 @@
     <div class="panel">
       <div class="panel-body">
         <div class="location-select">
-          <label for="selectBuilding">楼号</label>
+          <label>楼号</label>
           <select class="form-control" id="selectBuilding" placeholder="Building" ng-options="building.displayName for building in location.building track by building.location" ng-model="level.building" ng-change="changeBuilding()" ng-click="$event.stopPropagation()">
             <option value="">请选择</option>
           </select>
         </div>
         <div class="location-select">
-          <label for="selectFloor">层数</label>
-          <select class="form-control" id="selectFloor" placeholder="Floor" ng-options="floor.displayName for floor in location.floor track by floor.location" ng-model="level.floor" ng-change="changeFloor()" ng-click="$event.stopPropagation()">
+          <label>层数</label>
+          <select class="form-control" id="selectFloor" placeholder="Floor" ng-options="floor.displayName.substr(level.building.displayName.length) for floor in location.floor track by floor.location" ng-model="level.floor" ng-change="changeFloor()" ng-click="$event.stopPropagation()">
             <option value="">请选择</option>
           </select>
         </div>
         <div class="location-select">
-          <label for="selectArea">区域</label>
-          <select class="form-control" id="selectArea" placeholder="Area" ng-options="area.displayName for area in location.area track by area.location" ng-model="level.area" ng-change="changeArea()" ng-click="$event.stopPropagation()">
+          <label>区域</label>
+          <select class="form-control" id="selectArea" placeholder="Area" ng-options="area.displayName.substr(level.floor.displayName.length) for area in location.area track by area.location" ng-model="level.area" ng-change="changeArea()" ng-click="$event.stopPropagation()">
             <option value="">请选择</option>
           </select>
         </div>

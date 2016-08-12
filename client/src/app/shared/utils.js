@@ -100,7 +100,7 @@ angular.module('BeehivePortal')
                 template += '    </div>';
                 template += '  </div>';
                 template += '  <div class="modal-footer ng-scope">';
-                template += '      <button class="btn btn-primary" style="width:100%;" type="button" ng-click="ok()">提交</button>';
+                template += '      <button class="btn btn-warning" style="width:100%;" type="button" ng-click="ok()">提交</button>';
                 template += '  </div>';
                 template += '</div>';
                 var modalInstance = $uibModal.open({
@@ -132,7 +132,7 @@ angular.module('BeehivePortal')
                 template += '    </div>';
                 template += '  </div>';
                 template += '  <div class="modal-footer ng-scope">';
-                template += '      <button class="btn btn-primary" type="button" ng-click="ok()">提交</button>';
+                template += '      <button class="btn btn-info" type="button" ng-click="ok()">提交</button>';
                 template += '      <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>';
                 template += '  </div>';
                 template += '</div>';

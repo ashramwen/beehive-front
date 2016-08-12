@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('ScheduleTriggerDetailController', ['$scope', '$rootScope', 'ScheduleTriggerDetailService', '$$Trigger', 'AppUtils', function($scope, $rootScope, ScheduleTriggerDetailService, $$Trigger, AppUtils) {
+  .controller('ScheduleTriggerDetailController', ['$scope', '$rootScope', 'ScheduleTriggerDetailService', '$$Trigger', 'AppUtils', 'TriggerDetailService', function($scope, $rootScope, ScheduleTriggerDetailService, $$Trigger, AppUtils, TriggerDetailService) {
     
     $scope.save = function(){
 
@@ -11,7 +11,9 @@ angular.module('BeehivePortal')
 
         if(!$scope.triggerData.triggerID){
           $$Trigger.save(trigger, function(){
-            AppUtils.alert('创建触发器成功！', '提示信息');
+            AppUtils.alert('创建触发器成功！', '提示信息', function(){
+              $scope.$state.go(TriggerDetailService.States.SCHEDULE_TRIGGER, {triggerID: trigger.triggerID});
+            });
           });
         }else{
           $$Trigger.remove({triggerID: $scope.triggerData.triggerID}, function(){

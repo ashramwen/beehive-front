@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('TypeViewController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Type', '$uibModal',function($scope, $rootScope, $state, AppUtils, $$Type, $uibModal) {
+  .controller('TypeViewController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Type', '$uibModal', 'TriggerDetailService',function($scope, $rootScope, $state, AppUtils, $$Type, $uibModal, TriggerDetailService) {
     /*
      * define variables
      */
@@ -9,7 +9,16 @@ angular.module('BeehivePortal')
     $scope.thingTypes = [];
 
     $scope.init = function(){
-        $scope.thingTypes = $$Type.getAll();
+        $$Type.getAll(function(types){
+            $scope.thingTypes = types;
+            _.each(types, function(type){
+
+                $$Type.getSchema({type: type.type}, function(schema){
+                    schema = TriggerDetailService.parseSchema(schema);
+                    type.displayName = schema.displayName;
+                });
+            });
+        });
     };
 
     $scope.viewThings = function(type){
