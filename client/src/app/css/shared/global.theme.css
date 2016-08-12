@@ -1157,11 +1157,11 @@ Gradient Background colors
   margin-right: 10px; }
 
 .dropdown-menu > li > a:hover {
-  background-color: #3c8dbc;
+  background: #3c8dbc;
   color: #f9f9f9; }
 
 .dropdown-menu-right > li > a:hover {
-  background-color: #39435c;
+  background: #39435c;
   color: #f9f9f9; }
 
 /*Drodown in navbars*/
@@ -3033,9 +3033,6 @@ Gradient Background colors
 
 .skin-black .navbar .nav a {
   color: #333333; }
-
-.skin-black .navbar .nav a:hover {
-  background: #000; }
 
 .skin-black .navbar .nav > li > a:hover,
 .skin-black .navbar .nav > li > a:active,

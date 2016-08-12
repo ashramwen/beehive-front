@@ -45,22 +45,22 @@ angular.module('BeehivePortal')
          * create user
          */
         $scope.createUser = function() {
-            if (!$scope.newUser.displayName) {
-                AppUtils.alert('姓名为空');
-                return;
-            }
-            if (!$scope.newUser.userName) {
-                AppUtils.alert('用户名为空');
-                return;
-            }
-            if (!$scope.newUser.mail) {
-                AppUtils.alert('邮箱为空');
-                return;
-            }
-            if (!$scope.newUser.phone) {
-                AppUtils.alert('手机号为空');
-                return;
-            }
+            // if (!$scope.newUser.displayName) {
+            //     AppUtils.alert('姓名为空');
+            //     return;
+            // }
+            // if (!$scope.newUser.userName) {
+            //     AppUtils.alert('用户名为空');
+            //     return;
+            // }
+            // if (!$scope.newUser.mail) {
+            //     AppUtils.alert('邮箱为空');
+            //     return;
+            // }
+            // if (!$scope.newUser.phone) {
+            //     AppUtils.alert('手机号为空');
+            //     return;
+            // }
             $$UserManager.create($scope.newUser, function(userRegistrationInfo) {
                 var userID = userRegistrationInfo.userID;
                 var activityToken = userRegistrationInfo.activityToken;
