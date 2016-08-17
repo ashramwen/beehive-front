@@ -7,19 +7,25 @@
       <div class="panel-body">
         <div class="location-select">
           <label>楼号</label>
-          <select class="form-control" id="selectBuilding" placeholder="Building" ng-options="building.displayName for building in location.building track by building.location" ng-model="level.building" ng-change="changeBuilding()" ng-click="$event.stopPropagation()">
+          <select class="form-control" ng-options="option._displayName for option in levels.building.options track by option.location" ng-model="levels.building.selected" ng-change="changeLocation('building')" ng-click="$event.stopPropagation()">
             <option value="">请选择</option>
           </select>
         </div>
         <div class="location-select">
           <label>层数</label>
-          <select class="form-control" id="selectFloor" placeholder="Floor" ng-options="floor.displayName.substr(level.building.displayName.length) for floor in location.floor track by floor.location" ng-model="level.floor" ng-change="changeFloor()" ng-click="$event.stopPropagation()">
+          <select class="form-control" ng-options="option._displayName for option in levels.floor.options track by option.location" ng-model="levels.floor.selected" ng-change="changeLocation('floor')" ng-click="$event.stopPropagation()">
             <option value="">请选择</option>
           </select>
         </div>
         <div class="location-select">
           <label>区域</label>
-          <select class="form-control" id="selectArea" placeholder="Area" ng-options="area.displayName.substr(level.floor.displayName.length) for area in location.area track by area.location" ng-model="level.area" ng-change="changeArea()" ng-click="$event.stopPropagation()">
+          <select class="form-control" ng-options="option._displayName for option in levels.partition.options track by option.location" ng-model="levels.partition.selected" ng-change="changeLocation('partition')" ng-click="$event.stopPropagation()">
+            <option value="">请选择</option>
+          </select>
+        </div>
+        <div class="location-select" ng-if="!hideLast">
+          <label>区块</label>
+          <select class="form-control" ng-options="option._displayName for option in levels.area.options track by option.location" ng-model="levels.area.selected" ng-change="changeLocation('area')" ng-click="$event.stopPropagation()">
             <option value="">请选择</option>
           </select>
         </div>

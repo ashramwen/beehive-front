@@ -30,7 +30,7 @@ angular.module('BeehivePortal')
 
             $scope.init = function(){
                 var now = new Date();
-                now.setHours(0,0,0,0);
+                //now.setHours(0,0,0,0);
                 var tommorrow = dateOffset(now, 1);
                 var yesterday = dateOffset(now, -1);
 

@@ -23,13 +23,15 @@ angular.module('BeehivePortal').controller('TriggerConditionHandlerController',
       var options = {
         usedTypes: _.pluck($scope.triggerData.conditionGroups, 'type')
       };
-
       if(type){
-        $scope.conditionGroup = AppUtils.clone(_.find($scope.triggerData.conditionGroups, {type: type}));
-        _.extend(options, {
-          selectedThings: $scope.conditionGroup.things,
-          onlyType: $scope.type
-        });
+        var conditionGroup = _.find($scope.triggerData.conditionGroups, {type: type});
+        if(conditionGroup){
+          $scope.conditionGroup = AppUtils.clone(conditionGroup);
+          _.extend(options, {
+            selectedThings: $scope.conditionGroup.things,
+            onlyType: $scope.type
+          });
+        }
       }
 
       $timeout(function(){
@@ -83,10 +85,18 @@ angular.module('BeehivePortal').controller('TriggerConditionHandlerController',
 
       if(!conditionGroup){
         conditionGroup = $scope.conditionGroup;
+        if(conditionGroup.properties.length == 0){
+          $scope.goBack();
+          return;
+        }
         $scope.triggerData.conditionGroups = $scope.triggerData.conditionGroups || [];
         $scope.triggerData.conditionGroups.push(conditionGroup);
       }else{
-        _.extend(conditionGroup, $scope.conditionGroup);
+        if($scope.conditionGroup.properties.length == 0){
+            $scope.triggerData.conditionGroups.remove(conditionGroup);
+        }else{
+          _.extend(conditionGroup, $scope.conditionGroup);
+        }
       }
 
       $scope.goBack();

@@ -34,13 +34,56 @@
             </div>
           </div>
           <div class="repeat-settings">
-            <div ng-show="triggerData.schedule.type!='Interval'" class="form-group no-repeat">
-              <input type="time" class="form-control" ng-model="triggerData.schedule.time" ng-if="triggerData.schedule.onceType!='hourly'">
-              <input type="number" class="form-control" name="" min="0" max="59" ng-if="triggerData.schedule.onceType=='hourly'" ng-model="triggerData.schedule.minute">
+            <div ng-if="triggerData.schedule.type!='Interval'" class="form-group no-repeat">
+              <input type="time" class="form-control"
+                ng-model="triggerData.schedule.time" 
+                ng-if="triggerData.schedule.onceType!='hourly'" 
+                name="ruleScheduleTime1" 
+
+                required 
+                uib-tooltip="请输入触发时间"
+                tooltip-trigger="'none'"
+                tooltip-placement="top"
+                tooltip-is-open="ruleform.$submitted
+                  && !!ruleform.ruleScheduleTime1.$error.required"
+                />
+              <input type="number" class="form-control" 
+                min="0" max="59" 
+                ng-if="triggerData.schedule.onceType=='hourly'" 
+                ng-model="triggerData.schedule.minute" 
+                name="ruleScheduleTime2"
+
+                required
+                uib-tooltip="请输入触发时间"
+                tooltip-trigger="'none'"
+                tooltip-placement="top"
+                tooltip-is-open="ruleform.$submitted
+                  && !!ruleform.ruleScheduleTime2.$error.required"
+                />
             </div>
-            <div ng-show="triggerData.schedule.type=='Interval'" class="form-group repeat">
-              <input type="number" class="form-control" name="" min="1" ng-model="triggerData.schedule.interval">
-              <select class="form-control" ng-model="triggerData.schedule.timeUnit">
+            <div ng-if="triggerData.schedule.type=='Interval'" class="form-group repeat">
+              <input type="number" class="form-control" min="1"
+                ng-model="triggerData.schedule.interval" 
+                name="ruleScheduleInterval"
+
+                required
+                uib-tooltip="请输入触发间隔"
+                tooltip-trigger="'none'"
+                tooltip-placement="top"
+                tooltip-is-open="ruleform.$submitted
+                  && !!ruleform.ruleScheduleInterval.$error.required"
+                />
+              <select class="form-control" 
+                ng-model="triggerData.schedule.timeUnit"
+                name="timeunit"
+
+                required
+                uib-tooltip="请选择时间单位"
+                tooltip-trigger="'none'"
+                tooltip-placement="top"
+                tooltip-is-open="ruleform.$submitted
+                  && !!ruleform.timeunit.$error.required"
+                >
                 <option ng-repeat="unit in timeUnits" value="{{unit.value}}">{{unit.text}}</option>
               </select>
             </div>

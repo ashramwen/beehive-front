@@ -25,22 +25,9 @@
             float: left;
             line-height: 34px;
         }
-        .select{
-            float: left;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            padding-left: 15px;
-            .fa{
-                position: relative;
-                top: 4px;
-                margin-right: 5px;
-                font-size: 24px;
-                &.fa-lightbulb-o{
-                    color: #fba141;
-                }
-                &.fa-map-marker{
-                    color: #5dd6d6;
-                }
+        .thing-filter{
+            & > .select{
+                display: none;
             }
         }
     }

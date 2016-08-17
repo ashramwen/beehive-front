@@ -1,7 +1,13 @@
 <div class="app-portal-triggermanager-triggerdetail-triggeractionlist" ng-controller="TriggerActionListController">
   <div class="panel">
     <div class="panel-body">
-      <h4>规则行为</h4>
+      <h4
+        uib-tooltip="至少需要添加一个行为"
+        tooltip-trigger="'none'"
+        tooltip-placement="top"
+        tooltip-is-open="ruleform.$submitted
+          && !triggerData.actionGroups.length"
+        >规则行为</h4>
       <div class="table-holder">
         <table class="property-table">
           <tbody>

@@ -143,6 +143,7 @@
 
 @media (min-width: 768px) {
   .flex-row {
+    margin-bottom: 20px;
     display: -webkit-box;
     /* OLD - iOS 6-, Safari 3.1-6 */
     display: -moz-box;
@@ -223,7 +224,18 @@
       margin-bottom: 0px; }
     .flex-row .col-sm-12 {
       flex: 12;
-      margin-bottom: 0px; } }
+      margin-bottom: 0px; }
+    .flex-row .col-md-1 > .panel, .flex-row .col-md-2 > .panel, .flex-row .col-md-3 > .panel, .flex-row .col-md-4 > .panel,
+    .flex-row .col-md-5 > .panel, .flex-row .col-md-6 > .panel, .flex-row .col-md-7 > .panel, .flex-row .col-md-8 > .panel,
+    .flex-row .col-md-9 > .panel, .flex-row .col-md-10 > .panel, .flex-row .col-md-11 > .panel, .flex-row .col-md-12 > .panel {
+      height: 100%; }
+    .flex-row .col-sm-1 > .panel, .flex-row .col-sm-2 > .panel, .flex-row .col-sm-3 > .panel, .flex-row .col-sm-4 > .panel,
+    .flex-row .col-sm-5 > .panel, .flex-row .col-sm-6 > .panel, .flex-row .col-sm-7 > .panel, .flex-row .col-sm-8 > .panel,
+    .flex-row .col-sm-9 > .panel, .flex-row .col-sm-10 > .panel, .flex-row .col-sm-11 > .panel, .flex-row .col-sm-12 > .panel {
+      height: 100%; } }
+
+.dropdown .dropdown-menu {
+  z-index: 100; }
 
 .app-portal {
   /* ---------------------------- output item style --------------*/

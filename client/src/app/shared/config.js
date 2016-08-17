@@ -6,6 +6,7 @@
 
 (function () {
     var siteUrl = appConfig[appConfig.ENV].siteUrl;
+    window.AppConfig = appConfig[appConfig.ENV];
     window.thirdPartyAPIUrl = appConfig[appConfig.ENV].thirdPartyAPIUrl;
     var cloudUrl = appConfig[appConfig.ENV].cloudUrl;
     /*

@@ -294,6 +294,7 @@ $click-cursor: pointer;
 
 @media(min-width: 768px){
   .flex-row{
+    margin-bottom: 20px;
     @include display-flex();
     .col-md-1{flex: 1; margin-bottom: 0px;}
     .col-md-2{flex: 2; margin-bottom: 0px;}
@@ -320,5 +321,27 @@ $click-cursor: pointer;
     .col-sm-10{flex: 10; margin-bottom: 0px;}
     .col-sm-11{flex: 11; margin-bottom: 0px;}
     .col-sm-12{flex: 12; margin-bottom: 0px;}
+
+    .col-md-1,.col-md-2,.col-md-3,.col-md-4,
+    .col-md-5,.col-md-6,.col-md-7,.col-md-8,
+    .col-md-9,.col-md-10,.col-md-11,.col-md-12{
+      & > .panel{
+        height: 100%;
+      }      
+    }
+
+    .col-sm-1,.col-sm-2,.col-sm-3,.col-sm-4,
+    .col-sm-5,.col-sm-6,.col-sm-7,.col-sm-8,
+    .col-sm-9,.col-sm-10,.col-sm-11,.col-sm-12{
+      & > .panel{
+        height: 100%;
+      }
+    }
+  }
+}
+
+.dropdown{
+  .dropdown-menu{
+    z-index: 100;
   }
 }

@@ -1,38 +1,36 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('GatewayController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Thing', '$$Type', '$$Location', '$uibModal', function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type, $$Location, $uibModal) {
+  .controller('GatewayController', ['$scope', '$rootScope', '$uibModal', 'AppUtils', '$$Thing', '$$Type', '$$Location', '$timeout', 'GatewayService', function($scope, $rootScope, $uibModal, AppUtils, $$Thing, $$Type, $$Location, $timeout, GatewayService) {
+    
     $scope.things = [];
+
+    $rootScope.$watch('login', function(newVal){
+        if(!newVal) return;
+        $scope.init();
+    });
+
     /*
      * Init app
      */
     $scope.init = function(){
+        $timeout(function(){
+            $scope.inputFilterOptions({type: 'gateway'});
+        });
+    };
 
-        $rootScope.$watch('login', function(newVal){
-            if(!newVal) return;
-            $scope.locationsTree = [];
+    $scope.getGateways = function(gateways){
+        if(!gateways)return;
+        $$Thing.getThingsByIDs(_.pluck(gateways, 'globalThingID'), function(things){
+            $scope.gateways = _.map(things, function(thing){
+                thing.globalThingID = thing.id;
 
-            /*
-             * tree settings
-             */
-            $scope.treeOptions = {
-                multiSelection: false,
-                nodeChildren: "children",
-                dirSelectable: true,
-                injectClasses: {
-                    ul: "a1",
-                    li: "a2",
-                    liSelected: "a7",
-                    iExpanded: "a3",
-                    iCollapsed: "a4",
-                    iLeaf: "a5",
-                    label: "a6",
-                    labelSelected: "a8"
-                }
-            };
-
-
-            $scope.selectLocation();
+                $$Thing.getOnboardingInfo({vendorThingID: thing.vendorThingID}, function(onborderInfo){
+                    _.extend(thing, onborderInfo);
+                });
+                return thing;
+            });
+            
         });
     };
 
@@ -56,18 +54,24 @@ angular.module('BeehivePortal')
         });
     };
 
-    $scope.selectLocation = function(){
-        $scope.gateways = $$Thing.getGateways();
-    };
-
     $scope.showGatewayThings = function(gateway){
+        var dirtyFields = ['target', 'taiwanNo1', 'novalue'];
+
         $$Thing.getEndNodes({}, gateway, function(endNodes){
 
             $scope.endNodes = endNodes;
+            _.each($scope.endNodes, function(endNode){
+                if(endNode.status){
+                    _.each(dirtyFields, function(field){
+                        delete endNode.status[field];
+                    });
+                }
+            })
+
+            GatewayService.getThingsDetail($scope.endNodes);
 
             _.each(endNodes, function(endNode, index){
-                $scope.endNodes[index].kiiThingID = gateway.kiiThingID;
-                $scope.endNodes[index].kiiAppID = gateway.kiiAppID;
+                endNode.kiiAppID = gateway.kiiAppID;
             });
         });
     };
@@ -103,7 +107,27 @@ angular.module('BeehivePortal')
     };
   }])
   .controller('GatewayController.CreateGateway', ['$scope', '$uibModalInstance', '$$Thing', function($scope, $uibModalInstance, $$Thing){
+    $scope.gateway = {
+        vendorThingID: '',
+        location: ''
+    };
 
+    $scope.createGateway = function(){
+        var gatewayObj = {
+            vendorThingID: ($scope.gateway.location + '-00-' + $scope.gateway.vendorThingID).toUpperCase(),
+            type: 'gateway',
+            kiiAppID: AppConfig.kiiAppID
+        };
+
+        $$Thing.save(gatewayObj, function(gateway){
+            $uibModalInstance.close(gateway);
+            console.log(gateway);
+        });
+    };
+
+    $scope.locationChange = function(location){
+        $scope.gateway.location = location;
+    };
   }]);
   /*
   .controller('GatewayController.Replacement', ['$scope', '$uibModalInstance', '$$Thing', 'endNode', '$http', function($scope, $uibModalInstance, $$Thing, endNode, $http){

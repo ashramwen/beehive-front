@@ -246,7 +246,7 @@ angular.module('BeehivePortal')
                 "must": [
                   {
                     "terms" : { 
-                      "id" : allThings
+                      "target" : allThings
                     }
                   }
                 ],

@@ -7,82 +7,163 @@ angular.module('BeehivePortal')
         replace: true,
         scope:{
             change: '&',
-            position: '=?'
+            input: '=?',
+            position: '=?',
+            hideLast: '=?'
         },
         templateUrl: 'app/shared/directives/location-selector/location-selector.template.html',
-        controller:['$scope', '$$Location', function($scope, $$Location){
-            $scope.location = {};
-            $scope.level = {};
+        controller:['$scope', '$$Location', '$q', function($scope, $$Location, $q){
             $scope.detail = $scope.detail || [];
             $scope.subLevels = [];
 
-            $$Location.getTopLevel().$promise.then(function(res) {
-                $scope.location.building = res;
+            $scope.levels = {
+                "building": {
+                    "options": [],
+                    "suffix": '楼',
+                    "selected": null,
+                    "parent": null,
+                    "children": ['floor', 'partition', 'area']
+                },
+                "floor": {
+                    "options": [],
+                    "suffix": '层',
+                    "selected": null,
+                    "parent": 'building',
+                    "children": ['partition', 'area']
+                },
+                "partition": {
+                    "options": [],
+                    "suffix": '区域',
+                    "selected": null,
+                    "parent": 'floor',
+                    "children": ['area']
+                },
+                "area": {
+                    "options": [],
+                    "suffix": '区块',
+                    "selected": null,
+                    "parent": 'partition',
+                    "children": []
+                }
+            };
+
+            $scope.$watch('input', function(val){
+                $scope.selectedLocation = val;
+                $scope.setLocation();
             });
 
+            $$Location.getTopLevel(function(res){
+                $scope.levels['building'].options = _.map(res, function(option){
+                    option._displayName = option.displayName;
+                    return option;
+                }) ;
+                $scope.setLocation();
+            });
+
+            $scope.setLocation = function(){
+
+                if(!$scope.selectedLocation || !$scope.levels.building.options.length) return;
+                $$Location.getParent({location: $scope.selectedLocation}, function(locationList){
+
+                    var $defer = $q.defer();
+                    var funcs = [];
+                    locationList.reverse();
+
+                    _.each(locationList, function(location, index){
+                        var func = (function(location, funcAfter){
+                            return function(){
+                                var target = $scope.levels[location.level];
+                                target.selected = _.find(target.options, {location: location.location});
+                                if(funcAfter){
+                                    $scope.changeLocation(location.level, true).then(funcAfter);
+                                }else{
+
+                                    $scope.changeLocation(location.level, true).then(function(){
+                                        $defer.resolve($scope.levels[target.children[0]]);
+                                    });
+                                }
+                            };
+                        })(location, funcs[index - 1]);
+                        funcs.push(func);
+                    });
+
+                    var firstFunc = funcs[funcs.length - 1];
+                    firstFunc();
+
+                    $defer.promise.then(function(obj){
+                        obj.selected = _.find(obj.options, {location: $scope.selectedLocation});
+                        $scope.$emit('location-loaded');
+                    });
+
+                });
+            };
+            
             $scope.onChange = function(location, obj){
-                $scope.change({location: location, locationName: obj.displayName, fullLocation: $scope.level, displayName: $scope.getDisplayName(), subLevels: $scope.subLevels});
+                $scope.change({location: location, locationName: obj.displayName, fullLocation: $scope.levels, displayName: $scope.getDisplayName(), subLevels: $scope.subLevels});
                 $scope.$emit('location-change', location);
             };
 
-            $scope.changeBuilding = function() {
-                $scope.location.floor = [];
-                $scope.location.area = [];
-
-                $scope.level.floor = null;
-                $scope.level.area = null;
-
-                if(!$scope.level.building){
-                    $scope.onChange(null);
-                    return;
-                }
-
-                $$Location.getSubLevel({ location: $scope.level.building.location }).$promise.then(function(res) {
-
-                    $scope.location.floor = res;
-                    $scope.subLevels = $scope.location.floor;
-
-                    $scope.onChange($scope.level.building.location, $scope.level.building);
+            $scope.changeLocation = function(level, preventOutput){
+                var $defer = $q.defer();
+                var children = $scope.levels[level].children;
+                _.each(children, function(child){
+                    $scope.levels[child].options = [];
+                    $scope.levels[child].selected = null;
                 });
-                
-            };
 
-            $scope.changeFloor = function() {
-                $scope.location.area = [];
-                $scope.level.area = null;
+                var target = $scope.levels[level];
 
-                if(!$scope.level.floor){
-                    $scope.onChange($scope.level.building.location, $scope.level.building);
+                if(!target.selected){
+                    if(!preventOutput){
+                        var parent = null;
+                        if(target.parent){
+                            parent = $scope.levels[target.parent];
+                            $scope.onChange(parent.selected.location, parent.selected);
+                        }else{
+                            $scope.onChange(null);
+                        }
+                    }
                     return;
                 }
 
-                $$Location.getSubLevel({ location: $scope.level.floor.location }).$promise.then(function(res) {
-                    $scope.location.area = res;
-                    $scope.subLevels = $scope.location.area;
-                    $scope.onChange($scope.level.floor.location, $scope.level.floor);
-                });
-            };
+                if(target.children.length>0){
+                    $$Location.getSubLevel({location: target.selected.location}, function(res){
+                        $scope.levels[target.children[0]].options = _.map(res, function(option){
+                            option._displayName = option.displayName.substr(target.selected.displayName.length).replace('-', '');
+                            return option;
+                        });
+                        $scope.subLevels = res;
 
-            $scope.changeArea = function() {
-                $scope.subLevels = [];
-                
-                if(!$scope.level.area){
-                    $scope.onChange($scope.level.floor.location, $scope.level.floor);
-                    return;
+                        if(!preventOutput){
+                            $scope.onChange(target.selected.location, target.selected);
+                        }
+                        $defer.resolve($scope.subLevels);
+                    });
+                }else{
+                    $scope.subLevels = [];
+                    if(!preventOutput){
+                        $scope.onChange(target.selected.location, target.selected);
+                    }
+                    $defer.resolve($scope.subLevels);
                 }
-                $scope.onChange($scope.level.area.location, $scope.level.area);
-            };
+                return $defer.promise;
+            }
 
             $scope.getDisplayName = function(){
-                if(_.isEmpty($scope.level.building)){
+                if(_.isEmpty($scope.levels.building.selected)){
                     return '请选择';
                 }
-                var displayName = $scope.level.building.displayName + '楼';
-                if(_.isEmpty($scope.level.floor)) return displayName;
-                displayName += ' ' + $scope.level.floor.displayName.substr($scope.level.building.displayName.length) + '层';
-                if(_.isEmpty($scope.level.area)) return displayName;
-                displayName += ' ' + $scope.level.area.displayName.substr($scope.level.floor.displayName.length) + '区域';
-                return displayName;
+                var target = $scope.levels.building;
+                var displayNames = [];
+                while(target && target.selected){
+                    displayNames.push(target.selected._displayName + target.suffix);
+                    target = $scope.levels[target.children[0]];
+                }
+                if(displayNames.length > 0){
+                    return displayNames.join(' ');
+                }else{
+                    return '请选择';
+                }
             };
         }]
     };

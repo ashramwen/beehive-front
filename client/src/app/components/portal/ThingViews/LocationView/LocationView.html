@@ -2,18 +2,7 @@
   <div class="panel header">
     <div class="panel-body">
       <div class="panel-row">
-        <span>设备列表</span>
-        <div class="pull-right">
-          <div class="pull-left">
-            <div class="title pull-left">
-              <span class="fa fa-map-marker"></span>
-              <span>坐标</span>
-            </div>
-            <div class="pull-left">
-              <location-selector change="locationChange(location, locationName, subLevels)" position="'right'"></location-selector>
-            </div>
-          </div>
-        </div>
+        <thing-filter input="inputFilterOptions" change="thingListChange(things, type, location)" search="search"></thing-filter>
       </div>
     </div>
   </div>
@@ -24,17 +13,15 @@
         <thead>
             <tr role="row">
               <th class="sorting_asc" rowspan="1" colspan="1">ID</th>
-              <th>vendorThingID</th>
               <th class="sorting" rowspan="1" colspan="1" aria-sort="ascending">种类</th>
-              <th class="text-center">已登陆</th>
+              <th class="sorting" rowspan="1" colspan="1" aria-sort="ascending">位置</th>
             </tr>
         </thead>
         <tbody>
           <tr class="gradeA" ng-click="viewThing(thing)" role="row" ng-repeat="thing in thingsForDisplay" context-menu="myMenu" target="thing">
             <td>{{thing.id}}</td>
-            <td>{{thing.vendorThingID}}</td>
             <td class="sorting_1">{{thing.type}}</td>
-            <td class="text-center"><span class="fa" ng-class="thing.fullKiiThingID?'fa-check': 'fa-remove'"></span></td>
+            <td>{{thing.location}}</td>
           </tr>
         </tbody>
       </table>

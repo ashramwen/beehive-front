@@ -15,7 +15,7 @@ angular.module('BeehivePortal')
           var searchQuery = {
             type: type, 
             locationPrefix: subLevel.location, 
-            includeSubLevel: false
+            includeSubLevel: true
           };
 
           return $$Thing.getThingsByLocationType(searchQuery).$promise;
@@ -36,7 +36,18 @@ angular.module('BeehivePortal')
           }
         });
 
-        $defer.resolve(queriedSubLevels);
+        var allThingPromises = [];
+        _.each(queriedSubLevels, function(level){
+          var thingPromise = $$Thing.getThingsByIDs(level.things, function(queriedThings){
+            level.things = _.pluck(queriedThings, 'kiiThingID');;
+          }).$promise;
+          allThingPromises.push(thingPromise);
+        });
+
+        $q.all(allThingPromises).then(function(){
+          $defer.resolve(queriedSubLevels);
+        });
+
       });
 
       return $defer.promise;
@@ -44,27 +55,16 @@ angular.module('BeehivePortal')
 
     ReportingService.getAllThings = function(locations){
 
-      locations = [
-        {things: [1300,1301,1302], location: {displayName: '1楼', location: '01'}},
-        {things: [1303,1304,1305], location: {displayName: '2楼', location: '02'}},
-        {things: [1306,1307,1308], location: {displayName: '3楼', location: '03'}}
-      ];
-      
       var allThings = [];
       _.each(locations, function(location){
         allThings = allThings.concat(location.things);
       });
+
       return allThings;
     };
 
     ReportingService.getLocationEnums = function(locations){
-      var enumObj = {values: [], keys: [], field: 'id'};
-
-      locations = [
-        {things: [1300,1301,1302], location: {displayName: '1楼', location: '01'}},
-        {things: [1303,1304,1305], location: {displayName: '2楼', location: '02'}},
-        {things: [1306,1307,1308], location: {displayName: '3楼', location: '03'}}
-      ];
+      var enumObj = {values: [], keys: [], field: 'target'};
 
       _.each(locations, function(location){
         if(!location.things.length){
@@ -75,7 +75,7 @@ angular.module('BeehivePortal')
       });
 
       return enumObj;
-    }
+    };
 
 
     return ReportingService;

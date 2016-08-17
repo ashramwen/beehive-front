@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('TypeViewController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Type', '$uibModal', 'TriggerDetailService',function($scope, $rootScope, $state, AppUtils, $$Type, $uibModal, TriggerDetailService) {
+  .controller('TypeViewController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Type', '$uibModal', 'TriggerDetailService', '$$Location', '$q', '$location', function($scope, $rootScope, $state, AppUtils, $$Type, $uibModal, TriggerDetailService, $$Location, $q, $location) {
     /*
      * define variables
      */
@@ -9,21 +9,49 @@ angular.module('BeehivePortal')
     $scope.thingTypes = [];
 
     $scope.init = function(){
+        $scope.initLocation = $scope.$state.params.location;
         $$Type.getAll(function(types){
+            var promiseList = [];
             $scope.thingTypes = types;
-            _.each(types, function(type){
 
-                $$Type.getSchema({type: type.type}, function(schema){
+            _.each(types, function(type){
+                var $promise = $$Type.getSchema({type: type.type}, function(schema){
                     schema = TriggerDetailService.parseSchema(schema);
                     type.displayName = schema.displayName;
-                });
+                }).$promise;
+                promiseList.push($promise);
+            });
+            $q.all(promiseList).then(function(){
+                $scope.filterTypes();
             });
         });
     };
 
-    $scope.viewThings = function(type){
-        $scope.navigateTo($scope.navMapping.TYPE_THING_LIST,{typeName: type.type, from: 'type'});
+    $scope.filterTypes = function(){
+        if(!$scope.selectedLocation) return;
+        $$Location.getThingsByLocation({location: $scope.selectedLocation}, function(things){
+            _.each($scope.thingTypes, function(type){
+                var filtedThings = _.where(things, {type: type.type});
+                type.thingNumber = filtedThings.length;
+            });
+        });
     };
+
+    $scope.locationChange = function(location){
+        if(location == $scope.selectedLocation) return;
+        $scope.selectedLocation = location;
+        $scope.filterTypes();
+    };
+
+    $scope.viewType = function(type){
+        $scope.navigateTo('app.portal.ThingViews.LocationView', {type: type.type, location: $scope.selectedLocation});
+    };
+
+    $scope.$watch('login', function(val){
+        if(val){
+            $scope.init();
+        }
+    });
 
     /*
      * show edit modal

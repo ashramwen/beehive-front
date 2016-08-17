@@ -1,19 +1,20 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('ThingDetailController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Thing', '$$Type', '$uibModal', '$timeout', '$$Trigger', '$log', function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type, $uibModal, $timeout, $$Trigger, $log) {
+  .controller('ThingDetailController', ['$scope', '$rootScope', 'AppUtils', '$timeout', '$log', '$q', 'ThingDetailService', '$$Thing', function($scope, $rootScope, AppUtils, $timeout, $log, $q, ThingDetailService, $$Thing) {
     $scope.thing = {};
-    var globalThingID = $state.params.thingid;
+    var globalThingID = ~~$scope.$state.params.thingid;
 
     $scope.init = function(){
-        $scope.thing = $$Thing.get({globalThingID: globalThingID}, function(thing){
 
-            $$Thing.getOnboardingInfo({vendorThingID: thing.vendorThingID}, function(onboardingInfo){
-                _.extend($scope.thing, onboardingInfo);
-                $log.debug(onboardingInfo);
+        
+        ThingDetailService.getThing(globalThingID).then(function(thing){
+            $scope.thing = thing;
+            $timeout(function(){
+                $scope.$broadcast('rpDatePicker-settime', $scope.period);
+                $scope.searchThingCommands();
             });
         });
-
         var startDate = new Date(),
             endDate = new Date();
 
@@ -23,10 +24,6 @@ angular.module('BeehivePortal')
             from: startDate,
             to: endDate
         };
-        $timeout(function(){
-            $scope.$broadcast('rpDatePicker-settime', $scope.period);
-            $scope.searchThingCommands();
-        });
     };
 
     $scope.onPeriodChange = function(period){
@@ -49,11 +46,21 @@ angular.module('BeehivePortal')
         if(endDate){
             params.end = endDate;
         }
-        $scope.thingCommands = $$Thing.getCommands(params);
+        $$Thing.getCommands(params, function(thingCommands){
+            $scope.thingCommands = thingCommands;
+            _.each($scope.thingCommands, function(command){
+                command.actionNames = _.map(command.actions, function(action){
+                    var actionName = _.keys(action)[0];
+                    return _.find($scope.thing.actions, {actionName: actionName}).displayName;
+                });
+            });
+        });
     };
 
     $scope.refreshStatus = function(){
-        $scope.thing = $$Thing.get({globalThingID: $state.params.thingid});
+        ThingDetailService.getThing(globalThingID).then(function(thing){
+            $scope.thing = thing;
+        });
     };
 
     $scope.$watch('login', function(val){

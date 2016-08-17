@@ -1,6 +1,6 @@
 <div class="app-portal-thingviews-thingdetail">
   <!-- property of a thing -->
-  <div class="row">
+  <div class="row flex-row">
     <div class="col-md-6">
       <div class="panel">
         <div class="panel-heading">属性</div>
@@ -8,9 +8,8 @@
           <table>
             <tr><td class="title">设备ID</td><td>{{thing.globalThingID}}</td></tr>
             <tr><td class="title">vendorThingID</td><td>{{thing.vendorThingID}}</td></tr>
-            <tr><td class="title">设备位置</td><td>{{thing.location}}</td></tr>
-            <tr><td class="title">设备种类</td><td>{{thing.type}}</td></tr>
-            <tr><td class="title">标签</td><td>{{thing.tags.join(', ')}}</td></tr>
+            <tr><td class="title">设备位置</td><td>{{thing.locationDisplayName}}</td></tr>
+            <tr><td class="title">设备种类</td><td>{{thing.typeDisplayName}}</td></tr>
             <tr>
               <td class="title">已登录</td>
               <td><span class="fa" ng-class="thing.fullKiiThingID?'fa-check': 'fa-remove'"></span></td>
@@ -26,9 +25,9 @@
         </div>
         <div class="panel-body">
           <table ng-show="!statusOnEdit">
-            <tr ng-repeat="(key, value) in thing.status">
-              <td class="title">{{key}}</td>
-              <td>{{value}}</td>
+            <tr ng-repeat="property in thing.status">
+              <td class="title">{{property.displayName}}</td>
+              <td>{{property.value}}</td>
             </tr>
           </table>
         </div>
@@ -67,7 +66,7 @@
         </thead>
         <tbody>
           <tr ng-repeat="command in thingCommandsForDisplay">
-            <td>{{command.actions}}</td>
+            <td>{{command.actionNames.join(' ')}}</td>
             <td>{{command.commandState}}</td>
             <td>{{command.createdAt | date:'yyyy-MM-dd HH:mm:ss'}}</td>
           </tr>

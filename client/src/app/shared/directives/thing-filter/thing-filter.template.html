@@ -1,0 +1,14 @@
+<div class="thing-filter clearfix">
+  <div class="select">
+    <span class="fa fa-lightbulb-o"></span>
+    <div app-select change="typeChange" options="types" selected-model="selectedType" value-only="true" disabled="onlyType"></div>
+  </div>
+
+  <div class="pull-left">
+    <div class="select">
+      <span class="fa fa-map-marker"></span>
+      <location-selector input="initLocation" change="locationChange(location, fullLocation, displayName)"></location-selector>
+    </div>
+    <button class="btn btn-info" ng-click="search()">检索</button>
+  </div>
+</div>

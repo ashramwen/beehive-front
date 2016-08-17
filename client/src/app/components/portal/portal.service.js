@@ -68,24 +68,8 @@ angular.module('BeehivePortal')
             },
             {
                 name: '设备视图',
-                state: $state.get('app.portal.ThingViews'),
-                icon: 'fa-table',
-                subViews: [
-                    {
-                        name: '位置视图',
-                        state: $state.get('app.portal.ThingViews.LocationView')
-                    },
-                    /*
-                    {
-                        name: '标签视图',
-                        state: $state.get('app.portal.ThingViews.TagView')
-                    },
-                    */
-                    {
-                        name: '种类视图',
-                        state: $state.get('app.portal.ThingViews.TypeView')
-                    }
-                ]
+                state: $state.get('app.portal.ThingViews.TypeView'),
+                icon: 'fa-table'
             },
             {
                 name: '数据报表',

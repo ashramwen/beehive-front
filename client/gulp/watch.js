@@ -11,8 +11,6 @@ gulp.task('inject:watch', function(){
             paths.src + '/*.html',
             paths.src + '/{app,components}/**/*.css',
             paths.src + '/{app,components}/**/*.js',
-            paths.src + '/{app}/{components}/**/*.js',
-            paths.src + 'bower_components/**/*',
             'bower.json'
         ], ['inject']);
 });

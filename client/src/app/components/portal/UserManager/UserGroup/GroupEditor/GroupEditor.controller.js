@@ -25,8 +25,8 @@ angular.module('BeehivePortal')
             value: "userID"
         },
         {
-            text: "用户名称",
-            value: "userName"
+            text: "用户姓名",
+            value: "displayName"
         }
     ];
     $scope.queryFiled = _.clone($scope.queryOptions[0]);

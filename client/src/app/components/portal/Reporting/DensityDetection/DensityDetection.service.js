@@ -5,7 +5,7 @@ angular.module('BeehivePortal')
     var detectedByTimeLocation = 
     {
       "_kii_agg_name": "测试数据",
-      "_kii_query_path": "/reporting/_search",
+      "_kii_query_path": "/" + AppConfig.kiiAppID + "/_search",
       "query": {
         "filtered": {
           "query": {
@@ -19,7 +19,7 @@ angular.module('BeehivePortal')
               "must": [
                 {
                   "terms" : { 
-                    "id" : [1300,1301,1302,1303,1304,1305,1306,1307,1308]
+                    "target" : [1300,1301,1302,1303,1304,1305,1306,1307,1308]
                   }
                 }
               ],
@@ -39,7 +39,7 @@ angular.module('BeehivePortal')
                       "_kii_agg_field_name": "楼层号",
                       "enum": {
                         "keys": ["1楼","2楼","3楼"],
-                        "field": "id",
+                        "field": "target",
                         "values": [
                           [1300,1301,1302],
                           [1303,1304,1305],
@@ -59,7 +59,7 @@ angular.module('BeehivePortal')
                               "aggs":{
                                   "count": {
                                       "value_count": {
-                                          "field": "id"
+                                          "field": "target"
                                       }
                                   }
                               }
@@ -85,7 +85,7 @@ angular.module('BeehivePortal')
 
     var detectedByTime = {
       "_kii_agg_name": "测试数据",
-      "_kii_query_path": "/reporting/_search",
+      "_kii_query_path": "/" + AppConfig.kiiAppID + "/_search",
       "query": {
         "filtered": {
           "query": {
@@ -99,7 +99,7 @@ angular.module('BeehivePortal')
               "must": [
                 {
                   "terms" : { 
-                    "id" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
+                    "target" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
                   }
                 }
               ],
@@ -126,7 +126,7 @@ angular.module('BeehivePortal')
                     "aggs":{
                         "count": {
                             "value_count": {
-                                "field": "id"
+                                "field": "target"
                             }
                         }
                     }
@@ -152,7 +152,7 @@ angular.module('BeehivePortal')
     var detectedByLocation =
     {
         "_kii_agg_name": "测试数据",
-        "_kii_query_path": "/reporting/_search",
+        "_kii_query_path": "/" + AppConfig.kiiAppID + "/_search",
         "query": {
           "filtered": {
             "query": {
@@ -166,7 +166,7 @@ angular.module('BeehivePortal')
                 "must": [
                   {
                     "terms" : { 
-                      "id" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
+                      "target" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
                     }
                   }
                 ],
@@ -182,7 +182,7 @@ angular.module('BeehivePortal')
                 "_kii_agg_field_name": "位置",
                 "enum": {
                   "keys": ["1楼","2楼","3楼"],
-                  "field": "id",
+                  "field": "target",
                   "values": [
                     [45650,32159,24001],
                     [67962,1484,63412,6360],
@@ -202,7 +202,7 @@ angular.module('BeehivePortal')
                         "aggs":{
                             "count": {
                                 "value_count": {
-                                    "field": "id"
+                                    "field": "target"
                                 }
                             }
                         }
@@ -223,7 +223,7 @@ angular.module('BeehivePortal')
 
     var summaryQuery = {
       "_kii_agg_name": "测试数据",
-      "_kii_query_path": "/reporting/_search",
+      "_kii_query_path": "/" + AppConfig.kiiAppID + "/_search",
       "query": {
         "filtered": {
           "query": {
@@ -237,7 +237,7 @@ angular.module('BeehivePortal')
               "must": [
                 {
                   "terms" : { 
-                    "id" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
+                    "target" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
                   }
                 }
               ],
@@ -262,7 +262,7 @@ angular.module('BeehivePortal')
             "countT": {
               "_kii_agg_field_name": '人气值',
               "value_count": {
-                "field": "id"
+                "field": "target"
               }
             }
           }
@@ -289,7 +289,7 @@ angular.module('BeehivePortal')
         aggObj = query.aggs.byTime.aggs;
       }
 
-      terms.id = allThings;
+      terms.target = allThings;
       
 
       if(split){
@@ -317,7 +317,7 @@ angular.module('BeehivePortal')
       var terms = query.query.filtered.filter.bool.must[0].terms;
       var locationObj = query.aggs.byLocation;
 
-      terms.id = allThings;
+      terms.target = allThings;
       _.extend(locationObj.enum, enumObj); 
 
       if(source == 'rate'){
@@ -340,7 +340,7 @@ angular.module('BeehivePortal')
       var locationObj = query.aggs.byLocation;
 
 
-      terms.id = allThings;
+      terms.target = allThings;
       _.extend(locationObj.enum, enumObj); 
 
       delete query.aggs.byLocation.aggs.rate;
@@ -354,7 +354,7 @@ angular.module('BeehivePortal')
       var allThings = ReportingService.getAllThings(subLevels);
       var terms = query.query.filtered.filter.bool.must[0].terms;
 
-      terms.id = allThings;
+      terms.target = allThings;
 
       return query;
     };

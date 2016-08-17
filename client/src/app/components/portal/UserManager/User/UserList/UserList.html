@@ -1,4 +1,4 @@
-<div class="app-portal-usermanager-user-userlist" ng-init="init()">
+<div class="app-portal-usermanager-user-userlist">
   <section class="panel">
     <header class="panel-heading">用户信息</header>
      <div class="panel-body">
@@ -22,7 +22,7 @@
         <thead>
           <tr role="row">
             <th class="sorting_asc" rowspan="1" colspan="1">用户ID</th>
-            <th class="sorting" rowspan="1" colspan="1">用户名</th>
+            <th class="sorting" rowspan="1" colspan="1">姓名</th>
             <th class="sorting" rowspan="1" colspan="1">邮箱</th>
             <th class="sorting" rowspan="1" colspan="1">电话</th>
           </tr>
@@ -30,7 +30,7 @@
         <tbody>
           <tr class="gradeA" ng-class="{'odd':$index%2==1}" role="row" ng-repeat="user in userListForDisplay" context-menu="myMenu" target="user">
             <td>{{user.userID}}</td>
-            <td>{{user.userName}}</td>
+            <td>{{user.displayName}}</td>
             <td>{{user.mail}}</td>
             <td>{{user.phone}}</td>
           </tr>

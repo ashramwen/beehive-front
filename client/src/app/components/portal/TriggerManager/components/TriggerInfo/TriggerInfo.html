@@ -6,7 +6,19 @@
         <tbody>
           <tr>
             <td>规则名称</td>
-            <td><input type="text" class="form-control" ng-model="trigger.name"></td>
+            <td>
+              <input type="text" class="form-control"
+                name="rulename"
+                ng-model="trigger.name" required
+                placeholder="规则名称"
+
+                uib-tooltip="请输入规则名称"
+                tooltip-trigger="'none'"
+                tooltip-placement="top"
+                tooltip-is-open="(ruleform.$submitted 
+                    || ruleform.rulename.$touched) 
+                  && !!ruleform.rulename.$error.required"/>
+            </td>
           </tr>
           <tr ng-if="trigger.triggerID && !trigger.fromGateway">
             <td>启用状态</td>

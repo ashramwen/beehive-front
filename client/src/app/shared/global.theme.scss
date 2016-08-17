@@ -164,11 +164,10 @@ body.fixed .wrapper {
   margin-top: 50px;
 }
 /* Content */
-.content {
+.right-side > .content {
   padding: 20px 15px;
-  background: #f0f3f4;
-  overflow-y: auto;
-  overflow-x: hidden;
+  min-height: 400px;
+  background: transparent;
 }
 /* Utility */
 /* H1 - H6 font */

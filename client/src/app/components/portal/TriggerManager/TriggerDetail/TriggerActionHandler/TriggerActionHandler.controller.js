@@ -25,11 +25,15 @@ angular.module('BeehivePortal').controller('TriggerActionHandlerController',
       };
 
       if(type){
-        $scope.actionGroup = AppUtils.clone(_.find($scope.triggerData.actionGroups, {type: type}));
-        _.extend(options, {
-          selectedThings: $scope.actionGroup.things,
-          onlyType: $scope.type
-        });
+        var actionGroup = _.find($scope.triggerData.actionGroups, {type: type});
+        if(actionGroup){
+          $scope.actionGroup = AppUtils.clone(actionGroup);
+
+          _.extend(options, {
+            selectedThings: $scope.actionGroup.things,
+            onlyType: $scope.type
+          });
+        }
       }
 
       $timeout(function(){
@@ -83,12 +87,28 @@ angular.module('BeehivePortal').controller('TriggerActionHandlerController',
     $scope.save = function(){
       var actionGroup = _.find($scope.triggerData.actionGroups, {type: $scope.type});
 
+      _.each($scope.actionGroup.actions, function(action){
+        action.properties = _.reject(action.properties, function(property){
+          return !property.value && !angular.equals(property.value, 0) && !angular.equals(property.value, false);
+        });
+      });
+      $scope.actionGroup.actions = _.reject($scope.actionGroup.actions, function(action){
+        return action.properties.length == 0;
+      });
       if(!actionGroup){
+        if($scope.actionGroup.actions.length == 0){
+          $scope.goBack();
+          return;
+        } 
         actionGroup = $scope.actionGroup;
         $scope.triggerData.actionGroups = $scope.triggerData.actionGroups || [];
         $scope.triggerData.actionGroups.push(actionGroup);
       }else{
-        _.extend(actionGroup, $scope.actionGroup);
+        if($scope.actionGroup.actions.length == 0){
+          $scope.triggerData.actionGroups.remove(actionGroup);
+        }else{
+          _.extend(actionGroup, $scope.actionGroup);
+        }
       }
       console.log(actionGroup);
 

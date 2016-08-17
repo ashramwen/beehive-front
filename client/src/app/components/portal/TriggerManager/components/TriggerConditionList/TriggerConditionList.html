@@ -1,7 +1,13 @@
 <div class="app-portal-triggermanager-triggerdetail-triggerconditionlist" ng-controller="TriggerConditionListController">
   <div class="panel">
     <div class="panel-body">
-      <h4>规则条件</h4>
+      <h4 
+        uib-tooltip="至少需要添加一个条件"
+        tooltip-trigger="'none'"
+        tooltip-placement="top"
+        tooltip-is-open="ruleform.$submitted
+          && !triggerData.conditionGroups.length"
+      >规则条件</h4>
       <div class="table-holder">
         <div app-select options="options" selected-model="trigger.all" value-only="true"></div>
         <table class="property-table">

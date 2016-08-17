@@ -9,7 +9,7 @@ angular.module('BeehivePortal')
 
       var query = {
         "_kii_agg_name": "环境数据",
-        "_kii_query_path": "/reporting/_search",
+        "_kii_query_path": "/" + AppConfig.kiiAppID + "/_search",
         "query": {
           "filtered": {
             "query": {
@@ -32,7 +32,7 @@ angular.module('BeehivePortal')
                   },
                   {
                     "terms" : { 
-                      "id" : allThings
+                      "target" : allThings
                     }
                   }
                 ],
@@ -147,7 +147,7 @@ angular.module('BeehivePortal')
                     },
                     {
                       "terms" : { 
-                        "id" : allThings
+                        "target" : allThings
                       }
                     }
                   ],
@@ -170,7 +170,7 @@ angular.module('BeehivePortal')
       $http({
         method: 'POST',
         data: query,
-        url: KiiReporting.KiiQueryConfig.getConfig().getBaseUrl() + '/reporting/_search',
+        url: KiiReporting.KiiQueryConfig.getConfig().getBaseUrl() + "/" + AppConfig.kiiAppID +  '/_search',
         headers: {"Authorization": kiiQueryConfig.getToken()}
       }).then(function(response){
         $defer.resolve(response.data.hits.hits[0]['_source'][fieldName]);

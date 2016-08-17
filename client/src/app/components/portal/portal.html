@@ -54,13 +54,13 @@
                 </div>
                 <ul class="sidebar-menu">
                     <li ng-repeat="nav in portalNavs | orderBy: 'order'" ng-class="{'active':isActive(nav.state.name)}" ng-if="!nav.hidden" >
-                        <a ui-sref="{{(!nav.state.abstract? nav.state.name: getFirstChild(nav).state.name)}}($state.params)"><i class="fa fa-fw" ng-class="nav.icon"></i> {{nav.name}}<span class="fa arrow"></span></a>
+                        <a ui-sref="{{(!nav.state.abstract? nav.state.name: getFirstChild(nav).state.name)}}"><i class="fa fa-fw" ng-class="nav.icon"></i> {{nav.name}}<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level" uib-collapse="!isActive(nav.state.name)">
                             <li ng-repeat="subNav in nav.subViews | orderBy: 'order'" ng-if="!subNav.hidden" ng-class="{'active': isActive(subNav.state.name)}">
-                                <a ui-sref="{{(!subNav.state.abstract? subNav.state.name: subNav.state.redirectTo)}}($state.params)">{{subNav.name}}</a>
+                                <a ui-sref="{{(!subNav.state.abstract? subNav.state.name: subNav.state.redirectTo)}}">{{subNav.name}}</a>
                                 <ul class="nav nav-third-level" uib-collapse="!subNav._active">
                                     <li ng-if="!thirdNav.hidden" ng-repeat="thirdNav in subNav.subViews | orderBy: '-order'"  ng-class="{'active': isActive(thirdNav.state.name)}">
-                                        <a ui-sref="{{(!thirdNav.state.abstract? thirdNav.state.name: thirdNav.state.redirectTo)}}($state.params)">{{thirdNav.name}}</a>
+                                        <a ui-sref="{{(!thirdNav.state.abstract? thirdNav.state.name: thirdNav.state.redirectTo)}}">{{thirdNav.name}}</a>
                                     </li>
                                 </ul>
                             </li>

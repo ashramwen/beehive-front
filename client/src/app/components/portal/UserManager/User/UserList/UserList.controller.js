@@ -14,11 +14,11 @@ angular.module('BeehivePortal')
          */
         $scope.searchValue = "";
         $scope.queryOptions = [{
-            text: "用户ID",
-            value: "userID"
-        }, {
-            text: "用户名",
+            text: "用户登录名",
             value: "userName"
+        }, {
+            text: "用户姓名",
+            value: "displayName"
         }];
         $scope.queryFiled = _.clone($scope.queryOptions[0]);
 
@@ -103,6 +103,11 @@ angular.module('BeehivePortal')
             });
 
         };
+
+        $scope.$watch('login', function(val){
+            if(!val)return;
+            $scope.init();
+        });
 
         function findUsersForDisplay() {
             $scope.userListForDisplay = _.filter($scope.userList, function(user, index) {

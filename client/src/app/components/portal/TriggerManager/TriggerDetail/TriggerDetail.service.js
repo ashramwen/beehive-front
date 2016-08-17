@@ -195,12 +195,15 @@ angular.module('BeehivePortal')
 
         $$Type.getSchema({type: type}, function(schema){
           var _schema = TriggerDetailService.parseSchema(schema);
+          if(!_schema) throw new Error('生成种类' + type + '的schema时发生错误，请查询相关的行业模板。');
 
           _.each(actions, function(action){
             var _action = _.find(_schema.actions, {actionName: action.actionName});
+            if(!_action) throw new Error('在schema:' + _schema.name + '中，没有查找到:action-' + action.actionName);
             _.extend(action, {displayName: _action.displayName});
             _.each(action.properties, function(property){
               var _property = _.find(_action.properties, {propertyName: property.propertyName});
+              if(!_property) throw new Error('在schema:' + _schema.name + '中，的action: ' + action.actionName + '中，没有查找到:property-' + property.propertyName);
               property.displayName = _property.displayName;
               property.valueDisplayName = property.value;
               if(property.enumType){
@@ -259,6 +262,7 @@ angular.module('BeehivePortal')
           });
 
           var propertyExp = _.find(clauses, {field: type + '.' + propertyName});
+          if(!propertyExp) throw new Error('Type '+ type + '中,' + propertyName + '属性的表达式不正确。');
           var expression = '';
           var value = null;
           if(!propertyExp) return;
@@ -303,9 +307,12 @@ angular.module('BeehivePortal')
 
         $$Type.getSchema({type: type}, function(schema){
           var _schema = TriggerDetailService.parseSchema(schema);
+          if(!_schema) throw new Error('生成种类' + type + '的schema时发生错误，请查询相关的行业模板。');
 
           _.each(properties, function(property){
             var _property = _.find(_schema.properties, {propertyName: property.propertyName});
+            if(!_property) throw new Error('在schema:' + _schema.name + '中，没有查找到:property-' + property.propertyName);
+            
             _.extend(property, _property);
           });
 
@@ -326,13 +333,14 @@ angular.module('BeehivePortal')
 
     TriggerDetailService.getThingsDetail = function(things){
       var $defer = $q.defer();
-      var locationsSuffix = ['楼','层', '区域'];
+      var locationsSuffix = ['楼','层', '区域', '区块'];
 
       $$Thing.getThingsByIDs({}, _.pluck(things, 'globalThingID'), function(thingsWithLocation){
         var locationPromiseList = [];
         
         _.each(things, function(thing){
           var _thing = _.find(thingsWithLocation, {id: thing.globalThingID});
+          if(!_thing) throw new Error('没有查找的到thing:' + thing.globalThingID + '的详细信息。');
           thing.location = _thing.locations[0];
           locationPromiseList.push(TriggerDetailService.getLocationTree(thing.location));
         });
@@ -361,7 +369,7 @@ angular.module('BeehivePortal')
       var $defer = $q.defer();
 
       $$Location.getParent({location: locationID}, function(locations){
-        var location = _.find(locations, {location: locationID});
+
         var orderedLocations = getOrderedLocations(locations);
 
         $defer.resolve(orderedLocations);

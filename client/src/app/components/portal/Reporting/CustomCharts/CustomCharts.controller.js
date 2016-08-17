@@ -99,7 +99,7 @@ angular.module('BeehivePortal')
     $scope.options = {
       name: '',
       type: '',
-      index: 'reporting',
+      index: AppConfig.kiiAppID,
       chartType: 'line',
       dimensions: {
         location: false,
