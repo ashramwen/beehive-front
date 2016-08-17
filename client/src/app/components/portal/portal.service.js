@@ -167,7 +167,7 @@ angular.module('BeehivePortal')
   .factory('ownership', ['$rootScope', function($rootScope){
     return {
         isCreator: function(obj){
-            return(obj.createBy == $rootScope.credential.userID)
+            return(obj.createBy == $rootScope.credential.id)
         }
     };
   }])
