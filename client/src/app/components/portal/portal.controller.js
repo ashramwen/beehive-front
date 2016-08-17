@@ -2,21 +2,21 @@
 
 angular.module('BeehivePortal')
   .controller('PortalController', ['$scope', '$rootScope', '$state', 'AppUtils', 'Session', 'PortalService', 'ownership', function($scope, $rootScope, $state, AppUtils, Session, PortalService, ownership) {
-    
+
     /*
      * objects for generating navigations content on left nav column.
      * by George
      */
-    
 
-    
+
+
 
     $scope.navigateTo = function(stateName, params){
         $state.go(stateName, _.extend($state.params, params));
     };
 
     /*
-     * initialize 
+     * initialize
      */
     $scope.portalInit = function(){
       $rootScope.$watch('login', function(newVal){
@@ -43,7 +43,7 @@ angular.module('BeehivePortal')
     };
 
     $scope.goBack = function(){
-      $rootScope.$state.go($rootScope.$state.current.previous, $rootScope.$state.params); 
+      $rootScope.$state.go($rootScope.$state.current.previous, $rootScope.$state.params);
     }
 
     $scope.logout = function(){
