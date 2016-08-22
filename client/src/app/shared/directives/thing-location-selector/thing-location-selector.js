@@ -47,7 +47,10 @@ angular.module('BeehivePortal')
 
             $scope.changeArea = function() {
                 $scope.things = [];
-                $$Location.getThingsByLocation({ location: $scope.level.area.location }).$promise.then(function(res) {
+                // $$Location.getThingsByLocation({ location: $scope.level.area.location }).$promise.then(function(res) {
+                //     $scope.things = res;
+                // });
+                $$Location.getAllThingsByLocation({ location: $scope.level.area.location }).$promise.then(function(res) {
                     $scope.things = res;
                 });
             }
