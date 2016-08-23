@@ -1,5 +1,71 @@
 angular.module('BeehivePortal.MonitorManager')
 
+.factory('ThingSchemaService', ['$$Type', 'TriggerDetailService', '$q', function($$Type, TriggerDetailService, $q) {
+    var typeList = [];
+    var schemaList = [];
+
+    var dirtyFields = ['target', 'taiwanNo1', 'novalue'];
+
+    function displayName(thing, schema) {
+        thing.actions = schema.actions;
+        thing.typeDisplayName = schema.displayName;
+
+        var properties = schema.properties;
+        for (var key in thing.status) {
+            if (dirtyFields.indexOf(key) > -1)
+                delete thing.status[key];
+        }
+        thing.status = _.map(thing.status, function(value, key) {
+            if (dirtyFields.indexOf(key) === -1) {
+                var property = _.find(properties, { propertyName: key });
+                return {
+                    name: key,
+                    displayName: property ? property.displayName : key,
+                    value: value
+                };
+            }
+        });
+    }
+
+    return {
+        getSchema: function(things) {
+            var $defer = $q.defer();
+            var promiseList = [];
+            var _index = -1;
+            _.each(things, function(thing) {
+                _index = _.indexOf(typeList, thing.type);
+                if (_index > -1) return;
+                typeList.push(thing.type);
+                var $promise = $$Type.getSchema({ type: thing.type }, function(schema) {
+                    var _schema = TriggerDetailService.parseSchema(schema)
+                    schemaList.push(_schema);
+
+                }).$promise;
+                promiseList.push($promise);
+            });
+            $q.all(promiseList).then(function() {
+                var _index = 0;
+                _.each(things, function(thing) {
+                    _index = _.indexOf(typeList, thing.type);
+                    displayName(thing, schemaList[_index]);
+                });
+                $defer.resolve(schemaList);
+            });
+
+            return $defer.promise;
+        },
+        getDisplayName: function(type, name) {
+            var _index = _.indexOf(typeList, type);
+            if (_index === -1) return;
+            var properties = schemaList[_index].properties;
+            var property = properties.find(function(o) {
+                return o.propertyName === name;
+            });
+            return property ? property.displayName : undefined;
+        }
+    }
+}])
+
 .factory('WebSocketClient', ['$rootScope', 'Session', function($rootScope, Session) {
     var _client = {};
     var init = (function() {

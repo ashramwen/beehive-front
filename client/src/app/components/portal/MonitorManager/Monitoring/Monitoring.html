@@ -14,12 +14,15 @@
         <div class="light power"></div>
         <div class="name">{{o.vendorThingID}}</div>
         <div class="card-content">
-          <div class="state-wrap" ng-repeat="s in o.states">
-            <span class="state">{{s.name}}：</span><span class="value">{{s.value}}</span>
+          <div class="state-wrap" ng-repeat="s in o.status">
+            <span class="state">{{s.displayName}}：</span><span class="value">{{s.value}}</span>
           </div>
         </div>
-        <div class="type">{{o.type | typeName}} | {{o.vendorThingID | locTag}}</div>
-        <div class="icon"></div>
+        <div class="type">{{o.typeDisplayName}} | {{o.vendorThingID | locTag}}</div>
+        <div class="icon">
+          <img src="images/icon_monitoring_on.png" width="69" height="25" alt="" ng-if="!o.off">
+          <img src="images/icon_monitoring_off.png" width="69" height="25" alt="" ng-if="o.off">
+        </div>
       </div>
       <!-- END card -->
 
