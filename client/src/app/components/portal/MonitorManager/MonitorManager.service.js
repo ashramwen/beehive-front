@@ -4,7 +4,7 @@ angular.module('BeehivePortal.MonitorManager')
     var typeList = [];
     var schemaList = [];
 
-    var dirtyFields = ['target', 'taiwanNo1', 'novalue'];
+    var dirtyFields = ['target', 'taiwanNo1', 'novalue', 'date'];
 
     function displayName(thing, schema) {
         thing.actions = schema.actions;

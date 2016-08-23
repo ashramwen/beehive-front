@@ -39,7 +39,7 @@ angular.module('BeehivePortal.MonitorManager')
         });
     }
 
-    var dirtyFields = ['target', 'taiwanNo1', 'novalue'];
+    var dirtyFields = ['target', 'taiwanNo1', 'novalue', 'date'];
     // parse the data from websocket
     function parseState(thing, states) {
         var _status;
