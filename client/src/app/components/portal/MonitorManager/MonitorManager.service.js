@@ -9,21 +9,25 @@ angular.module('BeehivePortal.MonitorManager')
     function displayName(thing, schema) {
         thing.actions = schema.actions;
         thing.typeDisplayName = schema.displayName;
-
         var properties = schema.properties;
+        thing.status.forEach(function(s, i) {
+            var property = _.find(properties, { propertyName: s.name });
+            s.displayName = property ? property.displayName : s.displayName;
+        });
+    }
+
+    function parseStatus(thing) {
+        thing.typeDisplayName = thing.type;
         for (var key in thing.status) {
             if (dirtyFields.indexOf(key) > -1)
                 delete thing.status[key];
         }
         thing.status = _.map(thing.status, function(value, key) {
-            if (dirtyFields.indexOf(key) === -1) {
-                var property = _.find(properties, { propertyName: key });
-                return {
-                    name: key,
-                    displayName: property ? property.displayName : key,
-                    value: value
-                };
-            }
+            return {
+                name: key,
+                displayName: key,
+                value: value
+            };
         });
     }
 
@@ -33,6 +37,7 @@ angular.module('BeehivePortal.MonitorManager')
             var promiseList = [];
             var _index = -1;
             _.each(things, function(thing) {
+                parseStatus(thing);
                 _index = _.indexOf(typeList, thing.type);
                 if (_index > -1) return;
                 typeList.push(thing.type);
