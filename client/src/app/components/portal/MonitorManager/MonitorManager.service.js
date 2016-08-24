@@ -12,7 +12,7 @@ angular.module('BeehivePortal.MonitorManager')
         var properties = schema.properties;
         thing.status.forEach(function(s, i) {
             var property = _.find(properties, { propertyName: s.name });
-            s.displayName = property ? property.displayName : s.displayName;
+            s.displayName = property ? property.displayName : s.name;
         });
     }
 
