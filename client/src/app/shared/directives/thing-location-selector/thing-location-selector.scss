@@ -17,6 +17,13 @@
         -webkit-justify-content: center;
         justify-content: center;
     }
+    .scrollable {
+        display: block;
+        max-height: 262px;
+        overflow: auto;
+        width: 100%;
+        margin-bottom: 5px;
+    }
     .table {
         thead {
             tr {
@@ -43,14 +50,11 @@
         tr {
             outline: none;
         }
-        .fa-plus-circle {
-            font-size: 29px;
-            color: #62c479;
-            cursor: pointer;
-            outline: none;
-        }
     }
-    select.form-control {
-        // min-width: 90px;
+    .fa-plus-circle {
+        font-size: 29px;
+        color: #62c479;
+        cursor: pointer;
+        outline: none;
     }
 }

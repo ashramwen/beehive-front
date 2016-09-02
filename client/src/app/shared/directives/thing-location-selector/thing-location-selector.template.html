@@ -21,31 +21,28 @@
           </select>
         </div>
       </div>
-      <table class="table table-hover">
-        <thead>
-          <th></th>
-          <th>设备名</th>
-          <th>类型</th>
-        </thead>
-        <tbody>
-          <tr ng-class="{'success':o.select}" ng-repeat="o in things track by o.id" ng-click="o.select=!o.select">
-            <td>
-              <input type="checkbox" ng-model="o.select" ng-click="o.select=!o.select">
-            </td>
-            <td>{{o.vendorThingID}}</td>
-            <td>{{o.type}}</td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td></td>
-            <td colspan="2">
-              <button class="btn btn-link" ng-click="selectAll(things)">全选</button>
-              <div class="fa fa-plus-circle pull-right" ng-click="add()"></div>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+      <div class="row scrollable">
+        <table class="table table-hover">
+          <thead>
+            <th></th>
+            <th>设备名</th>
+            <th>类型</th>
+          </thead>
+          <tbody>
+            <tr ng-class="{'success':o.select}" ng-repeat="o in things track by o.id" ng-click="o.select=!o.select">
+              <td>
+                <input type="checkbox" ng-model="o.select" ng-click="o.select=!o.select">
+              </td>
+              <td>{{o.vendorThingID}}</td>
+              <td>{{o.type}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <button class="btn btn-link" ng-click="selectAll(things)">全选</button>
+        <div class="fa fa-plus-circle pull-right" ng-click="add()"></div>
+      </div>
     </div>
 
     <div class="col-sm-8">
