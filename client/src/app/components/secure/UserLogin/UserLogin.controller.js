@@ -37,7 +37,7 @@ angular.module('BeehivePortal')
             $state.go('app.portal.Welcome');
             $rootScope.login = true;
         }, function(erro){
-            AppUtils.alert('登陆失败');
+            AppUtils.alert({msg: 'user.loginFailedMsg'});
         });
         //}
     };
@@ -54,7 +54,8 @@ angular.module('BeehivePortal')
 
   }]);
 angular.module('BeehivePortal')
-  .controller('UserLoginController.Register', function($scope, $uibModalInstance, $$Auth, AppUtils, $http){
+  .controller('UserLoginController.Register', ['$scope', '$uibModalInstance', '$$Auth', 'AppUtils', '$http', '$translate', 
+    function($scope, $uibModalInstance, $$Auth, AppUtils, $http, $translate){
 
     $scope.currentStep = 1;
 
@@ -84,8 +85,19 @@ angular.module('BeehivePortal')
                 $uibModalInstance.dismiss();
                 break;
         }
-        
     };
+
+    $scope.$watch('currentStep', function(value){
+        if(value < 3){
+            $translate('controls.submit').then(function(val){
+                $scope.btnText = val;
+            });
+        }else{
+            $translate('controls.finish').then(function(val){
+                $scope.btnText = val;
+            });
+        }
+    });
 
     $scope.cancel = function(){
         $uibModalInstance.dismiss('cancel');
@@ -94,4 +106,4 @@ angular.module('BeehivePortal')
     $scope.initPassword = function(){
         $uibModalInstance.dismiss('cancel');
     };
-  });
+  }]);

@@ -6,8 +6,8 @@ angular.module('BeehivePortal')
     $scope.period = new KiiReporting.KiiTimePeriod(null);
 
     $scope.chartSources = [
-      {value: 'value', text: '人气值'},
-      {value: 'rate', text: '占用率'}
+      {value: 'value', text: 'reporting.density'},
+      {value: 'rate', text: 'reporting.densityRatio'}
     ];
 
     $scope.selectedSource = $scope.chartSources[0];
@@ -33,6 +33,7 @@ angular.module('BeehivePortal')
         var queriedSubLevels = queriedSubLevels;
         $scope.queriedSource = $scope.selectedSource;
 
+        $scope.queriedSubLevels = queriedSubLevels;
         $scope.lineLevel = 0;
         $scope.split = false;
         $scope.summaryQuery = DensityDetectionService.generateSummaryQuery(queriedSubLevels);
@@ -53,7 +54,7 @@ angular.module('BeehivePortal')
     $scope.groupLines = function(){
       $scope.lineLevel = 0;
       $scope.split = false;
-      $scope.lineQuery = DensityDetectionService.generateLineQuery($scope.split, $scope.selectedSource.value, queriedSubLevels);
+      $scope.lineQuery = DensityDetectionService.generateLineQuery($scope.split, $scope.selectedSource.value, $scope.queriedSubLevels);
 
       $timeout(function(){
         $scope.refreshLine();
@@ -63,7 +64,7 @@ angular.module('BeehivePortal')
     $scope.splitLine = function(){
       $scope.lineLevel = 1;
       $scope.split = true;
-      $scope.lineQuery = DensityDetectionService.generateLineQuery($scope.split, $scope.selectedSource.value, queriedSubLevels);
+      $scope.lineQuery = DensityDetectionService.generateLineQuery($scope.split, $scope.selectedSource.value, $scope.queriedSubLevels);
 
       $timeout(function(){
         $scope.refreshLine();

@@ -76,7 +76,13 @@ angular.module('BeehivePortal.MonitorManager')
         var q2 = $$User.setCustomData({ name: 'mv_' + $scope.view.id }, { view: $scope.view }).$promise;
 
         $q.all([q1, q2]).then(function(res) {
-            AppUtils.alert(msg, title, $scope.fallback);
+            var options = {
+                msg: msg,
+                title: title,
+                callback: $scope.fallback
+            }
+            
+            AppUtils.alert(options);
         });
     }
 

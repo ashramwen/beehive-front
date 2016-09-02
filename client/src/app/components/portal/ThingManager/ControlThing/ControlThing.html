@@ -1,13 +1,13 @@
 <div class="app-portal-thingmanager-controlthing" ng-init="init()">
   <div class="panel">
     <div class="panel-body">
-      设备选择
+      {{'thingManager.thingSelect' | translate}}
     </div>
   </div>
   <thing-location-type-selector single-type="true" change="selectedChange(selectedThings, type)"></thing-location-type-selector>
   <div class="panel trigger-actions">
     <div class="panel-body">
-      <h4>规则行为</h4>
+      <h4>{{'thing.action' | translate}}</h4>
       <div class="row flex-row">
         <div class="col-sm-4">
           <span class="action" ng-class="{'active': action._selected}" ng-repeat="action in actions" ng-click="toggleAction(action)">
@@ -28,7 +28,7 @@
               <!-- enmu: boolean -->
               <div ng-if="property.enumType == 'BOOLEAN' || property.type == 'boolean'">
                 <label>{{property.displayName}}</label>
-                <div switchery="property.value" yes-text="{{property.options[1].text || '是'}}" no-text="{{property.options[0].text || '否'}}"></div>
+                <div switchery="property.value" yes-text="{{property.options[1].text || 'yes'}}" no-text="{{property.options[0].text || 'no'}}"></div>
               </div>
 
               <!-- enmu: number -->
@@ -44,7 +44,7 @@
     </div>
   </div>
   <div>
-    <button class="btn btn-warning btn-lg pull-center" ng-click="sendCommand()">发送</button>
+    <button class="btn btn-warning btn-lg pull-center" ng-click="sendCommand()">{{'thing.sendCommand' | translate}}</button>
   </div>
 
 </div>

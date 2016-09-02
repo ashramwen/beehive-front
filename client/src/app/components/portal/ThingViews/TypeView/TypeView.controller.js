@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('TypeViewController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Type', '$uibModal', 'TriggerDetailService', '$$Location', '$q', '$location', function($scope, $rootScope, $state, AppUtils, $$Type, $uibModal, TriggerDetailService, $$Location, $q, $location) {
+  .controller('TypeViewController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Type', '$uibModal', 'TriggerDetailService', '$$Location', '$q', '$location', '$$Thing', function($scope, $rootScope, $state, AppUtils, $$Type, $uibModal, TriggerDetailService, $$Location, $q, $location, $$Thing) {
     /*
      * define variables
      */
@@ -10,6 +10,7 @@ angular.module('BeehivePortal')
 
     $scope.init = function(){
         $scope.initLocation = $scope.$state.params.location;
+        $scope.selectedLocation = $scope.initLocation;
         $$Type.getAll(function(types){
             var promiseList = [];
             $scope.thingTypes = types;
@@ -29,10 +30,12 @@ angular.module('BeehivePortal')
 
     $scope.filterTypes = function(){
         if(!$scope.selectedLocation) return;
-        $$Location.getThingsByLocation({location: $scope.selectedLocation}, function(things){
-            _.each($scope.thingTypes, function(type){
-                var filtedThings = _.where(things, {type: type.type});
-                type.thingNumber = filtedThings.length;
+        $$Thing.getThingsByLocationType({locationPrefix: $scope.selectedLocation, includeSubLevel: true}, function(things){
+            $$Thing.getThingsByIDs(things, function(things){
+                _.each($scope.thingTypes, function(type){
+                    var filtedThings = _.where(things, {type: type.type});
+                    type.thingNumber = filtedThings.length;
+                });
             });
         });
     };

@@ -20,6 +20,9 @@ angular.module('BeehivePortal')
         link: function($scope, ele, attr){
 
             ele.css({display: 'block'});
+            ele.on('mousedown', function($event){
+                $event.stopPropagation();
+            });
             $scope._chart = null;
             $scope._kiiQuery = null;
             $scope._subscribed = false;

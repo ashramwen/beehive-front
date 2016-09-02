@@ -79,9 +79,13 @@ angular.module('BeehivePortal')
 
     $scope.deleteUser = function(){
         $$UserManager.remove({},$scope.user,function(){
-            $scope.navigateTo($scope.navMapping.USER_LIST);
+            if($state.current.name == 'app.portal.UserManager.UserGroup.UserInfo'){
+                $state.go('app.portal.UserManager.UserGroup.GroupUserList', $state.params);
+            }else{
+                $scope.navigateTo($scope.navMapping.USER_LIST);
+            }
         },function(response){
-            AppUtils.alert(response.statusText);
+            AppUtils.alert({msg: response.statusText});
         })
     };
     

@@ -11,32 +11,29 @@ angular.module('BeehivePortal')
 
     
     $scope.chartSources = [
-      {value: 'CO2', text: '二氧化碳'},
-      {value: 'Temp', text: '温度'},
-      {value: 'Noise', text: '噪音指数'},
-      {value: 'Bri', text: '亮度'},
-      {value: 'PM25', text: 'PM25'},
-      {value: 'Humidity', text: '湿度'},
-      {value: 'VOC', text: '空气质量'},
-      {value: 'Smoke', text: '烟尘'}
+      {value: 'CO2', text: 'reporting.CO2'},
+      {value: 'Temp', text: 'reporting.Temp'},
+      {value: 'Noise', text: 'reporting.Noise'},
+      {value: 'Bri', text: 'reporting.Bri'},
+      {value: 'PM25', text: 'reporting.PM25'},
+      {value: 'Humidity', text: 'reporting.Humidity'},
+      {value: 'VOC', text: 'reporting.VOC'},
+      {value: 'Smoke', text: 'reporting.Smoke'}
     ];
 
     $scope.selectedSource = $scope.chartSources[0];
     $scope.queriedSource = $scope.selectedSource
 
     $scope.aggMethods = [
-      {value: 'avg', text: '平均值'},
-      {value: 'max', text: '最大值'},
-      {value: 'min', text: '最小值'}
+      {value: 'avg', text: 'terms.avg'},
+      {value: 'max', text: 'terms.max'},
+      {value: 'min', text: 'terms.min'}
     ];
 
     $scope.selectedMethod = 'avg';
 
     $scope.init = function(){
       $scope.lineLevel = 0;
-      $scope.getSummaryData();
-      $scope.barQuery = EnvironmentService.getEnvironmentQuery($scope.selectedMethod, $scope.selectedSource.value, $scope.selectedSource.text, false);
-      $scope.lineQuery = EnvironmentService.getEnvironmentQuery($scope.selectedMethod, $scope.selectedSource.value, $scope.selectedSource.text, true, false);
     };
 
     $scope.onPeriodChange = function(_period){
@@ -52,16 +49,16 @@ angular.module('BeehivePortal')
     };
 
     $scope.queryData = function(){
-      $scope.getSummaryData();
 
       ReportingService.getLocationThings('EnvironmentSensor', $scope.selectedSubLevels).then(function(queriedSubLevels){
-        var queriedSubLevels = queriedSubLevels;
+        $scope.queriedSubLevels = queriedSubLevels;
 
         $scope.lineLevel = 0;
         $scope.split = false;
 
-        $scope.barQuery = EnvironmentService.getEnvironmentQuery($scope.selectedMethod, $scope.selectedSource.value, $scope.selectedSource.text, false);
-        $scope.lineQuery = EnvironmentService.getEnvironmentQuery($scope.selectedMethod, $scope.selectedSource.value, $scope.selectedSource.text, true, false);
+        $scope.getSummaryData($scope.queriedSubLevels);
+        $scope.barQuery = EnvironmentService.getEnvironmentQuery($scope.selectedMethod, $scope.selectedSource.value, $scope.selectedSource.text, false, false, $scope.queriedSubLevels);
+        $scope.lineQuery = EnvironmentService.getEnvironmentQuery($scope.selectedMethod, $scope.selectedSource.value, $scope.selectedSource.text, true, false, $scope.queriedSubLevels);
 
         $scope.queriedSource = $scope.selectedSource;
         $timeout(function(){
@@ -73,7 +70,7 @@ angular.module('BeehivePortal')
 
     $scope.groupLines = function(){
       $scope.lineLevel = 0;
-      $scope.lineQuery = EnvironmentService.getEnvironmentQuery($scope.selectedMethod, $scope.selectedSource.value, $scope.selectedSource.text, true, false);
+      $scope.lineQuery = EnvironmentService.getEnvironmentQuery($scope.selectedMethod, $scope.selectedSource.value, $scope.selectedSource.text, true, false, $scope.queriedSubLevels);
       $scope.split = false;
 
       $timeout(function(){
@@ -83,7 +80,7 @@ angular.module('BeehivePortal')
 
     $scope.splitLine = function(){
       $scope.lineLevel = 1;
-      $scope.lineQuery = EnvironmentService.getEnvironmentQuery($scope.selectedMethod, $scope.selectedSource.value, $scope.selectedSource.text, true, true);
+      $scope.lineQuery = EnvironmentService.getEnvironmentQuery($scope.selectedMethod, $scope.selectedSource.value, $scope.selectedSource.text, true, true, $scope.queriedSubLevels);
       $scope.split = true;
 
       $timeout(function(){
@@ -106,8 +103,8 @@ angular.module('BeehivePortal')
       $scope.selectedSubLevels = subLevels;
     };
 
-    $scope.getSummaryData = function(){
-      EnvironmentService.getSummaryData($scope.selectedSource.value).then(function(data){
+    $scope.getSummaryData = function(subLevels){
+      EnvironmentService.getSummaryData($scope.selectedSource.value, subLevels).then(function(data){
         if(data) data = data.toFixed(2);
         $scope.summaryData = data;
       });

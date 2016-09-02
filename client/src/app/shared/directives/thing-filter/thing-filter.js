@@ -106,7 +106,7 @@ angular.module('BeehivePortal')
           var searchQuery = {
             type: $scope.selectedType, 
             locationPrefix: $scope.selectedLocation.locationID, 
-            includeSubLevel: false
+            includeSubLevel: true
           };
 
           $$Thing.getThingsByLocationType(searchQuery, function(thingIDs){

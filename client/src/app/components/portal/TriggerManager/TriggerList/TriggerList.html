@@ -8,10 +8,10 @@
       <span class="fa fa-ban" ng-if="trigger.disabled"></span>
       <div class="description">
         <h4>{{trigger.name}}</h4>
-        <span>{{trigger.createdAt}}</span>
+        <span><!-- {{trigger.createdAt}} --></span>
       </div>
 
-      <span class="fa fa-server" uib-tooltip="这是一个网管端的规则。" ng-if="trigger.fromGateway"></span>
+      <span class="fa fa-server" uib-tooltip="{{'triggerManager.gatewayRuleTip' | translate}}" ng-if="trigger.fromGateway"></span>
       <span class="fa fa-trash" ng-click="deleteTrigger(trigger); $event.stopPropagation()"></span>
     </div>
 
@@ -22,13 +22,13 @@
       <li class="conditional">
         <div class="btn-add-param" ng-click="createConditionalTrigger()">
           <span class="fa fa-plus-circle"></span>
-          <span>条件规则</span>
+          <span>{{'triggerManager.conditionRule' | translate}}</span>
         </div>
       </li>
       <li class="schedule">
         <div class="btn-add-param" ng-click="createScheduleTrigger()">
           <span class="fa fa-plus-circle"></span>
-          <span>定时规则</span>
+          <span>{{'triggerManager.scheduleRule' | translate}}</span>
         </div>
       </li>
     </ul>
@@ -37,11 +37,11 @@
   </div>
 
   <ul class="view-control">
-    <li class="view"><span class="fa fa-table""></span>视图</li>
+    <li class="view"><span class="fa fa-table""></span>{{'triggerManager.view' | translate}}</li>
     <li ng-click="toggleType(type)" class="{{type.name}} type-item" ng-class="{'disabled': type.disabled}" ng-repeat="type in typeList">
-      <span class="fa" ng-class="type.icon"></span>{{type.displayName}}
+      <span class="fa" ng-class="type.icon"></span>{{type.displayName | translate}}
     </li>
-    <li class="view"><label><input type="checkbox" name="" ng-model="showDisabled">显示禁用</label></li>
+    <li class="view"><label><input type="checkbox" name="" ng-model="showDisabled">{{'triggerManager.displayDisabled' | translate}}</label></li>
   </ul>
   <!--
   <div class="new-trigger" ng-click="createTrigger()"><span class="fa fa-plus"></span> 新建触发器</div>

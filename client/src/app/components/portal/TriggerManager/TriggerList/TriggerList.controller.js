@@ -10,8 +10,8 @@ angular.module('BeehivePortal')
     
     $scope.triggers = [];
     $scope.typeList = [
-        {name: 'conditional', displayName: '条件规则', disabled: false, icon:'fa-code-fork'},
-        {name: 'schedule', displayName: '定时规则', disabled: false, icon:'fa-clock-o'}
+        {name: 'conditional', displayName: 'triggerManager.conditionRule', disabled: false, icon:'fa-code-fork'},
+        {name: 'schedule', displayName: 'triggerManager.scheduleRule', disabled: false, icon:'fa-clock-o'}
     ];
 
     $rootScope.$watch('login', function(newVal){
@@ -80,7 +80,13 @@ angular.module('BeehivePortal')
                 $scope.triggers.remove(trigger);
             }
         };
-        AppUtils.confirm('提示信息', '确认要删除这个触发器吗？', confirm);
+
+        var options = {
+            msg: 'triggerManager.deleteTriggerMsg',
+            callback: confirm
+        };
+
+        AppUtils.confirm(options); 
     };
 
     /**
@@ -104,21 +110,36 @@ angular.module('BeehivePortal')
     };
 
     $scope.$on('deleteTrigger', function(e, trigger){
-        AppUtils.confirm('提示信息', '您确定要删除这个触发器吗？', function(){
-            $scope.deleteTrigger(trigger);
-        }); 
+        var options = {
+            msg: 'triggerManager.deleteTriggerMsg',
+            callback: function(){
+                $scope.deleteTrigger(trigger);
+            }
+        };
+
+        AppUtils.confirm(options); 
     });
 
     $scope.$on('enableTrigger', function(e, trigger){
-        AppUtils.confirm('提示信息', '您确定要启用这个触发器吗？', function(){
-            $scope.enableTrigger(trigger);
-        }); 
+        var options = {
+            msg: 'triggerManager.enableTriggerMsg',
+            callback: function(){
+                $scope.enableTrigger(trigger);
+            }
+        };
+
+        AppUtils.confirm(options); 
     });
 
     $scope.$on('disableTrigger', function(e, trigger){
-        AppUtils.confirm('提示信息', '您确定要禁用这个触发器吗？', function(){
-            $scope.disableTrigger(trigger);
-        }); 
+        var options = {
+            msg: 'triggerManager.disableTriggerMsg',
+            callback: function(){
+                $scope.disableTrigger(trigger);
+            }
+        };
+
+        AppUtils.confirm(options); 
     });
 
     $scope.triggerFilter = function(trigger){

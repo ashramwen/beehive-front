@@ -20,7 +20,7 @@ angular.module('BeehivePortal')
          * context menu item setting
          */
         var showDetailItem =_.find($scope.myMenu.itemList,function(item){
-          return item.text == '查看详情';
+          return item.text == 'controls.view';
         });
         _.extend(showDetailItem, {callback:function(thing){
             $scope.navigateTo($scope.navMapping.LOCATION_THING_DETAIL, {thingid: thing.id});

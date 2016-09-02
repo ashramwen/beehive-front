@@ -16,13 +16,23 @@ angular.module('BeehivePortal')
         var trigger = ConditionTriggerDetailService.generateTrigger($scope.triggerData);
         if(!$scope.triggerData.triggerID){
           $$Trigger.save(trigger, function(trigger){
-            AppUtils.alert('规则创建成功', '提示信息', function(){
-              $scope.$state.go(TriggerDetailService.States.CONDITION_TRIGGER, {triggerID: trigger.triggerID});
+            AppUtils.alert({
+              msg: 'triggerManager.triggerCreatedMsg',
+              callback: function(){
+                $scope.$state.go(TriggerDetailService.States.CONDITION_TRIGGER, {triggerID: trigger.triggerID});
+              }
             });
           });
         }else{
-          $$Trigger.delete({triggerID: $scope.triggerData.triggerID}, function(){
-            $$Trigger.save(trigger);
+          $$Trigger.remove({triggerID: $scope.triggerData.triggerID}, function(){
+            $$Trigger.save(trigger, function(){
+              AppUtils.alert({
+                msg: 'triggerManager.triggerSavedMsg',
+                callback: function(){
+                  $scope.$state.go($scope.$state.current.name, {triggerID: trigger.triggerID});
+                }
+              });
+            });
           });
         }
         

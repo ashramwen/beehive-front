@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('GroupEditorController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$UserGroup', '$$User', '$$Tag', '$$Permission', '$q', '$location', '$$Thing',
-    function($scope, $rootScope, $state, AppUtils, $$UserGroup, $$User, $$Tag, $$Permission, $q, $location, $$Thing) {
+  .controller('GroupEditorController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$UserGroup', '$$User', '$$Tag', '$$Permission', '$q', '$location', '$$Thing', 'TriggerDetailService',
+    function($scope, $rootScope, $state, AppUtils, $$UserGroup, $$User, $$Tag, $$Permission, $q, $location, $$Thing, TriggerDetailService) {
 
     $scope.dataset = {};
     $scope.group = {};
     $scope.isOwner = false;
+    $scope.inputMethods = {};
 
     /*
      * userList caches data of different pages,
@@ -21,11 +22,11 @@ angular.module('BeehivePortal')
     $scope.searchValue = "";
     $scope.queryOptions = [
         {
-            text: "用户ID",
-            value: "userID"
+            text: "user.loginName",
+            value: "userName"
         },
         {
-            text: "用户姓名",
+            text: "user.userName",
             value: "displayName"
         }
     ];
@@ -42,7 +43,7 @@ angular.module('BeehivePortal')
         $$User.query(request, function(userList){
             $scope.userList = userList;
         },function(){
-            AppUtils.alert('Failed to load group user list!');
+            AppUtils.alert({msg: 'Failed to load group user list!'});
         });
     };
 
@@ -56,7 +57,15 @@ angular.module('BeehivePortal')
             $scope.group = $$UserGroup.get({} ,request , function(group){
                 $scope.group._users = _.clone($scope.group.users);
                 $scope.group.tags = $$UserGroup.getTags({}, {userGroupID: userGroupID});
-                $scope.group.things = $$UserGroup.getThings({}, {userGroupID: userGroupID});
+
+                $$UserGroup.getThings({}, {userGroupID: userGroupID}, function(things){
+                    $scope.selectedThings = _.pluck(things, 'globalThingID');
+                    TriggerDetailService.getThingsDetail(things).then(function(things){
+                        $scope.selectedThings = _.pluck(things, 'globalThingID');
+                        $scope.inputMethods.inputThingDataset({selectedThings: things});
+                    });
+                });
+
                 $scope.isOwner = $scope.isCreator(group);
             });
 
@@ -66,6 +75,10 @@ angular.module('BeehivePortal')
             // get tags
             $scope.tags = $$Tag.queryAll();
         });
+    };
+
+    $scope.selectedChange = function(selectedThings, type){
+        $scope.things = _.pluck(selectedThings, 'globalThingID');
     };
 
     /*
@@ -81,32 +94,12 @@ angular.module('BeehivePortal')
         });
     };
 
-    $scope.addTag = function(tag, group){
-        $$UserGroup.bindTag({tags: [tag.fullTagName], userGroupIDs:[group.userGroupID]}, function(){
-            $scope.group.tags = $scope.group.tags || [];
-            $scope.group.tags.push(tag);
-        });
-    }
-
-    $scope.removeTag = function(tag, group){
-        $$UserGroup.unbindTag({tags: [tag.fullTagName], userGroupIDs:[group.userGroupID]}, function(){
-            $scope.group.tags.remove(tag);
-        });
-    };
-
     $scope.addThings = function(globalThingIDs, group){
-        $$UserGroup.bindThing({}, {globalThingIDs: [globalThingIDs], userGroupIDs: [group.userGroupID]}, function(things){
-            $scope.group.things = $scope.group.things || [];
-            _.each(globalThingIDs, function(globalThingID){
-                $scope.group.things.push($$Thing.get({globalThingID: globalThingID}));
-            });
-        });
+        $$UserGroup.bindThing({}, {globalThingIDs: [globalThingIDs], userGroupIDs: [group.userGroupID]});
     };
 
-    $scope.removeThing = function(thing, group){
-        $$UserGroup.unbindThing({globalThingIDs: [thing.globalThingID], userGroupIDs: [group.userGroupID]}, function(){
-            $scope.group.things.remove(thing);
-        });
+    $scope.removeThings = function(globalThingIDs, group){
+        $$UserGroup.unbindThing({globalThingIDs: globalThingIDs, userGroupIDs: [group.userGroupID]});
     };
 
     $scope.addUser = function(user, group){
@@ -120,10 +113,27 @@ angular.module('BeehivePortal')
     };
 
     $scope.saveGroup = function(){
-        var users = _.pluck($scope.group._users,'userID');
-        $scope.group.users = users;
+        var users = _.pluck($scope.group._users,'id');
+        $scope.group.users = $scope.group._users;
+        delete $scope.group._users;
+        delete $scope.group.tags;
 
-        $$UserGroup.update({}, $scope.group, function (response){
+        var group = {
+            userGroupID: $scope.group.userGroupID,
+            userGroupName: $scope.group.userGroupName,
+            description: $scope.group.description
+        };
+
+        $$UserGroup.update({}, group, function (response){
+            var thingsToDelete = _.difference($scope.selectedThings, $scope.things);
+            var thingsToAdd = _.difference($scope.things, $scope.selectedThings);
+
+            if(thingsToAdd.length){
+                $scope.addThings(thingsToAdd, $scope.group);
+            }
+            if(thingsToDelete.length){
+                $scope.removeThings(thingsToDelete, $scope.group);
+            }
             $scope.navigateTo($scope.navMapping.USER_GROUP);
         });
     };

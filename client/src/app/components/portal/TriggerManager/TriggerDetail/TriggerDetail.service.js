@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .factory('TriggerDetailService',['$rootScope', '$$Type', '$q' , '$$Thing', '$$Location', function($rootScope, $$Type, $q, $$Thing, $$Location) {
+  .factory('TriggerDetailService',['$rootScope', '$$Type', '$q' , '$$Thing', '$$Location', '$translate', function($rootScope, $$Type, $q, $$Thing, $$Location, $translate) {
     var TriggerDetailService = {};
     TriggerDetailService.targetTrigger = null;
     TriggerDetailService.targetCondtion = null;
@@ -333,36 +333,55 @@ angular.module('BeehivePortal')
 
     TriggerDetailService.getThingsDetail = function(things){
       var $defer = $q.defer();
-      var locationsSuffix = ['楼','层', '区域', '区块'];
+      
 
-      $$Thing.getThingsByIDs({}, _.pluck(things, 'globalThingID'), function(thingsWithLocation){
-        var locationPromiseList = [];
-        
-        _.each(things, function(thing){
-          var _thing = _.find(thingsWithLocation, {id: thing.globalThingID});
-          if(!_thing) throw new Error('没有查找的到thing:' + thing.globalThingID + '的详细信息。');
-          thing.location = _thing.locations[0];
-          locationPromiseList.push(TriggerDetailService.getLocationTree(thing.location));
-        });
+      $q.all([
+          $translate('location.buildingBref'),
+          $translate('location.floorBref'),
+          $translate('location.partitionBref'),
+          $translate('location.areaBref')
+      ]).then(function(values){
+        var locationsSuffix = values;
+        $$Thing.getThingsByIDs({}, _.pluck(things, 'globalThingID'), function(thingsWithLocation){
+          var locationPromiseList = [];
 
-        $q.all(locationPromiseList).then(function(locationGroups){
-          _.each(things, function(thing, i){
-            var parent = '';
-            locationGroups[0].push({displayName: thing.location, location: thing.location});
+          _.each(things, function(thing){
+            var _thing = _.find(thingsWithLocation, {id: thing.globalThingID});
+            if(!_thing) throw new Error('没有查找的到thing:' + thing.globalThingID + '的详细信息。');
 
-            thing.locationDisplayName = _.map(locationGroups[i], function(location, i){
-              var displayName = location.displayName.substr(parent.length) + locationsSuffix[i];
-              parent = location.displayName;
-              return displayName;
-            }).join(' ');
+            if(!_thing.locations) return;
+            _.extend(thing, _thing);
+            thing.location = _thing.locations[0];
+            locationPromiseList.push(TriggerDetailService.getLocationTree(thing.location));
+            $$Type.getSchema({type: _thing.type}, function(schema){
+              var _schema = TriggerDetailService.parseSchema(schema);
+              thing.typeDisplayName = _schema.displayName;
+            }); 
           });
-          $defer.resolve(things);
+
+          var thingsHasLocation = _.filter(things, function(thing){
+            return thing.location;
+          });
+
+          $q.all(locationPromiseList).then(function(locationGroups){
+            _.each(thingsHasLocation, function(thing, i){
+              var parent = '';
+              locationGroups[0].push({displayName: thing.location, location: thing.location});
+
+              thing.locationDisplayName = _.map(locationGroups[i], function(location, i){
+                var displayName = location.displayName.substr(parent.length) + locationsSuffix[i];
+                parent = location.displayName;
+                return displayName;
+              }).join(' ');
+            });
+            $defer.resolve(things);
+          });
 
         });
-
       });
+
       return $defer.promise;
-    }
+    };
 
     
     TriggerDetailService.getLocationTree = function(locationID){
@@ -481,25 +500,34 @@ angular.module('BeehivePortal')
       var startAt = triggerDataset.timeSpan.startAt,
           endAt = triggerDataset.timeSpan.endAt;
 
-      if(!startAt) return null;
+      var startMin = '0',
+          startHour = '0',
+          endMin = '59',
+          endHour = '23';
 
-      if(!endAt){
-        endAt = new Date();
-        endAt.setHours(23);
-        endAt.setMinutes(59);
+      if(startAt){
+        startMin = startAt.getMinutes();
+        startHour = startAt.getHours();
+        if(!endAt){
+          endAt = new Date();
+          endAt.setHours(23);
+          endAt.setMinutes(59);
+        }
+        endMin = endAt.getMinutes();
+        endHour = endAt.getHours();
       }
 
       var startCron = [
           0, 
-          startAt.getMinutes(),
-          startAt.getHours(),
+          startMin,
+          startHour,
           TriggerDetailService.CronTypes[triggerDataset.timeSpan.intervalType]
         ].join(' '),
 
           endCron = [
           0, 
-          endAt.getMinutes(),
-          endAt.getHours(),
+          endMin,
+          endHour,
           TriggerDetailService.CronTypes[triggerDataset.timeSpan.intervalType]
         ].join(' ');
 

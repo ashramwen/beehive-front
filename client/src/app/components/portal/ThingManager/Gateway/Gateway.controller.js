@@ -15,12 +15,22 @@ angular.module('BeehivePortal')
      */
     $scope.init = function(){
         $timeout(function(){
-            $scope.inputFilterOptions({type: 'gateway'});
+            $scope.inputFilterOptions({type: 'gateway', location: $scope.$state.params.location});
+            var gateway = $scope.$state.params['gateway'];
+            if(gateway){
+                $scope.showGatewayThings({globalThingID: gateway});
+                $scope.$on('location-loaded', function(){
+                    $scope.search();
+                });
+            }
         });
     };
 
-    $scope.getGateways = function(gateways){
-        if(!gateways)return;
+    $scope.getGateways = function(gateways, type, location){
+        if(!gateways || type.value != 'gateway')return;
+        if(location){
+            $scope.location = location.locationID;
+        }
         $$Thing.getThingsByIDs(_.pluck(gateways, 'globalThingID'), function(things){
             $scope.gateways = _.map(things, function(thing){
                 thing.globalThingID = thing.id;
@@ -49,13 +59,14 @@ angular.module('BeehivePortal')
         });
 
         modalInstance.result.then(function (gateway) {
-            AppUtils.alert('网关添加成功！', '提示信息');
+            AppUtils.alert({msg: "thingManager.gatewayAddedMsg"});
             $scope.gateways.push(gateway);
         });
     };
 
     $scope.showGatewayThings = function(gateway){
         var dirtyFields = ['target', 'taiwanNo1', 'novalue'];
+        $scope.gateway = gateway;
 
         $$Thing.getEndNodes({}, gateway, function(endNodes){
 
@@ -76,35 +87,14 @@ angular.module('BeehivePortal')
         });
     };
 
-    /*
-    $scope.showReplaceModal = function(endNode){
-        var modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'app/components/portal/ThingManager/Gateway/Replacement.template.html',
-            controller: 'GatewayController.Replacement',
-            size: 'md',
-            resolve: {
-              endNode: function () {
-                return endNode;
-              }
-            }
-        });
-
-        modalInstance.result.then(function (endNode) {
-            _.extend(endNode, endNode);
-        }, function () {
-            console.log('Modal dismissed at: ' + new Date());
+    $scope.viewThing = function(thing){
+        $scope.$state.go('app.portal.ThingManager.ThingDetail', {
+            thingid: thing.globalThingID, 
+            gateway: $scope.gateway.globalThingID, 
+            location: $scope.location
         });
     };
-    */
 
-    $scope.removeEndNode = function(endNode){
-        AppUtils.confirm('删除节点','您确认要删除这个节点吗？', function(){
-            $$Thing.removeEndNode({}, endNode, function(){
-                $scope.endNodes.remove(endNode);
-            });
-        });
-    };
   }])
   .controller('GatewayController.CreateGateway', ['$scope', '$uibModalInstance', '$$Thing', function($scope, $uibModalInstance, $$Thing){
     $scope.gateway = {
@@ -113,6 +103,9 @@ angular.module('BeehivePortal')
     };
 
     $scope.createGateway = function(){
+        if(!$scope.addGateway.$valid || $scope.gateway.vendorThingID.length!=3 ){
+            return;
+        }
         var gatewayObj = {
             vendorThingID: ($scope.gateway.location + '-00-' + $scope.gateway.vendorThingID).toUpperCase(),
             type: 'gateway',

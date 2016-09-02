@@ -1,32 +1,29 @@
 <div class="app-portal-usermanager-user-userinfo" ng-init="init()">
   <section class="panel">
-    <header class="panel-heading">用户信息</header>
+    <header class="panel-heading">{{'userManager.userInfoTitle' |  translate}}</header>
     <div class="panel-body">
       <div class="row portal-row clearfix">
-        <div class="col-sm-4">姓名</div>
+        <div class="col-sm-4">{{'user.userName' | translate}}</div>
         <div class="col-sm-8">
-          <input type="text" class="form-control" placeholder="姓名" ng-model="user.displayName" ng-disabled="true" />
+          <input type="text" class="form-control" placeholder="{{'user.userName' | translate}}" ng-model="user.displayName" ng-disabled="true" />
         </div>
       </div>
       <div class="row portal-row clearfix">
-        <div class="col-sm-4">用户ID</div>
-        <div class="col-sm-8"><input ng-model="user.userID" type="text" class="form-control" placeholder="用户ID" ng-disabled="true" /></div>
+        <div class="col-sm-4">{{'user.loginName' | translate}}</div>
+        <div class="col-sm-8"><input ng-model="user.userID" type="text" class="form-control" placeholder="{{'user.loginName' | translate}}" ng-disabled="true" /></div>
       </div>
       <div class="row portal-row clearfix">
-        <div class="col-sm-4">电话</div>
-        <div class="col-sm-8"><input type="text" class="form-control" placeholder="电话" ng-model="user.phone" ng-disabled="true"/></div>
+        <div class="col-sm-4">{{'user.phone' | translate}}</div>
+        <div class="col-sm-8"><input type="text" class="form-control" placeholder="{{'user.phone' | translate}}" ng-model="user.phone" ng-disabled="true"/></div>
       </div>
       <div class="row portal-row clearfix">
-        <div class="col-sm-4">邮箱地址</div>
-        <div class="col-sm-8"><input type="text" class="form-control" placeholder="邮箱地址" ng-model="user.mail" ng-disabled="true"/></div>
+        <div class="col-sm-4">{{'user.email' | translate}}</div>
+        <div class="col-sm-8"><input type="text" class="form-control" placeholder="{{'user.email' | translate}}" ng-model="user.mail" ng-disabled="true"/></div>
       </div>
-      <div class="portal-row clearfix">
+      <div class="portal-row clearfix" ng-if="credential.roleName!='commUser'">
         <div class="pull-right">
-          <button class="btn btn-danger" ng-click="editUser()" ng-disabled="credential.roleName == 'commUser'">编辑</button>
-          <button class="btn btn-danger" ng-click="deleteUser()" ng-disabled="credential.roleName == 'commUser'">删除</button>
-          <!--
-          <button class="btn btn-danger" ng-click="goThingAuth()">设备拥有权限</button>
-          -->
+          <button class="btn btn-danger" ng-click="editUser()">{{'controls.edit' | translate}}</button>
+          <button class="btn btn-danger" ng-click="deleteUser()">{{'controls.delete' | translate}}</button>
         </div>
       </div>
     </div>

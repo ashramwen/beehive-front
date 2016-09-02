@@ -28,7 +28,7 @@ angular.module('BeehivePortal')
                 "must": [
                   {
                     "terms" : { 
-                      "target" : allThings
+                      "state.target" : allThings
                     }
                   }
                 ],
@@ -49,17 +49,17 @@ angular.module('BeehivePortal')
                       "aggs": {
                         "byThing":{
                           "terms":{
-                            "field": "target"
+                            "field": "state.target"
                           },
                           "aggs": {
                             "KwhMax":{
                               "max": {
-                                "field": "Kwh"
+                                "field": "state.Kwh"
                               }
                             },
                             "KwhMin":{
                               "min": {
-                                "field": "Kwh"
+                                "field": "state.Kwh"
                               }
                             }
                           }
@@ -83,17 +83,17 @@ angular.module('BeehivePortal')
                     },
                     "byThing":{
                       "terms":{
-                        "field": "target"
+                        "field": "state.target"
                       },
                       "aggs": {
                         "KwhMax":{
                           "max": {
-                            "field": "Kwh"
+                            "field": "state.Kwh"
                           }
                         },
                         "KwhMin":{
                           "min": {
-                            "field": "Kwh"
+                            "field": "state.Kwh"
                           }
                         }
                       }
@@ -115,7 +115,7 @@ angular.module('BeehivePortal')
                     }
                 },
                 "date_histogram": {
-                    "field": "date",
+                    "field": "state.date",
                     "interval": "hour"
                 }
             }
@@ -161,7 +161,7 @@ angular.module('BeehivePortal')
                 "must": [
                   {
                     "terms" : { 
-                      "target" : allThings
+                      "state.target" : allThings
                     }
                   }
                 ],
@@ -174,12 +174,12 @@ angular.module('BeehivePortal')
         "aggs":{
           "MaxKwh": {
             "max": {
-              "field": "Kwh"
+              "field": "state.Kwh"
             }
           },
           "MinKwh": {
             "min": {
-              "field": "Kwh"
+              "field": "state.Kwh"
             }
           }
         }

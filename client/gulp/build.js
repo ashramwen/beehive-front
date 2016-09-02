@@ -110,18 +110,3 @@ gulp.task('bin', function(){
 
 gulp.task('dist', ['html', 'images', 'misc', 'fonts', 'fonts-local', 'config', 'bin']);
 gulp.task('build',['sass','inject','partials','watch']);
-
-gulp.task('mbower', function(){
-  return gulp.src([paths.bower + '/**/*.{js,css,eot,svg,ttf,woff}'])
-    .pipe(gulp.dest('../qa/bower_components'));
-});
-
-gulp.task('msrc', function(){
-  return gulp.src([paths.src + '/**/*'])
-    .pipe(gulp.dest('../qa/'));
-});
-
-gulp.task('qa', ['sass','inject','partials', 'mbower', 'msrc'], function(){
-  return gulp.src([paths.tmp + '/serve/*.html'])
-    .pipe(gulp.dest('../qa/'));
-});

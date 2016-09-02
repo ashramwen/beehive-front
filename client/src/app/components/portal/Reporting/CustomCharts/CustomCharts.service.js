@@ -246,7 +246,7 @@ angular.module('BeehivePortal')
                 "must": [
                   {
                     "terms" : { 
-                      "target" : allThings
+                      "state.target" : allThings
                     }
                   }
                 ],
@@ -265,7 +265,7 @@ angular.module('BeehivePortal')
                 "_kii_agg_field_name": "日期",
                 "_kii_agg_chart": options.chartType,
                 "date_histogram": {
-                  "field": "date",
+                  "field": "state.date",
                   "interval": options.interval + options.timeUnit
                 }
               }
@@ -295,7 +295,7 @@ angular.module('BeehivePortal')
         });
 
         aggs.aggs.CALC[options.aggMethod] = {
-          "field": options.property.propertyName
+          "field": 'state.' + options.property.propertyName
         };
 
         var result = {

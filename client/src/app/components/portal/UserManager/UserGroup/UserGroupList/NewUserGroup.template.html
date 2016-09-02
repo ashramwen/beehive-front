@@ -1,21 +1,21 @@
 <div class="modal-content app-portal-usermanager-usergroup-usergrouplist">
   <div class="modal-header">
-      <h3 class="modal-title">新增群组</h3>
+      <h3 class="modal-title">{{'userManager.createGroupTitle' | translate}}</h3>
   </div>
   <div class="modal-body clearfix">
       <div class="col-sm-12">
         <div class="row portal-row clearfix">
-          <div class="col-sm-4">群组名称</div>
-          <div class="col-sm-8"><input ng-model="newGroup.userGroupName" type="text" class="form-control" placeholder="群组名称" /></div>
+          <div class="col-sm-4">{{'userManager.groupName' | translate}}</div>
+          <div class="col-sm-8"><input ng-model="newGroup.userGroupName" type="text" class="form-control" placeholder="{{'userManager.groupName' | translate}}" /></div>
         </div>
         <div class="row portal-row clearfix">
-          <div class="col-sm-4">描述</div>
-          <div class="col-sm-8"><input ng-model="newGroup.description" type="text" class="form-control" placeholder="描述" /></div>
+          <div class="col-sm-4">{{'userManager.groupDescription' | translate}}</div>
+          <div class="col-sm-8"><input ng-model="newGroup.description" type="text" class="form-control" placeholder="{{'userManager.groupName' | translate}}" /></div>
         </div>
       </div>
   </div>
   <div class="modal-footer">
-      <button class="btn btn-primary" type="button" ng-click="ok()">提交</button>
-      <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+      <button class="btn btn-primary" type="button" ng-click="ok()">{{'controls.submit' | translate}}</button>
+      <button class="btn btn-warning" type="button" ng-click="cancel()">{{'controls.cancel' | translate}}</button>
   </div>
 </div>

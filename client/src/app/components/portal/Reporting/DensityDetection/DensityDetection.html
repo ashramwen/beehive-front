@@ -6,7 +6,7 @@
           <table class="table">
             <tbody>
               <tr>
-                <td>指数类型</td>
+                <td>{{'reporting.indexType' | translate}}</td>
                 <td>
                   <div app-select options="chartSources" selected-model="selectedSource"></div>
                 </td>
@@ -19,7 +19,7 @@
           <div class="pull-left">
             <div class="title pull-left">
               <span class="fa fa-clock-o"></span>
-              时间段
+              {{'terms.timePeriod' | translate}}
             </div>
             <div class="pull-left time-picker">
               <rp-date-picker output="onPeriodChange"></rp-date-picker>
@@ -29,14 +29,14 @@
             <div class="pull-left">
               <div class="title pull-left">
                 <span class="fa fa-map-marker"></span>
-                <span>坐标</span>
+                <span>{{'terms.location' | translate}}</span>
               </div>
               <div class="pull-left">
                 <location-selector hide-last="true" change="locationChange(location, locationName, subLevels)"></location-selector>
               </div>
             </div>
             <div class="pull-left">
-              <button class="btn btn-info pull-left" ng-click="queryData()">刷新</button>
+              <button class="btn btn-info pull-left" ng-click="queryData()">{{'controls.refresh' | translate}}</button>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
     <div class="col-md-3">
       <div class="panel chart-panel">
         <div class="panel-heading">
-          人气值比例
+          {{reporting.densityRatio}}
         </div>
         <div class="panel-body">
           <kii-chart
@@ -63,18 +63,17 @@
           </kii-chart>
           <div style="height: 182px;font-size:30px; font-weight: bold; margin:-16px; text-align: center; position:relative;">
             <div style="position: absolute; width: 100%; top: 50px">
-              <span>人气值</span>
+              <span>{{reporting.density}}</span>
               <br/>
               {{numberDetected}}
             </div>
-            
           </div>
         </div>
       </div>
     </div>
     <div class="col-md-9">
       <div class="panel chart-panel">
-        <div class="panel-heading">{{queriedSource.text}}</div>
+        <div class="panel-heading">{{queriedSource.text | translate}}</div>
         <div class="panel-body">
           <div class="chart-container">
             <div class="chart-content">
@@ -91,13 +90,13 @@
             </div>
             <div class="chart-control">
               <div class="form-group">
-                <label>单位时长</label>
+                <label>{{'terms.timeLength' | translate}}</label>
                 <rp-time-slicer output="onTimeSliceChange"></rp-time-slicer>
               </div>
               <div>
-                <button ng-click="refreshLine()" class="btn btn-success btn-split">刷新</button>
-                <button ng-click="groupLines()" ng-if="split" class="btn btn-warning btn-split">合并</button>
-                <button ng-click="splitLine()" ng-if="!split" class="btn btn-info btn-split">拆分</button>
+                <button ng-click="refreshLine()" class="btn btn-success btn-split">{{'controls.refresh' | translate}}</button>
+                <button ng-click="groupLines()" ng-if="split" class="btn btn-warning btn-split">{{'reporting.merge' | translate}}</button>
+                <button ng-click="splitLine()" ng-if="!split" class="btn btn-info btn-split">{{'reporting.split' | translate}}</button>
               </div>
             </div>
           </div>
@@ -107,7 +106,7 @@
     <div class="col-md-3">
       <div class="panel chart-panel">
         <div class="panel-heading">
-          {{queriedSource.text}}
+          {{queriedSource.text | translate}}
         </div>
         <div class="panel-body">
           <kii-chart
@@ -127,7 +126,7 @@
     <div class="col-md-9">
       <div class="panel chart-panel">
         <div class="panel-heading">
-          {{queriedSource.text}}
+          {{queriedSource.text | translate}}
         </div>
         <div class="panel-body">
           <kii-chart

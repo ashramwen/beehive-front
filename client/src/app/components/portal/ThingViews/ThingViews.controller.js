@@ -32,38 +32,9 @@ angular.module('BeehivePortal')
     $scope.myMenu = {
         itemList:[
             {
-                text: '查看详情',
+                text: 'controls.view',
                 callback: function(thing){
                     $scope.navigateTo($scope.navMapping.THING_DETAIL, {thingid: thing.globalThingID});
-                }
-            },
-            {
-                text:'编辑',
-                callback: function (thing) {
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: 'app/components/portal/ThingViews/EditThing.template.html',
-                        controller: 'ThingViewsController.EditThing',
-                        size: 'md',
-                        resolve: {
-                          thing: function () {
-                            return thing;
-                          }
-                        }
-                    });
-
-                    modalInstance.result.then(function (selectedItem) {
-                        _.extend(thing, selectedItem);
-                    }, function () {
-                        console.log('Modal dismissed at: ' + new Date());
-                    });
-                }
-            },
-            {
-                text:'删除',
-                callback: function (thing) {
-                    console.log('Delete thing');
-                    console.log(thing);
                 }
             }
         ],

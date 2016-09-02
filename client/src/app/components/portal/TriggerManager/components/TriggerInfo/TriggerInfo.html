@@ -1,18 +1,18 @@
 <div class="app-portal-triggermanager-triggerdetail-triggerinfo" ng-controller="TriggerInfoController">
   <div class="panel">
     <div class="panel-body">
-      <h4>规则信息</h4>
+      <h4>{{'triggerManager.ruleInfo' | translate}}</h4>
       <table class="table form-table">
         <tbody>
           <tr>
-            <td>规则名称</td>
+            <td>{{'triggerManager.ruleName' | translate}}</td>
             <td>
               <input type="text" class="form-control"
                 name="rulename"
                 ng-model="trigger.name" required
-                placeholder="规则名称"
+                placeholder="{{'triggerManager.ruleName' | translate}}"
 
-                uib-tooltip="请输入规则名称"
+                uib-tooltip="{{'triggerManager.requireRuleNameMsg' | translate}}"
                 tooltip-trigger="'none'"
                 tooltip-placement="top"
                 tooltip-is-open="(ruleform.$submitted 
@@ -21,11 +21,11 @@
             </td>
           </tr>
           <tr ng-if="trigger.triggerID && !trigger.fromGateway">
-            <td>启用状态</td>
-            <td><div yes-text="启用" no-text="禁用" switchery="trigger.enabled" change="toggleTriggerState(value)"></div></td>
+            <td>{{'triggerManager.status' | translate}}</td>
+            <td><div yes-text="terms.enable" no-text="terms.disable" switchery="trigger.enabled" change="toggleTriggerState(value)"></div></td>
           </tr>
           <tr>
-            <td>规则说明</td>
+            <td>{{'terms.description' | translate}}</td>
             <td><textarea class="form-control" rows="4" ng-model="trigger.description"></textarea></td>
           </tr>
         </tbody>

@@ -1,18 +1,18 @@
 <div class="app-portal-thingmanager-gateway">
-  <div class="form-group"><button class="btn btn-info" ng-click="addGateway()">添加网关</button></div>
+  <div class="form-group"><button class="btn btn-info" ng-click="addGateway()">{{'thingManager.createGateway' | translate}}</button></div>
   <div class="row flex-row">
     <div class="col-md-5">
       <section class="panel table" id="gateway-list">
         <header class="panel-heading clearfix">
-          <span class="title">网关列表</span>
+          <span class="title">{{'thingManager.gatewayList' | translate}}</span>
           <thing-filter input="inputFilterOptions" change="getGateways(things, type, location)" search="search"></thing-filter>
         </header>
         <div class="panel-body">
           <table class="table table-striped table-hover dataTable no-footer">
             <thead>
                 <tr role="row">
-                  <th class="sorting_asc" rowspan="1" colspan="1">ID</th>
-                  <th>登录状态</th>
+                  <th class="sorting_asc" rowspan="1" colspan="1">{{'terms.id' | translate}}</th>
+                  <th>{{'thing.onboardingStatus' | translate}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,23 +27,19 @@
     </div>
     <div class="col-md-7">
       <section class="panel table">
-        <header class="panel-heading">设备列表</header>
+        <header class="panel-heading">{{'thing.thingList' | translate}}</header>
         <div class="panel-body">
           <table class="table">
             <thead>
-              <th>设备ID</th>
-              <th>设备种类</th>
-              <th>已登录</th>
-              <th>操作</th>
+              <th>{{'terms.id' | translate}}</th>
+              <th>{{'terms.type' | translate}}</th>
+              <th>{{'thing.onboardingStatus' | translate}}</th>
             </thead>
             <tbody>
-              <tr ng-repeat="thing in endNodes" ng-mouseover="targetThing = thing" uib-popover="{{dynamicPopover.content}}" popover-title="设备状态" popover-trigger="'mouseenter'" uib-popover-template="'app-portal-thingmanager-addgateway-status'" popover-enable="thing.status.length">
+              <tr ng-repeat="thing in endNodes" ng-click="viewThing(thing)" ng-mouseover="targetThing = thing" uib-popover popover-title="{{thing.state | translate}}" popover-trigger="'mouseenter'" uib-popover-template="'app-portal-thingmanager-addgateway-status'" popover-enable="thing.status.length">
                 <td>{{thing.vendorThingID}}</td>
                 <td>{{thing.typeDisplayName}}</td>
                 <td><span class="fa" ng-class="thing.fullKiiThingID? 'fa-check': 'fa-remove'"></span></td>
-                <td width="124px">
-                  <button class="btn btn-warning" ng-click="removeEndNode(thing)">删除</button>
-                </td>
               </tr>
             </tbody>
           </table>
@@ -54,32 +50,53 @@
 </div>
 
 <script type="text/ng-template" id="app-portal-thingmanager-addgateway">
-  <div class="modal-header">
-      <h3 class="modal-title">网关信息</h3>
-  </div>
-  <div class="modal-body clearfix">
-    <div class="app-portal-thingmanager-addgateway" ng-init="init()">
-      <table id="gateway-info">
-        <tbody>
-          <tr>
-            <td>设备编号</td>
-            <td><input class="form-control" type="text" ng-model="gateway.vendorThingID" /></td>
-          </tr>
-          <tr>
-            <td>
-              <span class="fa fa-map-marker"></span>坐标
-            </td>
-            <td>
-              <location-selector change="locationChange(location, fullLocation, displayName)"></location-selector>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <form novalidate name="addGateway">
+    <div class="modal-header">
+        <h3 class="modal-title">{{'thingManager.createGateway' | translate}}</h3>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-warning btn-lg pull-center" ng-click="createGateway(gateway)">添加网关</button>
-  </div>
+    <div class="modal-body clearfix">
+      <div class="app-portal-thingmanager-addgateway" ng-init="init()">
+        <table id="gateway-info">
+          <tbody>
+            <tr>
+              <td>{{'terms.id' | translate}}</td>
+              <td><input class="form-control" 
+                type="text" 
+                ng-model="gateway.vendorThingID" 
+                name="thingID"
+                numbers-only
+                limit="3"
+
+                required 
+                uib-tooltip="{{'thingManager.gatewayIDToolTip' | translate}}"
+                tooltip-trigger="'none'"
+                tooltip-placement="top"
+                tooltip-is-open="addGateway.$submitted
+                  && (!!addGateway.thingID.$error.required || !gateway.vendorThingID.length || gateway.vendorThingID.length<3)"
+               /></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="fa fa-map-marker"></span>{{'terms.location' | translate}}
+              </td>
+              <td 
+                uib-tooltip="{{'thingManager.selectLocationToolTip' | translate}}"
+                tooltip-trigger="'none'"
+                tooltip-placement="top"
+                tooltip-is-open="addGateway.$submitted
+                  && (!gateway.location || gateway.location.length!=9)"
+              >
+                <location-selector change="locationChange(location, fullLocation, displayName)"></location-selector>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-warning btn-lg pull-center" ng-click="createGateway(gateway)">{{'controls.create' | translate}}</button>
+    </div>
+  </form>
 </script>
 <script type="text/ng-template" id="app-portal-thingmanager-addgateway-status">
   <table class="table">

@@ -1,6 +1,6 @@
 
 angular.module('BeehivePortal')
-  .directive('thingLocationTypeSelector', ['$compile', function($compile){
+  .directive('thingLocationTypeSelector', ['$compile', 'TriggerDetailService', 'Session', function($compile, TriggerDetailService, Session){
     return{
       restrict: 'E',
       replace: true,
@@ -8,7 +8,8 @@ angular.module('BeehivePortal')
           input: '=?',
           singleType: '=?',
           change: '&',
-          disabled: '=?'
+          disabled: '=?',
+          creatorOnly: '=?'
       },
       templateUrl: 'app/shared/directives/thing-location-type-selector/thing-location-type-selector.template.html',
       controller:['$scope', '$$Type', '$$Thing', function($scope, $$Type, $$Thing){
@@ -73,15 +74,29 @@ angular.module('BeehivePortal')
           };
 
           $$Thing.getThingsByLocationType(searchQuery, function(thingIDs){
-            $scope.things = _.map(thingIDs, function(thingID){
+            var things = _.map(thingIDs, function(thingID){
               return {
-                globalThingID: thingID, 
-                type: $scope.selectedType, 
-                typeDisplayName: _.find($scope.types, {value: $scope.selectedType}).text,
-                locationDisplayName: $scope.selectedLocation.displayName,
-                location: $scope.selectedLocation.locationID,
-                fullLocation: $scope.selectedLocation.fullLocation
+                globalThingID: thingID
               };
+            }); 
+            TriggerDetailService.getThingsDetail(things).then(function(things){
+              $scope.things = things;
+              if($scope.creatorOnly){
+                credential = Session.getCredential();
+                $scope.things = _.where($scope.things, {createBy: credential.id.toLocaleString()});
+              }
+              /*
+              $scope.things = _.map(thingIDs, function(thingID){
+                return {
+                  globalThingID: thingID, 
+                  type: $scope.selectedType, 
+                  typeDisplayName: _.find($scope.types, {value: $scope.selectedType}).text,
+                  locationDisplayName: $scope.selectedLocation.displayName,
+                  location: $scope.selectedLocation.locationID,
+                  fullLocation: $scope.selectedLocation.fullLocation
+                };
+              });
+              */
             });
           });
         };

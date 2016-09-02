@@ -4,8 +4,8 @@ angular.module('BeehivePortal')
   .controller('TriggerConditionListController', ['$scope', 'AppUtils', 'TriggerDetailService', function($scope, AppUtils, TriggerDetailService){
 
     $scope.options = [
-      {text: '任何一个', value: false},
-      {text: '全部', value: true}
+      {text: 'triggerManager.any', value: false},
+      {text: 'triggerManager.all', value: true}
     ];
 
     $scope.init = function(){

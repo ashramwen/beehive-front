@@ -9,10 +9,11 @@ angular.module('BeehivePortal')
             change: '&',
             input: '=?',
             position: '=?',
-            hideLast: '=?'
+            hideLast: '=?',
+            disabled: '=?'
         },
         templateUrl: 'app/shared/directives/location-selector/location-selector.template.html',
-        controller:['$scope', '$$Location', '$q', function($scope, $$Location, $q){
+        controller:['$scope', '$$Location', '$q', '$translate', function($scope, $$Location, $q, $translate){
             $scope.detail = $scope.detail || [];
             $scope.subLevels = [];
 
@@ -47,6 +48,19 @@ angular.module('BeehivePortal')
                 }
             };
 
+            $q.all([
+                $translate('location.buildingBref'),
+                $translate('location.floorBref'),
+                $translate('location.partitionBref'),
+                $translate('location.areaBref')
+            ]).then(function(values){
+                $scope.levels.building.suffix = values[0];
+                $scope.levels.floor.suffix = values[1];
+                $scope.levels.partition.suffix = values[2];
+                $scope.levels.area.suffix = values[3];
+            });
+            
+
             $scope.$watch('input', function(val){
                 $scope.selectedLocation = val;
                 $scope.setLocation();
@@ -56,8 +70,14 @@ angular.module('BeehivePortal')
                 $scope.levels['building'].options = _.map(res, function(option){
                     option._displayName = option.displayName;
                     return option;
-                }) ;
-                $scope.setLocation();
+                });
+                if($scope.levels['building'].options.length && !$scope.selectedLocation){
+                    $scope.levels['building'].selected = $scope.levels['building'].options[0];
+                    $scope.changeLocation('building');
+                    $scope.$emit('location-loaded');
+                }else{
+                    $scope.setLocation();
+                }
             });
 
             $scope.setLocation = function(){
@@ -88,18 +108,29 @@ angular.module('BeehivePortal')
                     });
 
                     var firstFunc = funcs[funcs.length - 1];
+                    if(!firstFunc){
+                        $scope.levels['building'].selected = _.find($scope.levels['building'].options, {location: $scope.selectedLocation});
+                        $scope.changeLocation('building').then(function(){
+                            $scope.$emit('location-loaded');
+                        });
+                        return;
+                    }
                     firstFunc();
 
                     $defer.promise.then(function(obj){
                         obj.selected = _.find(obj.options, {location: $scope.selectedLocation});
-                        $scope.$emit('location-loaded');
+                        var levels = _.keys($scope.levels);
+
+                        $scope.changeLocation(levels[locationList.length]).then(function(){
+                            $scope.$emit('location-loaded');
+                        });
                     });
 
                 });
             };
             
             $scope.onChange = function(location, obj){
-                $scope.change({location: location, locationName: obj.displayName, fullLocation: $scope.levels, displayName: $scope.getDisplayName(), subLevels: $scope.subLevels});
+                $scope.change({location: location, locationName: obj? obj.displayName: '', fullLocation: $scope.levels, displayName: $scope.getDisplayName(), subLevels: $scope.subLevels});
                 $scope.$emit('location-change', location);
             };
 

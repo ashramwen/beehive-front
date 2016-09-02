@@ -7,13 +7,13 @@ angular.module('BeehivePortal')
         url: '/TriggerList',
         templateUrl: 'app/components/portal/TriggerManager/TriggerList/TriggerList.html',
         controller: 'TriggerListController',
-        stateName: '触发器列表'
+        stateName: 'triggerManager.triggerList'
       })
       .state('app.portal.TriggerManager.NewTrigger', {
         url: '/NewTrigger',
         templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/TriggerDetail.html',
         controller: 'TriggerDetailController',
-        stateName: '触发器详情',
+        stateName: 'triggerManager.triggerDetail',
         previous: 'app.portal.TriggerManager.TriggerList',
         abstract: true
       })
@@ -21,7 +21,7 @@ angular.module('BeehivePortal')
         url: '/Triggers/:triggerID',
         templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/TriggerDetail.html',
         controller: 'TriggerDetailController',
-        stateName: '触发器详情',
+        stateName: 'triggerManager.triggerDetail',
         previous: 'app.portal.TriggerManager.TriggerList',
         abstract: true
       })
@@ -33,7 +33,7 @@ angular.module('BeehivePortal')
         url: '/ConditionTrigger',
         templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/ConditionTriggerDetail/ConditionTriggerDetail.html',
         controller: 'ConditionTriggerDetailController',
-        stateName: '新建条件规则',
+        stateName: 'triggerManager.newTrigger',
         previous: 'app.portal.TriggerManager.TriggerList'
       })
       /**
@@ -44,7 +44,7 @@ angular.module('BeehivePortal')
         url: '/ScheduleTrigger',
         templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/ScheduleTriggerDetail/ScheduleTriggerDetail.html',
         controller: 'ScheduleTriggerDetailController',
-        stateName: '新建定时规则',
+        stateName: 'triggerManager.newScheduleTrigger',
         previous: 'app.portal.TriggerManager.TriggerList'
       })
       /**
@@ -54,8 +54,8 @@ angular.module('BeehivePortal')
       .state('app.portal.TriggerManager.TriggerDetail.ConditionTrigger', {
         url: '/ConditionTrigger',
         templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/ConditionTriggerDetail/ConditionTriggerDetail.html',
-        controller: 'ScheduleTriggerDetailController',
-        stateName: '条件规则详情',
+        controller: 'ConditionTriggerDetailController',
+        stateName: 'triggerManager.conditionTriggerDetail',
         previous: 'app.portal.TriggerManager.TriggerList'
       })
       /**
@@ -66,7 +66,7 @@ angular.module('BeehivePortal')
         url: '/ScheduleTrigger',
         templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/ScheduleTriggerDetail/ScheduleTriggerDetail.html',
         controller: 'ScheduleTriggerDetailController',
-        stateName: '定时规则详情',
+        stateName: 'triggerManager.scheduleTriggerDetail',
         previous: 'app.portal.TriggerManager.TriggerList'
       })
 
@@ -78,7 +78,7 @@ angular.module('BeehivePortal')
         url: '/Condition/action/:type',
         templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/TriggerActionHandler/TriggerActionHandler.html',
         controller: 'TriggerActionHandlerController',
-        stateName: '编辑行为',
+        stateName: 'triggerManager.editAction',
         previous: 'app.portal.TriggerManager.TriggerDetail.ConditionTrigger'
       })
       /**
@@ -89,7 +89,7 @@ angular.module('BeehivePortal')
         url: '/Condition/condition/:type',
         templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/TriggerConditionHandler/TriggerConditionHandler.html',
         controller: 'TriggerConditionHandlerController',
-        stateName: '编辑条件',
+        stateName: 'triggerManager.editCondition',
         previous: 'app.portal.TriggerManager.TriggerDetail.ConditionTrigger'
       })
       /**
@@ -100,7 +100,7 @@ angular.module('BeehivePortal')
         url: '/Condition/action/:type',
         templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/TriggerActionHandler/TriggerActionHandler.html',
         controller: 'TriggerActionHandlerController',
-        stateName: '新建行为',
+        stateName: 'triggerManager.editAction',
         previous: 'app.portal.TriggerManager.NewTrigger.ConditionTrigger'
       })
       /**
@@ -111,7 +111,7 @@ angular.module('BeehivePortal')
         url: '/Condition/condition/:type',
         templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/TriggerConditionHandler/TriggerConditionHandler.html',
         controller: 'TriggerConditionHandlerController',
-        stateName: '编辑条件',
+        stateName: 'triggerManager.editCondition',
         previous: 'app.portal.TriggerManager.NewTrigger.ConditionTrigger'
       })
       /**
@@ -122,6 +122,7 @@ angular.module('BeehivePortal')
         url: '/Schedule/action/:type',
         templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/TriggerActionHandler/TriggerActionHandler.html',
         controller: 'TriggerActionHandlerController',
+        stateName: 'triggerManager.editAction',
         previous: 'app.portal.TriggerManager.TriggerDetail.ScheduleTrigger'
       })
       /**
@@ -132,6 +133,7 @@ angular.module('BeehivePortal')
         url: '/Schedule/action/:type',
         templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/TriggerActionHandler/TriggerActionHandler.html',
         controller: 'TriggerActionHandlerController',
+        stateName: 'triggerManager.editAction',
         previous: 'app.portal.TriggerManager.NewTrigger.ScheduleTrigger'
       });
   });

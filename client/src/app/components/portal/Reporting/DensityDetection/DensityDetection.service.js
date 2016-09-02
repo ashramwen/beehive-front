@@ -19,7 +19,7 @@ angular.module('BeehivePortal')
               "must": [
                 {
                   "terms" : { 
-                    "target" : [1300,1301,1302,1303,1304,1305,1306,1307,1308]
+                    "state.target" : [1300,1301,1302,1303,1304,1305,1306,1307,1308]
                   }
                 }
               ],
@@ -39,7 +39,7 @@ angular.module('BeehivePortal')
                       "_kii_agg_field_name": "楼层号",
                       "enum": {
                         "keys": ["1楼","2楼","3楼"],
-                        "field": "target",
+                        "field": "state.target",
                         "values": [
                           [1300,1301,1302],
                           [1303,1304,1305],
@@ -50,16 +50,16 @@ angular.module('BeehivePortal')
                           "ganzhiRate": {
                               "enum": {
                                   "keys": ["detectedT", "detectedF"],
-                                  "field": "PIR",
+                                  "field": "state.PIR",
                                   "values": [
-                                      [true],
-                                      [false]
+                                      [1],
+                                      [0]
                                   ]
                               },
                               "aggs":{
                                   "count": {
                                       "value_count": {
-                                          "field": "target"
+                                          "field": "state.target"
                                       }
                                   }
                               }
@@ -76,7 +76,7 @@ angular.module('BeehivePortal')
                   }
               },
               "date_histogram": {
-                  "field": "date",
+                  "field": "state.date",
                   "interval": "hour"
               }
             }
@@ -99,7 +99,7 @@ angular.module('BeehivePortal')
               "must": [
                 {
                   "terms" : { 
-                    "target" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
+                    "state.target" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
                   }
                 }
               ],
@@ -117,16 +117,16 @@ angular.module('BeehivePortal')
                 "ganzhiRate": {
                     "enum": {
                         "keys": ["detectedT", "detectedF"],
-                        "field": "PIR",
+                        "field": "state.PIR",
                         "values": [
-                            [true],
-                            [false]
+                            [1],
+                            [0]
                         ]
                     },
                     "aggs":{
                         "count": {
                             "value_count": {
-                                "field": "target"
+                                "field": "state.target"
                             }
                         }
                     }
@@ -141,7 +141,7 @@ angular.module('BeehivePortal')
                 }
               },
               "date_histogram": {
-                  "field": "date",
+                  "field": "state.date",
                   "interval": "hour"
               }
             }
@@ -166,7 +166,7 @@ angular.module('BeehivePortal')
                 "must": [
                   {
                     "terms" : { 
-                      "target" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
+                      "state.target" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
                     }
                   }
                 ],
@@ -182,7 +182,7 @@ angular.module('BeehivePortal')
                 "_kii_agg_field_name": "位置",
                 "enum": {
                   "keys": ["1楼","2楼","3楼"],
-                  "field": "target",
+                  "field": "state.target",
                   "values": [
                     [45650,32159,24001],
                     [67962,1484,63412,6360],
@@ -193,16 +193,16 @@ angular.module('BeehivePortal')
                     "ganzhiRate": {
                         "enum": {
                             "keys": ["detectedT", "detectedF"],
-                            "field": "PIR",
+                            "field": "state.PIR",
                             "values": [
-                                [true],
-                                [false]
+                                [1],
+                                [0]
                             ]
                         },
                         "aggs":{
                             "count": {
                                 "value_count": {
-                                    "field": "target"
+                                    "field": "state.target"
                                 }
                             }
                         }
@@ -237,7 +237,7 @@ angular.module('BeehivePortal')
               "must": [
                 {
                   "terms" : { 
-                    "target" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
+                    "state.target" : [45650,32159,24001,67962,1484,63412,6360,89901,43668,60765]
                   }
                 }
               ],
@@ -252,17 +252,17 @@ angular.module('BeehivePortal')
           "_kii_agg_chart": "pie",
           "enum": {
             "keys": ['已使用空间', '未使用空间'],
-            "field": "PIR",
+            "field": "state.PIR",
             "values": [
-              [true],
-              [false]
+              [1],
+              [0]
             ]
           },
           "aggs":{
             "countT": {
               "_kii_agg_field_name": '人气值',
               "value_count": {
-                "field": "target"
+                "field": "state.target"
               }
             }
           }
@@ -289,7 +289,7 @@ angular.module('BeehivePortal')
         aggObj = query.aggs.byTime.aggs;
       }
 
-      terms.target = allThings;
+      terms['state.target'] = allThings;
       
 
       if(split){
@@ -317,7 +317,7 @@ angular.module('BeehivePortal')
       var terms = query.query.filtered.filter.bool.must[0].terms;
       var locationObj = query.aggs.byLocation;
 
-      terms.target = allThings;
+      terms['state.target'] = allThings;
       _.extend(locationObj.enum, enumObj); 
 
       if(source == 'rate'){
@@ -340,7 +340,7 @@ angular.module('BeehivePortal')
       var locationObj = query.aggs.byLocation;
 
 
-      terms.target = allThings;
+      terms['state.target'] = allThings;
       _.extend(locationObj.enum, enumObj); 
 
       delete query.aggs.byLocation.aggs.rate;
@@ -354,7 +354,7 @@ angular.module('BeehivePortal')
       var allThings = ReportingService.getAllThings(subLevels);
       var terms = query.query.filtered.filter.bool.must[0].terms;
 
-      terms.target = allThings;
+      terms['state.target'] = allThings;
 
       return query;
     };

@@ -2,12 +2,12 @@
   <div class="panel">
     <div class="panel-body">
       <h4
-        uib-tooltip="至少需要添加一个行为"
+        uib-tooltip="{{'triggerManager.requireActionMsg' | translate}}"
         tooltip-trigger="'none'"
         tooltip-placement="top"
         tooltip-is-open="ruleform.$submitted
           && !triggerData.actionGroups.length"
-        >规则行为</h4>
+        >{{'triggerManager.ruleActions' | translate}}</h4>
       <div class="table-holder">
         <table class="property-table">
           <tbody>
@@ -20,7 +20,7 @@
       </div>
       <div class="btn-add-param" ng-click="addActionGroup()">
         <span class="fa fa-plus-circle"></span>
-        <span>添加参数</span>
+        <span>{{'triggerManager.addParam' | translate}}</span>
       </div>
     </div>
   </div>

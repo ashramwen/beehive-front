@@ -28,12 +28,29 @@ angular.module('BeehivePortal')
   }])
   .directive('input', [function(){
     return {
-        link: function(scope, element, attrs){
-            scope.$watch('ngModel', function(newVal){
-                if(attrs['type'] == 'range' || attrs['type'] == 'number'){
-                    scope.ngModel = parseFloat(newVal);
+        restrict: 'E',
+        require: '?ngModel',
+        link: function(scope, element, attrs, ngModelCtrl){
+            function fromUser(newVal){
+                
+                if(attrs['limit']){
+                    if(newVal !== undefined || newVal !== null){
+                        newVal = newVal.toLocaleString();
+                        newVal = newVal.substr(0, parseInt(attrs['limit']));
+                    }
                 }
-            });
+                if(attrs['type'] == 'range' || attrs['type'] == 'number'){
+                    newVal = parseFloat(newVal);
+                }
+
+                ngModelCtrl.$setViewValue(newVal);
+                ngModelCtrl.$render();
+
+                return newVal;
+            }
+            if(attrs['type'] == 'time') return;
+            if(!ngModelCtrl) return;
+            ngModelCtrl.$parsers.push(fromUser);
         }
     }
   }])
@@ -59,6 +76,56 @@ angular.module('BeehivePortal')
           });
         }
     };
-  }]);
+  }])
+  .directive('numbersOnly', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attr, ngModelCtrl) {
+            function fromUser(text) {
+                if (text) {
+                    var transformedInput = text.replace(/[^0-9]/g, '');
+
+                    if (transformedInput !== text) {
+                        ngModelCtrl.$setViewValue(transformedInput);
+                        ngModelCtrl.$render();
+                    }
+                    return transformedInput;
+                }
+                return undefined;
+            }            
+            ngModelCtrl.$parsers.push(fromUser);
+        }
+    };
+  })
+  .directive('positive', function() {
+      return {
+          restrict: "A",
+          require: '?ngModel',
+          link: function(scope, element, attrs, ngModelCtrl) {
+              if (!ngModelCtrl) {
+                  return;
+              }
+
+              ngModelCtrl.$parsers.push(function(val) {
+                  if (val === null)
+                    return;
+                  if(_.isNumber(val)) return val;
+                  var myRegex = /\d+\.(\d{1,2})?/;
+                  var clean = myRegex.exec(val)[0];
+                  if (val != clean) {
+                      ngModelCtrl.$setViewValue(clean);
+                      ngModelCtrl.$render();
+                  }
+                  return clean;
+              });
+
+              element.bind('keypress', function(event) {
+                  if ([32, 45].indexOf(event.keyCode) > -1) {
+                      event.preventDefault();
+                  }
+              });
+          }
+      };
+  });
   
   

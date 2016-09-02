@@ -14,24 +14,24 @@ angular.module('BeehivePortal')
          */
         $scope.searchValue = "";
         $scope.queryOptions = [{
-            text: "用户登录名",
+            text: "user.loginName",
             value: "userName"
         }, {
-            text: "用户姓名",
+            text: "user.userName",
             value: "displayName"
         }];
         $scope.queryFiled = _.clone($scope.queryOptions[0]);
 
         $scope.myMenu = {
             itemList: [{
-                text: '查看详情',
+                text: 'controls.view',
                 callback: function(user) {
                     $scope.navigateTo($scope.navMapping.USER_INFO, {
                         userID: user.userID
                     });
                 }
             }, {
-                text: '编辑',
+                text: 'controls.edit',
                 callback: function(user) {
                     var modalInstance = $uibModal.open({
                         animation: true,
@@ -52,14 +52,12 @@ angular.module('BeehivePortal')
                     });
                 }
             }, {
-                text: '删除',
+                text: 'controls.delete',
                 callback: function(user) {
                     $$UserManager.remove({}, user, function() {
-                        console.log('用户' + user.userName + '已被删除！');
                         $scope.userList.remove(user);
                         findUsersForDisplay();
                     }, function() {
-                        console.log('未能删除用户:' + user.userName)
                     });
                 }
             }],
@@ -80,7 +78,7 @@ angular.module('BeehivePortal')
                 console.log(userList);
                 $scope.userList = userList;
             }, function() {
-                AppUtils.alert('Failed to load group user list!');
+                AppUtils.alert({msg: 'Failed to load group user list!'});
             });
         };
 
@@ -115,21 +113,4 @@ angular.module('BeehivePortal')
                     index < $scope.currentIndex * $scope.listMaxLength;
             });
         }
-
-
-    }]).
-controller('UserListController.ActivateUser', function($scope, user, $$User, $uibModalInstance) {
-    $scope.user = user;
-    $scope.register = function() {
-        $$User.register({}, $scope.user, function() {
-            AppUtils.alert('注册成功！请使用用户名登陆！');
-            $uibModalInstance.close();
-        }, function(credentials, erro) {
-            AppUtils.alert(erro);
-        });
-    };
-
-    $scope.cancel = function() {
-        $uibModalInstance.dismiss('cancel');
-    }
-});
+    }]);

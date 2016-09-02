@@ -28,10 +28,10 @@ angular.module('BeehivePortal')
          * group type options and field
          */
         $scope.groupTypes = [{
-            text: '我的群组',
+            text: 'userManager.groupTypes.myGroups',
             value: 'mygroup'
         }, {
-            text: '所有群组',
+            text: 'userManager.groupTypes.allGroups',
             value: 'allgroup'
         }];
         $scope.groupType = null;
@@ -41,7 +41,7 @@ angular.module('BeehivePortal')
          */
         $scope.searchValue = "";
         $scope.queryOptions = [{
-            text: "群组名称",
+            text: "userManager.groupName",
             value: "userGroupName"
         }];
 
@@ -107,13 +107,21 @@ angular.module('BeehivePortal')
         };
 
         $scope.deleteGroup = function(group) {
-            AppUtils.confirm('删除用户群组', '确定要删除用户群组[' + group.userGroupName + ']吗?', function() {
-                $$UserGroup.remove({}, group, function() {
-                    $scope.dataset.userGroups = _.reject($scope.dataset.userGroups, function(userGroup) {
-                        return userGroup == group;
+            var options = {
+                msg: 'userManager.deleteUserGroupMsg',
+                callback: function() {
+                    $$UserGroup.remove({}, group, function() {
+                        $scope.dataset.userGroups = _.reject($scope.dataset.userGroups, function(userGroup) {
+                            return userGroup == group;
+                        });
                     });
-                });
-            });
+                },
+                data: {
+                    userGroupName: group.userGroupName
+                }
+            };
+
+            AppUtils.confirm(options);
         }
     }]);
 
@@ -131,7 +139,7 @@ angular.module('BeehivePortal')
                 $scope.newGroup.userGroupID = response.userGroupID;
                 $uibModalInstance.close($scope.newGroup);
             }, function(response) {
-                AppUtils.alert("新增群组失败！")
+                AppUtils.alert({msg: 'userManager.createNewGroupFailedMsg'})
             })
         };
 

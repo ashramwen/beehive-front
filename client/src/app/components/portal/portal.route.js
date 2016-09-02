@@ -9,7 +9,7 @@ angular.module('BeehivePortal')
         controller: 'UserManagerController',
         redirectTo: 'app.portal.UserManager.User.UserList',
         abstract: true,
-        stateName: '用户管理'
+        stateName: 'userManager'
       })
       .state('app.portal.ThingManager', {
         url: '/ThingManager',
@@ -17,13 +17,13 @@ angular.module('BeehivePortal')
         controller: 'ThingManagerController',
         redirectTo: 'app.portal.ThingManager.AddThing',
         abstract: true,
-        stateName: '设备管理'
+        stateName: 'thingManager'
       })
       .state('app.portal.Settings', {
         url: '/Settings',
         templateUrl: 'app/components/portal/Settings/Settings.html',
         controller: 'SettingsController',
-        stateName: '设置'
+        stateName: 'settings'
       })
       .state('app.portal.Reporting', {
         url: '/Reporting',
@@ -31,26 +31,26 @@ angular.module('BeehivePortal')
         controller: 'ReportingController',
         redirectTo: 'app.portal.Reporting.LineChart',
         abstract: true,
-        stateName: '数据报表'
+        stateName: 'reporting'
       })
       .state('app.portal.Welcome', {
         url: '/Welcome',
         templateUrl: 'app/components/portal/Welcome/Welcome.html',
         controller: 'WelcomeController',
-        stateName: '欢迎'
+        stateName: 'welcome'
       })
       .state('app.portal.TriggerManager', {
         url: '/TriggerManager',
         templateUrl: 'app/components/portal/TriggerManager/TriggerManager.html',
         controller: 'TriggerManagerController',
-        stateName: '触发器管理',
+        stateName: 'triggerManager',
         abstract: true
       })
       .state('app.portal.ThingViews', {
         url: '/ThingViews',
         templateUrl: 'app/components/portal/ThingViews/ThingViews.html',
         controller: 'ThingViewsController',
-        stateName: '设备视图',
+        stateName: 'thingViews',
         abstract: true,
         redirectTo: 'app.portal.ThingViews.LocationView'
       })
@@ -58,7 +58,7 @@ angular.module('BeehivePortal')
         url: '/MonitorManager',
         templateUrl: 'app/components/portal/MonitorManager/MonitorManager.html',
         // controller: 'MonitorManagerController',
-        stateName: '设备监控',
+        stateName: 'monitorManager',
         redirectTo: 'app.portal.MonitorManager.View'
       });
   });

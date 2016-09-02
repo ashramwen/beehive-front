@@ -7,7 +7,7 @@ angular.module('BeehivePortal')
     $scope.period = new KiiReporting.KiiTimePeriod(null);
     
     $scope.chartSources = [
-      {value: 'value', text: '电量使用'}
+      {value: 'value', text: 'reporting.energyConsumption'}
     ];
 
     $scope.selectedSource = 'value';

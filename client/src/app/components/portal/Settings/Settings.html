@@ -53,22 +53,24 @@
   </section>
   -->
   <section class="panel">
-    <header class="panel-heading">更改密码</header>
+    <header class="panel-heading">{{'settings.changePassword' | translate}}</header>
     <div class="panel-body">
       <div class="row portal-row clearfix">
-        <div class="col-sm-4">旧密码</div>
-        <div class="col-sm-8"><input ng-model="password.oldPassword" type="password" required class="form-control" placeholder="旧密码" /></div>
+        <div class="col-sm-4">{{'settings.oldPassword' | translate}}</div>
+        <div class="col-sm-8"><input ng-model="password.oldPassword" type="password" required class="form-control" placeholder="{{'settings.oldPassword' | translate}}" /></div>
       </div>
       <div class="row portal-row clearfix">
-        <div class="col-sm-4">新密码</div>
-        <div class="col-sm-8"><input ng-model="password.newPassword" type="password" required class="form-control" placeholder="新密码" /></div>
+        <div class="col-sm-4">{{'settings.newPassword' | translate}}</div>
+        <div class="col-sm-8"><input ng-model="password.newPassword" type="password" required class="form-control" placeholder="{{'settings.newPassword' | translate}}" /></div>
       </div>
       <div class="row portal-row clearfix">
-        <div class="col-sm-4">确认密码</div>
-        <div class="col-sm-8"><input ng-model="password.confirmPassword" type="password" required class="form-control" placeholder="确认密码" /></div>
+        <div class="col-sm-4">{{'settings.confirmPassword' | translate}}</div>
+        <div class="col-sm-8"><input ng-model="password.confirmPassword" type="password" required class="form-control" placeholder="{{'settings.confirmPassword' | translate}}" /></div>
       </div>
       <div class="portal-row clearfix">
-          <input type="submit" value="提交" name="submit" ng-click="changePassword(password)" class="btn btn-danger pull-right" />
+        <button name="submit" ng-click="changePassword(password)" class="btn btn-danger pull-right">
+          {{'controls.submit' | translate}}
+        </button>
       </div>
     </div>
   </section>

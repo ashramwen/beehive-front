@@ -24,13 +24,17 @@ angular.module('BeehivePortal.MonitorManager')
 
     // delete view
     $scope.delete = function(index, view) {
-        AppUtils.confirm('删除', '是否删除频道？', function() {
-            $scope.views.splice(index, 1);
-            $$User.setCustomData({ name: 'monitorViews' }, {
-                views: $scope.views
-            });
-            $$User.setCustomData({ name: 'mv_' + view.id }, {});
-        })
+        var options = {
+            msg: 'monitorManager.deleteChannelMsg',
+            callback: function() {
+                $scope.views.splice(index, 1);
+                $$User.setCustomData({ name: 'monitorViews' }, {
+                    views: $scope.views
+                });
+                $$User.setCustomData({ name: 'mv_' + view.id }, {});
+            }
+        }
+        AppUtils.confirm(options);
     }
 
     $scope.mousemove = function(e, v) {

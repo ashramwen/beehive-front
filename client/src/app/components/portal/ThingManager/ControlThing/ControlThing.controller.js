@@ -68,7 +68,7 @@ angular.module('BeehivePortal')
         });
 
         $$Thing.sendCommand([command], function(){
-            AppUtils.alert('命令已发送成功', '提示信息');
+            AppUtils.alert({msg: 'thingManager.commandSentMsg'});
             $state.go($state.current.name, {refreshId: ~~(Math.random()*100)});
             $scope.refreshed = false;
             $timeout(function(){

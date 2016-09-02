@@ -42,7 +42,7 @@ angular.module('BeehivePortal')
 
       var newChart = CustomChartsService.factoryChart();
 
-      editChart(newChart).then(function(){
+      editChart(newChart).then(function(chart){
         CustomChartsService.charts.unshift(chart);
         $timeout(function(){
           chart.setPeriod($scope.period);
@@ -59,8 +59,17 @@ angular.module('BeehivePortal')
     });
 
     $scope.removeChart = function(chart){
-      chart.remove();
+      var options = {
+        msg: 'reporting.removeCustomChartMsg',
+        callback: function(){
+          chart.remove().then(function(){
+            $scope.charts.remove(chart);
+          });
+        }
+      };
+      AppUtils.confirm(options);
     };
+
     $scope.editChart = function(chart){
       editChart(chart).then(function(){
         $timeout(function(){
@@ -86,10 +95,12 @@ angular.module('BeehivePortal')
   }])
   .controller('CustomChartsController.editChart', ['$scope', '$uibModalInstance', 'chart', '$q', 'EditChartService', 'CustomChartsService', '$timeout', function($scope, $uibModalInstance, chart, $q, EditChartService, CustomChartsService, $timeout){
 
+    $scope.modalTitle = _.isEmpty(chart.id)? 'reporting.createChartTitle' : 'reporting.editChartTitle';
+
     $scope.chartTypes = [
-      {text: '折线图', value: 'line'},
-      {text: '柱状图', value: 'bar'},
-      {text: '饼图', value: 'pie'}
+      {text: 'reporting.lineChart', value: 'line'},
+      {text: 'reporting.barChart', value: 'bar'},
+      {text: 'reporting.pieChart', value: 'pie'}
     ];
 
     $scope.typeOptions = [];
@@ -113,9 +124,9 @@ angular.module('BeehivePortal')
     };
 
     $scope.aggMethods = [
-      {value: 'avg', text: '平均值'},
-      {value: 'max', text: '最大值'},
-      {value: 'min', text: '最小值'}
+      {value: 'avg', text: 'terms.avg'},
+      {value: 'max', text: 'terms.max'},
+      {value: 'min', text: 'terms.min'}
     ];
 
     $scope.$watch('selectedType', function(type){
@@ -176,6 +187,10 @@ angular.module('BeehivePortal')
     $scope.onTimeSliceChange = function(timeSlice){
       $scope.options.timeUnit = timeSlice.unit;
       $scope.options.interval = timeSlice.interval;
+    };
+
+    $scope.removeLocation = function(location){
+      $scope.options.locations.remove(location);
     };
 
     $scope.saveChart = function(){

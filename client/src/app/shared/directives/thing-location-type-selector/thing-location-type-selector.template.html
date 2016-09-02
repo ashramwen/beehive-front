@@ -6,15 +6,15 @@
           <div class="content-title clearfix">
             <div class="select">
               <span class="fa fa-lightbulb-o"></span>
-              <div app-select change="typeChange" options="types" selected-model="selectedType" value-only="true" disabled="onlyType"></div>
+              <div app-select change="typeChange" options="types" selected-model="selectedType" value-only="true" disabled="onlyType || disabled"></div>
             </div>
 
             <div class="pull-left">
               <div class="select">
                 <span class="fa fa-map-marker"></span>
-                <location-selector change="locationChange(location, fullLocation, displayName)"></location-selector>
+                <location-selector change="locationChange(location, fullLocation, displayName)" disabled="disabled"></location-selector>
               </div>
-              <button class="btn btn-info" ng-click="search()">检索</button>
+              <button class="btn btn-info" ng-click="search()" ng-disabled="disabled">{{'controls.search' | translate}}</button>
             </div>
           </div>
           <div style="margin-top:-10px;">
@@ -23,8 +23,8 @@
                 <thead>
                   <tr>
                     <th></th>
-                    <th>设备ID</th>
-                    <th>类型</th>
+                    <th>{{'terms.id' | translate}}</th>
+                    <th>{{'terms.type' | translate}}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -44,7 +44,7 @@
             </div>
           </div>
           <div class="btm-control-panel">
-            <button class="btn btn-link" ng-click="selectAll(getUnselectedThings())">全选</button>
+            <button class="btn btn-link" ng-click="selectAll(getUnselectedThings())">{{'controls.selectAll' | translate}}</button>
             <span class="fa fa-plus-circle" ng-click="add()"></span>
           </div>
         </div>
@@ -53,15 +53,15 @@
     <div class="col-md-7">
       <div class="panel no-padding">
         <div class="panel-body">
-          <div class="content-title">已选列表</div>
+          <div class="content-title">{{'controls.selectedList' | translate}}</div>
           <div class="table-container">
             <table class="table table-hover">
               <thead>
                 <tr>
                   <th></th>
-                  <th>设备ID</th>
-                  <th>类型</th>
-                  <th>位置</th>
+                  <th>{{'terms.id' | translate}}</th>
+                  <th>{{'terms.type' | translate}}</th>
+                  <th>{{'terms.location' | translate}}</th>
                 </tr>
               </thead>
               <tbody>
@@ -78,8 +78,8 @@
             </table>
           </div>
           <div class="btm-control-panel">
-            <button class="btn btn-link" ng-click="selectAll(selectedThings)">全选</button>
-            <button class="btn btn-link text-yellow" ng-click="remove()">刪除</button>
+            <button class="btn btn-link" ng-click="selectAll(selectedThings)">{{'controls.selectAll' | translate}}</button>
+            <button class="btn btn-link text-yellow" ng-click="remove()">{{'controls.delete' | translate}}</button>
           </div>
         </div>
       </div>

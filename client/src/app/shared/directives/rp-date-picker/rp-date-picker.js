@@ -7,7 +7,8 @@ angular.module('BeehivePortal')
         replace: true,
         scope:{
             lastDate: '=?',
-            output: '=?'
+            output: '=?',
+            disabled: '=?'
         },
         templateUrl: 'app/shared/directives/rp-date-picker/rp-date-picker.html',
         link:function($scope, attr, ele){
@@ -38,7 +39,7 @@ angular.module('BeehivePortal')
 
                 $scope.settings = {
                     from: yesterday,
-                    to: now,
+                    to: tommorrow,
                 };
                 _.extend($scope.settings, $scope.lastDate);
 

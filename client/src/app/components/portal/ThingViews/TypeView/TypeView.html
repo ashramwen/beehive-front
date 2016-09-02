@@ -2,12 +2,12 @@
   <div class="panel header">
     <div class="panel-body">
       <div class="panel-row">
-        <span>设备列表</span>
+        <span>{{'thing.thingList' | translate}}</span>
         <div class="pull-right">
           <div class="pull-left">
             <div class="title pull-left">
               <span class="fa fa-map-marker"></span>
-              <span>坐标</span>
+              <span>{{'terms.location' | translate}}</span>
             </div>
             <div class="pull-left">
               <location-selector input="initLocation" change="locationChange(location, locationName, subLevels)" position="'right'"></location-selector>
@@ -22,7 +22,7 @@
     <div class="title">{{type.displayName || type.type}}</div>
     <img class="portr" src="images/device.png"></img>
     <div class="bottom">
-      <span>设备数量：{{type.thingNumber}}</span>
+      <span>{{'thingViews.thingNumber' | translate}}: {{type.thingNumber}}</span>
     </div>
   </div>
 </div>

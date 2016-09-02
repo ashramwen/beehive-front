@@ -6,12 +6,12 @@
           <table class="table">
             <tbody>
               <tr>
-                <td>指数类型</td>
+                <td>{{'reporting.indexType' | translate}}</td>
                 <td>
                   <div app-select options="chartSources" selected-model="selectedSource"></div>
                 </td>
                 <td>
-                  值
+                  {{'reporting.aggMethod' | translate}}
                 </td>
                 <td>
                   <div app-select options="aggMethods" selected-model="selectedMethod" value-only="true"></div>
@@ -25,7 +25,7 @@
           <div class="pull-left">
             <div class="title pull-left">
               <span class="fa fa-clock-o"></span>
-              时间段
+              {{'terms.timePeriod' | translate}}
             </div>
             <div class="pull-left time-picker">
               <rp-date-picker output="onPeriodChange"></rp-date-picker>
@@ -35,14 +35,14 @@
             <div class="pull-left">
               <div class="title pull-left">
                 <span class="fa fa-map-marker"></span>
-                <span>坐标</span>
+                <span>{{'terms.location' | translate}}</span>
               </div>
               <div class="pull-left">
                 <location-selector hide-last="true" change="locationChange(location, locationName, subLevels)"></location-selector>
               </div>
             </div>
             <div class="pull-left">
-              <button class="btn btn-info pull-left" ng-click="queryData()">刷新</button>
+              <button class="btn btn-info pull-left" ng-click="queryData()">{{'controls.refresh' | translate}}</button>
             </div>
           </div>
         </div>
@@ -60,7 +60,7 @@
             <div style="position: absolute; width: 100%; top: 190px">
               {{summaryData}}
               <br/>
-              <span>当前{{queriedSource.text}}</span>
+              <span>{{'reporting.current' | translate}} {{queriedSource.text | translate}}</span>
             </div>
             
           </div>
@@ -70,7 +70,7 @@
     <div class="col-md-9">
       <div class="panel chart-panel">
         <div class="panel-heading">
-          各位置{{queriedSource.text}}
+          {{'reporting.eachLocation' | translate}} {{queriedSource.text | translate}}
         </div>
         <div class="panel-body">
           <kii-chart 
@@ -88,7 +88,7 @@
     </div>
     <div class="col-md-12">
       <div class="panel chart-panel">
-        <div class="panel-heading">{{queriedSource.text}}走势</div>
+        <div class="panel-heading">{{queriedSource.text | translate}} {{'reporting.trend' | translate}}</div>
         <div class="panel-body">
           <div class="chart-container">
             <div class="chart-content">
@@ -105,13 +105,13 @@
             </div>
             <div class="chart-control">
               <div class="form-group">
-                <label>单位时长</label>
+                <label>{{'terms.timeLength' | translate}}</label>
                 <rp-time-slicer output="onTimeSliceChange"></rp-time-slicer>
               </div>
               <div>
-                <button ng-click="refreshLine()" class="btn btn-success btn-split">刷新</button>
-                <button ng-click="groupLines()" ng-if="split" class="btn btn-warning btn-split">合并</button>
-                <button ng-click="splitLine()" ng-if="!split" class="btn btn-info btn-split">拆分</button>
+                <button ng-click="refreshLine()" class="btn btn-success btn-split">{{'controls.refresh' | translate}}</button>
+                <button ng-click="groupLines()" ng-if="split" class="btn btn-warning btn-split">{{'reporting.merge' | translate}}</button>
+                <button ng-click="splitLine()" ng-if="!split" class="btn btn-info btn-split">{{'reporting.split' | translate}}</button>
               </div>
             </div>
           </div>

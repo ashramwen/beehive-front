@@ -1,30 +1,30 @@
 <div class="app-secure-userlogin">
   <div class="app-logo-bg">
-    <span class="fa fa-paper-plane-o app-icon"></span> <span>蜂巢智能管理平台</span>
+    <span class="fa fa-paper-plane-o app-icon"></span> <span>{{'portalName' | translate}}</span>
   </div>
   <div class="login-form-box">
     <form name="loginForm" class="form-signin" role="form" novalidate ng-submit="login(credentials)">
-      <div class="form-item-header">用户登录</div>
+      <div class="form-item-header">{{'user.userLogin' | translate}}</div>
       <fieldset>
         <div class="input-group margin-bottom-sm" ng-class="nameInputFoucsClass">
           <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
-          <input type="text" class="form-control" placeholder="用户名" name="username" placeholder="Username or e-mail" ng-model="credentials.userName" required autofocus>
+          <input type="text" class="form-control" placeholder="{{'user.loginName' | translate}}" name="username" ng-model="credentials.userName" required autofocus>
         </div>
         <div class="input-group margin-bottom-sm" ng-class="pwdInputFoucsClass">
           <span class="input-group-addon"><i
             class="fa fa-unlock fa-fw"></i></span> 
-          <input type="password" class="form-control" name="password" placeholder="密码" ng-model="credentials.password" required />
+          <input type="password" class="form-control" name="password" placeholder="{{'user.password' | translate}}" ng-model="credentials.password" required />
         </div>
         <div class="item-submit">
           <button type="submit" class="btn btn-danger item-submit-button">
-            <span>登录</span>
+            <span>{{'user.login' | translate}}</span>
           </button>
         </div>
       </fieldset>
     </form>
   </div>
   <div class="tip-wrap">
-    <a id="register" class="ui-commandlink ui-widget" ng-click="register()"> <span>注册</span>
+    <a id="register" class="ui-commandlink ui-widget" ng-click="register()"> <span>{{'user.register' | translate}}</span>
     </a>
   </div>
   <div class="powered-by">
@@ -40,7 +40,7 @@
 <script type="text/ng-template" id="registerModal">
   <div class="modal-content app-secure-userlogin" id="registerModal">
     <div class="modal-header ng-scope">
-      <h3 class="modal-title">用户激活</h3>
+      <h3 class="modal-title">{{'user.activation' | translate}}</h3>
     </div>
     <div class="modal-body clearfix app-secure-userlogin">
       <!-- step bar -->
@@ -49,54 +49,54 @@
           <div class="wrap" ng-class="{'finished': currentStep>1, 'current': currentStep==1, 'todo': currentStep<1}">
             <div class="round">1</div>
             <div class="bar"></div>
-            <label>激活账号</label>
+            <label>{{'user.activateAccount' | translate}}</label>
           </div>
           <div class="wrap" ng-class="{'finished': currentStep>2, 'current': currentStep==2, 'todo': currentStep<2}">
             <div class="round">2</div>
             <div class="bar"></div>
-            <label>初始化密码</label>
+            <label>{{'user.initPassword' | translate}}</label>
           </div>
           <div ng-class="{'finished': currentStep>3, 'current': currentStep==3, 'todo': currentStep<3}">
             <div class="round">3</div>
-            <label>激活成功</label>
+            <label>{{'user.succeed' | translate}}</label>
           </div>
         </div>
       </div>
       <!-- end of step bar -->
-      <uib-carousel no-wrap="noWrapSlides">
+      <div uib-carousel active="currentStep" no-wrap="false">
         <!-- ============================== select source ========================== -->
-        <uib-slide active="currentStep == 1">
+        <div class="item" ng-class="{'active': currentStep == 1}">
           <div class="input-group margin-bottom-sm" ng-class="nameInputFoucsClass">
             <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
-            <input type="text" class="form-control" placeholder="用户名" name="username" placeholder="Username or e-mail" ng-model="credentials.userName" required autofocus>
+            <input type="text" class="form-control" placeholder="{{'user.loginName' | translate}}" name="{{'user.loginName' | translate}}" placeholder="Username or e-mail" ng-model="credentials.userName" required autofocus>
           </div>
           <div class="input-group margin-bottom-sm" ng-class="pwdInputFoucsClass">
             <span class="input-group-addon"><i
               class="fa fa-unlock fa-fw"></i></span> 
-            <input type="password" class="form-control" name="password" placeholder="激活码" ng-model="credentials.activityToken" required />
+            <input type="password" class="form-control" name="password" placeholder="{{'user.activationCode' | translate}}" ng-model="credentials.activityToken" required />
           </div>
-        </uib-slide>
-        <uib-slide active="currentStep == 2">
+        </div>
+        <div class="item" ng-class="{'active': currentStep == 2}">
           <div class="input-group margin-bottom-sm" ng-class="pwdInputFoucsClass">
             <span class="input-group-addon"><i
               class="fa fa-unlock fa-fw"></i></span> 
-            <input type="password" class="form-control" name="password" placeholder="初始密码" ng-model="credentials.newPassword" required />
+            <input type="password" class="form-control" name="password" placeholder="{{'user.initialPassword' | translate}}" ng-model="credentials.newPassword" required />
           </div>
           <div class="input-group margin-bottom-sm" ng-class="pwdInputFoucsClass">
             <span class="input-group-addon"><i
               class="fa fa-unlock fa-fw"></i></span> 
-            <input type="password" class="form-control" name="password" placeholder="确认密码" ng-model="credentials.confirm" required />
+            <input type="password" class="form-control" name="password" placeholder="{{'user.confirmPassword' | translate}}" ng-model="credentials.confirm" required />
           </div>
-        </uib-slide>
-        <uib-slide active="currentStep == 3">
+        </div>
+        <div class="item" ng-class="{'active': currentStep == 3}">
           注册成功，请输入用户名密码登录！
-        </uib-slide>
-      </uib-carousel>
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
       <div class="item-submit">
         <button type="submit" class="btn btn-danger item-submit-button" ng-click="register(credentials)">
-          <span>{{currentStep == 3?'完成' :'提交'}}</span>
+          <span>{{btnText}}</span>
         </button>
       </div>
     </div>

@@ -4,7 +4,7 @@ angular.module('BeehivePortal')
   .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('app',{
-        url: '/app',
+        url: '/:lan/app',
         templateUrl: 'app/app.html',
         controller: 'AppController'
       })
@@ -19,5 +19,5 @@ angular.module('BeehivePortal')
         controller: 'SecureController'
       });
 
-      $urlRouterProvider.otherwise('app/secure/UserLogin');
+      $urlRouterProvider.otherwise('/cn/app/secure/UserLogin');
   });

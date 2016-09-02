@@ -33,83 +33,87 @@ angular.module('BeehivePortal')
     };
 
     PortalService.getPortalNavs = function(){
-        return [
+
+        var navs = [
             {
-                name: '用户管理',
+                name: 'userManager',
                 state: $state.get('app.portal.UserManager'),
                 icon: 'fa-user',
                 subViews: [
                     {
                         hidden: $rootScope.credential.roleName == 'commUser',
-                        name: '用户列表',
+                        name: 'userManager.userList',
                         state: $state.get('app.portal.UserManager.User.UserList')
                     },
                     {
-                        name: '群组列表',
+                        name: 'userManager.groupList',
                         state: $state.get('app.portal.UserManager.UserGroup.UserGroupList')
                     }
                 ]
             },
             {
-                name: '设备管理',
+                name: 'thingManager',
                 state: $state.get('app.portal.ThingManager'),
                 icon: 'fa-desktop',
                 subViews: [
                     {
                         hidden: $rootScope.credential.roleName == 'commUser',
-                        name: '网关管理',
+                        name: 'thingManager.gatewayManagement',
                         state: $state.get('app.portal.ThingManager.Gateway')
                     },
                     {
-                        name: '控制设备',
+                        name: 'thingManager.controlThings',
                         state: $state.get('app.portal.ThingManager.ControlThing')
                     }
                 ]
             },
             {
-                name: '设备视图',
+                name: 'thingViews',
                 state: $state.get('app.portal.ThingViews.TypeView'),
                 icon: 'fa-table'
             },
             {
-                name: '数据报表',
+                name: 'reporting',
                 state: $state.get('app.portal.Reporting'),
                 icon: 'fa-area-chart',
                 subViews: [
                     {
-                        name: '能耗监测',
+                        name: 'reporting.energyReporting',
                         state: $state.get('app.portal.Reporting.Electricity')
                     },
                     {
-                        name: '环境监测',
+                        name: 'reporting.environmentReporting',
                         state: $state.get('app.portal.Reporting.Environment')
                     },
                     {
-                        name: '人流密度',
+                        name: 'reporting.densityReporting',
                         state: $state.get('app.portal.Reporting.DensityDetection')
                     },
                     {
-                        name: '自定义图表',
+                        name: 'reporting.customCharts',
                         state: $state.get('app.portal.Reporting.CustomCharts')
                     }
                 ]
             },
             {
-                name: '触发器管理',
+                name: 'triggerManager',
                 state: $state.get('app.portal.TriggerManager.TriggerList'),
                 icon: 'fa-exchange'
             },
             {
-                name: '设备监控',
+                name: 'monitorManager',
                 state: $state.get('app.portal.MonitorManager'),
                 icon: 'fa-tv'
             },
             {
-                name: '设置',
+                name: 'settings',
                 state: $state.get('app.portal.Settings'),
                 icon: 'fa-cogs'
             }
         ];
+
+
+        return navs;
     }
 
     PortalService.navMapping = {
@@ -250,9 +254,14 @@ angular.module('BeehivePortal')
             if(_.isFunction(func)){
                 func();
             }
-            AppUtils.alert('对不起，您没有该资源的访问权限，请联系管理员或尝试重新登录！', '没有访问权限', function(){
-                $state.go('app.portal.Welcome');
-            });
+
+            var options = {
+                msg: 'app.UNAUTHORIZED_MSG',
+                callback: function(){
+                    $state.go('app.portal.Welcome');
+                }
+            };
+            AppUtils.alert(options);
             return false;
         }
         return true;

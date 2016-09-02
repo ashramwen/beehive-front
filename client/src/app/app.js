@@ -4,8 +4,8 @@ var MyApp = angular.module('BeehivePortal', [
   'BeehivePortal.MonitorManager',
   'ngAnimate', 'ngCookies', 'ngSanitize',
   'ngResource', 'ui.router', 'ui.bootstrap','LocalStorageModule', 'rzModule', 'treeControl', 'ngStomp', 'datePicker',
-  'angular-condition-tree', 'awesome-context-menu', 'monospaced.elastic', 'angularjs-dropdown-multiselect', 'ng.jsoneditor',
-  'angular-cron-jobs', 'ui-notification', 'gridster'
+  'monospaced.elastic', 'angularjs-dropdown-multiselect', 'ng.jsoneditor',
+  'angular-cron-jobs', 'ui-notification', 'gridster', 'pascalprecht.translate'
 ])
 .constant('ERROR_CODE', {
   'INVALID_INPUT': 'INVALID_INPUT',
@@ -20,7 +20,7 @@ var MyApp = angular.module('BeehivePortal', [
   notAuthenticated: 'LOGIN_TOKEN_INVALID',
   notAuthorized: 'auth-not-authorized',
 }).
-config(function(localStorageServiceProvider, $httpProvider, NotificationProvider) {
+config(function(localStorageServiceProvider, $httpProvider, NotificationProvider, $translateProvider) {
   localStorageServiceProvider
     .setPrefix("epgApp")
     .setStorageType('localStorage')
@@ -28,8 +28,12 @@ config(function(localStorageServiceProvider, $httpProvider, NotificationProvider
     .setNotify(true, true);
 
     var requestCount = 0;
-    //$httpProvider.defaults.withCredentials = true;
     delete $httpProvider.defaults.headers.common["X-Requested-With"];
+
+    $translateProvider
+      .translations('en', window.translations.en)
+      .translations('cn', window.translations.cn)
+      .preferredLanguage('cn');
 
     $httpProvider.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8';
     $httpProvider.interceptors.push(function($q, AUTH_EVENTS, ERROR_CODE) {
@@ -48,7 +52,9 @@ config(function(localStorageServiceProvider, $httpProvider, NotificationProvider
             switch(response.status){
                 case 401:
                     if(!response.data.errorCode == ERROR_CODE.INVALID_TOKEN){
-                      window.alertMessage('您没有相应的操作权限。');
+                      window.AppUtils.alert({
+                        msg: 'app.UNAUTHORIZED_MSG'
+                      });
                     }
 
                     break;
@@ -99,7 +105,8 @@ config(function(localStorageServiceProvider, $httpProvider, NotificationProvider
           
           KiiReporting.KiiQueryConfig.setConfig({
             site: 'http://121.199.7.69',
-            port: 9200
+            port: 9200,
+            timeStampField: 'state.date'
           });
           
           $rootScope.$on('$stateChangeStart', function(evt, to, params) {

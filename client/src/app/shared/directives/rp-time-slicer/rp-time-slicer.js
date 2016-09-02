@@ -7,18 +7,19 @@ angular.module('BeehivePortal')
         replace: true,
         scope:{
             input: '=?',
-            output: '=?'
+            output: '=?',
+            disabled: '=?'
         },
         templateUrl: 'app/shared/directives/rp-time-slicer/rp-time-slicer.html',
         controller:['$scope', '$$Location', function($scope, $$Location){
             
             $scope.options = [
-                {value: 'm', text: '分钟'},
-                {value: 'H', text: '小时'},
-                {value: 'd', text: '天'},
-                {value: 'w', text: '星期'},
-                {value: 'M', text: '月'},
-                {value: 'y', text: '年'}
+                {value: 'm', text: 'terms.minute'},
+                {value: 'H', text: 'terms.hour'},
+                {value: 'd', text: 'terms.day'},
+                {value: 'w', text: 'terms.week'},
+                {value: 'M', text: 'terms.month'},
+                {value: 'y', text: 'terms.year'}
             ];
 
             $scope.$on('timeslice-input', function(e, options){

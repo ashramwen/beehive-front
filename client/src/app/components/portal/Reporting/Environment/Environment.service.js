@@ -22,17 +22,8 @@ angular.module('BeehivePortal')
               "bool": {
                 "must": [
                   {
-                    "range": {
-                      "date": {
-                        "gte": 0,
-                        "lte": 1562120800000,
-                        "format": "epoch_millis"
-                      }
-                    }
-                  },
-                  {
                     "terms" : { 
-                      "target" : allThings
+                      "state.target" : allThings
                     }
                   }
                 ],
@@ -55,12 +46,12 @@ angular.module('BeehivePortal')
                                 "aggs": {
                                     "AVG": {
                                         "avg": {
-                                            "field": fieldName
+                                            "field": 'state.' + fieldName
                                         }
                                     }
                                 },
                                 "date_histogram": {
-                                    "field": "date",
+                                    "field": "state.date",
                                     "interval": "1m"
                                 }
                             },
@@ -74,12 +65,12 @@ angular.module('BeehivePortal')
                         "aggs": {
                             "AVG": {
                                 "avg": {
-                                    "field": fieldName
+                                    "field": 'state.' + fieldName
                                 }
                             }
                         },
                         "date_histogram": {
-                            "field": "date",
+                            "field": "state.date",
                             "interval": "1m"
                         }
                     },
@@ -90,7 +81,7 @@ angular.module('BeehivePortal')
                     }
                 },
                 "date_histogram": {
-                    "field": "date",
+                    "field": "state.date",
                     "interval": "hour"
                 }
             }
@@ -138,7 +129,7 @@ angular.module('BeehivePortal')
                   "must": [
                     {
                       "range": {
-                        "date": {
+                        "state.date": {
                           "gte": 0,
                           "lte": 21562120800000,
                           "format": "epoch_millis"
@@ -147,7 +138,7 @@ angular.module('BeehivePortal')
                     },
                     {
                       "terms" : { 
-                        "target" : allThings
+                        "state.target" : allThings
                       }
                     }
                   ],
@@ -159,7 +150,7 @@ angular.module('BeehivePortal')
         "size": 1,
         "sort": [
           {
-            "date": {
+            "state.date": {
               "order": "desc"
             }
           }

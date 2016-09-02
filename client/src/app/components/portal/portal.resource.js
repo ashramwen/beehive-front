@@ -177,7 +177,10 @@ angular.module('BeehivePortal')
             },
             update: {
                 method: 'POST',
-                url: MyAPIs.USER_GROUP
+                url: MyAPIs.USER_GROUP,
+                params: {
+                    userGroupID: '@userGroupID'
+                }
             },
             remove: {
                 method: 'DELETE'
@@ -482,7 +485,7 @@ angular.module('BeehivePortal')
                 cache: true
             },
             getSchema: {
-                url: MyAPIs.SCHEMA + '?thingType=:type&name=:type&version=1',
+                url: MyAPIs.SCHEMA + '/query?thingType=:type&name=:type&version=1',
                 method: 'GET',
                 cache : true
             },
@@ -491,7 +494,7 @@ angular.module('BeehivePortal')
                 method: 'POST'
             },
             updateSchema: {
-                url: MyAPIs.SCHEMA + '/:id',
+                url: MyAPIs.SCHEMA + '/manage/:id',
                 method: 'PUT',
                 params: {
                     id: '@id'

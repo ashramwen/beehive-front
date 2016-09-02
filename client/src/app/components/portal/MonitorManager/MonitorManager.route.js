@@ -8,7 +8,7 @@ angular.module('BeehivePortal.MonitorManager')
             url: '/Monitoring/{id:int}',
             templateUrl: 'app/components/portal/MonitorManager/Monitoring/Monitoring.html',
             controller: 'MonitoringController',
-            stateName: '实时监控',
+            stateName: 'monitorManager.realtime',
             previous: 'app.portal.MonitorManager.View',
             params: {
                 'id': 0,
@@ -21,14 +21,14 @@ angular.module('BeehivePortal.MonitorManager')
             url: '/View',
             templateUrl: 'app/components/portal/MonitorManager/View/View.html',
             controller: 'ViewController',
-            stateName: '监控视图',
+            stateName: 'monitorManager.monitorView',
             previous: 'app.portal.MonitorManager'
         })
         .state('app.portal.MonitorManager.ViewManager', {
             url: '/ViewManager/{id:int}',
             templateUrl: 'app/components/portal/MonitorManager/ViewManager/ViewManager.html',
             controller: 'ViewManagerController',
-            stateName: '频道信息',
+            stateName: 'monitorManager.channelInfo',
             previous: 'app.portal.MonitorManager.View',
             params: {
                 'id': 0,

@@ -10,16 +10,22 @@ angular.module('BeehivePortal')
         var trigger = ScheduleTriggerDetailService.generateTrigger($scope.triggerData);
 
         if(!$scope.triggerData.triggerID){
-          $$Trigger.save(trigger, function(){
-            AppUtils.alert('创建触发器成功！', '提示信息', function(){
-              $scope.$state.go(TriggerDetailService.States.SCHEDULE_TRIGGER, {triggerID: trigger.triggerID});
+          $$Trigger.save(trigger, function(trigger){
+            AppUtils.alert({
+              msg: 'triggerManager.triggerCreatedMsg',
+              callback: function(){
+                $scope.$state.go(TriggerDetailService.States.SCHEDULE_TRIGGER, {triggerID: trigger.triggerID});
+              }
             });
           });
         }else{
-          $$Trigger.remove({triggerID: $scope.triggerData.triggerID}, function(){
-            $$Trigger.save(trigger, function(trigger){
-              AppUtils.alert('保存触发器成功！', '提示信息', function(){
-                $scope.$state.go($scope.$state.current.name, {triggerID: trigger.triggerID});
+          $$Trigger.remove({triggerID: $scope.triggerData.triggerID}, function(trigger){
+            $$Trigger.save(trigger, function(){
+              AppUtils.alert({
+                msg: 'triggerManager.triggerSavedMsg',
+                callback: function(){
+                  $scope.$state.go($scope.$state.current.name, {triggerID: trigger.triggerID});
+                }
               });
             });
           });

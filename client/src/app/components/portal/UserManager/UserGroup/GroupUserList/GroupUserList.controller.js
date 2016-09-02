@@ -9,10 +9,10 @@ angular.module('BeehivePortal')
 
         $scope.searchValue = "";
         $scope.queryOptions = [{
-            text: "用户登录名",
+            text: "user.loginName",
             value: "userName"
         }, {
-            text: "用户姓名",
+            text: "user.userName",
             value: "displayName"
         }];
 
@@ -23,15 +23,6 @@ angular.module('BeehivePortal')
             $scope.filters = {};
             $scope.filters[queryField] = value;
             console.log('filters', $scope.filters);
-            // var request = {};
-            // if (value) request[queryField] = value;
-            // $$UserManager.query(request, function(userList) {
-            //     console.log(userList);
-            //     $scope.userList = userList;
-            // }, function() {
-            //     AppUtils.alert('Failed to load group user list!');
-            // });
-
         };
 
         $scope.init = function() {
@@ -51,45 +42,13 @@ angular.module('BeehivePortal')
         };
 
         $scope.myMenu = {
-            itemList: [{
-                    text: '查看详情',
+            itemList: [
+                {
+                    text: 'controls.view',
                     callback: function(user) {
                         $scope.navigateTo($scope.navMapping.GROUP_USER_INFO, {
                             userID: user.userID,
                             userGroupID: $state.params['userGroupID']
-                        });
-                    }
-                },
-                // {
-                //     text: '编辑',
-                //     callback: function(user) {
-                //         var modalInstance = $uibModal.open({
-                //             animation: true,
-                //             templateUrl: 'app/components/portal/UserManager/User/UserList/EditUser.template.html',
-                //             controller: 'UserListController.EditUser',
-                //             size: 'md',
-                //             resolve: {
-                //                 user: function() {
-                //                     return user;
-                //                 }
-                //             }
-                //         });
-                //
-                //         modalInstance.result.then(function(selectedItem) {
-                //             console.log(user);
-                //         }, function() {
-                //             $log.info('Modal dismissed at: ' + new Date());
-                //         });
-                //     }
-                // },
-                {
-                    text: '删除',
-                    callback: function(user) {
-                        AppUtils.confirm('提示信息', '确认要将该用户移出吗？', function() {
-                            $$UserGroup.deleteUser({
-                                userID: user.userID,
-                                userGroupID: $scope.userGroup.userGroupID
-                            });
                         });
                     }
                 }

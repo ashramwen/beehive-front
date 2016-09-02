@@ -8,26 +8,46 @@ angular.module('BeehivePortal')
 
 
 angular.module('BeehivePortal')
-  .controller('UserController.EditUser',['$scope', '$uibModalInstance', 'user', '$$UserManager', 'PortalService', '$$Thing', '$$Tag', '$rootScope', '$$User', function ($scope, $uibModalInstance, user, $$UserManager, PortalService, $$Thing, $$Tag, $rootScope, $$User) {
+  .controller('UserController.EditUser',['$scope', '$uibModalInstance', 'user', '$$UserManager', '$$Thing', '$$Tag', '$rootScope', '$$User', 'TriggerDetailService', '$timeout', function ($scope, $uibModalInstance, user, $$UserManager, $$Thing, $$Tag, $rootScope, $$User, TriggerDetailService, $timeout) {
     
-    $scope.user = user;
+    $scope.user = angular.copy(user);
+
+    $scope.inputMethods = {inputThingDataset: null};
+    $scope.selectedThings = [];
 
     $scope.init = function(){
         $rootScope.$watch('login', function(newVal){
             if(!newVal) return;
-            $scope.things = $$User.getThings({userID: $scope.user.userID});
-            $scope.tags = $$User.getTags({userID: $scope.user.userID});
-            $scope.allTags = $$Tag.queryAll();
+            $$User.getThings({userID: $scope.user.userID}, function(things){
+                $scope.selectedThings = _.pluck(things, 'globalThingID');
+                TriggerDetailService.getThingsDetail(things, true).then(function(things){
+                    $scope.inputMethods.inputThingDataset({selectedThings: things});
+                });
+            });
         });
+    };
+
+    $scope.selectedChange = function(selectedThings, type){
+        $scope.things = _.pluck(selectedThings, 'globalThingID');
     };
 
 
     $scope.ok = function () {
-        $$UserManager.update(user, function(user){
+        $$UserManager.update($scope.user, function(user){
+            var thingsToDelete = _.difference($scope.selectedThings, $scope.things);
+            var thingsToAdd = _.difference($scope.things, $scope.selectedThings);
+
+            if(thingsToAdd.length){
+                $scope.addThings(thingsToAdd, user);
+            }
+            if(thingsToDelete.length){
+                $scope.removeThing(thingsToDelete, user);
+            }
             $uibModalInstance.close($scope.user);
-            console.log('save user succeeded!')
-        }, function(){
-            console.log('failed to save user!');
+        }, function(response){
+            if(response.data.errorCode == "DuplicateKeyException"){
+                AppUtils.alert({msg: 'userManager.userNameConflictMsg'});
+            }
         });
     };
 
@@ -35,32 +55,11 @@ angular.module('BeehivePortal')
         $uibModalInstance.dismiss('cancel');
     };
 
-
-    $scope.addTag = function(tag, user){
-        $$User.bindTag({tags: [tag.fullTagName], userIDs:[user.userID]}, function(){
-            $scope.tags = $scope.tags || [];
-            $scope.tags.push(tag);
-        });
-    }
-
-    $scope.removeTag = function(tag, user){
-        $$User.unbindTag({tags: [tag.fullTagName], userIDs:[user.userID]}, function(){
-            $scope.tags.remove(tag);
-        });
-    };
-
     $scope.addThings = function(globalThingIDs, user){
-        $$User.bindThing({}, {globalThingIDs: [globalThingIDs], userIDs: [user.userID]}, function(things){
-            $scope.things = $scope.things || [];
-            _.each(globalThingIDs, function(globalThingID){
-                $scope.things.push($$Thing.get({globalThingID: globalThingID}));
-            });
-        });
+        $$User.bindThing({}, {globalThingIDs: [globalThingIDs], userIDs: [user.userID]});
     };
 
-    $scope.removeThing = function(thing, user){
-        $$User.unbindThing({globalThingIDs: [thing.globalThingID], userIDs: [user.userID]}, function(){
-            $scope.things.remove(thing);
-        });
+    $scope.removeThing = function(globalThingIDs, user){
+        $$User.unbindThing({globalThingIDs: globalThingIDs, userIDs: [user.userID]});
     };
   }]);

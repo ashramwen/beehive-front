@@ -72,4 +72,23 @@
       }
     }
   }
+  .location-tag{
+    margin-right: 10px;
+    margin-bottom: 5px;
+    .fa-remove{
+      display: none;
+    }
+    &:hover{
+      .fa-remove{
+        display: inline-block;
+      }
+    }
+  }
+  .chart-option{
+    margin-right: 10px;
+    float: left;
+  }
+  hr.in-panel{
+    margin: 5px 0px 10px;
+  }
 }

@@ -1,8 +1,7 @@
 <div class="app-portal-triggermanager-triggerdetail-triggerschedule" ng-controller="TriggerScheduleController">
   <div class="panel">
     <div class="panel-body">
-      时间设置
-      <button class="btn btn-link pull-right">高级设置</button>
+      {{'triggerManager.timeSetting' | translate}}
     </div>
   </div>
   <div class="row simple-settings">
@@ -13,24 +12,24 @@
       <div class="panel">
         <div class="panel-body no-padding interval-settings">
           <div class="repeat-options">
-            <label class="option" ng-class="{'active': triggerData.schedule.type!='Interval'}" ng-click="triggerData.schedule.type='Cron'">准点准时</label>
+            <label class="option" ng-class="{'active': triggerData.schedule.type!='Interval'}" ng-click="triggerData.schedule.type='Cron'">{{'triggerManager.onTime' | translate}}</label>
             <hr/>
-            <label class="option" ng-class="{'active': triggerData.schedule.type=='Interval'}" ng-click="triggerData.schedule.type='Interval'">阶段重复</label>
+            <label class="option" ng-class="{'active': triggerData.schedule.type=='Interval'}" ng-click="triggerData.schedule.type='Interval'">{{'triggerManager.repeat' | translate}}</label>
           </div>
           <div class="repeat-sub-options no-repeat" ng-class="{'active': triggerData.schedule.type!='Interval'}">
             <div class="option" ng-class="{'active': triggerData.schedule.onceType != 'hourly'}" ng-click="triggerData.schedule.onceType='exact'">
               <span class="fa fa-clock-o"></span>
-              <label>标准定时</label>
+              <label>{{'triggerManager.standard' | translate}}</label>
             </div>
             <div class="option" ng-class="{'active': triggerData.schedule.onceType == 'hourly'}" ng-click="triggerData.schedule.onceType='hourly'">
               <span class="fa fa-clock-o"></span>
-              <label>每小时</label>
+              <label>{{'triggerManager.hourly' | translate}}</label>
             </div>
           </div>
           <div class="repeat-sub-options repeat"  ng-class="{'active': triggerData.schedule.type=='Interval'}">
             <div class="option" ng-class="{'active': triggerData.schedule.onceType == 'hourly'}">
               <span class="fa fa-clock-o"></span>
-              <label>间隔时间</label>
+              <label>{{'triggerManager.interval' | translate}}</label>
             </div>
           </div>
           <div class="repeat-settings">
@@ -41,7 +40,7 @@
                 name="ruleScheduleTime1" 
 
                 required 
-                uib-tooltip="请输入触发时间"
+                uib-tooltip="{{'triggerManager.requireTimeMsg' | translate}}"
                 tooltip-trigger="'none'"
                 tooltip-placement="top"
                 tooltip-is-open="ruleform.$submitted
@@ -54,7 +53,7 @@
                 name="ruleScheduleTime2"
 
                 required
-                uib-tooltip="请输入触发时间"
+                uib-tooltip="{{'triggerManager.requireTimeMsg' | translate}}"
                 tooltip-trigger="'none'"
                 tooltip-placement="top"
                 tooltip-is-open="ruleform.$submitted
@@ -67,7 +66,7 @@
                 name="ruleScheduleInterval"
 
                 required
-                uib-tooltip="请输入触发间隔"
+                uib-tooltip="{{'triggerManager.requireIntervalMsg' | translate}}"
                 tooltip-trigger="'none'"
                 tooltip-placement="top"
                 tooltip-is-open="ruleform.$submitted
@@ -78,7 +77,7 @@
                 name="timeunit"
 
                 required
-                uib-tooltip="请选择时间单位"
+                uib-tooltip="{{'triggerManager.requireTimeUnitMsg' | translate}}"
                 tooltip-trigger="'none'"
                 tooltip-placement="top"
                 tooltip-is-open="ruleform.$submitted

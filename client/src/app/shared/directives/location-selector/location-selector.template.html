@@ -1,32 +1,32 @@
 <div uib-dropdown class="location-selector" ng-class="position">
-  <button id="search-filter" ng-disabled="disabled" type="button" class="btn btn-default" uib-dropdown-toggle>
+  <button id="search-filter" ng-disabled="disabled" type="button" class="btn btn-default" ng-disabled="disabled" uib-dropdown-toggle>
     {{getDisplayName()}} <span class="caret"></span>
   </button>
   <div class="dropdown-menu" role="menu" aria-labelledby="search-filter" ng-click="$event.stopPropagation()">
     <div class="panel">
       <div class="panel-body">
         <div class="location-select">
-          <label>楼号</label>
+          <label>{{"location.building" | translate}}</label>
           <select class="form-control" ng-options="option._displayName for option in levels.building.options track by option.location" ng-model="levels.building.selected" ng-change="changeLocation('building')" ng-click="$event.stopPropagation()">
-            <option value="">请选择</option>
+            <option value="">{{"controls.selectDefault" | translate}}</option>
           </select>
         </div>
         <div class="location-select">
-          <label>层数</label>
+          <label>{{"location.floor" | translate}}</label>
           <select class="form-control" ng-options="option._displayName for option in levels.floor.options track by option.location" ng-model="levels.floor.selected" ng-change="changeLocation('floor')" ng-click="$event.stopPropagation()">
-            <option value="">请选择</option>
+            <option value="">{{"controls.selectDefault" | translate}}</option>
           </select>
         </div>
         <div class="location-select">
-          <label>区域</label>
+          <label>{{"location.partition" | translate}}</label>
           <select class="form-control" ng-options="option._displayName for option in levels.partition.options track by option.location" ng-model="levels.partition.selected" ng-change="changeLocation('partition')" ng-click="$event.stopPropagation()">
-            <option value="">请选择</option>
+            <option value="">{{"controls.selectDefault" | translate}}</option>
           </select>
         </div>
         <div class="location-select" ng-if="!hideLast">
-          <label>区块</label>
+          <label>{{"location.area" | translate}}</label>
           <select class="form-control" ng-options="option._displayName for option in levels.area.options track by option.location" ng-model="levels.area.selected" ng-change="changeLocation('area')" ng-click="$event.stopPropagation()">
-            <option value="">请选择</option>
+            <option value="">{{"controls.selectDefault" | translate}}</option>
           </select>
         </div>
       </div>
