@@ -11,9 +11,14 @@
 
       <!-- START card -->
       <div class="card" ng-class="{'off': o.off}" ng-repeat="o in view.detail track by o.id">
-        <div class="light power"></div>
-        <div class="name">{{o.vendorThingID}}</div>
-        <div class="card-content">
+        <div class="card-head">
+          <div class="icon-link">
+            <div class="bar"></div>
+            <div class="stop" ng-if="o.off"></div>
+          </div>
+          <div class="name">{{o.vendorThingID}}</div>
+        </div>
+        <div class="card-body">
           <div class="state-wrap" ng-repeat="s in o.status">
             <span class="state">{{s.displayName}}：</span><span class="value">{{s.value}}</span>
           </div>
