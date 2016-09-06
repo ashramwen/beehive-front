@@ -4,7 +4,7 @@
  * created by George Lin @ Kii
  */
 
-(function () {
+(function() {
     var siteUrl = appConfig[appConfig.ENV].siteUrl;
     window.AppConfig = appConfig[appConfig.ENV];
     window.thirdPartyAPIUrl = appConfig[appConfig.ENV].thirdPartyAPIUrl;
@@ -17,35 +17,36 @@
     var apiSuffix = siteUrl + '/api';
 
     window.MyAPIs = {
+        'INDUSTRYTEMPLATE': '/industrytemplate',
         'LOCATION_TAGS': '/locationTags',
-        'OPERATOR': '/oauth2',
-        'USER': '/users',
-        'USER_MANAGER': '/usermanager',
-        'USER_GROUP': '/usergroup',
-        'THING': '/things',
-        'TAG': '/tags',
-        'TYPE': '/things/types',
-        'PERMISSION': '/permission',
-        'TRIGGER': '/triggers',
-        'THING_IF': '/thing-if',
         'ONBOARDING': '/onboardinghelper',
+        'OPERATOR': '/oauth2',
+        'PERMISSION': '/permission',
+        'REPORTS': '/reports',
+        'SCHEMA': '/schema',
         'SUPPLIER': '/devicesuppliers',
         'SYSTEM_PERMISSION': '/sys/permissionTree',
-        'USER_SYNC': '/usersync',
-        'SCHEMA': '/industrytemplate',
-        'REPORTS': '/reports' 
+        'TAG': '/tags',
+        'THING': '/things',
+        'THING_IF': '/thing-if',
+        'TRIGGER': '/triggers',
+        'TYPE': '/things/types',
+        'USER': '/users',
+        'USER_GROUP': '/usergroup',
+        'USER_MANAGER': '/usermanager',
+        'USER_SYNC': '/usersync'
     };
 
 
     /*
      * init api urls
      */
-    for(var apiName in window.MyAPIs){
-        window.MyAPIs[apiName] = apiSuffix +  window.MyAPIs[apiName];
+    for (var apiName in window.MyAPIs) {
+        window.MyAPIs[apiName] = apiSuffix + window.MyAPIs[apiName];
     }
 
     window.MyAPIs['CLOUD_THING_IF'] = cloudUrl + '/thing-if';
-    window.webSocketPath =  appConfig[appConfig.ENV].wsUrl;
+    window.webSocketPath = appConfig[appConfig.ENV].wsUrl;
 
     /*
      * tag used as session key

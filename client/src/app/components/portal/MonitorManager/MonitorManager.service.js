@@ -1,6 +1,6 @@
 angular.module('BeehivePortal.MonitorManager')
 
-.factory('ThingSchemaService', ['$$Type', 'TriggerDetailService', '$q', function($$Type, TriggerDetailService, $q) {
+.factory('ThingSchemaService', ['$$Schema', 'TriggerDetailService', '$q', function($$Schema, TriggerDetailService, $q) {
     var typeList = [];
     var schemaList = [];
 
@@ -41,7 +41,11 @@ angular.module('BeehivePortal.MonitorManager')
                 _index = _.indexOf(typeList, thing.type);
                 if (_index > -1) return;
                 typeList.push(thing.type);
-                var $promise = $$Type.getSchema({ type: thing.type }, function(schema) {
+                var $promise = $$Schema.getByType({
+                    thingType: thing.type,
+                    name: thing.schemaName,
+                    version: thing.schemaVersion
+                }, function(schema) {
                     var _schema = TriggerDetailService.parseSchema(schema)
                     schemaList.push(_schema);
 

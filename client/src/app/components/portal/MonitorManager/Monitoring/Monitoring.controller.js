@@ -2,7 +2,7 @@
 
 angular.module('BeehivePortal.MonitorManager')
 
-.controller('MonitoringController', ['$scope', '$rootScope', '$state', '$stateParams', 'ThingSchemaService', '$$User', 'WebSocketClient', 'StateType', '$timeout', function($scope, $rootScope, $state, $stateParams, ThingSchemaService, $$User, WebSocketClient, StateType, $timeout) {
+.controller('MonitoringController', ['$scope', '$rootScope', '$state', '$stateParams', 'ThingSchemaService', '$$User', 'WebSocketClient', '$timeout', function($scope, $rootScope, $state, $stateParams, ThingSchemaService, $$User, WebSocketClient, $timeout) {
     if ($stateParams.id === 0) {
         $state.go('^');
     }
@@ -11,7 +11,10 @@ angular.module('BeehivePortal.MonitorManager')
     $scope.view = $stateParams;
 
     // get monitoring view detail
-    $$User.getCustomData({ name: 'mv_' + $scope.view.id }).$promise.then(function(res) {
+    $$User.getUGC({
+        type: 'monitorView',
+        name: $scope.view.id
+    }).$promise.then(function(res) {
         $scope.view = res.view || {};
         ThingSchemaService.getSchema($scope.view.detail);
         if (WebSocketClient.isConnected()) {

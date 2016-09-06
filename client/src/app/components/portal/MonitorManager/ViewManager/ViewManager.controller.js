@@ -14,11 +14,17 @@ angular.module('BeehivePortal.MonitorManager')
 
     $scope.init = function() {
         // get monitoring views
-        var q1 = $$User.getCustomData({ name: 'monitorViews' }).$promise;
+        var q1 = $$User.getUGC({
+            type: 'monitor',
+            name: 'views'
+        }).$promise;
 
         var promises = [q1];
         if ($stateParams.id !== 0) {
-            promises.push($$User.getCustomData({ name: 'mv_' + $stateParams.id }).$promise);
+            promises.push($$User.getUGC({
+                type: 'monitorView',
+                name: $stateParams.id
+            }).$promise);
         }
 
         $q.all(promises).then(function(res) {
@@ -30,6 +36,9 @@ angular.module('BeehivePortal.MonitorManager')
                     return view.id === $scope.view.id;
                 })
             }
+        }, function(res) {
+            if (res.data.errorCode === 'OBJECT_NOT_FOUND')
+                $scope.views = [];
         });
     }
 
@@ -69,11 +78,17 @@ angular.module('BeehivePortal.MonitorManager')
 
     // save monitor view
     function saveMonitorView(title, msg) {
-        var q1 = $$User.setCustomData({ name: 'monitorViews' }, {
+        var q1 = $$User.setUGC({
+            type: 'monitor',
+            name: 'views'
+        }, {
             views: $scope.views
         }).$promise;
 
-        var q2 = $$User.setCustomData({ name: 'mv_' + $scope.view.id }, { view: $scope.view }).$promise;
+        var q2 = $$User.setUGC({
+            type: 'monitorView',
+            name: $scope.view.id
+        }, { view: $scope.view }).$promise;
 
         $q.all([q1, q2]).then(function(res) {
             var options = {
@@ -81,7 +96,7 @@ angular.module('BeehivePortal.MonitorManager')
                 title: title,
                 callback: $scope.fallback
             }
-            
+
             AppUtils.alert(options);
         });
     }
