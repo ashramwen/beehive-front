@@ -164,7 +164,7 @@ angular.module('BeehivePortal')
         url: KiiReporting.KiiQueryConfig.getConfig().getBaseUrl() + "/" + AppConfig.kiiAppID +  '/_search',
         headers: {"Authorization": kiiQueryConfig.getToken()}
       }).then(function(response){
-        $defer.resolve(response.data.hits.hits[0]['_source'][fieldName]);
+        $defer.resolve(response.data.hits.hits[0]['_source']['state'][fieldName]);
         console.log(response);
       });
       return $defer.promise;

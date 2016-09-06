@@ -121,18 +121,21 @@
           "displayName": "Thing Management",
           "gatewayManagement": {
             "displayName": "Gateway Management",
-          },
-          "controlThings": {
-            "displayName": "Thing Control"
           }
         },
         "thingViews": {
-          "displayName": "Thing View",
+          "displayName": "Thing Management",
           "locationView": {
             "displayName": "Location View"
           },
           "thingDetail": {
             "displayName": "Thing Detail"
+          },
+          "controlThings": {
+            "displayName": "Thing Control"
+          },
+          "typeView": {
+            "displayName": "Thing Summary"
           }
         },
         "reporting": {
@@ -193,7 +196,17 @@
           "displayName": "Settings"
         }
       },
+      "welcome": {
+        "introduction": "Welcome to use beehive portal"
+      },
       "userManager": {
+        "emailFormatError": "Wrong email format!",
+        "phoneLength": "Phone number length not match, 11 characters is required.",
+        "displayNameTooLong": "User's name is too long, 50 characters is the maximun.",
+        "loginNameRequired": "Please input Login Name.",
+        "loginNameTooShort": "Login Name is too short, 5 characters is the minumun.",
+        "loginNameTooLong": "Login Name is too long, 20 characters is the maximun.",
+        "loginNameOrEmailOrPhoneRequired": "Please input loginName, email or phone number.",
         "userInfoTitle": "User Information",
         "createUserBtn": "Create User",
         "editUserTitle": "Edit User Information",
@@ -232,7 +245,7 @@
         "thingNumber": "Thing Number"
       },
       "reporting": {
-        "removeCustomChartMsg": "Sure to remove chart[{{chart.name}}]?",
+        "removeCustomChartMsg": "Sure to remove chart?",
         "createChartTitle": "Create Chart",
         "editChartTitle": "Edit Chart",
         "indexType": "Index Type",
@@ -409,7 +422,7 @@
       },
       "portalModules": {
         "welcome": {
-          "displayName": "欢迎"
+          "displayName": "欢迎",
         },
         "userManager": {
           "displayName": "用户管理",
@@ -433,24 +446,27 @@
           "displayName": "设备管理",
           "gatewayManagement": {
             "displayName": "网关管理",
-          },
-          "controlThings": {
-            "displayName": "设备控制"
           }
         },
         "thingViews": {
-          "displayName": "设备视图",
+          "displayName": "设备管理",
           "locationView": {
             "displayName": "位置视图"
           },
           "thingDetail": {
             "displayName": "设备详情"
+          },
+          "typeView": {
+            "displayName": "设备概览"
+          },
+          "controlThings": {
+            "displayName": "设备控制"
           }
         },
         "reporting": {
           "displayName": "数据报表",
           "energyReporting": {
-            "displayName": "能报报表"
+            "displayName": "能耗报表"
           },
           "environmentReporting": {
             "displayName": "环境报表"
@@ -505,7 +521,17 @@
           "displayName": "设置"
         }
       },
+      "welcome": {
+        "introduction": " 欢迎使用蜂巢智能管理平台"
+      },
       "userManager": {
+        "emailFormatError": "邮箱地址格式错误！",
+        "phoneLength": "手机号码长度必须为11位。",
+        "displayNameTooLong": "用户姓名不得超过50个字符",
+        "loginNameRequired": "请输入登录名",
+        "loginNameTooShort": "登录名不能少于5个字符。",
+        "loginNameTooLong": "登录名不能多于20个字符。",
+        "loginNameOrEmailOrPhoneRequired": "请输入登录名，邮箱地址或手机号码。",
         "userInfoTitle": "用户信息",
         "createUserBtn": "新建用户",
         "editUserTitle": "编辑用户资料",
@@ -545,7 +571,7 @@
         "thingNumber": "设备数量"
       },
       "reporting": {
-        "removeCustomChartMsg": "是否移除图表[{{chart.name}}]?",
+        "removeCustomChartMsg": "是否移除图表?",
         "createChartTitle": "创建图表",
         "editChartTitle": "编辑图表",
         "indexType": "指数类型",

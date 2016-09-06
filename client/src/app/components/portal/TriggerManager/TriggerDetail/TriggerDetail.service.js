@@ -26,7 +26,8 @@ angular.module('BeehivePortal')
       NEW_CONDITION_TRIGGER: 'app.portal.TriggerManager.NewTrigger.ConditionTrigger',
       CONDITION_TRIGGER: 'app.portal.TriggerManager.TriggerDetail.ConditionTrigger',
 
-      NEW_TRIGGER_ROOT: 'app.portal.TriggerManager.NewTrigger'
+      NEW_TRIGGER_ROOT: 'app.portal.TriggerManager.NewTrigger',
+      TRIGGER_LIST: 'app.portal.TriggerManager.TriggerList'
     };
 
     TriggerDetailService.getExpressionDisplay = {

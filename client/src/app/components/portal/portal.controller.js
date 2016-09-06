@@ -8,9 +8,6 @@ angular.module('BeehivePortal')
      * by George
      */
 
-
-
-
     $scope.navigateTo = function(stateName, params){
         $state.go(stateName, _.extend($state.params, params));
     };

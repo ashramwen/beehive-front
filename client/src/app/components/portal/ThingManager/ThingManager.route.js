@@ -10,13 +10,6 @@ angular.module('BeehivePortal')
         stateName: 'thingManager.gatewayManagement',
         previous: 'app.portal.ThingManager'
       })
-      .state('app.portal.ThingManager.ControlThing', {
-        url: '/ControlThing?refreshId',
-        templateUrl: 'app/components/portal/ThingManager/ControlThing/ControlThing.html',
-        controller: 'ControlThingController',
-        stateName: 'thingManager.controlThings',
-        previous: 'app.portal.ThingManager'
-      })
       .state('app.portal.ThingManager.ThingDetail', {
         url: '/ThingDetail/:thingid?gateway&location',
         templateUrl: 'app/components/portal/ThingViews/ThingDetail/ThingDetail.html',

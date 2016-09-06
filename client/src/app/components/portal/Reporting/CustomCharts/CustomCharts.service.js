@@ -9,7 +9,7 @@ angular.module('BeehivePortal')
       refresh: function(){
         var $defer = $q.defer();
 
-        $$User.getCustomData({name: CHART_ID_FIELD_NAME}, function(response){
+        $$User.getChartData({name: CHART_ID_FIELD_NAME}, function(response){
           if(!response) return;
           _chartIDs = response.dataset || [];
 
@@ -26,15 +26,17 @@ angular.module('BeehivePortal')
             $defer.resolve(CustomChartsService.charts);
           });
 
+        }, function(){
+          $defer.resolve(CustomChartsService.charts);
         });
 
         return $defer.promise;
       },
       update: function(){
-        return $$User.setCustomData({}, {name: CHART_ID_FIELD_NAME, dataset: _chartIDs}).$promise;
+        return $$User.setChartData({}, {name: CHART_ID_FIELD_NAME, dataset: _chartIDs}).$promise;
       },
       getChart: function(id){
-        return $$User.getCustomData({name: id}).$promise;
+        return $$User.getChartData({name: id}).$promise;
       },
       addChart: function(chart){
         var id = chart.id;
@@ -48,7 +50,7 @@ angular.module('BeehivePortal')
 
         CustomChartsService.update();
 
-        return $$User.setCustomData({name: id, dataset: _chart}).$promise;
+        return $$User.setChartData({name: id, dataset: _chart}).$promise;
       },
       updateChart: function(chart){
         var id = chart.id;
@@ -58,16 +60,16 @@ angular.module('BeehivePortal')
           delete _chart['period'];
         }
 
-        return $$User.setCustomData({name: id, dataset: _chart}).$promise;
+        return $$User.setChartData({name: id, dataset: _chart}).$promise;
       },
       deleteChart: function(chart){
         var id = chart.id;
         _chartIDs.remove(chart.id);
         CustomChartsService.update();
-        return $$User.setCustomData({name: id}).$promise;
+        return $$User.setChartData({name: id}).$promise;
       },
       refreshChart: function(id){
-        return $$User.getCustomData({name: id}, function(data){
+        return $$User.getChartData({name: id}, function(data){
           var index = _.findIndex(CustomChartsService.charts, {id: id});
           CustomChartsService.charts[index] = new CustomChart(data);
         }).$promise;

@@ -19,17 +19,17 @@ angular.module('BeehivePortal')
             AppUtils.alert({
               msg: 'triggerManager.triggerCreatedMsg',
               callback: function(){
-                $scope.$state.go(TriggerDetailService.States.CONDITION_TRIGGER, {triggerID: trigger.triggerID});
+                $scope.$state.go(TriggerDetailService.States.TRIGGER_LIST);
               }
             });
           });
         }else{
           $$Trigger.remove({triggerID: $scope.triggerData.triggerID}, function(){
-            $$Trigger.save(trigger, function(){
+            $$Trigger.save(trigger, function(trigger){
               AppUtils.alert({
                 msg: 'triggerManager.triggerSavedMsg',
                 callback: function(){
-                  $scope.$state.go($scope.$state.current.name, {triggerID: trigger.triggerID});
+                  $scope.$state.go(TriggerDetailService.States.TRIGGER_LIST);
                 }
               });
             });

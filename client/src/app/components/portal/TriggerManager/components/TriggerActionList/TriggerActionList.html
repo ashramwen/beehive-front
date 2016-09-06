@@ -13,7 +13,7 @@
           <tbody>
             <tr ng-repeat="actionGroup in triggerData.actionGroups" ng-click="editActionGroup(actionGroup.type)">
               <td><span class="fa fa-circle-o"></span>{{actionGroup.typeDisplayName}} <div class="v-hr"></div></td>
-              <td><span ng-repeat="action in actionGroup.actions">{{action.displayName}}</span></td>
+              <td><span ng-repeat="action in actionGroup.actions" uib-tooltip="{{getProperties(action)}}">{{action.displayName}}</span></td>
             </tr>
           </tbody>
         </table>

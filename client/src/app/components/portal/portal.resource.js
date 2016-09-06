@@ -23,6 +23,20 @@ angular.module('BeehivePortal')
                   name: '@name'
               }
           },
+          getChartData: {
+              url: MyAPIs.USER + '/me/ugc/chart/:name',
+              method: 'GET',
+              params: {
+                  name: '@name'
+              }
+          },
+          setChartData: {
+              url: MyAPIs.USER + '/me/ugc/chart/:name',
+              method: 'PUT',
+              params: {
+                  name: '@name'
+              }
+          },
           bindThing: {
               url: MyAPIs.THING + '/:globalThingIDs/users/:userIDs',
               params: {
@@ -485,7 +499,7 @@ angular.module('BeehivePortal')
                 cache: true
             },
             getSchema: {
-                url: MyAPIs.SCHEMA + '/query?thingType=:type&name=:type&version=1',
+                url: MyAPIs.SCHEMA + '/query/industrytemplate?thingType=:type&name=:type&version=1',
                 method: 'GET',
                 cache : true
             },
@@ -494,7 +508,7 @@ angular.module('BeehivePortal')
                 method: 'POST'
             },
             updateSchema: {
-                url: MyAPIs.SCHEMA + '/manage/:id',
+                url: MyAPIs.SCHEMA + '/manage/industrytemplate/:id',
                 method: 'PUT',
                 params: {
                     id: '@id'

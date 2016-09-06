@@ -52,25 +52,24 @@ angular.module('BeehivePortal')
                 ]
             },
             {
-                name: 'thingManager',
-                state: $state.get('app.portal.ThingManager'),
-                icon: 'fa-desktop',
-                subViews: [
-                    {
-                        hidden: $rootScope.credential.roleName == 'commUser',
-                        name: 'thingManager.gatewayManagement',
-                        state: $state.get('app.portal.ThingManager.Gateway')
-                    },
-                    {
-                        name: 'thingManager.controlThings',
-                        state: $state.get('app.portal.ThingManager.ControlThing')
-                    }
-                ]
+                name: 'thingManager.gatewayManagement',
+                state: $state.get('app.portal.ThingManager.Gateway'),
+                icon: 'fa-desktop'
             },
             {
                 name: 'thingViews',
-                state: $state.get('app.portal.ThingViews.TypeView'),
-                icon: 'fa-table'
+                state: $state.get('app.portal.ThingViews'),
+                icon: 'fa-table',
+                subViews: [
+                    {
+                        state: $state.get('app.portal.ThingViews.TypeView'),
+                        name: 'thingViews.typeView'
+                    },
+                    {
+                        state: $state.get('app.portal.ThingViews.ControlThing'),
+                        name: 'thingViews.controlThings'
+                    }
+                ]
             },
             {
                 name: 'reporting',

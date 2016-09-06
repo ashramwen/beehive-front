@@ -74,6 +74,7 @@ angular.module('BeehivePortal')
           };
 
           $$Thing.getThingsByLocationType(searchQuery, function(thingIDs){
+            thingIDs = _.uniq(thingIDs);
             var things = _.map(thingIDs, function(thingID){
               return {
                 globalThingID: thingID

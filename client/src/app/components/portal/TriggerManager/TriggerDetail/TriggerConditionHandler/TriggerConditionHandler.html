@@ -25,7 +25,7 @@
             <!-- enmu: number -->
             <div ng-if="property.enumType == 'BOOLEAN' || property.type=='boolean'">
               <label>{{property.displayName}}</label>
-              <div switchery="property.value" yes-text="{{property.options[1].text || 'yes'}}" no-text="{{property.options[0].text || 'no'}}"></div>
+              <div switchery="property.value" options="property.options"></div>
             </div>
 
             <!-- enmu: number -->

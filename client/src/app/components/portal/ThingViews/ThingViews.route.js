@@ -14,7 +14,8 @@ angular.module('BeehivePortal')
         url: '/TypeView?location',
         templateUrl: 'app/components/portal/ThingViews/TypeView/TypeView.html',
         controller: 'TypeViewController',
-        stateName: 'thingViews'
+        stateName: 'thingViews.typeView',
+        previous: 'app.portal.ThingViews'
       })
       .state('app.portal.ThingViews.LocationThingDetail', {
         url: '/LocationView/ThingDetail/:thingid?type&location',
@@ -22,5 +23,12 @@ angular.module('BeehivePortal')
         controller: 'ThingDetailController',
         previous: 'app.portal.ThingViews.LocationView',
         stateName: 'thingViews.thingDetail'
+      })
+      .state('app.portal.ThingViews.ControlThing', {
+        url: '/ControlThing?refreshId',
+        templateUrl: 'app/components/portal/ThingViews/ControlThing/ControlThing.html',
+        controller: 'ControlThingController',
+        stateName: 'thingViews.controlThings',
+        previous: 'app.portal.ThingViews'
       });
   });

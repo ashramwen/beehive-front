@@ -30,6 +30,13 @@ angular.module('BeehivePortal')
          * create user
          */
         $scope.createUser = function() {
+            $scope.submitted = true;
+            if(!$scope.newUserForm.$valid){
+                return;
+            }else if(!$scope.newUser.phone && !$scope.newUser.mail){
+                return;
+            }
+
             $$UserManager.create($scope.newUser, function(userRegistrationInfo) {
                 var userID = userRegistrationInfo.userID;
                 var activityToken = userRegistrationInfo.activityToken;
@@ -41,9 +48,16 @@ angular.module('BeehivePortal')
 
                 $scope.navigateTo($scope.navMapping.USER_LIST);
             }, function(response) {
-                AppUtils.alert({
-                    msg: 'userManager.userNameConflictMsg'
-                });
+                switch(response.errorCode){
+                    case 'REQUIRED_FIELDS_MISSING':
+                        break;
+                    case 'USER_EXIST':
+                        AppUtils.alert({
+                            msg: 'userManager.userNameConflictMsg'
+                        });
+                        break;
+                }
+                
             });
         }
     }]);

@@ -18,6 +18,20 @@ angular.module('BeehivePortal')
       }
     });
 
+    $scope.getPropertyValue = function(property){
+        if(!property.enumType){
+          return property.value;
+        }
+        if(property.enumType){
+          var option = _.find(property.options, {value: property.value});
+          if(option){
+            return option.text;
+          }else{
+            return property.value;
+          }
+        }
+    };
+
     $scope.addConditionGroup = function(){
       $scope.editConditionGroup(null);
     };

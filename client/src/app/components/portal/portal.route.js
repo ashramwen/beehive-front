@@ -52,7 +52,7 @@ angular.module('BeehivePortal')
         controller: 'ThingViewsController',
         stateName: 'thingViews',
         abstract: true,
-        redirectTo: 'app.portal.ThingViews.LocationView'
+        redirectTo: 'app.portal.ThingViews.TypeView'
       })
       .state('app.portal.MonitorManager', {
         url: '/MonitorManager',

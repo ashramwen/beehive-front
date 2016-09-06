@@ -32,7 +32,7 @@
         'SUPPLIER': '/devicesuppliers',
         'SYSTEM_PERMISSION': '/sys/permissionTree',
         'USER_SYNC': '/usersync',
-        'SCHEMA': '/industrytemplate',
+        'SCHEMA': '/schema',
         'REPORTS': '/reports' 
     };
 

@@ -16,6 +16,22 @@ angular.module('BeehivePortal')
       $scope.editActionGroup(null);
     };
 
+    $scope.getProperties = function(action){
+      return _.map(action.properties, function(property){
+        if(!property.enumType){
+          return property.displayName + ':' + property.value;
+        }
+        if(property.enumType){
+          var option = _.find(property.options, {value: property.value});
+          if(option){
+            return property.displayName + ':' + option.text;
+          }else{
+            return property.displayName + ':' + property.value;
+          }
+        }
+      }).join('<br/>');
+    };
+
     $scope.editActionGroup = function(type){
       switch($scope.$state.current.name){
         case TriggerDetailService.States.NEW_SCHEDULE_TRIGGER:
