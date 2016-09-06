@@ -8,21 +8,10 @@ angular.module('BeehivePortal')
             detail: '=ngDetail'
         },
         templateUrl: 'app/shared/directives/thing-location-selector/thing-location-selector.template.html',
-        controller: ['$scope', '$$User', '$$Location', function($scope, $$User, $$Location) {
+        controller: ['$scope', '$$Location', function($scope, $$Location) {
             $scope.location = {};
             $scope.level = {};
             $scope.detail = $scope.detail || [];
-
-            // get all things
-            // $$User.getThings().$promise.then(function(res) {
-            //     $scope.things = res;
-            // });
-
-            // if ($scope.view.id !== 0) {
-            //     $$User.getCustomData({ name: 'mv_' + $scope.view.id }).$promise.then(function(res) {
-            //         $scope.detail = res.detail || [];
-            //     })
-            // }
 
             $$Location.getTopLevel().$promise.then(function(res) {
                 $scope.location.building = res;
@@ -50,9 +39,16 @@ angular.module('BeehivePortal')
                 // $$Location.getThingsByLocation({ location: $scope.level.area.location }).$promise.then(function(res) {
                 //     $scope.things = res;
                 // });
-                $$Location.getAllThingsByLocation({ location: $scope.level.area.location }).$promise.then(function(res) {
-                    $scope.things = res;
+                $$Location.getAllThingsByLocation({ location: $scope.level.area.location }).$promise.then(showData);
+            }
+
+            function showData(things) {
+                var thing;
+                $scope.detail.forEach(function(o) {
+                    thing = _.findWhere(things, { id: o.id });
+                    if (thing) thing.hidden = true;
                 });
+                $scope.things = things;
             }
 
             $scope.selectAll = function(things) {
@@ -64,8 +60,11 @@ angular.module('BeehivePortal')
 
             $scope.delete = function(things) {
                 var i = things.length - 1;
+                var thing;
                 for (; i >= 0; i--) {
                     if (things[i].select) {
+                        thing = _.findWhere($scope.things, { id: things[i].id });
+                        if (thing) thing.hidden = false;
                         things.splice(i, 1);
                     }
                 }
@@ -76,11 +75,13 @@ angular.module('BeehivePortal')
                 for (; i < $scope.things.length; i++) {
                     if (!$scope.things[i].select) continue;
                     $scope.things[i].select = false;
-                    if (!_.find($scope.detail, function(thing) {
-                            return thing.id === $scope.things[i].id;
-                        }))
+                    $scope.things[i].hidden = true;
+                    if (!_.findWhere($scope.detail, { id: $scope.things[i].id }))
                         $scope.detail.push(angular.copy($scope.things[i]));
                 }
+                // $scope.detail.sort(function(a, b) {
+                //     return a.id - b.id;
+                // });
             }
         }]
     };
