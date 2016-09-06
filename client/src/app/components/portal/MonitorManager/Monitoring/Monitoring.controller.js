@@ -76,10 +76,14 @@ angular.module('BeehivePortal.MonitorManager')
         $state.go('^');
     }
 
+    $scope.$on('$destroy', function() {
+        WebSocketClient.unsubscribeAll();
+    });
+
     // leave page
-    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-        if (toState.name !== 'app.portal.MonitorManager.Monitoring') {
-            WebSocketClient.unsubscribeAll();
-        }
-    })
+    // $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+    //     if (toState.name !== 'app.portal.MonitorManager.Monitoring') {
+    //         WebSocketClient.unsubscribeAll();
+    //     }
+    // })
 }]);

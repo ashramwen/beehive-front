@@ -77,6 +77,7 @@ angular.module('BeehivePortal.MonitorManager')
 
 .factory('WebSocketClient', ['$rootScope', 'Session', function($rootScope, Session) {
     var _client = {};
+    var subscriptions = [];
     var init = (function() {
         _client = Stomp.client(webSocketPath);
         var connect_callback = function(frame) {
@@ -97,21 +98,22 @@ angular.module('BeehivePortal.MonitorManager')
             return _client.connected || false;
         },
         subscribe: function(destination, callback, headers) {
-            _client.subscribe(destination, function() {
+            var subscription = _client.subscribe(destination, function() {
                 var args = arguments;
                 $rootScope.$apply(function() {
                     callback.apply(_client, args);
                 });
             }, headers);
+            subscriptions.push(subscription);
         },
-        unsubscribe: function(destination) {
-            _client.unsubscribe(destination);
-        },
+        // unsubscribe: function(destination) {
+        //     _client.unsubscribe(destination);
+        // },
         unsubscribeAll: function(destination) {
-            var i = 0;
-            for (; i < _client.subscriptions.length; i++) {
-                _client.subscriptions[i].unsubscribe();
-            }
+            subscriptions.forEach(function(s) {
+                s.unsubscribe();
+            });
+            subscriptions = [];
         },
         send: function(destination, headers, body) {
             _client.send(destination, headers, body);
