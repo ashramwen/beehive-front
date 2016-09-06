@@ -29,7 +29,7 @@
             <th>类型</th>
           </thead>
           <tbody>
-            <tr ng-class="{'success':o.select}" ng-repeat="o in things track by o.id" ng-click="o.select=!o.select">
+            <tr ng-class="{'success':o.select}" ng-repeat="o in things track by o.id" ng-click="o.select=!o.select" ng-if="!o.hidden">
               <td>
                 <input type="checkbox" ng-model="o.select" ng-click="o.select=!o.select">
               </td>
