@@ -26,6 +26,11 @@ angular.module('BeehivePortal.MonitorManager')
         }
     })
 
+    $scope.displayValue = function(s) {
+        if (!s.enum || !s.enum[s.value]) return s.value
+        return s.enum[s.value];
+    }
+
     // websocket connection
     function websocketInit() {
         var i = 0;

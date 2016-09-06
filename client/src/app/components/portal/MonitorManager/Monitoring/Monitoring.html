@@ -20,7 +20,7 @@
         </div>
         <div class="card-body">
           <div class="state-wrap" ng-repeat="s in o.status">
-            <span class="state">{{s.displayName}}：</span><span class="value">{{s.value}}</span>
+            <span class="state">{{s.displayName}}：</span><span class="value">{{displayValue(s)}}</span>
           </div>
         </div>
         <div class="type">{{o.typeDisplayName}} | {{o.vendorThingID | locTag}}</div>

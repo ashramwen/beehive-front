@@ -7,13 +7,30 @@ angular.module('BeehivePortal.MonitorManager')
     var dirtyFields = ['target', 'taiwanNo1', 'novalue', 'date'];
 
     function displayName(thing, schema) {
-        thing.actions = schema.actions;
+        // thing.actions = schema.actions;
         thing.typeDisplayName = schema.displayName;
         var properties = schema.properties;
+        var property;
         thing.status.forEach(function(s, i) {
-            var property = _.find(properties, { propertyName: s.name });
-            s.displayName = property ? property.displayName : s.name;
+            property = _.findWhere(properties, { propertyName: s.name });
+            if (property) {
+                s.displayName = property.displayName;
+                if (property.enum) {
+                    s.enum = parseEnum(property.enum);
+                }
+            } else {
+                s.displayName = s.name;
+            }
+
         });
+    }
+
+    function parseEnum(_enum) {
+        var ret = {};
+        for (var e in _enum) {
+            ret[_enum[e]] = e;
+        }
+        return ret;
     }
 
     function parseStatus(thing) {
@@ -53,10 +70,10 @@ angular.module('BeehivePortal.MonitorManager')
                 promiseList.push($promise);
             });
             $q.all(promiseList).then(function() {
-                var _index = 0;
+                var schema;
                 _.each(things, function(thing) {
-                    _index = _.indexOf(typeList, thing.type);
-                    displayName(thing, schemaList[_index]);
+                    schema = _.findWhere(schemaList, { name: thing.schemaName });
+                    displayName(thing, schema);
                 });
                 $defer.resolve(schemaList);
             });
