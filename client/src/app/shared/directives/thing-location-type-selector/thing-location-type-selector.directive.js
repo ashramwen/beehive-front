@@ -83,7 +83,7 @@ angular.module('BeehivePortal')
             TriggerDetailService.getThingsDetail(things).then(function(things){
               $scope.things = things;
               if($scope.creatorOnly){
-                credential = Session.getCredential();
+                var credential = Session.getCredential();
                 $scope.things = _.where($scope.things, {createBy: credential.id.toLocaleString()});
               }
               /*
@@ -100,6 +100,15 @@ angular.module('BeehivePortal')
               */
             });
           });
+        };
+
+        $scope.ownerFilter = function(thing){
+          if(!$scope.creatorOnly) return false;
+          var credential = Session.getCredential();
+          if(thing.createBy == credential.id.toLocaleString()){
+            return false;
+          }
+          return true;
         };
 
         $scope.emptyRowLeft = function(){
@@ -141,9 +150,15 @@ angular.module('BeehivePortal')
 
         $scope.selectAll = function(things){
           _.each(things, function(thing){
+            if($scope.ownerFilter(thing)) return;
             thing._selected = true;
           });
         };
+
+        $scope.toggleThingSelect = function(thing){
+          if($scope.ownerFilter(thing)) return;
+          thing._selected = ! thing._selected;
+        }
 
         $scope.init = function(){
           $scope.types = $scope.allTypes;

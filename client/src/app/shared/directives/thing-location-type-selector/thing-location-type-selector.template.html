@@ -28,9 +28,9 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr ng-class="{'success':thing._selected}" ng-repeat="thing in getUnselectedThings() track by thing.globalThingID" ng-click="thing._selected=!thing._selected">
+                  <tr ng-class="{'success':thing._selected}" ng-repeat="thing in getUnselectedThings() track by thing.globalThingID" ng-click="toggleThingSelect(thing)">
                     <td>
-                      <input type="checkbox" ng-model="thing._selected" ng-click="thing._selected">
+                      <input type="checkbox" ng-model="thing._selected" ng-click="thing._selected" ng-disabled="disabled">
                     </td>
                     <td>{{thing.globalThingID}}</td>
                     <td>{{thing.typeDisplayName}}</td>
@@ -43,7 +43,7 @@
               </table>
             </div>
           </div>
-          <div class="btm-control-panel">
+          <div class="btm-control-panel" ng-show="!disabled">
             <button class="btn btn-link" ng-click="selectAll(getUnselectedThings())">{{'controls.selectAll' | translate}}</button>
             <span class="fa fa-plus-circle" ng-click="add()"></span>
           </div>
@@ -65,8 +65,8 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="thing in selectedThings" ng-click="thing._selected = !thing._selected">
-                  <td><input type="checkbox" ng-model="thing._selected"></td>
+                <tr ng-repeat="thing in selectedThings" ng-click="toggleThingSelect(thing)">
+                  <td><input type="checkbox" ng-model="thing._selected" ng-disabled="disabled || ownerFilter(thing)"></td>
                   <td>{{thing.globalThingID}}</td>
                   <td>{{thing.typeDisplayName}}</td>
                   <td>{{thing.locationDisplayName}}</td>
@@ -77,7 +77,7 @@
               </tbody>
             </table>
           </div>
-          <div class="btm-control-panel">
+          <div class="btm-control-panel" ng-show="!disabled">
             <button class="btn btn-link" ng-click="selectAll(selectedThings)">{{'controls.selectAll' | translate}}</button>
             <button class="btn btn-link text-yellow" ng-click="remove()">{{'controls.delete' | translate}}</button>
           </div>
