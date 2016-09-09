@@ -72,13 +72,18 @@ angular.module('BeehivePortal')
 
             $scope.add = function() {
                 var i = 0;
-                for (; i < $scope.things.length; i++) {
-                    if (!$scope.things[i].select) continue;
-                    $scope.things[i].select = false;
-                    $scope.things[i].hidden = true;
-                    if (!_.findWhere($scope.detail, { id: $scope.things[i].id }))
-                        $scope.detail.push(angular.copy($scope.things[i]));
-                }
+                var copy;
+                $scope.things.forEach(function(thing) {
+                    if (!thing.select) return;
+                    thing.select = false;
+                    thing.hidden = true;
+                    if (_.findWhere($scope.detail, { id: thing.id })) return;
+                    copy = angular.copy(thing);
+                    delete copy.status;
+                    delete copy.select;
+                    delete copy.hidden;
+                    $scope.detail.push(copy);
+                });
                 // $scope.detail.sort(function(a, b) {
                 //     return a.id - b.id;
                 // });

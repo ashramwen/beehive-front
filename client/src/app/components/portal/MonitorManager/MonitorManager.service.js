@@ -35,6 +35,7 @@ angular.module('BeehivePortal.MonitorManager')
 
     function parseStatus(thing) {
         thing.typeDisplayName = thing.type;
+        thing.off = _.isEmpty(thing.status) || thing.status.hasOwnProperty('novalue');
         for (var key in thing.status) {
             if (dirtyFields.indexOf(key) > -1)
                 delete thing.status[key];
@@ -52,11 +53,9 @@ angular.module('BeehivePortal.MonitorManager')
         getSchema: function(things) {
             var $defer = $q.defer();
             var promiseList = [];
-            var _index = -1;
-            _.each(things, function(thing) {
+            things.forEach(function(thing) {
                 parseStatus(thing);
-                _index = _.indexOf(typeList, thing.type);
-                if (_index > -1) return;
+                if (_.indexOf(typeList, thing.type) > -1) return;
                 typeList.push(thing.type);
                 var $promise = $$Schema.getByType({
                     thingType: thing.type,
@@ -65,7 +64,6 @@ angular.module('BeehivePortal.MonitorManager')
                 }, function(schema) {
                     var _schema = TriggerDetailService.parseSchema(schema)
                     schemaList.push(_schema);
-
                 }).$promise;
                 promiseList.push($promise);
             });
