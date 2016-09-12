@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('ThingDetailController', ['$scope', '$rootScope', 'AppUtils', '$timeout', '$log', '$q', 'ThingDetailService', '$$Thing', function($scope, $rootScope, AppUtils, $timeout, $log, $q, ThingDetailService, $$Thing) {
+  .controller('ThingDetailController', ['$scope', '$rootScope', 'AppUtils', '$timeout', '$log', '$q', 'ThingDetailService', 'TriggerDetailService', '$$Thing', '$uibModal', '$$Type', function($scope, $rootScope, AppUtils, $timeout, $log, $q, ThingDetailService, TriggerDetailService, $$Thing, $uibModal, $$Type) {
     $scope.thing = {};
     var globalThingID = ~~$scope.$state.params.thingid;
 
@@ -9,6 +9,9 @@ angular.module('BeehivePortal')
 
         ThingDetailService.getThing(globalThingID).then(function(thing){
             $scope.thing = thing;
+            $$Type.getSchema({type: $scope.thing.type}, function(schema){
+                $scope.schema = TriggerDetailService.parseSchema(schema);
+            });
             $timeout(function(){
                 $scope.$broadcast('rpDatePicker-settime', $scope.period);
                 $scope.searchThingCommands();
@@ -68,6 +71,76 @@ angular.module('BeehivePortal')
         }
     });
 
+    $scope.sendCommand = function(){
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'ThingDetailController.SendCommand',
+            controller: 'ThingDetailController.SendCommand',
+            size: 'md',
+            resolve: {
+              thingID: function () {
+                return globalThingID;
+              },
+              schema: function() {
+                return $scope.schema;
+              }
+            }
+        });
+    };
+
+
+  }])
+  .controller('ThingDetailController.SendCommand', ['$scope', 'thingID', 'schema', '$uibModalInstance', '$$Thing', function($scope, thingID, schema, $uibModalInstance, $$Thing){
+
+    $scope.actions = schema.actions;
+
+    $scope.actionGroup = {
+      type: schema.name, 
+      typeDisplayName: schema.displayName,
+      actions: []
+    };
+
+    $scope.toggleAction = function(action){
+      if(!action._selected){
+        var _action = AppUtils.clone(action);
+        $scope.actionGroup.actions.push(_action);
+        delete _action._selected;
+      }else{
+        $scope.actionGroup.actions = _.reject($scope.actionGroup.actions, {actionName: action.actionName});
+      }
+
+      action._selected = !action._selected;
+    };
+
+    $scope.sendCommand = function(){
+
+        var command = {
+            thingList: [thingID],
+            command: {
+                schema: schema.name,
+                schemaVersion: schema.version,
+                actions: []
+            }
+        };
+
+        command.command.actions = _.map($scope.actionGroup.actions, function(action){
+            var actionObj = {};
+            actionObj[action.actionName] = {};
+            _.each(action.properties, function(property){
+                actionObj[action.actionName][property.propertyName] = property.value;
+            });
+            return actionObj;
+        });
+
+        if(!command.command.actions.length){
+          AppUtils.alert({msg: 'thingViews.actionRequired'});
+          return;
+        }
+
+        $$Thing.sendCommand([command], function(){
+            $uibModalInstance.close();
+        });
+    };
 
   }]);
 

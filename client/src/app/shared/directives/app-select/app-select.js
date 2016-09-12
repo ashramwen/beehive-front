@@ -22,7 +22,16 @@ angular.module('BeehivePortal')
             var initialized = false;
 
             scope.$watch('selectedModel', function(newVal, oldVal){
-                // if(angular.equals(newVal, oldVal))return;
+                if(angular.equals(newVal, oldVal)){
+                    scope.selectedOption = _.find(scope.options, function(option){
+                        if(attrs.valueOnly){
+                            return option[scope.setting.value] == newVal;
+                        }else{
+                            return angular.equals(option, newVal);
+                        }
+                    })
+                    return;
+                }
                 init();
             });
             scope.$watch('options', function(newVal, oldVal){

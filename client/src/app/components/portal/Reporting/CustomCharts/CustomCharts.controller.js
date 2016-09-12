@@ -23,7 +23,6 @@ angular.module('BeehivePortal')
       CustomChartsService.refresh().then(function(charts){
         $scope.charts = charts;
       });
-
     };
 
     $scope.onPeriodChange = function(period){

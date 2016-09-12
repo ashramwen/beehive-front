@@ -35,6 +35,12 @@
     </div>
   </div>
 
+  <div class="panel">
+    <div class="panel-body">
+      <button class="btn btn-lg btn-info" ng-click="sendCommand()">{{'thing.sendCommand' | translate}}</button>
+    </div>
+  </div>
+
   <div class="panel header">
     <div class="panel-body">
       <div class="panel-row">
@@ -78,3 +84,48 @@
     <pagion collection="thingCommands" display="thingCommandsForDisplay"></pagion>
   </div>
 </div>
+<script type="text/ng-template" id="ThingDetailController.SendCommand">
+<div class="modal-content app-portal-thingmanager-controlthing">
+  <div class="modal-header ng-scope">
+      <h3 class="modal-title">{{'thing.sendCommand' | translate}}</h3>
+  </div>
+  <div class="modal-body ng-scope clearfix trigger-actions">
+    <h4>{{'thing.action' | translate}}</h4>
+    <div class="row flex-row">
+      <div class="col-sm-4">
+        <span class="action" ng-class="{'active': action._selected}" ng-repeat="action in actions" ng-click="toggleAction(action)">
+          {{action.displayName}}
+        </span>
+      </div>
+      <div class="col-sm-8">
+        <div class="selected-action clearfix" ng-repeat="action in actionGroup.actions">
+          <h4>{{action.displayName}}</h4>
+          <hr/>
+          <div class="selected-property" ng-repeat="property in action.properties">
+            <!-- not enum -->
+            <div ng-if="!property.enumType && (property.type=='int' || property.type=='float')">
+              <label>{{property.displayName}} <span class="fa fa-info-circle" ng-if="property.tooltip" uib-tooltip="{{property.tooltip}}"></span></label>
+              <number-input ng-model="property.value" min="property.minimum" max="property.maximum" type="property.type"></number-input>
+            </div>
+
+            <!-- enmu: boolean -->
+            <div ng-if="property.enumType == 'BOOLEAN' || property.type == 'boolean'">
+              <label>{{property.displayName}}</label>
+              <div switchery="property.value" options="property.options"></div>
+            </div>
+
+            <!-- enmu: number -->
+            <div ng-if="property.enumType == 'NUMBER'">
+              <label>{{property.displayName}}</label>
+              <div app-select options="property.options" selected-model="property.value"></div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-warning btn-lg pull-center" ng-click="sendCommand()">{{'thing.sendCommand' | translate}}</button>
+  </div>
+</script>
