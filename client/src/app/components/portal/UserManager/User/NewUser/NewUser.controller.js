@@ -31,9 +31,9 @@ angular.module('BeehivePortal')
          */
         $scope.createUser = function() {
             $scope.submitted = true;
-            if(!$scope.newUserForm.$valid){
+            if(!$scope.newUserForm.displayName.$valid || !$scope.newUserForm.loginName.$valid || !$scope.newUserForm.mail.$valid ){
                 return;
-            }else if(!$scope.newUser.phone && !$scope.newUser.mail){
+            }else if(!$scope.newUser.phone && !$scope.newUser.mail && !$scope.newUser.userName){
                 return;
             }
 

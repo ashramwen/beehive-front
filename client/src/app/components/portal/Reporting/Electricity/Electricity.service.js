@@ -5,12 +5,6 @@ angular.module('BeehivePortal')
     ElectricityService.generateConsumption = function(byTime, split, subLevels){
       var allThings = ReportingService.getAllThings(subLevels);
       var enumObj = ReportingService.getLocationEnums(subLevels);
-      allThings = [44926,63349,79191,27876,77666,47103,34346,18999,10045,17544];
-      enumObj.values = [
-        [44926,63349,79191],
-        [27876,77666,47103],
-        [34346,18999,10045,17544]
-      ];
 
       var query = {
         "_kii_agg_name": "电表",
@@ -137,13 +131,6 @@ angular.module('BeehivePortal')
     ElectricityService.getConsumeSummary = function(timePeriod, subLevels){
       var allThings = ReportingService.getAllThings(subLevels);
       var enumObj = ReportingService.getLocationEnums(subLevels);
-
-      allThings = [44926,63349,79191,27876,77666,47103,34346,18999,10045,17544];
-      enumObj.values = [
-        [44926,63349,79191],
-        [27876,77666,47103],
-        [34346,18999,10045,17544]
-      ];
 
       var query = {
         "_kii_agg_name": "测试数据",

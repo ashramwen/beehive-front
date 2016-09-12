@@ -1,20 +1,43 @@
 <div class="app-portal-triggermanager-triggerlist">
   <div class="main-content clearfix">
-
-    <div class="trigger-tile" ng-class="getTriggerClass(trigger)" ng-repeat="trigger in triggers | filter:triggerFilter" ng-click="viewTrigger(trigger)">
-      <div class="trigger-img">
-        <span class="fa" ng-class="{'fa-clock-o': trigger.type == 'schedule', 'fa-code-fork': trigger.type=='conditional'}"></span>
+    <div class="panel">
+      <div class="panel-body">
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th align="center">种类</th>
+              <th>规则名称</th>
+              <th>归属</th>
+              <th>创建者</th>
+              <th>创建时间</th>
+              <th align="center">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="trigger-row" ng-repeat="trigger in triggers | filter:triggerFilter" ng-class="getTriggerClass(trigger)" ng-click="viewTrigger(trigger)">
+              <td class="trigger-img" align="center">
+                <span class="fa" ng-class="{'fa-clock-o': trigger.type == 'schedule', 'fa-code-fork': trigger.type=='conditional'}"></span>
+              </td>
+              <td>
+                {{trigger.name}}
+              </td>
+              <td>
+                <span class="fa fa-server" uib-tooltip="{{'triggerManager.gatewayRuleTip' | translate}}" ng-if="trigger.fromGateway"></span>
+              </td>
+              <td>
+                {{credential.userName}}
+              </td>
+              <td>
+                {{trigger.createDate | TimePipe}}
+              </td>
+              <td align="center">
+                <span class="fa fa-trash" ng-click="deleteTrigger(trigger); $event.stopPropagation()"></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <span class="fa fa-ban" ng-if="trigger.disabled"></span>
-      <div class="description">
-        <h4>{{trigger.name}}</h4>
-        <span><!-- {{trigger.createdAt}} --></span>
-      </div>
-
-      <span class="fa fa-server" uib-tooltip="{{'triggerManager.gatewayRuleTip' | translate}}" ng-if="trigger.fromGateway"></span>
-      <span class="fa fa-trash" ng-click="deleteTrigger(trigger); $event.stopPropagation()"></span>
     </div>
-
   </div>
   
   <div class="edit-group" uib-dropdown>

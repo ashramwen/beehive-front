@@ -66,19 +66,38 @@ angular.module('BeehivePortal')
     };
 
     $scope.register = function (credentials) {
+        
         switch($scope.currentStep){
             case 1:
+                $scope.registerSubmitted = true;
+                if($scope.registerForm.userName.$invalid || $scope.registerForm.token.$invalid) return;
+
                 $$Auth.activate({}, credentials, function(response){
                     $scope.credentials.initPwdToken = response.initPwdToken;
                     $scope.currentStep = 2;
-                }, function(credentials, erro){
-                    AppUtils.alert(erro);
+                    $scope.tokenInvalid = false;
+                    $scope.userNameNotFound = false;
+                }, function(response){
+                    switch(response.statusText){
+                        case 'Unauthorized':
+                            $scope.tokenInvalid = true;
+                            break;
+                        case "Not Found":
+                            $scope.userNameNotFound = true;
+                            break;
+                    }
                 });
                 break;
             case 2:
+                $scope.passwordSubmitted = true;
+                if(credentials.confirm != credentials.newPassword || $scope.registerForm.password.$invalid) return;
                 $http.defaults.headers.common['Authorization'] = 'Bearer ' + $scope.credentials['initPwdToken'];
                 $$Auth.initpassword({}, credentials, function(){
                     $scope.currentStep = 3;
+                }, function(error){
+                    if(error.data.errorCode == "INVALID_PASSWORD"){
+                        $scope.invalidPassword;
+                    }
                 });
                 break;
             case 3: 

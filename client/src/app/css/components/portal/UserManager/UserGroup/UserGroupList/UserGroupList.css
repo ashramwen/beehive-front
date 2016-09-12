@@ -237,5 +237,26 @@
 .dropdown .dropdown-menu {
   z-index: 100; }
 
+.table th[align=center], .table td[align=center] {
+  text-align: center; }
+
 .app-portal-usermanager-usergroup-usergrouplist .username {
   margin-right: 10px; }
+
+.app-portal-usermanager-usergroup-usergrouplist .table tbody .fa-trash {
+  color: #f05050;
+  margin-right: 5px; }
+  .app-portal-usermanager-usergroup-usergrouplist .table tbody .fa-trash:before {
+    position: relative;
+    top: -1px; }
+
+.app-portal-usermanager-usergroup-usergrouplist .table tbody .fa-pencil-square-o {
+  color: #27c24c; }
+
+.app-portal-usermanager-usergroup-usergrouplist .table tbody .fa {
+  display: none; }
+
+.app-portal-usermanager-usergroup-usergrouplist .table tbody tr {
+  cursor: pointer; }
+  .app-portal-usermanager-usergroup-usergrouplist .table tbody tr:hover .fa {
+    display: inline-block; }

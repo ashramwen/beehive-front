@@ -17,16 +17,9 @@
     .main-content{
         padding-right: 100px;
         width: 100%;
-        .trigger-tile{
-            position: relative;
-            width: 130px;
-            height: 130px;
-            float: left;
-            margin: 0px 20px 20px 0px;
-            background: #fff;
-            border: solid 2px #fff;
+
+        .trigger-row{
             cursor: pointer;
-            text-align: center;
             .fa-ban{
                 position: absolute;
                 font-size: 90px;
@@ -35,39 +28,16 @@
                 top: 20px;
             }
             .fa-trash{
-                position: absolute;
-                right: 10px;
-                top: 10px;
-                color: red;
+                color: #f05050;
                 display: none;
                 cursor: pointer;
             }
             .fa-server{
-                position: absolute;
-                left: 15px;
-                top: 15px;
                 color: #72c0f1;
             }
             .trigger-img{
-                font-size: 47px;
-                margin-top: 18px;
-                width: 100%;
                 text-align: center;
-            }
-            .description{
-                text-align: center;
-                margin-top: -5px;
-                h4{
-                    white-space: nowrap;
-                    max-width: 80%;
-                    overflow: hidden;
-                    display: block;
-                    margin: 0px auto;
-                    text-overflow: ellipsis;
-                }
-                span{
-                    font-size: 12px;
-                }
+                font-size: 17px;
             }
             &:hover{
                 .fa-trash{
@@ -75,41 +45,19 @@
                 }
             }
             &.schedule{
-                color: $color-schedule;
-                .description{
-                    h4{
-                        color: $color-schedule-title;
-                    }
-                }
-                &:hover, &.active{
-                    border: solid 2px $color-schedule;
+                .trigger-img{
+                    color: $color-schedule;
                 }
             }
             &.conditional{
-                color: $color-conditional;
-                .description{
-                    h4{
-                        color: $color-conditional-title;
-                    }
-                }
-                &:hover, &.active{
-                    border: solid 2px $color-conditional;
+                .trigger-img{
+                    color: $color-conditional;
                 }
             }
             &.disabled{
-                background-color: $color-disabled-background;
-                border: solid 2px $color-disabled-background;
                 color: $color-disabled;
                 .fa-server{
                     color: $color-disabled;
-                }
-                .description{
-                    h4{
-                        color: $color-disabled-title;
-                    }
-                }
-                &:hover, &.active{
-                    border: solid 2px $color-disabled;
                 }
             }
         }

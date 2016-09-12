@@ -7,7 +7,6 @@ angular.module('BeehivePortal')
 
     $scope.init = function(){
 
-        
         ThingDetailService.getThing(globalThingID).then(function(thing){
             $scope.thing = thing;
             $timeout(function(){
@@ -36,7 +35,7 @@ angular.module('BeehivePortal')
 
         if(!startDate) return;
         startDate = startDate.getTime();
-        endDate = endDate? (endDate.getTime() + 24 * 60 * 60 * 1000 - 1) : null;
+        endDate = endDate? endDate.getTime() : null;
 
         var params = {
             globalThingID: globalThingID,

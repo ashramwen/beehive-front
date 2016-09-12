@@ -43,21 +43,31 @@ angular.module('BeehivePortal').controller('TriggerConditionHandlerController',
       
       $$Type.getSchema({type: type}, function(schema){
         var _schema = TriggerDetailService.parseSchema(schema);
-        $scope.properties = _schema.properties;
-
-        if(!$scope.$state.params.type){
-          $scope.conditionGroup = {
-            type: type, 
-            typeDisplayName: _schema.displayName,
-            properties: [],
-            things: things
-          };
-        }else {
-          _.each($scope.properties, function(property){
-            property._selected = !!_.find($scope.conditionGroup.properties, {propertyName: property.propertyName});
-          });
-        }
         
+        if(!$scope.$state.params.type){
+          var changed = false;
+          if(type != $scope.conditionGroup.type || !$scope.properties){
+            $scope.properties = _schema.properties;
+            changed = true;
+          }
+          if(changed){
+            $scope.conditionGroup = {
+              type: type, 
+              typeDisplayName: _schema.displayName,
+              properties: [],
+              things: things
+            };
+          }
+        }else {
+          if($scope.$state.params.type == type){
+            if(!$scope.properties){
+              $scope.properties = _schema.properties;
+            }
+            _.each($scope.properties, function(property){
+              property._selected = !!_.find($scope.conditionGroup.properties, {propertyName: property.propertyName});
+            });
+          }
+        }
       });
       
       $scope.conditionGroup.things = things;

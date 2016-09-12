@@ -95,7 +95,7 @@ angular.module('BeehivePortal').factory('AppUtils', ['$uibModal',function ($uibM
             template += '  </div>';
             template += '  <div class="modal-body clearfix">';
             template += '    <div class="col-sm-12">';
-            template += '      {{"' + options.msg + '" | translate: data}}';
+            template += '      <p style="word-wrap: break-word;">{{"' + options.msg + '" | translate: data}}</p>';
             template += '    </div>';
             template += '  </div>';
             template += '  <div class="modal-footer ng-scope">';
@@ -132,7 +132,7 @@ angular.module('BeehivePortal').factory('AppUtils', ['$uibModal',function ($uibM
             template += '  </div>';
             template += '  <div class="modal-body clearfix">';
             template += '    <div class="col-sm-12">';
-            template += '      {{"' + options.msg + '" | translate: data}}';
+            template += '      <p style="word-wrap: break-word;">{{"' + options.msg + '" | translate: data}}</p>';
             template += '    </div>';
             template += '  </div>';
             template += '  <div class="modal-footer ng-scope">';

@@ -58,7 +58,7 @@ angular.module('BeehivePortal')
       if(!schema || !schema.content) return {};
       return {
         name: schema.name,
-        displayName: schema.content.statesSchema.title,
+        displayName: schema.content.statesSchema.title || schema.thingType,
         version: schema.version,
         properties: TriggerDetailService.parseProperties(schema.content.statesSchema.properties),
         actions: TriggerDetailService.parseActions(schema.content.actions)
@@ -172,11 +172,10 @@ angular.module('BeehivePortal')
 
         var $thingsPromise = TriggerDetailService.getThingsDetail(things);
 
-        var actions = _.map(target.command.actions, function(action){
-          var actionName = _.keys(action)[0];
+        var actions = _.map(target.command.actions[0], function(action, actionName){
           return {
             actionName: actionName,
-            properties: _.map(action[actionName], function(propertyValue, key){
+            properties: _.map(action, function(propertyValue, key){
               return {
                 propertyName: key,
                 value: propertyValue
@@ -253,12 +252,14 @@ angular.module('BeehivePortal')
         var $thingsPromise = TriggerDetailService.getThingsDetail(things);
 
         var propertyNames = _.pluck(typeSource.expressList, 'stateName');
+        trigger.predicate.condition.clauses.pop();
+        _.each(trigger.predicate.condition.clauses, function(clause){
+          clause.clauses.pop();
+        });
 
         var properties = _.map(propertyNames, function(propertyName){
           var clauses = [];
-          trigger.predicate.condition.clauses.pop();
           _.each(trigger.predicate.condition.clauses, function(clause){
-            clause.clauses.pop();
             clauses = clauses.concat(clause.clauses);
           });
 
@@ -335,7 +336,6 @@ angular.module('BeehivePortal')
     TriggerDetailService.getThingsDetail = function(things){
       var $defer = $q.defer();
       
-
       $q.all([
           $translate('location.buildingBref'),
           $translate('location.floorBref'),

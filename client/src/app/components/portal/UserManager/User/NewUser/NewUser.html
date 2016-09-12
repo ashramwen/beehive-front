@@ -16,10 +16,10 @@
             <div app-select selected-model="newUser.roleName" value-only="true" options="ruleOptions"></div>
           </div>
         </div>
-        <div class="form-group" ng-class="{ 'has-error' : submitted && (newUserForm.loginName.$invalid || (!newUser.phone && !newUser.loginName && !newUser.mail))}">
+        <div class="form-group" ng-class="{ 'has-error' : submitted && (newUserForm.loginName.$invalid || (!newUser.phone && !newUser.userName && !newUser.mail))}">
           <label>{{'user.loginName' | translate}}</label>
-          <input ng-model="newUser.loginName" type="text" name="loginName" class="form-control" placeholder="{{'user.userName' | translate}}" ng-minlength="5" ng-maxlength="20"/>
-          <p ng-show="submitted && !newUser.phone && !newUser.loginName && !newUser.mail" class="help-block">
+          <input ng-model="newUser.userName" type="text" name="loginName" class="form-control" placeholder="{{'user.userName' | translate}}" ng-minlength="5" ng-maxlength="20"/>
+          <p ng-show="submitted && !newUser.phone && !newUser.userName && !newUser.mail" class="help-block">
             {{'userManager.loginNameOrEmailOrPhoneRequired' |  translate}}
           </p>
           <p ng-show="submitted && newUserForm.loginName.$error.minlength" class="help-block">
@@ -29,23 +29,23 @@
             {{'userManager.loginNameTooLong' |  translate}}
           </p>
         </div>
-        <div class="form-group" ng-class="{ 'has-error' : submitted && ((!newUser.phone && !newUser.loginName && !newUser.mail) || (newUser.phone && newUser.phone < 10000000000 || newUser.phone > 99999999999)) }">
+        <div class="form-group" ng-class="{ 'has-error' : submitted && ((!newUser.phone && !newUser.userName && !newUser.mail) || (newUser.phone && newUser.phone < 10000000000 || newUser.phone > 99999999999)) }">
           <label>{{'user.phone' | translate}}</label>
           <input type="number" class="form-control" name="phone" placeholder="{{'user.phone' | translate}}" ng-model="newUser.phone" positive="true" />
-          <p ng-show="submitted && !newUser.phone && !newUser.loginName && !newUser.mail" class="help-block">
+          <p ng-show="submitted && !newUser.phone && !newUser.userName && !newUser.mail" class="help-block">
             {{'userManager.loginNameOrEmailOrPhoneRequired' | translate}}
           </p>
           <p class="help-block" ng-show="submitted && (newUser.phone && (newUser.phone < 10000000000 || newUser.phone > 99999999999))">
             {{'userManager.phoneLength' | translate}}
           </p>
         </div>
-        <div class="form-group" ng-class="{ 'has-error' : submitted && ((!newUser.phone && !newUser.loginName && !newUser.mail) || (newUserForm.$error.email))}">
+        <div class="form-group" ng-class="{ 'has-error' : submitted && ((!newUser.phone && !newUser.userName && !newUser.mail) || (newUserForm.$error.email))}">
           <label>{{'user.email' | translate}}</label>
           <input type="email" class="form-control" name="mail" placeholder="{{'user.email' | translate}}" ng-model="newUser.mail"/>
           <p ng-show="submitted && newUserForm.mail.$error.email" class="help-block">
             {{'userManager.emailFormatError' |  translate}}
           </p>
-          <p ng-show="submitted && !newUser.phone && !newUser.loginName && !newUser.mail" class="help-block">
+          <p ng-show="submitted && !newUser.phone && !newUser.userName && !newUser.mail" class="help-block">
             {{'userManager.loginNameOrEmailOrPhoneRequired' |  translate}}
           </p>
         </div>

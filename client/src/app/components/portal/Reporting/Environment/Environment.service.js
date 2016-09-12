@@ -42,6 +42,7 @@ angular.module('BeehivePortal')
                         "_kii_agg_field_name": "楼层",
                         "enum": enumObj,
                         "aggs": {
+                            /*
                             "CALC": {
                                 "aggs": {
                                     "AVG": {
@@ -55,12 +56,17 @@ angular.module('BeehivePortal')
                                     "interval": "1m"
                                 }
                             },
+                            */
                             "AGG": {
+                                "avg": {
+                                    "field": 'state.' + fieldName
+                                },
                                 "_kii_agg_field_name": displayName,
                                 "_kii_selected": true
                             }
                         }
                     },
+                    /*
                     "CALC": {
                         "aggs": {
                             "AVG": {
@@ -74,10 +80,13 @@ angular.module('BeehivePortal')
                             "interval": "1m"
                         }
                     },
+                    */
                     "AGG": {
                         "_kii_agg_field_name": displayName,
-                        "_kii_selected": true
-                        
+                        "_kii_selected": true,
+                        "avg": {
+                            "field": 'state.' + fieldName
+                        }
                     }
                 },
                 "date_histogram": {
@@ -88,6 +97,7 @@ angular.module('BeehivePortal')
           }
       };
 
+      /*
       query.aggs.byTime.aggs.AGG[agg + '_bucket'] = {
         "buckets_path": "CALC>AVG"
       };
@@ -95,6 +105,7 @@ angular.module('BeehivePortal')
       query.aggs.byTime.aggs.byLocation.aggs.AGG[agg + '_bucket'] = {
         "buckets_path": "CALC>AVG"
       };
+      */
 
       query = _.clone(query);
 
@@ -131,7 +142,7 @@ angular.module('BeehivePortal')
                       "range": {
                         "state.date": {
                           "gte": 0,
-                          "lte": 21562120800000,
+                          "lte": 7258118400000,
                           "format": "epoch_millis"
                         }
                       }

@@ -237,5 +237,8 @@
 .dropdown .dropdown-menu {
   z-index: 100; }
 
+.table th[align=center], .table td[align=center] {
+  text-align: center; }
+
 .app-portal-usermanager-user-userlist #search-filter {
   margin-right: -2px; }

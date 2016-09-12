@@ -137,6 +137,7 @@ angular.module('BeehivePortal')
         $scope.ok = function() {
             $$UserGroup.create({}, $scope.newGroup, function(response) {
                 $scope.newGroup.userGroupID = response.userGroupID;
+                $scope.newGroup.createDate = (new Date()).getTime();
                 $uibModalInstance.close($scope.newGroup);
             }, function(response) {
                 AppUtils.alert({msg: 'userManager.createNewGroupFailedMsg'})

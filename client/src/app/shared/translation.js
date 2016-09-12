@@ -242,7 +242,9 @@
         "thingSelect": "Select Things"
       },
       "thingViews": {
-        "thingNumber": "Thing Number"
+        "thingNumber": "Thing Number",
+        "thingsRequired": "Please select at least one devices.",
+        "actionRequired": "Please select at least one action."
       },
       "reporting": {
         "removeCustomChartMsg": "Sure to remove chart?",
@@ -379,6 +381,7 @@
         "selectAll": "全选",
         "view": "查看",
         "search": "搜索",
+        "operate": "操作",
         "selectedList": "已选列表",
         "selectDefault": "请选择",
         "save": "保存",
@@ -568,7 +571,9 @@
         "thingSelect": "设备选择"
       },
       "thingViews": {
-        "thingNumber": "设备数量"
+        "thingNumber": "设备数量",
+        "thingsRequired": "请至少选择一个设备",
+        "actionRequired": "请选择至少一个行为"
       },
       "reporting": {
         "removeCustomChartMsg": "是否移除图表?",
@@ -608,9 +613,9 @@
       "triggerManager": {
         "triggerCreatedMsg": "规则创建成功！",
         "triggerSavedMsg": "规则保存成功！",
-        "deleteTriggerMsg": "您确定要删除这个触发器吗？",
-        "enableTriggerMsg": "您确定要启用这个触发器吗？",
-        "disableTriggerMsg": "您确定要禁用这个触发器吗？",
+        "deleteTriggerMsg": "您确定要删除这个规则吗？",
+        "enableTriggerMsg": "您确定要启用这个规则吗？",
+        "disableTriggerMsg": "您确定要禁用这个规则吗？",
         "ruleActions": "规则行为",
         "addParam": "添加参数",
         "requireActionMsg": "至少需要添加一个行为",
@@ -627,8 +632,8 @@
         "standard": "标准定时",
         "hourly": "每小时",
         "interval": "间隔时间",
-        "requireTimeMsg": "请输入触发时间",
-        "requireIntervalMsg": "请输入触发间隔",
+        "requireTimeMsg": "请输入正确的触发时间",
+        "requireIntervalMsg": "请输入正确的触发间隔",
         "requireTimeUnitMsg": "请选择时间单位",
         "thingSelect": "设备选择",
         "conditionRule": "条件规则",

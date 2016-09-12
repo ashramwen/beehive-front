@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('EnvironmentController', ['$scope', '$rootScope', '$state', 'AppUtils', 'EnvironmentService', '$timeout', '$$Thing', '$q', 'ReportingService', function($scope, $rootScope, $state, AppUtils, EnvironmentService, $timeout, $$Thing, $q, ReportingService) {
+  .controller('EnvironmentController', ['$scope', '$rootScope', '$state', 'AppUtils', 'EnvironmentService', '$timeout', '$$Thing', '$q', 'ReportingService', '$translate', function($scope, $rootScope, $state, AppUtils, EnvironmentService, $timeout, $$Thing, $q, ReportingService, $translate) {
     
 
     $scope.period = new KiiReporting.KiiTimePeriod(null);
@@ -20,6 +20,14 @@ angular.module('BeehivePortal')
       {value: 'VOC', text: 'reporting.VOC'},
       {value: 'Smoke', text: 'reporting.Smoke'}
     ];
+
+    _.each($scope.chartSources, function(source){
+      $translate(source.text).then(function(result){
+        source.text = result;
+      }, function(error){
+        source.text = source.text;
+      });
+    });
 
     $scope.selectedSource = $scope.chartSources[0];
     $scope.queriedSource = $scope.selectedSource

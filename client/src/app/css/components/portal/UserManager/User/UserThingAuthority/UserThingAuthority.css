@@ -237,5 +237,8 @@
 .dropdown .dropdown-menu {
   z-index: 100; }
 
+.table th[align=center], .table td[align=center] {
+  text-align: center; }
+
 .app-portal-usermanager-userthingauthority .mid-column {
   padding: 120px 0px; }

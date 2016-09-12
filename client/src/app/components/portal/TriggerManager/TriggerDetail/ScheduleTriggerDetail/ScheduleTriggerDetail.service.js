@@ -13,7 +13,11 @@ angular.module('BeehivePortal')
           throw(new Error);
         }
       }else{
-        if(!triggerData.schedule.time){
+        if(triggerData.schedule.onceType == 'hourly'){
+          if(!_.isNumber(triggerData.schedule.minute)){
+            throw(new Error());
+          }
+        }else if(!triggerData.schedule.time){
           throw(new Error());
         }
       }
@@ -64,7 +68,7 @@ angular.module('BeehivePortal')
         }else{
           result.cron = [
             0, 
-            triggerDataset.schedule.time.getMinutes(), 
+            triggerDataset.schedule.minute || 0, 
             '*',
             '?',
             '*',

@@ -36,6 +36,7 @@ angular.module('BeehivePortal')
             $scope.search();
           }
         });
+
         $scope.$on('location-loaded', function(){
           $scope.locationLoaded = true;
 
@@ -47,10 +48,13 @@ angular.module('BeehivePortal')
     };
 
     $scope.viewThing = function(thing){
-      $scope.navigateTo($scope.navMapping.LOCATION_THING_DETAIL, _.extend({thingid: thing.id}, $scope.$state.params));
+      $scope.navigateTo($scope.navMapping.LOCATION_THING_DETAIL, _.extend({thingid: thing.id}, $scope.$state.params, {location: $scope.selectedLocation}));
     };
 
-    $scope.thingListChange = function(things){
+    $scope.thingListChange = function(things, type, location){
+      if(location){
+        $scope.selectedLocation = location.locationID;
+      }
       $scope.things = _.map(things, function(thing){
         return {
           id: thing.globalThingID,

@@ -523,14 +523,15 @@ angular.module('BeehivePortal')
         getParent: {
             method: 'GET',
             url: MyAPIs.LOCATION_TAGS + '/:location/parent',
-            isArray: true
+            isArray: true,
+            cache: true
         }
     })
 
     return $$Location;
 }])
 
-.factory('$$Type', ['$resource', function($resource) {
+.factory('$$Type', ['$resource', '$cacheFactory', function($resource, $cacheFactory) {
     var Type = $resource(MyAPIs.TYPE, {}, {
         getAll: {
             method: 'GET',
@@ -543,7 +544,7 @@ angular.module('BeehivePortal')
             cache: true
         },
         saveSchema: {
-            url: MyAPIs.SCHEMA,
+            url: MyAPIs.SCHEMA + 'manage/industrytemplate',
             method: 'POST'
         },
         updateSchema: {
@@ -551,6 +552,21 @@ angular.module('BeehivePortal')
             method: 'PUT',
             params: {
                 id: '@id'
+            },
+            transformRequest: function(data, headers){
+                var schema = data;
+                var thingType = schema.thingType;
+                var name = schema.name;
+                var version = schema.version;
+                var $httpDefaultCache = $cacheFactory.get('$http');
+                var queris = [
+                    'thingType=' + thingType,
+                    'name=' + name,
+                    'version=' + version
+                ];
+
+                $httpDefaultCache.remove(MyAPIs.SCHEMA + '/query/industrytemplate?' + queris.join('&'));
+                return JSON.stringify(data);
             }
         },
         byTags: {

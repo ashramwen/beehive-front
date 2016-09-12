@@ -19,29 +19,29 @@
     </div>
   </div>
   <div class="portal-row">
-    <!-- start tile  -->
-    <div class='modules-outputs-content graph-tile' ng-repeat="group in dataset.userGroupsForDisplay | filter:filters">
-      <div class="module-top">
-          <div class="overlay" ng-click="goUserList(group)">
-            <div class="viewReport">
-                 {{'controls.view' | translate}}
-            </div>
-          </div>
-        <div class='outputs-content-img'><img ng-src="{{'images/group.jpg'}}" /></div>
-      </div>
-      <div class="moduleDetails">
-          <!-- per info-->
-          <div class='per-info'>
-            <span class='info'>{{group.userGroupName}}</span>
-          </div>
-      </div>
-
-      <div class="modulesActionsTop">
-        <i class="fa fa-pencil-square-o" uib-tooltip="{{'controls.edit' | translate}}" uib-tooltip-trigger="mouseenter" uib-tooltip-placement="top" ng-click="goEdit(group)"></i>
-        <i class="fa fa-trash-o" ng-click="deleteGroup(group)" uib-tooltip="{{'controls.delete' | translate}}" uib-tooltip-trigger="mouseenter" uib-tooltip-placement="top"></i>
+    <div class="panel">
+      <div class="panel-body">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>群组名称</th>
+              <th>创建时间</th>
+              <th align="center">{{'controls.operate' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="group in dataset.userGroupsForDisplay | filter:filters" ng-click="goUserList(group)">
+              <td>{{group.userGroupName}}</td>
+              <td>{{group.createDate | TimePipe}}</td>
+              <td align="center">
+                <span class="fa fa-trash" ng-click="deleteGroup(group); $event.stopPropagation()"></span>
+                <span class="fa fa-pencil-square-o" ng-click="goEdit(group); $event.stopPropagation()"></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <!-- end tile  -->
   </div>
   <div class="pull-right">
     <pagion collection="dataset.userGroups" display="dataset.userGroupsForDisplay"></pagion>

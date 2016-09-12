@@ -345,3 +345,9 @@ $click-cursor: pointer;
     z-index: 100;
   }
 }
+
+.table{
+  th[align=center],td[align=center]{
+      text-align: center;
+  }
+}

@@ -21,4 +21,9 @@ angular.module('BeehivePortal')
         var temp = loc.split('-');
         return temp[0] + '-' + temp[1];
     };
+})
+.filter('TimePipe', function(){
+    return function(date){
+        return new Date(date).toLocaleDateString();
+    }
 });

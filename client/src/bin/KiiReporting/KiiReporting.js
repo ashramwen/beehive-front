@@ -841,7 +841,8 @@ webpackJsonp([1,2],{
 	"use strict";
 	const ChartAggregationNode_1 = __webpack_require__(82);
 	const components_1 = __webpack_require__(136);
-	const KiiChartUtils_1 = __webpack_require__(47);
+	const KiiChartUtils_1 = __webpack_require__(48);
+	const KiiQueryConfig_1 = __webpack_require__(43);
 	const DOM_WATCH_INTERVAL = 300;
 	class KiiChart {
 	    constructor(aggTree, $selector, options, theme = 'default') {
@@ -849,7 +850,17 @@ webpackJsonp([1,2],{
 	        this._domWidth = null;
 	        this._domHeight = null;
 	        this._$selector = $selector;
-	        this._options = options;
+	        let initialOptions = {
+	            _backButton: {
+	                style: {
+	                    position: 'absolute',
+	                    top: '10px',
+	                    left: '10px'
+	                },
+	                text: '返回'
+	            }
+	        };
+	        this._options = _.extend(initialOptions, KiiQueryConfig_1.KiiQueryConfig.instance.getChartOptions(), options);
 	        this._aggTree = new ChartAggregationNode_1.ChartAggregationNode(KiiChartUtils_1.KiiChartUtils.clone(aggTree));
 	        if (!this._$selector || !this._$selector.get(0)) {
 	            throw new Error('No given container!');
@@ -862,17 +873,6 @@ webpackJsonp([1,2],{
 	        this._yAxises = [];
 	        this._xAxis = null;
 	        this._generateToolTip();
-	        let _options = {
-	            _backButton: {
-	                style: {
-	                    position: 'absolute',
-	                    top: '10px',
-	                    left: '10px'
-	                },
-	                text: '返回'
-	            }
-	        };
-	        _.extend(this._options, _options);
 	        this._parent = this._options._parent;
 	        this._canvas = $('<div></div>').appendTo(this._$selector);
 	        this._canvas
@@ -884,7 +884,9 @@ webpackJsonp([1,2],{
 	        if (this._parent) {
 	            let _that = this;
 	            let $button = $('<button>' + this._options._backButton.text + '</button>').appendTo(this._canvas);
-	            $button.css(this._options._backButton.style);
+	            let buttonSettings = this._options._backButton;
+	            $button.addClass(buttonSettings.cssClass);
+	            $button.css(buttonSettings.style);
 	            $button.click(($event) => {
 	                _that.goBack();
 	            });
@@ -899,6 +901,9 @@ webpackJsonp([1,2],{
 	    }
 	    _show() {
 	        this._canvas.show();
+	        setTimeout(() => {
+	            this._resize();
+	        });
 	    }
 	    updateAggTree(aggNode) {
 	        this._aggTree = new ChartAggregationNode_1.ChartAggregationNode(KiiChartUtils_1.KiiChartUtils.clone(aggNode));
@@ -1290,7 +1295,7 @@ webpackJsonp([1,2],{
 
 /***/ },
 
-/***/ 47:
+/***/ 48:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1349,7 +1354,7 @@ webpackJsonp([1,2],{
 
 	"use strict";
 	const _axis_1 = __webpack_require__(59);
-	const KiiChartUtils_1 = __webpack_require__(47);
+	const KiiChartUtils_1 = __webpack_require__(48);
 	class XAxis extends _axis_1._axis {
 	    constructor(options) {
 	        let _options = {
@@ -1473,9 +1478,9 @@ webpackJsonp([1,2],{
 	        });
 	        _dataset = _.map(_dataset, da => Math.abs(da));
 	        _max = _dataset.length > 0 ? _.max(_dataset) : 0;
-	        if(Math.abs(_max) == Infinity){
-			      return;
-			    }
+	        if (Math.abs(_max) == Infinity) {
+	            return;
+	        }
 	        while (_max >= 1000) {
 	            _max /= 10;
 	            this._scaleTimes *= 10;
@@ -1594,7 +1599,7 @@ webpackJsonp([1,2],{
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	const _seriesGroup_1 = __webpack_require__(48);
+	const _seriesGroup_1 = __webpack_require__(49);
 	class BarSeriesGroup extends _seriesGroup_1._seriesGroup {
 	    constructor(_chart, metric) {
 	        super(_chart, metric);
@@ -1670,7 +1675,7 @@ webpackJsonp([1,2],{
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	const _seriesGroup_1 = __webpack_require__(48);
+	const _seriesGroup_1 = __webpack_require__(49);
 	class LineSeriesGroup extends _seriesGroup_1._seriesGroup {
 	    constructor(_chart, metric) {
 	        super(_chart, metric);
@@ -1726,8 +1731,8 @@ webpackJsonp([1,2],{
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	const _seriesGroup_1 = __webpack_require__(48);
-	const KiiChartUtils_1 = __webpack_require__(47);
+	const _seriesGroup_1 = __webpack_require__(49);
+	const KiiChartUtils_1 = __webpack_require__(48);
 	class PieSeriesGroup extends _seriesGroup_1._seriesGroup {
 	    constructor(_chart, metric) {
 	        super(_chart, metric);
@@ -1804,11 +1809,11 @@ webpackJsonp([1,2],{
 
 /***/ },
 
-/***/ 48:
+/***/ 49:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	const KiiChartUtils_1 = __webpack_require__(47);
+	const KiiChartUtils_1 = __webpack_require__(48);
 	class _seriesGroup {
 	    constructor(_chart, metric) {
 	        this._show = false;
@@ -1865,7 +1870,7 @@ webpackJsonp([1,2],{
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(48));
+	__export(__webpack_require__(49));
 	__export(__webpack_require__(129));
 	__export(__webpack_require__(131));
 	__export(__webpack_require__(133));
@@ -2042,7 +2047,7 @@ webpackJsonp([1,2],{
 	const KiiQueryServiceProvider_1 = __webpack_require__(141);
 	const KiiQueryDataParser_1 = __webpack_require__(86);
 	const constants_1 = __webpack_require__(87);
-	const KiiQueryConfig_1 = __webpack_require__(49);
+	const KiiQueryConfig_1 = __webpack_require__(43);
 	const Observable_1 = __webpack_require__(298);
 	class KiiQuery {
 	    constructor(queryStr) {
@@ -2143,11 +2148,25 @@ webpackJsonp([1,2],{
 	            let data = response;
 	            let _data = null;
 	            let _summary = null;
+	            let ___currentTime = (new Date()).getTime();
+	            let ___runTime = (new Date()).getTime();
 	            if (_that._aggTree) {
 	                _that._aggTree.parse(data.aggregations);
+	                ___runTime = (new Date()).getTime();
+	                console.log(`aggTree parse time: ${___runTime - ___currentTime}`);
+	                ___currentTime = (new Date()).getTime();
 	                _that._getFullKeySets(data.aggregations);
+	                ___runTime = (new Date()).getTime();
+	                console.log(`get full key sets time: ${___runTime - ___currentTime}`);
+	                ___currentTime = (new Date()).getTime();
 	                _data = _that._dataParser(data.aggregations);
+	                ___runTime = (new Date()).getTime();
+	                console.log(`parse data time: ${___runTime - ___currentTime}`);
+	                ___currentTime = (new Date()).getTime();
 	                _that._fillGap(_data);
+	                ___runTime = (new Date()).getTime();
+	                console.log(`fillgap time: ${___runTime - ___currentTime}`);
+	                ___currentTime = (new Date()).getTime();
 	                let _context = new KiiQueryDataParser_1.KiiMetricParserContext({
 	                    doc: _data,
 	                    index: null,
@@ -2157,6 +2176,9 @@ webpackJsonp([1,2],{
 	                    level: 0
 	                });
 	                _that._aggTree.parseMetrics(_context);
+	                ___runTime = (new Date()).getTime();
+	                console.log(`parseMetrics time: ${___runTime - ___currentTime}`);
+	                ___currentTime = (new Date()).getTime();
 	            }
 	            _summary = _that._parseSummary(data.aggregations);
 	            _that._queryObserver.next({ data: _data, summary: _summary });
@@ -2347,7 +2369,7 @@ webpackJsonp([1,2],{
 
 /***/ },
 
-/***/ 49:
+/***/ 43:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2358,6 +2380,7 @@ webpackJsonp([1,2],{
 	            this._site = config.site;
 	            this._port = config.port;
 	            this._token = config.token;
+	            this._chartOptions = config.chartOptions;
 	        }
 	    }
 	    getSite() {
@@ -2372,11 +2395,15 @@ webpackJsonp([1,2],{
 	    getToken() {
 	        return this._token;
 	    }
+	    getChartOptions() {
+	        return this._chartOptions;
+	    }
 	    static setConfig(config) {
 	        this.instance._site = config.site || this.instance._site;
 	        this.instance._port = config.port || this.instance._port;
 	        this.instance._token = config.token || this.instance._token;
 	        this.instance.DATE_FIELD = config.timeStampField || this.instance.DATE_FIELD;
+	        this.instance._chartOptions = config.chartOptions || this.instance._chartOptions;
 	    }
 	    static getConfig() {
 	        return this.instance;
@@ -2527,7 +2554,7 @@ webpackJsonp([1,2],{
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	const KiiQueryConfig_1 = __webpack_require__(49);
+	const KiiQueryConfig_1 = __webpack_require__(43);
 	class KiiQueryService {
 	    constructor() {
 	    }
@@ -2582,7 +2609,7 @@ webpackJsonp([1,2],{
 
 	"use strict";
 	const constants_1 = __webpack_require__(87);
-	const KiiQueryConfig_1 = __webpack_require__(49);
+	const KiiQueryConfig_1 = __webpack_require__(43);
 	exports.KiiQueryUtils = {
 	    removeKiiFields(obj) {
 	        if (!obj || typeof obj != 'object')
@@ -2753,7 +2780,7 @@ webpackJsonp([1,2],{
 	}
 	__export(__webpack_require__(138));
 	__export(__webpack_require__(85));
-	__export(__webpack_require__(49));
+	__export(__webpack_require__(43));
 
 
 /***/ },

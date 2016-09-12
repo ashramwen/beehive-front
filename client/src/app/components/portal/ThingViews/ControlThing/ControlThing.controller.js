@@ -67,6 +67,14 @@ angular.module('BeehivePortal')
             return actionObj;
         });
 
+        if(!command.thingList.length){
+          AppUtils.alert({msg: 'thingViews.thingsRequired'});
+          return;
+        }else if(!command.command.actions.length){
+          AppUtils.alert({msg: 'thingViews.actionRequired'});
+          return;
+        }
+
         $$Thing.sendCommand([command], function(){
             AppUtils.alert({msg: 'thingManager.commandSentMsg'});
             $state.go($state.current.name, {refreshId: ~~(Math.random()*100)});

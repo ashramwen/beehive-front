@@ -46,26 +46,39 @@ angular.module('BeehivePortal').controller('TriggerActionHandlerController',
       
       $$Type.getSchema({type: type}, function(schema){
         var _schema = TriggerDetailService.parseSchema(schema);
-        $scope.actions = _schema.actions;
-
+        
         if(!$scope.$state.params.type){
-          $scope.actionGroup = {
-            type: type, 
-            typeDisplayName: _schema.displayName,
-            actions: [],
-            things: things
-          };
+          var changed = false;
+          if(type != $scope.actionGroup.type || !$scope.actions){
+            $scope.actions = _schema.actions;
+            changed = true;
+          }
+
+          if(changed){
+            $scope.actionGroup = {
+              type: type, 
+              typeDisplayName: _schema.displayName,
+              things: things,
+              actions: [],
+              schema: schema
+            };
+          }
         }else {
-          _.each($scope.actions, function(action){
-            var selectedAction = _.find($scope.actionGroup.actions, {actionName: action.actionName})
-            action._selected = !!selectedAction;
-            if(action._selected){
-              _.each(selectedAction.properties, function(property){
-                var _property = _.find(action.properties, { propertyName: property.propertyName});
-                _.extend(property, _property);
-              });
+          if($scope.$state.params.type == type){
+            if(!$scope.actions){
+              $scope.actions = _schema.actions;
             }
-          });
+            _.each($scope.actions, function(action){
+              var selectedAction = _.find($scope.actionGroup.actions, {actionName: action.actionName})
+              action._selected = !!selectedAction;
+              if(action._selected){
+                _.each(selectedAction.properties, function(property){
+                  var _property = _.find(action.properties, { propertyName: property.propertyName});
+                  _.extend(property, _property);
+                });
+              }
+            });
+          }
         }
       });
       

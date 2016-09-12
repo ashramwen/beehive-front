@@ -30,7 +30,7 @@ angular.module('BeehivePortal')
                     description: trigger.description,
                     disabled: trigger.recordStatus == 'disable',
                     type: (!!trigger.predicate.schedule)? 'schedule': 'conditional',
-                    createdAt: '2016-07-06',
+                    createDate: trigger.createDate,
                     fromGateway: trigger.type == 'Gateway'
                 };
             });

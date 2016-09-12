@@ -36,6 +36,9 @@ angular.module('BeehivePortal')
                         scope.switchery = scope.options[0].value;
                     }
                 }else{
+                    if(scope.switchery == undefined || scope.switchery == null){
+                        scope.switchery = false;
+                    }
                     scope.on = scope.switchery;
                 }
             }

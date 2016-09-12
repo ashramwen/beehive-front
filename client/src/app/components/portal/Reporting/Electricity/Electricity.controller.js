@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('ElectricityController', ['$scope', '$rootScope', '$state', 'AppUtils', 'ElectricityService', '$timeout', 'ReportingService', function($scope, $rootScope, $state, AppUtils, ElectricityService, $timeout, ReportingService) {
+  .controller('ElectricityController', ['$scope', '$rootScope', '$state', 'AppUtils', 'ElectricityService', '$timeout', 'ReportingService', '$translate', function($scope, $rootScope, $state, AppUtils, ElectricityService, $timeout, ReportingService, $translate) {
     
 
     $scope.period = new KiiReporting.KiiTimePeriod(null);
@@ -11,6 +11,14 @@ angular.module('BeehivePortal')
     ];
 
     $scope.selectedSource = 'value';
+
+    _.each($scope.chartSources, function(source){
+      $translate(source.text).then(function(result){
+        source.text = result;
+      }, function(error){
+        source.text = source.text;
+      });
+    });
 
     $scope.init = function(){
 
@@ -28,16 +36,16 @@ angular.module('BeehivePortal')
 
     $scope.queryData = function(){
 
-      ReportingService.getLocationThings('EnvironmentSensor', $scope.selectedSubLevels).then(function(queriedSubLevels){
-        var queriedSubLevels = queriedSubLevels;
+      ReportingService.getLocationThings('ElectricMeter', $scope.selectedSubLevels).then(function(queriedSubLevels){
+        $scope.queriedSubLevels = queriedSubLevels;
 
         $scope.lineLevel = 0;
         $scope.split = false;
-        $scope.lineQuery = ElectricityService.generateConsumption(true, false, queriedSubLevels);
-        $scope.barQuery = ElectricityService.generateConsumption(false, false, queriedSubLevels);
-        $scope.pieQuery = ElectricityService.generateConsumption(false, false, queriedSubLevels);
+        $scope.lineQuery = ElectricityService.generateConsumption(true, false, $scope.queriedSubLevels);
+        $scope.barQuery = ElectricityService.generateConsumption(false, false, $scope.queriedSubLevels);
+        $scope.pieQuery = ElectricityService.generateConsumption(false, false, $scope.queriedSubLevels);
 
-        ElectricityService.getConsumeSummary($scope.period, queriedSubLevels).then(function(result){
+        ElectricityService.getConsumeSummary($scope.period, $scope.queriedSubLevels).then(function(result){
           $scope.totalConsump = result;
         });
 
@@ -52,7 +60,7 @@ angular.module('BeehivePortal')
     $scope.groupLines = function(){
       $scope.lineLevel = 0;
       $scope.split = false;
-      $scope.lineQuery = ElectricityService.generateConsumption(true,  $scope.split);
+      $scope.lineQuery = ElectricityService.generateConsumption(true,  $scope.split, $scope.queriedSubLevels);
 
       $timeout(function(){
         $scope.refreshLine();
@@ -62,7 +70,7 @@ angular.module('BeehivePortal')
     $scope.splitLine = function(){
       $scope.lineLevel = 1;
       $scope.split = true;
-      $scope.lineQuery = ElectricityService.generateConsumption(true,  $scope.split);
+      $scope.lineQuery = ElectricityService.generateConsumption(true,  $scope.split, $scope.queriedSubLevels);
 
       $timeout(function(){
         $scope.refreshLine();
