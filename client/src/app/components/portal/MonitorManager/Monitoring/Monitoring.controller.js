@@ -2,7 +2,7 @@
 
 angular.module('BeehivePortal.MonitorManager')
 
-.controller('MonitoringController', ['$scope', '$rootScope', '$state', '$stateParams', 'ThingSchemaService', '$$User', 'WebSocketClient', '$timeout', function($scope, $rootScope, $state, $stateParams, ThingSchemaService, $$User, WebSocketClient, $timeout) {
+.controller('MonitoringController', ['$scope', '$rootScope', '$state', '$stateParams', 'ThingSchemaService', '$$User', 'WebSocketClient', '$timeout', '$$Thing', function($scope, $rootScope, $state, $stateParams, ThingSchemaService, $$User, WebSocketClient, $timeout, $$Thing) {
     if ($stateParams.id === 0) {
         $state.go('^');
     }
@@ -16,15 +16,23 @@ angular.module('BeehivePortal.MonitorManager')
         name: $scope.view.id
     }).$promise.then(function(res) {
         $scope.view = res.view || {};
+        var ids = [];
+        $scope.view.detail.forEach(function(thing) {
+            ids.push(thing.id);
+        });
+        return $$Thing.getThingsByIDs(ids).$promise;
+    }).then(function(res) {
+        $scope.view.detail = res;
+        $timeout(function() { waterfall('.card-columns') }, 0);
         ThingSchemaService.getSchema($scope.view.detail);
         if (WebSocketClient.isConnected()) {
             websocketInit();
-        } else {
-            $scope.$on('stomp.connected', function() {
-                websocketInit();
-            });
+            return
         }
-    })
+        $scope.$on('stomp.connected', function() {
+            websocketInit();
+        });
+    });
 
     $scope.displayValue = function(s) {
         if (!s.enum || !s.enum[s.value]) return s.value
@@ -50,6 +58,7 @@ angular.module('BeehivePortal.MonitorManager')
     var dirtyFields = ['target', 'taiwanNo1', 'novalue', 'date'];
     // parse the data from websocket
     function parseState(thing, states) {
+        thing.off = states.hasOwnProperty('novalue');
         var _status;
         for (var key in states) {
             if (dirtyFields.indexOf(key) > -1) continue;
