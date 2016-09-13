@@ -240,6 +240,29 @@
 .table th[align=center], .table td[align=center] {
   text-align: center; }
 
+button[clear] {
+  background-color: transparent;
+  border-radius: 0px;
+  border: none; }
+
+.flex-container {
+  display: flex; }
+
+.flex-row {
+  flex-direction: row; }
+
+.flex-columm {
+  flex-direction: column; }
+
+.flex {
+  flex: 1; }
+
+.btn-warning {
+  background: #fba141; }
+
+.text-warning {
+  color: #fba141; }
+
 .app-portal-thingviews-typeview .type-tile {
   position: relative;
   width: 220px;

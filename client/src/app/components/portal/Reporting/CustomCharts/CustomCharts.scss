@@ -1,3 +1,5 @@
+@import 'src/app/shared/global.scss';
+
 .app-portal-reporting-customcharts{
   .gridster-mobile{
     .gridster-item{
@@ -84,11 +86,176 @@
       }
     }
   }
-  .chart-option{
-    margin-right: 10px;
-    float: left;
+}
+
+
+.app-portal-reporting-customcharts-modal{
+  padding-left: 220px;
+  padding-top: 5%;
+
+  & > .modal-dialog{
+    margin: 0px;
+    margin-bottom: 30px;
+    width: 100%;
+    
+    & > .modal-content{
+      box-shadow: none;
+      border-radius: 0px;
+      background: transparent;
+      & > .modal-header{
+        height: 40px;
+        display: block;
+        padding: 0px;
+        border-radius: 0px;
+        background: transparent;;
+        line-height: 40px;
+
+        button{
+          float: right;
+          span.fa{
+            font-size: 30px;
+            &.fa-remove{
+              color: $color-danger;
+            }
+          }
+        }
+      }
+      & > .modal-body{
+        background: #fff;
+        padding: 0px 30px;
+      }
+    }
   }
-  hr.in-panel{
-    margin: 5px 0px 10px;
+}
+
+.chart-setting-modal{
+  .flex-container{
+    display: flex;
+  }
+  .half{
+    width: 50%;
+    padding-right: 20px;
+    padding-top: 20px;
+    float: left;
+    &:last-child{
+      padding-right: 0px;
+      padding-top: 0px;
+    }
+    .form-group:last-child{
+      margin-bottom: 0px;
+    }
+  }
+  div[uib-tabset]{
+    > ul{
+      border-bottom: none;
+      display: flex;
+      width: 100%;
+      > li{
+        border: none;
+        flex: 1;
+        border-bottom: 1px solid #ccc;
+        > a.nav-link{
+          font-size: 19px;
+          color: $color-dark;
+          border:none;
+          width: 100%;
+          text-align: center;
+          &:hover{
+            background-color: transparent;
+            border: none;
+          }
+        }
+
+        &.active{
+          > a.nav-link{
+            color: $color-info;
+            font-weight: bold;
+            margin-bottom: -3px;
+            border-bottom: 3px solid $color-info;
+            &:hover{
+              border-bottom: 3px solid $color-info;
+            }
+          }
+          &:first-child{
+            margin-right: -1px;
+            border-right: 1px solid #ccc;
+          }
+          &:last-child{
+            margin-right: 0px;
+            border-right: none;
+            margin-left: -1px;
+            border-left: 1px solid #ccc;
+          }
+        }
+      }
+    }
+    .tab-content{
+      padding: 0px;
+      padding-bottom: 20px;
+      border:none;
+      .chart-option{
+        margin-right: 10px;
+        float: left;
+      }
+      hr.in-panel{
+        margin: 5px 0px 10px;
+      }
+      ul.chart-tab-heading{
+        padding: 0px;
+        width: 100%;
+        margin-bottom: 0px;
+        li{
+          background: #fff;
+          padding: 5px;
+          list-style: none;
+          float: left;
+          min-width: 60px;
+          border: solid 1px #ccc;
+          border-bottom: none;
+          border-right: none;
+          text-align: center;
+          cursor: pointer;
+          &:last-child{
+            border-right: solid 1px #ccc;
+          }
+          &.active{
+            background: #cdf7fb;
+            color: #61c9d2;
+            cursor: default;
+          }
+        }
+      }
+      .example-code{
+        height: 100%;
+        width: 100%;
+        padding: 30px;
+        background: $color-bg-grey;
+        padding-bottom: 0px;
+        > .form-group{
+          height: 100%;
+        }
+        .bottom{
+          padding: 10px 0px;
+        }
+      }
+      .jsoneditor{
+        border: 1px solid #ccc;
+        .menu{
+          display: none;
+        }
+        div.outer{
+          margin: 0px;
+          padding: 0px;
+        }
+        .ace_editor{
+          .ace_gutter{
+            background: #fff;
+            .ace_gutter-active-line{
+              background: transparent;
+            }
+          }
+        }
+      }
+    }
   }
 }

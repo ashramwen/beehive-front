@@ -81,13 +81,14 @@ angular.module('BeehivePortal')
     function editChart(chart){
       return $uibModal.open({
         animation: true,
+        windowClass: 'app-portal-reporting-customcharts-modal',
         templateUrl: 'edit-custom-chart',
         controller: 'CustomChartsController.editChart',
         size: 'md',
         resolve: {
-            chart: function() {
-                return chart;
-            }
+          chart: function() {
+            return chart;
+          }
         }
       }).result;
     };
@@ -101,10 +102,17 @@ angular.module('BeehivePortal')
       {text: 'reporting.barChart', value: 'bar'},
       {text: 'reporting.pieChart', value: 'pie'}
     ];
+    $scope.exampleOptions = [
+      {code: '1', tabName: '折线图'},
+      {code: '2', tabName: '柱状图'},
+      {code: '3', tabName: '饼图'}
+    ];
+    $scope.selectedExample = null;
 
     $scope.typeOptions = [];
     $scope.selectedType = null;
     $scope.selectedLocation = null;
+    $scope.editor = null;
 
     $scope.options = {
       name: '',
@@ -157,6 +165,17 @@ angular.module('BeehivePortal')
           unit: $scope.options.timeUnit, 
           interval: $scope.options.interval
         });
+
+        var container = document.getElementById("jsoneditor1");
+        var options = {mode: 'code'};
+        $scope.editor1 = new JSONEditor(container, options);
+
+        var container = document.getElementById("jsoneditor2");
+        var options = {mode: 'code'};
+        $scope.editor2 = new JSONEditor(container, options);
+        $timeout(function(){
+          $scope.selectExample($scope.exampleOptions[0]);
+        });
       });
     };
 
@@ -193,7 +212,6 @@ angular.module('BeehivePortal')
     };
 
     $scope.saveChart = function(){
-
       $scope.options.query = CustomChartsService.buildQueryFromOptions($scope.options);
       $scope.options.level = ($scope.options.dimensions.time 
               && $scope.options.dimensions.location) ? 1 : 0;
@@ -211,6 +229,15 @@ angular.module('BeehivePortal')
           $uibModalInstance.close(chart);
         });
       });
+    };
+
+    $scope.selectExample = function(option){
+      $scope.selectedExample = option;
+      $scope.editor2.set(option.code);
+    };
+
+    $scope.copyExample = function(){
+      $scope.editor1.set($scope.selectedExample.get());
     };
 
     $scope.cancel = function(){

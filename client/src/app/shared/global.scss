@@ -351,3 +351,35 @@ $click-cursor: pointer;
       text-align: center;
   }
 }
+
+button[clear]{
+  background-color: transparent;
+  border-radius: 0px;
+  border: none;
+}
+
+.flex-container{
+  display: flex;
+}
+.flex-row{
+  flex-direction: row;
+}
+.flex-columm{
+  flex-direction: column;
+}
+.flex{
+  flex: 1;
+}
+
+$color-danger: #f05050;
+$color-info: #61c9d2;
+$color-warning: #fba141;
+$color-dark: #000;
+$color-bg-grey: #e6ecf0;
+.btn-warning{
+  background: $color-warning;
+}
+.text-warning{
+  color: $color-warning;
+}
+

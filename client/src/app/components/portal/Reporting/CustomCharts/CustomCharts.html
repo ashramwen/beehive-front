@@ -54,80 +54,132 @@
 
 <!-- chart editor -->
 <script type="text/ng-template" id="edit-custom-chart">
+  <div class="modal-header ng-scope">
+    <button clear><span class="fa fa-remove"></span></button>
+  </div>
+  <div class="modal-body ng-scope chart-setting-modal">
+    <div uib-tabset>
+      <div uib-tab heading="创建图表">
+        <div class="flex-container">
+          <!-- left-half -->
+          <div class="half">
+            <div class="form-group row">
+              <div class="form-group col-md-12">
+                <label>{{"reporting.chartName" | translate}}</label>
+                <input type="text" name="" ng-model="options.name" class="form-control">
+              </div>
+              <div class="col-md-12 clearfix">
+                <div class="form-group chart-option">
+                  <label>{{"reporting.chartType" | translate}}</label>
+                  <div>
+                    <div app-select options="chartTypes" selected-model="options.chartType" value-only="true"></div>
+                  </div>
+                </div>
+                <div class="form-group chart-option">
+                  <label>{{"reporting.thingType" | translate}}</label>
+                  <div><div app-select options="typeOptions" selected-model="selectedType"></div></div>
+                </div>
+                <div class="form-group chart-option">
+                  <label>{{"reporting.yAxis" | translate}}</label>
+                  <div>
+                    <div app-select options="selectedType.properties" text="displayName" value="propertyName" selected-model="options.property"></div>
+                  </div>
+                </div>
+                <div class="form-group chart-option">
+                  <label>{{"reporting.aggMethod" | translate}}</label>
+                  <div>
+                    <div app-select options="aggMethods" selected-model="options.aggMethod" value-only="true"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <label>{{"reporting.dimensions" | translate}}</label>
+                <hr/>
+                <div class="row">
+                  <!-- dimension - time -->
+                  <div class="col-md-5">
+                    <label><input type="checkbox" name="" ng-model="options.dimensions.time">{{'terms.time' | translate}}</label>
+                    <hr class="in-panel"/>
+                    <div class="form-group">
+                      <label style="line-height: 34px; margin-bottom: 15px;">{{'terms.timeInterval' | translate}}</label>
+                      <div>
+                        <rp-time-slicer disabled="!options.dimensions.time" input="timeSliceInput" output="onTimeSliceChange"></rp-time-slicer>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end of time dimension -->
+                  <!-- location dimension -->
+                  <div class="col-md-7">
+                    <div class="form-group">
+                      <label><input type="checkbox" name="" ng-model="options.dimensions.location">{{'terms.location' | translate}}</label>
+                      <hr class="in-panel" />
+                      <div class="form-group">
+                        <label>{{'reporting.defaultLocation' | translate}}</label>
+                        <location-selector change="locationChange(location, locationName, subLevels)" disabled="!options.dimensions.location"></location-selector>
+                        <button class="btn btn-info" ng-click="addLocation()" ng-disabled="!options.dimensions.location">{{'reporting.addLocation' | translate}}</button>
+                      </div>
+                      <div ng-show="options.dimensions.location"><button class="btn btn-warning location-tag" ng-repeat="location in options.locations">{{location.displayName}} <span class="fa fa-remove pull-right" ng-click="removeLocation(location)"></span></button></div>
+                    </div>
+                  </div>
+                  <!-- end of location dimension -->
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>{{'terms.description' | translate}}</label>
+              <textarea class="form-control" ng-model="options.description"></textarea>
+            </div>
+          </div>
+          <!-- end of left half -->
 
-  <div class="modal-content app-portal-reporting-customcharts">
-    <div class="modal-header ng-scope">
-      <h3 class="modal-title">{{modalTitle | translate}}</h3>
-    </div>
-    <div class="modal-body ng-scope">
-      <div class="form-group row">
-        <div class="form-group col-md-12">
-          <label>{{"reporting.chartName" | translate}}</label>
-          <input type="text" name="" ng-model="options.name" class="form-control">
+          <!-- right half -->
+          <div class="half">
+            
+          </div>
+          <!-- end of right half -->
         </div>
-        <div class="col-md-12">
-          <div class="form-group chart-option">
-            <label>{{"reporting.chartType" | translate}}</label>
-            <div>
-              <div app-select options="chartTypes" selected-model="options.chartType" value-only="true"></div>
+      </div>
+      <div uib-tab heading="高级设置">
+        <div class="flex-container">
+          <div class="half">
+            <div class="form-group">
+              <label>图表名称</label>
+              <input type="text" class="form-control" name="" ng-model="options.name">
+            </div>
+            <div class="form-group">
+              <label>描述</label>
+              <textarea type="text" cols="10" class="form-control" name="" ng-model="options.description">
+              </textarea>
+            </div>
+            <div class="form-group">
+              <label>编辑代码</label>
+              <div id="jsoneditor1" style="height:400px; width:100%;"></div>
             </div>
           </div>
-          <div class="form-group chart-option">
-            <label>{{"reporting.thingType" | translate}}</label>
-            <div><div app-select options="typeOptions" selected-model="selectedType"></div></div>
-          </div>
-          <div class="form-group chart-option">
-            <label>{{"reporting.yAxis" | translate}}</label>
-            <div>
-              <div app-select options="selectedType.properties" text="displayName" value="propertyName" selected-model="options.property"></div>
-            </div>
-          </div>
-          <div class="form-group chart-option">
-            <label>{{"reporting.aggMethod" | translate}}</label>
-            <div>
-              <div app-select options="aggMethods" selected-model="options.aggMethod" value-only="true"></div>
-            </div>
-          </div>
-        </div>
-        <div class="form-group col-md-12">
-          <label>{{"reporting.dimensions" | translate}}</label>
-          <hr/>
-          <div class="row">
-            <!-- dimension - time -->
-            <div class="col-md-5">
-              <label><input type="checkbox" name="" ng-model="options.dimensions.time">{{'terms.time' | translate}}</label>
-              <hr class="in-panel"/>
-              <div class="form-group">
-                <label style="line-height: 34px; margin-bottom: 15px;">{{'terms.timeInterval' | translate}}</label>
+          <div class="half">
+            <div class="example-code">
+              <div class="form-group flex-container flex-columm">
                 <div>
-                  <rp-time-slicer disabled="!options.dimensions.time" input="timeSliceInput" output="onTimeSliceChange"></rp-time-slicer>
+                  <label>示例代码</label>
+                </div>
+                <div>
+                  <ul class="chart-tab-heading clearfix">
+                    <li ng-click="selectExample(option)" ng-class="{'active': option == selectedExample}" ng-repeat="option in exampleOptions">{{option.tabName}}</li>
+                  </ul>
+                </div>
+                <div class="flex">
+                  <div id="jsoneditor2" style="height:100%; width:100%;"></div>
+                </div>
+                <div class="clearfix bottom">
+                  <div class="pull-right">
+                    <button class="btn btn-link">生成预览</button>
+                    <button class="btn btn-link text-warning" ng-click="copyExample()">复制代码</button>
+                  </div>
                 </div>
               </div>
             </div>
-            <!-- end of time dimension -->
-            <!-- location dimension -->
-            <div class="col-md-7">
-              <div class="form-group">
-                <label><input type="checkbox" name="" ng-model="options.dimensions.location">{{'terms.location' | translate}}</label>
-                <hr class="in-panel" />
-                <div class="form-group">
-                  <label>{{'reporting.defaultLocation' | translate}}</label>
-                  <location-selector change="locationChange(location, locationName, subLevels)" disabled="!options.dimensions.location"></location-selector>
-                  <button class="btn btn-info" ng-click="addLocation()" ng-disabled="!options.dimensions.location">{{'reporting.addLocation' | translate}}</button>
-                </div>
-                <div ng-show="options.dimensions.location"><button class="btn btn-warning location-tag" ng-repeat="location in options.locations">{{location.displayName}} <span class="fa fa-remove pull-right" ng-click="removeLocation(location)"></span></button></div>
-              </div>
-            </div>
-            <!-- end of location dimension -->
           </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label>{{'terms.description' | translate}}</label>
-        <textarea class="form-control" ng-model="options.description"></textarea>
-      </div>
-      <div>
-        <button class="btn btn-info btn-lg pull-center" ng-click="saveChart()">{{'controls.save' | translate}}</button>
       </div>
     </div>
   </div>

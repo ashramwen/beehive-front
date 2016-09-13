@@ -107,7 +107,7 @@ angular.module('BeehivePortal')
             return;
         }
         var gatewayObj = {
-            vendorThingID: ($scope.gateway.location + '-00-' + $scope.gateway.vendorThingID).toUpperCase(),
+            vendorThingID: ($scope.gateway.location + '-Z-' + $scope.gateway.vendorThingID).toUpperCase(),
             type: 'gateway',
             kiiAppID: AppConfig.kiiAppID
         };
