@@ -38,7 +38,6 @@ angular.module('BeehivePortal')
     };
 
     $scope.factoryChart = function(){
-
       var newChart = CustomChartsService.factoryChart();
 
       editChart(newChart).then(function(chart){
@@ -93,7 +92,8 @@ angular.module('BeehivePortal')
       }).result;
     };
   }])
-  .controller('CustomChartsController.editChart', ['$scope', '$uibModalInstance', 'chart', '$q', 'EditChartService', 'CustomChartsService', '$timeout', function($scope, $uibModalInstance, chart, $q, EditChartService, CustomChartsService, $timeout){
+  .controller('CustomChartsController.editChart', ['$scope', '$uibModalInstance', 'chart', '$q', 'EditChartService', 'CustomChartsService', '$timeout', 'CodeExampleService', '$uibModal',
+      function($scope, $uibModalInstance, chart, $q, EditChartService, CustomChartsService, $timeout, CodeExampleService, $uibModal){
 
     $scope.modalTitle = _.isEmpty(chart.id)? 'reporting.createChartTitle' : 'reporting.editChartTitle';
 
@@ -103,9 +103,9 @@ angular.module('BeehivePortal')
       {text: 'reporting.pieChart', value: 'pie'}
     ];
     $scope.exampleOptions = [
-      {code: '1', tabName: '折线图'},
-      {code: '2', tabName: '柱状图'},
-      {code: '3', tabName: '饼图'}
+      {code: CodeExampleService.lineChartExample, tabName: '折线图'},
+      {code: CodeExampleService.barChartExample, tabName: '柱状图'},
+      {code: CodeExampleService.pieChartExample, tabName: '饼图'}
     ];
     $scope.selectedExample = null;
 
@@ -231,16 +231,80 @@ angular.module('BeehivePortal')
       });
     };
 
+    $scope.saveComplexChart = function(){
+      $scope.options.complexQuery = $scope.editor1.get();
+      $scope.options.query = CustomChartsService
+        .buildComplexQueryFromOptions($scope.options).then(function(result){
+          $scope.showDemoCode(result.query, result.date);
+        });
+    };
+
     $scope.selectExample = function(option){
       $scope.selectedExample = option;
       $scope.editor2.set(option.code);
     };
 
+    $scope.showDemoCode = function(query, date){
+      $uibModal.open({
+        animation: true,
+        windowClass: 'app-portal-reporting-customcharts-modal',
+        templateUrl: 'custom-chart-code-demo',
+        controller: 'CustomChartsController.demoCode',
+        size: 'md',
+        resolve: {
+          query: function() {
+            return query;
+          },
+          date: function(){
+            return date;
+          }
+        }
+      });
+    };
+
     $scope.copyExample = function(){
-      $scope.editor1.set($scope.selectedExample.get());
+      $scope.editor1.set($scope.selectedExample.code);
     };
 
     $scope.cancel = function(){
+      $uibModalInstance.dismiss();
+    };
+
+    $scope.dismiss = function(){
+      $uibModalInstance.dismiss();
+    };
+
+  }])
+  .controller('CustomChartsController.demoCode', ['query', '$scope', '$uibModalInstance', 'date', function(query, $scope, $uibModalInstance, date){
+    $scope.query = query;
+    $scope.refreshChart;
+
+    var from = new Date();
+    var to = new Date();
+
+    from.setDate(from.getDate() - 1);
+
+    $scope.period = new KiiReporting.KiiTimePeriod(null);
+
+    $scope.period.setFromTime(from);
+    $scope.period.setToTime(to);
+
+
+    if(date){
+      $scope.period.setUnit(date.unit);
+      $scope.period.setInterval(date.interval);
+    }
+
+    $scope.onPeriodChange = function(period){
+      $scope.period.setFromTime(period.from);
+      $scope.period.setToTime(period.to);
+    };
+
+    $scope.refresh = function(){
+      $scope.refreshChart();
+    };
+
+    $scope.dismiss = function(){
       $uibModalInstance.dismiss();
     };
 

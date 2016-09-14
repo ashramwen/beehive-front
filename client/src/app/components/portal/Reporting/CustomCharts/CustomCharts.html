@@ -55,7 +55,7 @@
 <!-- chart editor -->
 <script type="text/ng-template" id="edit-custom-chart">
   <div class="modal-header ng-scope">
-    <button clear><span class="fa fa-remove"></span></button>
+    <button clear><span class="fa fa-remove" ng-click="dismiss()"></span></button>
   </div>
   <div class="modal-body ng-scope chart-setting-modal">
     <div uib-tabset>
@@ -111,14 +111,14 @@
                   <!-- location dimension -->
                   <div class="col-md-7">
                     <div class="form-group">
-                      <label><input type="checkbox" name="" ng-model="options.dimensions.location">{{'terms.location' | translate}}</label>
+                      <label>{{'terms.location' | translate}}</label>
                       <hr class="in-panel" />
                       <div class="form-group">
                         <label>{{'reporting.defaultLocation' | translate}}</label>
-                        <location-selector change="locationChange(location, locationName, subLevels)" disabled="!options.dimensions.location"></location-selector>
-                        <button class="btn btn-info" ng-click="addLocation()" ng-disabled="!options.dimensions.location">{{'reporting.addLocation' | translate}}</button>
+                        <location-selector change="locationChange(location, locationName, subLevels)"></location-selector>
+                        <button class="btn btn-info" ng-click="addLocation()">{{'reporting.addLocation' | translate}}</button>
                       </div>
-                      <div ng-show="options.dimensions.location"><button class="btn btn-warning location-tag" ng-repeat="location in options.locations">{{location.displayName}} <span class="fa fa-remove pull-right" ng-click="removeLocation(location)"></span></button></div>
+                      <div><button class="btn btn-warning location-tag" ng-repeat="location in options.locations">{{location.displayName}} <span class="fa fa-remove pull-right" ng-click="removeLocation(location)"></span></button></div>
                     </div>
                   </div>
                   <!-- end of location dimension -->
@@ -146,11 +146,17 @@
               <label>图表名称</label>
               <input type="text" class="form-control" name="" ng-model="options.name">
             </div>
+            <!-- location dimension -->
             <div class="form-group">
-              <label>描述</label>
-              <textarea type="text" cols="10" class="form-control" name="" ng-model="options.description">
-              </textarea>
+              <label>{{'terms.location' | translate}}</label>
+              <div class="form-group">
+                <label>{{'reporting.defaultLocation' | translate}}</label>
+                <location-selector change="locationChange(location, locationName, subLevels)"></location-selector>
+                <button class="btn btn-info" ng-click="addLocation()">{{'reporting.addLocation' | translate}}</button>
+              </div>
+              <div><button class="btn btn-warning location-tag" ng-repeat="location in options.locations">{{location.displayName}} <span class="fa fa-remove pull-right" ng-click="removeLocation(location)"></span></button></div>
             </div>
+            <!-- end of location dimension -->
             <div class="form-group">
               <label>编辑代码</label>
               <div id="jsoneditor1" style="height:400px; width:100%;"></div>
@@ -172,7 +178,7 @@
                 </div>
                 <div class="clearfix bottom">
                   <div class="pull-right">
-                    <button class="btn btn-link">生成预览</button>
+                    <button class="btn btn-link" ng-click="saveComplexChart()">生成预览</button>
                     <button class="btn btn-link text-warning" ng-click="copyExample()">复制代码</button>
                   </div>
                 </div>
@@ -180,8 +186,43 @@
             </div>
           </div>
         </div>
+        <div>
+          <button class="btn-lg btn btn-info" ng-click="saveComplexChart()">显示</button>
+        </div>
       </div>
     </div>
   </div>
 </script>
 <!-- end of editor -->
+
+<script type="text/ng-template" id="custom-chart-code-demo">
+  <div class="modal-header ng-scope">
+    <button clear><span class="fa fa-remove" ng-click="dismiss()"></span></button>
+  </div>
+  <div class="modal-body ng-scope chart-setting-modal chart-demo-chart">
+    <div class="panel-row clearfix">
+      <div class="title pull-left">
+        <span class="fa fa-clock-o"></span>
+        {{'terms.timePeriod' | translate}}
+      </div>
+      <div class="pull-left time-picker">
+        <rp-date-picker last-date="defaultTime" output="onPeriodChange"></rp-date-picker>
+      </div>
+      <div class="pull-left">
+        <button class="btn btn-info" ng-click="refresh()">{{'controls.refresh' | translate}}</button>
+      </div>
+    </div>
+    <div class="kii-chart-container">
+      <kii-chart 
+        query="query"
+        period="period"
+        window="0"
+        location=""
+        refresh="refreshChart"
+        stage="false"
+        level="1"
+        style="height: 100%">
+      </kii-chart>
+    </div>
+  </div>
+</script>

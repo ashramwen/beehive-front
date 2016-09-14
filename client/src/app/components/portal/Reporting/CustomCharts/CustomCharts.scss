@@ -91,7 +91,7 @@
 
 .app-portal-reporting-customcharts-modal{
   padding-left: 220px;
-  padding-top: 5%;
+  padding-top: 2%;
 
   & > .modal-dialog{
     margin: 0px;
@@ -257,5 +257,32 @@
         }
       }
     }
+  }
+}
+
+.chart-demo-chart{
+  .panel-row{
+    line-height: 50px;
+    .fa{
+      position: relative;
+      top: 4px;
+      margin-right: 5px;
+      font-size: 24px;
+      &.fa-clock-o{
+        color: #ffb589;
+      }
+    }
+    .title{
+      margin-right: 10px;
+    }
+    .time-picker {
+      max-width: 390px;
+      margin-top: 7px;
+      margin-right: 5px;
+    }
+  }
+  .kii-chart-container{
+    height: 300px;
+    padding-bottom: 30px;
   }
 }

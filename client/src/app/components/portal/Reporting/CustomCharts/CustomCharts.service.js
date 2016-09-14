@@ -315,6 +315,49 @@ angular.module('BeehivePortal')
       return $defer.promise;
     };
 
+    CustomChartsService.buildComplexQueryFromOptions = function(options){
+      var $defer = $q.defer();
+      var queryStr = JSON.stringify(options.complexQuery);
+      var locationStrs = searchField(queryStr, '@location');
+      var locationInjection = locationStrs[0];
+      var locationData = JSON.parse(locationStrs[1]);
+      var type = locationData.type;
+      var locations = options.locations;
+
+      ReportingService.getLocationThings(type, locations).then(function(locations){
+        var allThings = ReportingService.getAllThings(locations);
+        var enumObj = ReportingService.getLocationEnums(locations);
+
+        queryStr = queryStr.replace(locationInjection, '"enum":' + JSON.stringify(enumObj));
+
+        var dateStrs = searchField(queryStr, '@date');
+
+        var dateData = null;
+        if(dateStrs){
+          dateData = JSON.parse(dateStrs[1]);
+          queryStr = queryStr.replace(dateStrs[0], '"date_histogram":' + JSON.stringify({
+            "field": "state.date",
+            "interval": dateData.interval + dateData.unit
+          }));
+        }
+
+        var query = JSON.parse(queryStr);
+        query.query.filtered.filter.bool.must.push({
+          "terms": {
+            "state.target": allThings
+          }
+        });
+        $defer.resolve({query: query, date: dateData});
+      });
+
+      return $defer.promise;
+
+      function searchField(jsonStr, field){
+        var exp = new RegExp('"' + field + '"[ :]+((?=\\[)\\[[^]]*\\]|(?=\\{)\\{[^\\}]*\\}|\\"[^"]*\\")'); 
+        return exp.exec(jsonStr);
+      }
+    };
+
     return CustomChartsService;
   }])
   .factory('EditChartService', ['$$Type', 'TriggerDetailService', '$q', function($$Type, TriggerDetailService, $q){
