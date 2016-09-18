@@ -36,7 +36,11 @@ angular.module('BeehivePortal')
                 };
 
                 $scope.userGroup = $$UserGroup.get({}, request, function(group) {
-                    $scope.userList = group.users;
+                    $scope.userList = _.map(group.users, function(user){
+                        user.displayName = user.displayName || '';
+                        return user;
+                    });
+
                 });
             });
         };

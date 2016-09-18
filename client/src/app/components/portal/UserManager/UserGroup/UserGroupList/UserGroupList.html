@@ -33,9 +33,9 @@
             <tr ng-repeat="group in dataset.userGroupsForDisplay | filter:filters" ng-click="goUserList(group)">
               <td>{{group.userGroupName}}</td>
               <td>{{group.createDate | TimePipe}}</td>
-              <td align="center">
-                <span class="fa fa-trash" ng-click="deleteGroup(group); $event.stopPropagation()"></span>
-                <span class="fa fa-pencil-square-o" ng-click="goEdit(group); $event.stopPropagation()"></span>
+              <td align="center" width="107px">
+                <span class="fa fa-trash" ng-click="deleteGroup(group); $event.stopPropagation()" ng-if="isCreator(group)"></span>
+                <span class="fa fa-pencil-square-o" ng-click="goEdit(group); $event.stopPropagation()" ng-if="isCreator(group)"></span>
               </td>
             </tr>
           </tbody>

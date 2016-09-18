@@ -123,14 +123,25 @@ angular.module('BeehivePortal')
             }
         };
 
+        var flag = false;
+
+
         command.command.actions = _.map($scope.actionGroup.actions, function(action){
             var actionObj = {};
             actionObj[action.actionName] = {};
             _.each(action.properties, function(property){
                 actionObj[action.actionName][property.propertyName] = property.value;
+                if(_.isNaN(property.value) || _.isNull(property.value)){
+                  flag = true;
+                }
             });
             return actionObj;
         });
+
+        if(flag){
+          AppUtils.alert({msg: '属性值不能为空'});
+          return;
+        }
 
         if(!command.command.actions.length){
           AppUtils.alert({msg: 'thingViews.actionRequired'});

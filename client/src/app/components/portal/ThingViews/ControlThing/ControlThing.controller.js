@@ -18,19 +18,23 @@ angular.module('BeehivePortal')
 
     
     $scope.selectedChange = function(things, type){
-      
-      $$Type.getSchema({type: type}, function(schema){
-        var _schema = TriggerDetailService.parseSchema(schema);
-        $scope.schema = _schema;
-        $scope.actions = _schema.actions;
 
-        $scope.actionGroup = {
-          type: type, 
-          typeDisplayName: _schema.displayName,
-          actions: [],
-          things: things
-        };
-      });
+      if(type != $scope.selectedType){
+        $scope.selectedType = type;
+
+        $$Type.getSchema({type: type}, function(schema){
+          var _schema = TriggerDetailService.parseSchema(schema);
+          $scope.schema = _schema;
+          $scope.actions = _schema.actions;
+
+          $scope.actionGroup = {
+            type: type, 
+            typeDisplayName: _schema.displayName,
+            actions: [],
+            things: things
+          };
+        });
+      }
       
       $scope.actionGroup.things = things;
     };
@@ -58,14 +62,24 @@ angular.module('BeehivePortal')
             }
         };
 
+        var flag = false;
+
         command.command.actions = _.map($scope.actionGroup.actions, function(action){
             var actionObj = {};
             actionObj[action.actionName] = {};
             _.each(action.properties, function(property){
                 actionObj[action.actionName][property.propertyName] = property.value;
+                if(_.isNaN(property.value) || _.isNull(property.value)){
+                  flag = true;
+                }
             });
             return actionObj;
         });
+
+        if(flag){
+          AppUtils.alert({msg: '属性值不能为空'});
+          return;
+        }
 
         if(!command.thingList.length){
           AppUtils.alert({msg: 'thingViews.thingsRequired'});
