@@ -8,40 +8,42 @@
     <thing-location-type-selector single-type="true" change="selectedChange(selectedThings, type)"></thing-location-type-selector>
     <div class="panel trigger-actions">
       <div class="panel-body">
-        <h4>{{'thing.action' | translate}}</h4>
-        <div class="row flex-row">
-          <div class="col-sm-4">
-            <span class="action" ng-class="{'active': action._selected}" ng-repeat="action in actions" ng-click="toggleAction(action)">
-              {{action.displayName}}
-            </span>
-          </div>
-          <div class="col-sm-8">
-            <div class="selected-action clearfix" ng-repeat="action in actionGroup.actions">
-              <h4>{{action.displayName}}</h4>
-              <hr/>
-              <div class="selected-property" ng-repeat="property in action.properties">
-                <!-- not enum -->
-                <div ng-if="!property.enumType && (property.type=='int' || property.type=='float')">
-                  <label>{{property.displayName}} <span class="fa fa-info-circle" ng-if="property.tooltip" uib-tooltip="{{property.tooltip}}"></span></label>
-                  <number-input ng-model="property.value" min="property.minimum" max="property.maximum" type="property.type"></number-input>
-                </div>
+        <form novalidate name="commandForm">
+          <h4>{{'thing.action' | translate}}</h4>
+          <div class="row flex-row">
+            <div class="col-sm-4">
+              <span class="action" ng-class="{'active': action._selected}" ng-repeat="action in actions" ng-click="toggleAction(action)">
+                {{action.displayName}}
+              </span>
+            </div>
+            <div class="col-sm-8">
+              <div class="selected-action clearfix" ng-repeat="action in actionGroup.actions">
+                <h4>{{action.displayName}}</h4>
+                <hr/>
+                <div class="selected-property" ng-repeat="property in action.properties">
+                  <!-- not enum -->
+                  <div ng-if="!property.enumType && (property.type=='int' || property.type=='float')">
+                    <label>{{property.displayName}} <span class="fa fa-info-circle" ng-if="property.tooltip" uib-tooltip="{{property.tooltip}}"></span></label>
+                    <number-input ng-model="property.value" min="property.minimum" max="property.maximum" type="property.type"></number-input>
+                  </div>
 
-                <!-- enmu: boolean -->
-                <div ng-if="property.enumType == 'BOOLEAN' || property.type == 'boolean'">
-                  <label>{{property.displayName}}</label>
-                  <div switchery="property.value" options="property.options"></div>
-                </div>
+                  <!-- enmu: boolean -->
+                  <div ng-if="property.enumType == 'BOOLEAN' || property.type == 'boolean'">
+                    <label>{{property.displayName}}</label>
+                    <div switchery="property.value" options="property.options"></div>
+                  </div>
 
-                <!-- enmu: number -->
-                <div ng-if="property.enumType == 'NUMBER'">
-                  <label>{{property.displayName}}</label>
-                  <div app-select options="property.options" selected-model="property.value" value-only="true"></div>
+                  <!-- enmu: number -->
+                  <div ng-if="property.enumType == 'NUMBER'">
+                    <label>{{property.displayName}}</label>
+                    <div app-select options="property.options" selected-model="property.value" value-only="true"></div>
+                  </div>
+                  
                 </div>
-                
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
     <div>

@@ -26,7 +26,7 @@
             <tr>
               <th>群组名称</th>
               <th>创建时间</th>
-              <th align="center">{{'controls.operate' | translate}}</th>
+              <th align="center" width="107px">{{'controls.operate' | translate}}</th>
             </tr>
           </thead>
           <tbody>
@@ -34,8 +34,8 @@
               <td>{{group.userGroupName}}</td>
               <td>{{group.createDate | TimePipe}}</td>
               <td align="center">
-                <span class="fa fa-trash" ng-click="deleteGroup(group); $event.stopPropagation()"></span>
-                <span class="fa fa-pencil-square-o" ng-click="goEdit(group); $event.stopPropagation()"></span>
+                <span class="fa fa-trash" ng-click="deleteGroup(group); $event.stopPropagation()" ng-if="isCreator(group)"></span>
+                <span class="fa fa-pencil-square-o" ng-click="goEdit(group); $event.stopPropagation()" ng-if="isCreator(group)"></span>
               </td>
             </tr>
           </tbody>

@@ -36,25 +36,30 @@ angular.module('BeehivePortal')
                 };
 
                 $scope.userGroup = $$UserGroup.get({}, request, function(group) {
-                    $scope.userList = group.users;
+                    $scope.userList = _.map(group.users, function(user){
+                        user.displayName = user.displayName || '';
+                        return user;
+                    });
                 });
             });
         };
 
-        $scope.myMenu = {
-            itemList: [
-                {
-                    text: 'controls.view',
-                    callback: function(user) {
-                        $scope.navigateTo($scope.navMapping.GROUP_USER_INFO, {
-                            userID: user.userID,
-                            userGroupID: $state.params['userGroupID']
-                        });
+        if($rootScope.credential.roleName != 'commUser'){
+            $scope.myMenu = {
+                itemList: [
+                    {
+                        text: 'controls.view',
+                        callback: function(user) {
+                            $scope.navigateTo($scope.navMapping.GROUP_USER_INFO, {
+                                userID: user.userID,
+                                userGroupID: $state.params['userGroupID']
+                            });
+                        }
                     }
-                }
-            ],
-            setting: {
+                ],
+                setting: {
 
-            }
-        };
+                }
+            };
+        }
     }]);

@@ -139,10 +139,14 @@
     float: left;
     &:last-child{
       padding-right: 0px;
-      padding-top: 0px;
     }
     .form-group:last-child{
       margin-bottom: 0px;
+    }
+  }
+  .complex-setting{
+    .half:last-child{
+      padding-top: 0px;
     }
   }
   div[uib-tabset]{
@@ -261,23 +265,23 @@
 }
 
 .chart-demo-chart{
+  .fa{
+    position: relative;
+    top: 4px;
+    margin-right: 5px;
+    font-size: 24px;
+    &.fa-clock-o{
+      color: #ffb589;
+    }
+  }
   .panel-row{
     line-height: 50px;
-    .fa{
-      position: relative;
-      top: 4px;
-      margin-right: 5px;
-      font-size: 24px;
-      &.fa-clock-o{
-        color: #ffb589;
-      }
-    }
     .title{
       margin-right: 10px;
     }
     .time-picker {
       max-width: 390px;
-      margin-top: 7px;
+      margin-top: 9px;
       margin-right: 5px;
     }
   }

@@ -86,9 +86,11 @@ angular.module('BeehivePortal')
         id: '',
         name: '',
         description: '',
+        complex: false,
         options: {
           level: 0,
-          query:'',
+          query: '',
+          complexQuery: '',
           interval: 1,
           timeUnit: 'H'
         },
@@ -230,8 +232,21 @@ angular.module('BeehivePortal')
 
     CustomChartsService.buildQueryFromOptions = function(options){
       var $defer = $q.defer();
+      if(!options.type){
+        $defer.reject(new Error('locations not specified.'));
+        return $defer.promise;
+      }
+      if(!options.locations || !options.locations.length){
+        $defer.reject(new Error('locations not specified.'));
+        return $defer.promise;
+      }
 
       ReportingService.getLocationThings(options.type.typeName, options.locations).then(function(locations){
+        
+        if(!options.property){
+          $defer.reject(new Error('property not specified.'));
+          return;
+        }
         var allThings = ReportingService.getAllThings(locations);
         var enumObj = ReportingService.getLocationEnums(locations);
 
@@ -280,7 +295,7 @@ angular.module('BeehivePortal')
             "aggs":{
               "byLocation": {
                 "_kii_agg_field_name": "位置",
-                "_kii_agg_chart": options.chartType,
+                "_kii_agg_chart": !options.dimensions.time? options.chartType: (options.chartType == 'line'?'bar': options.chartType),
                 "enum": enumObj
               }
             }
@@ -318,7 +333,9 @@ angular.module('BeehivePortal')
     CustomChartsService.buildComplexQueryFromOptions = function(options){
       var $defer = $q.defer();
       var queryStr = JSON.stringify(options.complexQuery);
+      if(queryStr == '') throw new Error('empty query string.');
       var locationStrs = searchField(queryStr, '@location');
+      if(!locationStrs) throw new Error('location is not specified.');
       var locationInjection = locationStrs[0];
       var locationData = JSON.parse(locationStrs[1]);
       var type = locationData.type;
@@ -337,7 +354,8 @@ angular.module('BeehivePortal')
           dateData = JSON.parse(dateStrs[1]);
           queryStr = queryStr.replace(dateStrs[0], '"date_histogram":' + JSON.stringify({
             "field": "state.date",
-            "interval": dateData.interval + dateData.unit
+            "interval": dateData.interval + dateData.unit,
+            "time_zone": "+08:00"
           }));
         }
 

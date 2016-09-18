@@ -41,7 +41,8 @@
   background-color: #fba141; }
 
 .btn.btn-lg {
-  padding: 10px 60px;
+  min-width: 160px;
+  padding: 10px 10px;
   font-size: 14px; }
 
 .btn.btn-md {

@@ -29,14 +29,14 @@ angular.module('BeehivePortal').factory('CodeExampleService', [function(){
       "size": 0,
       "aggs": {
           "byTime": {
+              "_kii_agg_chart": "line",
               "_kii_agg_field_name": "日期",
               "aggs": {
                   "byLocation": {
                       "_kii_agg_chart": "bar",
                       "_kii_agg_field_name": "楼层",
                       "@location": {
-                          "type": "ElectricMeter",
-                          "locations": ['0807w-M01', '0807w-M02']
+                          "type": "ElectricMeter"
                       },
                       "aggs": {
                           "byThing": {
@@ -145,8 +145,7 @@ angular.module('BeehivePortal').factory('CodeExampleService', [function(){
               "_kii_agg_chart": "bar",
               "_kii_agg_field_name": "楼层",
               "@location": {
-                  "type": "ElectricMeter",
-                  "locations": ['0807w-M01', '0807w-M02']
+                  "type": "ElectricMeter"
               },
               /*
               "enum": {
@@ -234,8 +233,7 @@ angular.module('BeehivePortal').factory('CodeExampleService', [function(){
               "_kii_agg_chart": "pie",
               "_kii_agg_field_name": "楼层",
               "@location": {
-                  "type": "ElectricMeter",
-                  "locations": ['0807w-M01', '0807w-M02']
+                  "type": "ElectricMeter"
               },
               /*
               "enum": {

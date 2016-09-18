@@ -96,6 +96,8 @@ angular.module('BeehivePortal')
       function($scope, $uibModalInstance, chart, $q, EditChartService, CustomChartsService, $timeout, CodeExampleService, $uibModal){
 
     $scope.modalTitle = _.isEmpty(chart.id)? 'reporting.createChartTitle' : 'reporting.editChartTitle';
+    $scope.activeIndex = chart.complex? 1:0;
+    $scope.dataset = {};
 
     $scope.chartTypes = [
       {text: 'reporting.lineChart', value: 'line'},
@@ -110,7 +112,7 @@ angular.module('BeehivePortal')
     $scope.selectedExample = null;
 
     $scope.typeOptions = [];
-    $scope.selectedType = null;
+    $scope.dataset.selectedType = null;
     $scope.selectedLocation = null;
     $scope.editor = null;
 
@@ -120,7 +122,7 @@ angular.module('BeehivePortal')
       index: AppConfig.kiiAppID,
       chartType: 'line',
       dimensions: {
-        location: false,
+        location: true,
         time: false
       },
       locations: [],
@@ -136,23 +138,15 @@ angular.module('BeehivePortal')
       {value: 'min', text: 'terms.min'}
     ];
 
-    $scope.$watch('selectedType', function(type){
-      if(!type)return;
-      $scope.options.type = {
-        typeName: type.value,
-        displayName: type.text
-      };
-    });
-
     $scope.init = function(){
       EditChartService.getAllTypes().then(function(types){
         $scope.typeOptions = types;
 
         if($scope.typeOptions.length > 0){
           if(chart.options.type){
-            $scope.selectedType = _.find($scope.typeOptions, {value: chart.options.type.typeName});
+            $scope.dataset.selectedType = _.find($scope.typeOptions, {value: chart.options.type.typeName});
           }else{
-            $scope.selectedType = $scope.typeOptions[0];
+            $scope.dataset.selectedType = $scope.typeOptions[0];
           }
         }
         _.extend($scope.options, chart.options);
@@ -205,6 +199,7 @@ angular.module('BeehivePortal')
     $scope.onTimeSliceChange = function(timeSlice){
       $scope.options.timeUnit = timeSlice.unit;
       $scope.options.interval = timeSlice.interval;
+      $scope.date = timeSlice;
     };
 
     $scope.removeLocation = function(location){
@@ -212,13 +207,16 @@ angular.module('BeehivePortal')
     };
 
     $scope.saveChart = function(){
-      $scope.options.query = CustomChartsService.buildQueryFromOptions($scope.options);
       $scope.options.level = ($scope.options.dimensions.time 
               && $scope.options.dimensions.location) ? 1 : 0;
         
       chart.name = $scope.options.name;
       chart.description = $scope.options.description;
       chart.options = $scope.options;
+      $scope.options.type = {
+        typeName: $scope.dataset.selectedType.value,
+        displayName: $scope.dataset.selectedType.text
+      };
 
       CustomChartsService.buildQueryFromOptions($scope.options).then(function(query){
         chart.options.query = query;
@@ -231,11 +229,38 @@ angular.module('BeehivePortal')
       });
     };
 
+    $scope.showDemoCode = function(){
+      $scope.level = ($scope.options.dimensions.time 
+              && $scope.options.dimensions.location) ? 1 : 0;
+      $scope.options.type = {
+        typeName: $scope.dataset.selectedType.value,
+        displayName: $scope.dataset.selectedType.text
+      };
+      CustomChartsService.buildQueryFromOptions($scope.options).then(function(query){
+        $scope.query = query;
+        $timeout(function(){
+          $scope.$broadcast('on-demo-refresh');
+        });
+      });
+    };
+
     $scope.saveComplexChart = function(){
       $scope.options.complexQuery = $scope.editor1.get();
-      $scope.options.query = CustomChartsService
+      CustomChartsService
         .buildComplexQueryFromOptions($scope.options).then(function(result){
-          $scope.showDemoCode(result.query, result.date);
+          $scope.options.query = result.query;
+          $scope.options.interval = result.date.interval;
+          $scope.options.timeUnit = result.date.unit;
+
+          chart.complex = true;
+          chart.options = $scope.options;
+          chart.name = $scope.options.name;
+          chart.description = $scope.options.description;
+          delete $scope.chart.options.name;
+          delete $scope.chart.options.description;
+          chart.save().then(function(){
+            $uibModalInstance.close(chart);
+          });
         });
     };
 
@@ -244,22 +269,27 @@ angular.module('BeehivePortal')
       $scope.editor2.set(option.code);
     };
 
-    $scope.showDemoCode = function(query, date){
-      $uibModal.open({
-        animation: true,
-        windowClass: 'app-portal-reporting-customcharts-modal',
-        templateUrl: 'custom-chart-code-demo',
-        controller: 'CustomChartsController.demoCode',
-        size: 'md',
-        resolve: {
-          query: function() {
-            return query;
-          },
-          date: function(){
-            return date;
-          }
-        }
-      });
+    $scope.showComplexDemoCode = function(){
+      $scope.options.complexQuery = $scope.editor1.get();
+
+      CustomChartsService
+        .buildComplexQueryFromOptions($scope.options).then(function(result){
+          $uibModal.open({
+            animation: true,
+            windowClass: 'app-portal-reporting-customcharts-modal',
+            templateUrl: 'custom-chart-code-demo',
+            controller: 'CustomChartsController.DemoCodeModal',
+            size: 'md',
+            resolve: {
+              query: function() {
+                return result.query;
+              },
+              date: function(){
+                return result.date;
+              }
+            }
+          });
+        });
     };
 
     $scope.copyExample = function(){
@@ -275,24 +305,43 @@ angular.module('BeehivePortal')
     };
 
   }])
-  .controller('CustomChartsController.demoCode', ['query', '$scope', '$uibModalInstance', 'date', function(query, $scope, $uibModalInstance, date){
+  .controller('CustomChartsController.DemoCodeModal', ['$scope', 'query', '$uibModalInstance', 'date', function($scope, query, $uibModalInstance, date){
     $scope.query = query;
-    $scope.refreshChart;
+    $scope.date = date;
+
+    $scope.dismiss = function(){
+      $uibModalInstance.dismiss();
+    };
+
+  }])
+  .controller('CustomChartsController.DemoCode', ['$scope', function($scope){
 
     var from = new Date();
     var to = new Date();
 
     from.setDate(from.getDate() - 1);
 
+    $scope.defaultTime = {
+      from: from,
+      to: to
+    };
+
+    $scope.$on('on-demo-refresh', function(){
+      if($scope.date){
+        $scope.period.setUnit($scope.date.unit);
+        $scope.period.setInterval($scope.date.interval);
+      }
+      $scope.refreshChart();
+    });
+
     $scope.period = new KiiReporting.KiiTimePeriod(null);
 
     $scope.period.setFromTime(from);
     $scope.period.setToTime(to);
 
-
-    if(date){
-      $scope.period.setUnit(date.unit);
-      $scope.period.setInterval(date.interval);
+    if($scope.date){
+      $scope.period.setUnit($scope.date.unit);
+      $scope.period.setInterval($scope.date.interval);
     }
 
     $scope.onPeriodChange = function(period){
@@ -303,9 +352,10 @@ angular.module('BeehivePortal')
     $scope.refresh = function(){
       $scope.refreshChart();
     };
-
-    $scope.dismiss = function(){
-      $uibModalInstance.dismiss();
-    };
-
   }]);
+
+
+
+
+
+

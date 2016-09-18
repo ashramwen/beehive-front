@@ -58,8 +58,8 @@
     <button clear><span class="fa fa-remove" ng-click="dismiss()"></span></button>
   </div>
   <div class="modal-body ng-scope chart-setting-modal">
-    <div uib-tabset>
-      <div uib-tab heading="创建图表">
+    <div uib-tabset active="activeIndex">
+      <div uib-tab heading="创建图表" index="0">
         <div class="flex-container">
           <!-- left-half -->
           <div class="half">
@@ -77,12 +77,12 @@
                 </div>
                 <div class="form-group chart-option">
                   <label>{{"reporting.thingType" | translate}}</label>
-                  <div><div app-select options="typeOptions" selected-model="selectedType"></div></div>
+                  <div><div app-select options="typeOptions" selected-model="dataset.selectedType"></div></div>
                 </div>
                 <div class="form-group chart-option">
                   <label>{{"reporting.yAxis" | translate}}</label>
                   <div>
-                    <div app-select options="selectedType.properties" text="displayName" value="propertyName" selected-model="options.property"></div>
+                    <div app-select options="dataset.selectedType.properties" text="displayName" value="propertyName" selected-model="options.property"></div>
                   </div>
                 </div>
                 <div class="form-group chart-option">
@@ -129,18 +129,47 @@
               <label>{{'terms.description' | translate}}</label>
               <textarea class="form-control" ng-model="options.description"></textarea>
             </div>
+            <div class="form-group text-center">
+              <button class="btn btn-info btn-lg" ng-click="saveChart()">保存</button>
+              <button class="btn btn-info btn-warning btn-lg" ng-click="showDemoCode()">生成预览</button>
+            </div>
           </div>
           <!-- end of left half -->
 
           <!-- right half -->
-          <div class="half">
+          <div class="half chart-demo-chart" ng-controller="CustomChartsController.DemoCode">
+            <div class="form-group">
+              <label>
+                <div class="title pull-left">
+                  <span class="fa fa-clock-o"></span>
+                  {{'terms.timePeriod' | translate}}
+                </div>
+              </label>
+              <div class="panel-row clearfix">
+                <div class="pull-left time-picker">
+                  <rp-date-picker last-date="defaultTime" output="onPeriodChange"></rp-date-picker>
+                </div>
+                <div class="pull-left">
+                  <button class="btn btn-info" ng-click="refresh()">{{'controls.refresh' | translate}}</button>
+                </div>
+              </div>
+            </div>
             
+            <div class="kii-chart-container">
+              <kii-chart 
+                query="query"
+                period="period"
+                refresh="refreshChart"
+                level="level"
+                style="height: 100%">
+              </kii-chart>
+            </div>
           </div>
           <!-- end of right half -->
         </div>
       </div>
-      <div uib-tab heading="高级设置">
-        <div class="flex-container">
+      <div uib-tab heading="高级设置" index="1">
+        <div class="flex-container form-group complex-setting">
           <div class="half">
             <div class="form-group">
               <label>图表名称</label>
@@ -178,7 +207,6 @@
                 </div>
                 <div class="clearfix bottom">
                   <div class="pull-right">
-                    <button class="btn btn-link" ng-click="saveComplexChart()">生成预览</button>
                     <button class="btn btn-link text-warning" ng-click="copyExample()">复制代码</button>
                   </div>
                 </div>
@@ -186,8 +214,9 @@
             </div>
           </div>
         </div>
-        <div>
-          <button class="btn-lg btn btn-info" ng-click="saveComplexChart()">显示</button>
+        <div class="form-group text-center">
+          <button class="btn btn-info btn-lg" ng-click="saveComplexChart()">保存</button>
+          <button class="btn btn-warning btn-lg" ng-click="showComplexDemoCode()">生成预览</button>
         </div>
       </div>
     </div>
@@ -199,7 +228,7 @@
   <div class="modal-header ng-scope">
     <button clear><span class="fa fa-remove" ng-click="dismiss()"></span></button>
   </div>
-  <div class="modal-body ng-scope chart-setting-modal chart-demo-chart">
+  <div class="modal-body ng-scope chart-setting-modal chart-demo-chart" ng-controller="CustomChartsController.DemoCode">
     <div class="panel-row clearfix">
       <div class="title pull-left">
         <span class="fa fa-clock-o"></span>
@@ -216,11 +245,7 @@
       <kii-chart 
         query="query"
         period="period"
-        window="0"
-        location=""
         refresh="refreshChart"
-        stage="false"
-        level="1"
         style="height: 100%">
       </kii-chart>
     </div>

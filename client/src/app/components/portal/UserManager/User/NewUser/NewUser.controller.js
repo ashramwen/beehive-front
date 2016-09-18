@@ -48,16 +48,21 @@ angular.module('BeehivePortal')
 
                 $scope.navigateTo($scope.navMapping.USER_LIST);
             }, function(response) {
-                switch(response.errorCode){
-                    case 'REQUIRED_FIELDS_MISSING':
-                        break;
-                    case 'USER_EXIST':
-                        AppUtils.alert({
-                            msg: 'userManager.userNameConflictMsg'
-                        });
-                        break;
+                if(response.statusText == 'Conflict'){
+                    AppUtils.alert({
+                        msg: 'userManager.userNameConflictMsg'
+                    });
+                }else{
+                    switch(response.errorCode){
+                        case 'REQUIRED_FIELDS_MISSING':
+                            break;
+                        case 'USER_EXIST':
+                            AppUtils.alert({
+                                msg: 'userManager.userNameConflictMsg'
+                            });
+                            break;
+                    }
                 }
-                
             });
         }
     }]);

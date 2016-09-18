@@ -122,7 +122,7 @@ angular.module('BeehivePortal')
             };
 
             AppUtils.confirm(options);
-        }
+        };
     }]);
 
 
