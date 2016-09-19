@@ -13,7 +13,7 @@
         <img src="images/icon_monitoring_view.png" alt="">
         <div class="name">{{v.name}}</div>
         <div class="desc">设备数量： {{v.count}}</div>
-        <div id="v_{{v.id}}" class="tooltip-desc">
+        <div id="v_{{v.id}}" class="tooltip-desc" ng-if="v.desc">
           <div>{{v.desc}}</div>
         </div>
       </div>

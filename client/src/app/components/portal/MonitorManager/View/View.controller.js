@@ -49,6 +49,7 @@ angular.module('BeehivePortal.MonitorManager')
     }
 
     $scope.mousemove = function(e, v) {
+        if (!v.desc) return;
         var x = e.clientX;
         var y = e.clientY;
         var tooltip = document.getElementById('v_' + v.id);
