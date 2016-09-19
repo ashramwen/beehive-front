@@ -163,6 +163,9 @@ angular.module('BeehivePortal')
         var container = document.getElementById("jsoneditor1");
         var options = {mode: 'code'};
         $scope.editor1 = new JSONEditor(container, options);
+        if(chart.options.complexQuery){
+          $scope.editor1.set(chart.options.complexQuery);
+        }
 
         var container = document.getElementById("jsoneditor2");
         var options = {mode: 'code'};
@@ -256,8 +259,8 @@ angular.module('BeehivePortal')
           chart.options = $scope.options;
           chart.name = $scope.options.name;
           chart.description = $scope.options.description;
-          delete $scope.chart.options.name;
-          delete $scope.chart.options.description;
+          delete chart.options.name;
+          delete chart.options.description;
           chart.save().then(function(){
             $uibModalInstance.close(chart);
           });

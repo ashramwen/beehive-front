@@ -19,6 +19,7 @@ angular.module('BeehivePortal')
         $rootScope.$watch('login', function(newVal){
             if(!newVal) return;
             $$User.getThings({userID: $scope.user.userID}, function(things){
+                things = _.filter(things,{createBy: $scope.credential.id.toLocaleString()});
                 $scope.selectedThings = _.pluck(things, 'globalThingID');
                 TriggerDetailService.getThingsDetail(things, true).then(function(things){
                     $scope.inputMethods.inputThingDataset({selectedThings: things});
@@ -30,7 +31,6 @@ angular.module('BeehivePortal')
     $scope.selectedChange = function(selectedThings, type){
         $scope.things = _.pluck(selectedThings, 'globalThingID');
     };
-
 
     $scope.ok = function () {
         $$UserManager.update($scope.user, function(user){

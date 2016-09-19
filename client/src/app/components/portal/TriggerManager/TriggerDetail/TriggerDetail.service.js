@@ -231,6 +231,15 @@ angular.module('BeehivePortal')
 
       var promiseList = [];
 
+      if(trigger.predicate.condition && trigger.predicate.condition.clauses 
+          && trigger.predicate.condition.clauses.length){
+        
+        trigger.predicate.condition.clauses.pop();
+        _.each(trigger.predicate.condition.clauses, function(clause){
+          clause.clauses.pop();
+        });
+      }
+      
       _.each(trigger.summarySource, function(typeSource, key){
         var $defer = $q.defer();
         promiseList.push($defer.promise);
@@ -252,10 +261,6 @@ angular.module('BeehivePortal')
         var $thingsPromise = TriggerDetailService.getThingsDetail(things);
 
         var propertyNames = _.pluck(typeSource.expressList, 'stateName');
-        trigger.predicate.condition.clauses.pop();
-        _.each(trigger.predicate.condition.clauses, function(clause){
-          clause.clauses.pop();
-        });
 
         var properties = _.map(propertyNames, function(propertyName){
           var clauses = [];

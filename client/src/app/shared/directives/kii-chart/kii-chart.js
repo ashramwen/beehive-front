@@ -119,13 +119,18 @@ angular.module('BeehivePortal')
             }
 
             function refreshGraph(aggTree, data){
-                var selectedAgg = aggTree;
-                var i = $scope.level;
-
                 aggTree.chart = $scope.chart || aggTree.chart;
 
-                while(i--){
-                    selectedAgg = selectedAgg.children[0];
+                var selectedAgg = aggTree;
+                var i = $scope.level;
+                
+                if(i){
+                    while(i--){
+                        selectedAgg = selectedAgg.children[0];
+                    }
+                }else{
+                    selectedAgg = getSelectedAgg(selectedAgg);
+                    if(!selectedAgg) selectedAgg = aggTree;
                 }
 
                 if(!$scope._chart){
@@ -142,6 +147,17 @@ angular.module('BeehivePortal')
                 $scope._chart.selectAggNode(selectedAgg);
                 $scope._chart.setData(data);
                 $scope._chart.refresh();
+            }
+
+            function getSelectedAgg(agg){
+                for(var metricIndex in agg.metrics){
+                    if(agg.metrics[metricIndex].selected) return agg;
+                }
+                for(var childIndex in agg.children){
+                    var selectedAgg = getSelectedAgg(agg.children[childIndex]);
+                    if(selectedAgg) return selectedAgg;
+                }
+                return false;
             }
         }
     };
