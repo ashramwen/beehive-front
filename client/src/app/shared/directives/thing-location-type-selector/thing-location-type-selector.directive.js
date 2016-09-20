@@ -82,6 +82,9 @@ angular.module('BeehivePortal')
             }); 
             TriggerDetailService.getThingsDetail(things).then(function(things){
               $scope.things = things;
+              $scope.things = _.reject(things, function(thing){
+                return !thing.fullKiiThingID;
+              });
               if($scope.creatorOnly){
                 var credential = Session.getCredential();
                 $scope.things = _.where($scope.things, {createBy: credential.id.toLocaleString()});
