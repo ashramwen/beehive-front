@@ -13,7 +13,10 @@
           <button class="btn" ng-class="{'btn-info': triggerData.timeSpan.intervalType=='WEEKEND', 'btn-default': triggerData.timeSpan.intervalType!='WEEKEND'}" ng-click="triggerData.timeSpan.intervalType='WEEKEND'">{{'terms.weekend' | translate}}</button>
         </div>
       </div>
-      <div class="row">
+      <div class="row" uib-tooltip="{{'开始时间不能大于结束时间' | translate}}"
+          tooltip-trigger="'none'"
+          tooltip-placement="top"
+          tooltip-is-open="triggerData.timeSpan.startAt >= triggerData.timeSpan.endAt && triggerData.timeSpan.startAt">
         <div class="col-sm-6">
           <div class="input-group">
             <span class="input-group-addon">{{'terms.from' | translate}}</span>
