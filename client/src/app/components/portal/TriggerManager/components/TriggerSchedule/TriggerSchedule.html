@@ -34,7 +34,7 @@
           </div>
           <div class="repeat-settings">
             <div ng-if="triggerData.schedule.type!='Interval'" class="form-group no-repeat">
-              <input type="time" class="form-control"
+              <input type="text" ui-timepicker class="form-control"
                 ng-model="triggerData.schedule.time" 
                 ng-if="triggerData.schedule.onceType!='hourly'" 
                 name="ruleScheduleTime1" 

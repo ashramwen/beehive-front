@@ -172,10 +172,13 @@ angular.module('BeehivePortal')
 
         var $thingsPromise = TriggerDetailService.getThingsDetail(things);
 
-        var actions = _.map(target.command.actions[0], function(action, actionName){
+        var actions = _.map(target.command.actions, function(action){
+          var actionName = Object.keys(action)[0];
+          if(!actionName) throw new Error('action格式不正确');
+
           return {
             actionName: actionName,
-            properties: _.map(action, function(propertyValue, key){
+            properties: _.map(action[actionName], function(propertyValue, key){
               return {
                 propertyName: key,
                 value: propertyValue
@@ -231,6 +234,15 @@ angular.module('BeehivePortal')
 
       var promiseList = [];
 
+      if(trigger.predicate.condition && trigger.predicate.condition.clauses 
+          && trigger.predicate.condition.clauses.length){
+
+        trigger.predicate.condition.clauses.pop();
+        _.each(trigger.predicate.condition.clauses, function(clause){
+          clause.clauses.pop();
+        });
+      }
+      
       _.each(trigger.summarySource, function(typeSource, key){
         var $defer = $q.defer();
         promiseList.push($defer.promise);
@@ -252,10 +264,6 @@ angular.module('BeehivePortal')
         var $thingsPromise = TriggerDetailService.getThingsDetail(things);
 
         var propertyNames = _.pluck(typeSource.expressList, 'stateName');
-        trigger.predicate.condition.clauses.pop();
-        _.each(trigger.predicate.condition.clauses, function(clause){
-          clause.clauses.pop();
-        });
 
         var properties = _.map(propertyNames, function(propertyName){
           var clauses = [];
@@ -541,11 +549,11 @@ angular.module('BeehivePortal')
 
     TriggerDetailService.generateTargets = function(triggerDataset){
       return _.map(triggerDataset.actionGroups, function(actionGroup){
-        var _action = {};
+        var actions = [];
         var target = {
           "thingList": _.pluck(actionGroup.things, 'globalThingID'),
           "command" : {
-            "actions" : [_action],
+            "actions" : actions,
             "schemaVersion" : 0,
             "metadata" : {
               "type": actionGroup.type
@@ -554,11 +562,13 @@ angular.module('BeehivePortal')
         };
 
         _.each(actionGroup.actions, function(action){
+          var _action = {};
           _action[action.actionName] = {};
 
           _.each(action.properties, function(property){
             _action[action.actionName][property.propertyName] = property.value;
           });
+          actions.push(_action);
         });
 
         return target;

@@ -99,6 +99,9 @@
       text-align: center;
       line-height: 170px;
       flex: 1;
+      .ui-timepicker-list{
+        line-height: 20px;
+      }
 
       .form-group{
         height: 100%;

@@ -5,7 +5,7 @@ var MyApp = angular.module('BeehivePortal', [
   'ngAnimate', 'ngCookies', 'ngSanitize',
   'ngResource', 'ui.router', 'ui.bootstrap','LocalStorageModule', 'rzModule', 'treeControl', 'ngStomp', 'datePicker',
   'monospaced.elastic', 'angularjs-dropdown-multiselect', 'ng.jsoneditor',
-  'angular-cron-jobs', 'ui-notification', 'gridster', 'pascalprecht.translate'
+  'angular-cron-jobs', 'ui-notification', 'gridster', 'pascalprecht.translate', 'ui.timepicker'
 ])
 .constant('ERROR_CODE', {
   'INVALID_INPUT': 'INVALID_INPUT',
@@ -130,3 +130,10 @@ config(function(localStorageServiceProvider, $httpProvider, NotificationProvider
       }
   ]
 );
+
+angular.module('ui.timepicker').value('uiTimepickerConfig',{
+  step: 15,
+  timeFormat: 'H:i',
+  show2400: true,
+  appendTo: 'body'
+});

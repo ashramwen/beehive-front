@@ -9,7 +9,7 @@
           && !triggerData.conditionGroups.length"
       >{{'triggerManager.ruleConditions' | translate}}</h4>
       <div class="table-holder">
-        <div app-select options="options" selected-model="trigger.all" value-only="true"></div>
+        <div app-select options="options" selected-model="trigger.any" value-only="true"></div>
         <table class="property-table">
           <tbody>
             <tr ng-repeat="conditionGroup in trigger.conditionGroups" ng-click="editConditionGroup(conditionGroup.type)">
