@@ -14,6 +14,11 @@ angular.module('BeehivePortal')
       if(!triggerData.actionGroups || !triggerData.actionGroups.length){
         throw(new Error);
       }
+      if(triggerData.timeSpan.startAt && triggerData.timeSpan.endAt){
+        if(triggerData.timeSpan.endAt <= triggerData.timeSpan.startAt){
+          throw(new Error);
+        }
+      }
       return true;
     };
 
