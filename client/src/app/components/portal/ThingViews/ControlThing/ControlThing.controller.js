@@ -18,10 +18,8 @@ angular.module('BeehivePortal')
 
     
     $scope.selectedChange = function(things, type){
-
       if(type != $scope.selectedType){
         $scope.selectedType = type;
-
         $$Type.getSchema({type: type}, function(schema){
           var _schema = TriggerDetailService.parseSchema(schema);
           $scope.schema = _schema;
