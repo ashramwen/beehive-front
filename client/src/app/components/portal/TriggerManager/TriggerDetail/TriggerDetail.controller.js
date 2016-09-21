@@ -36,6 +36,7 @@ angular.module('BeehivePortal')
 
         $q.all(promiseList).then(function(result){
           $scope.triggerData = {
+            triggersWhen: trigger.predicate? trigger.predicate.triggersWhen: 'CONDITION_TRUE',
             fromGateway: trigger.type == 'Gateway',
             triggerID: trigger.triggerID,
             enabled: !(trigger.recordStatus == 'disable'),

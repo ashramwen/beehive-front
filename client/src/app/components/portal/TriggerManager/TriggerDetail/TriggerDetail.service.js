@@ -233,7 +233,6 @@ angular.module('BeehivePortal')
     TriggerDetailService.parseTriggerConditions = function(trigger){
 
       var promiseList = [];
-
       if(trigger.predicate.condition && trigger.predicate.condition.clauses 
           && trigger.predicate.condition.clauses.length){
 

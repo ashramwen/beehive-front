@@ -31,7 +31,7 @@ angular.module('BeehivePortal')
         "description": triggerData.description,
         "type": "Summary",
         "predicate": {
-          "triggersWhen" : "CONDITION_TRUE",
+          "triggersWhen" : triggerData.triggersWhen,
           "condition": dataset.condition
         },
         "prepareCondition": TriggerDetailService.generatePrepareCondition(triggerData),
