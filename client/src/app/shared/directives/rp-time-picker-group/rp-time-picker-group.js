@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .directive('rpTimePickGroup', ['$compile', function($compile){
+  .directive('rpTimePickerGroup', ['$compile', function($compile){
     return {
         restrict: 'A',
-        link: function($scope, ele, attr){
-            scope.$on('time-from-change', function(value){
+        link: function(scope, ele, attr){
+            scope.$on('time-from-change', function(event, value){
                 scope.$broadcast('time-from-changed', value);
             });
-            scope.$on('time-to-change', function(value){
+            scope.$on('time-to-change', function(event, value){
                 scope.$broadcast('time-to-changed', value);
             });
         }
@@ -20,67 +20,147 @@ angular.module('BeehivePortal')
         require: '?ngModel',
         link: function(scope, ele, attr, ngModelCtrl){
 
-            var ngModelGet = $parse(attrs.ngModel);
-            scope.$watch(attrs.ngModel, function () {
-                scope.$emit('time-from-change', ngModelGet(scope));
+            $(ele).on('keydown', function(){
+                return false;
             });
 
-            scope.$on('time-to-changed', function(toTime){
-                var fromTime = ngModelGet(scope);
+            scope.$watch(attr['ngModel'],function(value){
+                scope.$emit('time-from-change', value);
+            });
 
-                if(toTime && fromTime){
-                    var toHours = toTime.getHours();
-                    var toMinutes = toTime.getMinutes();
-                    var fromHourse = fromTime.getHours();
-                    var fromMinutes = fromTime.getMinutes();
+            scope.$on('time-to-changed', function(event, toTime){
+                var fromTime = scope[attr['ngModel']];
+                var maxTime = null;
 
-                    if(toHours<fromHourse){
-                        fromTime.setHours(toHours);
-                        if(toMinutes < fromTime){
-                            fromTime.setMinutes(toMinutes);
-                        }
-                    }else if(toHours == fromHourse){
-                        if(toMinutes < fromTime){
-                            fromTime.setMinutes(toMinutes);
-                        }
-                    }
+                if(toTime){
+                    maxTime = toTime;
+                }else{
+                    maxTime = getMaxTime();
                 }
-            });
-            var $hidden = $('<input type="hidden" />').insertAfter(ele);
-            $hidden.timepicker({
-                step: 15,
-                  timeFormat: 'H:i',
-                  show2400: true,
-                  appendTo: 'body'
+
+                $(ele).timepicker('option', {
+                    maxTime: maxTime
+                });
             });
 
-            ngModelCtrl.$parsers.push(fromOutside);
+            var maxTime = new Date();
+                maxTime.setDate(maxTime.getDate() + 1);
+                maxTime.setHours(0);
+                maxTime.setMinutes(-1);
+                maxTime.setSeconds(0);
+
+            $(ele).timepicker({
+                maxTime: maxTime,
+                step: 15,
+                timeFormat: 'H:i',
+                show2400: true,
+                appendTo: 'body'
+            });
+
+            ngModelCtrl.$parsers.push($parser());
+            ngModelCtrl.$formatters.push($formatter());
         }
     };
   }])
+  
   .directive('rpTimePickerTo', ['$parse', function($parse){
     return {
         restrict: 'A',
         require: '?ngModel',
-        link: function($scope, ele, attr, ngModelCtrl){
+        link: function(scope, ele, attr, ngModelCtrl){
 
-            var ngModelGet = $parse(attrs.ngModel);
-            scope.$watch(attrs.ngModel, function () {
-                scope.$emit('time-to-change', ngModelGet(scope));
+            $(ele).on('keydown', function(){
+                return false;
             });
-            ngModelCtrl.$parsers.push(fromOutside);
+
+            scope.$on('time-from-changed', function(event, fromTime){
+                var toTime = scope[attr['ngModel']];
+                var minTime = null;
+                var maxTime = getMaxTime();
+
+                if(fromTime){
+                    minTime = fromTime;
+                }else{
+                    minTime = new Date();
+                    minTime.setHours(0);
+                    minTime.setMinutes(0);
+                    minTime.setMilliseconds(0);
+                }
+
+                $(ele).timepicker('option', {
+                    minTime: minTime,
+                    maxTime: maxTime
+                });
+            });
+
+            scope.$watch(attr['ngModel'], function(value){
+                scope.$emit('time-to-change', value);
+            });
+
+            $(ele).timepicker({
+                step: 15,
+                timeFormat: 'H:i',
+                show2400: true,
+                appendTo: 'body'
+            });
+
+            ngModelCtrl.$parsers.push($parser());
+            ngModelCtrl.$formatters.push($formatter());
         }
     };
   }]);
+  
+function getMaxTime(){
+    var maxTime = new Date();
+    maxTime.setDate(maxTime.getDate() + 1);
+    maxTime.setHours(0);
+    maxTime.setMinutes(-1);
+    maxTime.setSeconds(0);
+    return maxTime;
+}
 
+function $formatter(){
+    return getDateDisplay;
+}
 
 /**
  * [fromOutside description]
  * @param  {[Date]} value [description]
  * @return {[transformedInput]}       [description]
  */
-function fromOutside(value) {
-    if (value) {
+function $parser(){
+    return function (viewValue) {
+        if(viewValue){
+            var newViewValue, modelValue;
+            if (_.isString(viewValue)) {
+                var hour, min, time;
+                hour = parseInt(viewValue.split(':')[0]);
+                min = parseInt(viewValue.split(':')[1]);
+                time = new Date();
+
+                time.setHours(hour);
+                time.setMinutes(min);
+                modelValue = time;
+                // newViewValue = viewValue;
+                //ngModelCtrl.$setViewValue(newViewValue);
+                //ngModelCtrl.$render();
+            }else if(viewValue instanceof Date){
+                //ngModelCtrl.$setViewValue(getDateDisplay(value));
+                //ngModelCtrl.$render();
+                modelValue = viewValue;
+            }
+
+            return modelValue;
+        }
+        
+        return undefined;
+    }  
+}
+
+function getDateDisplay(value){
+    if(!value){
+        return '';
+    }else{
         var hour = value.getHours().toString();
         var min = value.getMinutes().toString();
         if(hour.length < 2){
@@ -89,10 +169,6 @@ function fromOutside(value) {
         if(min.length < 2){
             min = '0' + min;
         }
-
-        ngModelCtrl.$setViewValue(hour + ' : ' + min);
-        ngModelCtrl.$render();
-        return value;
+        return [hour,min].join(':');
     }
-    return undefined;
-}        
+}

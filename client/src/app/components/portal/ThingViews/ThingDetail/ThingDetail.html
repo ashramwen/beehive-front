@@ -117,7 +117,7 @@
             <!-- enmu: number -->
             <div ng-if="property.enumType == 'NUMBER'">
               <label>{{property.displayName}}</label>
-              <div app-select options="property.options" selected-model="property.value"></div>
+              <div app-select options="property.options" value-only="true" selected-model="property.value"></div>
             </div>
             
           </div>

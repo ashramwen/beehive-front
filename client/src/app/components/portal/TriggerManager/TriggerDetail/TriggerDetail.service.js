@@ -118,7 +118,9 @@ angular.module('BeehivePortal')
         default:
           var values = [];
           if(_property.type == 'boolean'){
-            values = [false, true];
+            values = _.map(_property.enum, function(value, key){
+              return value;
+            });
           }else{
             for(var i = _property.minimum; i <= _property.maximum; i++){
               values.push(i);

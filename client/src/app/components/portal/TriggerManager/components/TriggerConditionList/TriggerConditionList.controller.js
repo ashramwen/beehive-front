@@ -12,7 +12,7 @@ angular.module('BeehivePortal')
       {text: '为真', value: 'CONDITION_TRUE'},
       {text: '由假转真', value: 'CONDITION_FALSE_TO_TRUE'},
       {text: '由真转假', value: 'CONDITION_TRUE_TO_FALSE'},
-      {text: '改变', value: 'CONDITION_TRUE'}
+      {text: '改变', value: 'CONDITION_CHANGED'}
     ];
 
     $scope.init = function(){
