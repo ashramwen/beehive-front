@@ -118,7 +118,9 @@ angular.module('BeehivePortal')
         default:
           var values = [];
           if(_property.type == 'boolean'){
-            values = [false, true];
+            values = _.map(_property.enum, function(value, key){
+              return value;
+            });
           }else{
             for(var i = _property.minimum; i <= _property.maximum; i++){
               values.push(i);
@@ -172,10 +174,13 @@ angular.module('BeehivePortal')
 
         var $thingsPromise = TriggerDetailService.getThingsDetail(things);
 
-        var actions = _.map(target.command.actions[0], function(action, actionName){
+        var actions = _.map(target.command.actions, function(action){
+          var actionName = Object.keys(action)[0];
+          if(!actionName) throw new Error('action格式不正确');
+
           return {
             actionName: actionName,
-            properties: _.map(action, function(propertyValue, key){
+            properties: _.map(action[actionName], function(propertyValue, key){
               return {
                 propertyName: key,
                 value: propertyValue
@@ -230,10 +235,8 @@ angular.module('BeehivePortal')
     TriggerDetailService.parseTriggerConditions = function(trigger){
 
       var promiseList = [];
-
       if(trigger.predicate.condition && trigger.predicate.condition.clauses 
           && trigger.predicate.condition.clauses.length){
-
         trigger.predicate.condition.clauses.pop();
         _.each(trigger.predicate.condition.clauses, function(clause){
           clause.clauses.pop();

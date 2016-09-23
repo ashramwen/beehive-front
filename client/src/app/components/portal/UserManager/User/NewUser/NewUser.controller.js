@@ -55,12 +55,19 @@ angular.module('BeehivePortal')
                 }else{
                     switch(response.errorCode){
                         case 'REQUIRED_FIELDS_MISSING':
+                            AppUtils.alert({
+                                msg: '创建失败！'
+                            });
                             break;
                         case 'USER_EXIST':
                             AppUtils.alert({
                                 msg: 'userManager.userNameConflictMsg'
                             });
                             break;
+                        default:
+                            AppUtils.alert({
+                                msg: '创建失败！'
+                            });
                     }
                 }
             });

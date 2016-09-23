@@ -18,7 +18,7 @@
         </div>
         <div class="form-group" ng-class="{ 'has-error' : submitted && (newUserForm.loginName.$invalid || (!newUser.phone && !newUser.userName && !newUser.mail))}">
           <label>{{'user.loginName' | translate}}</label>
-          <input ng-model="newUser.userName" type="text" name="loginName" class="form-control" placeholder="{{'user.userName' | translate}}" ng-minlength="5" ng-maxlength="20"/>
+          <input ng-model="newUser.userName" type="text" name="loginName" class="form-control" placeholder="{{'user.userName' | translate}}" ng-minlength="5" ng-maxlength="20" ng-pattern="/^[a-zA-Z0-9]*$/"/>
           <p ng-show="submitted && !newUser.phone && !newUser.userName && !newUser.mail" class="help-block">
             {{'userManager.loginNameOrEmailOrPhoneRequired' |  translate}}
           </p>
@@ -27,6 +27,9 @@
           </p>
           <p ng-show="submitted && newUserForm.loginName.$error.maxlength" class="help-block">
             {{'userManager.loginNameTooLong' |  translate}}
+          </p>
+          <p ng-show="submitted && newUserForm.loginName.$error.pattern" class="help-block">
+            {{'userManager.pattern' |  translate}}
           </p>
         </div>
         <div class="form-group" ng-class="{ 'has-error' : submitted && ((!newUser.phone && !newUser.userName && !newUser.mail) || (newUser.phone && newUser.phone < 10000000000 || newUser.phone > 99999999999)) }">
