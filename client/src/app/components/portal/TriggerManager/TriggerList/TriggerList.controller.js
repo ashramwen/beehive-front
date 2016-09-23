@@ -11,7 +11,8 @@ angular.module('BeehivePortal')
     $scope.triggers = [];
     $scope.typeList = [
         {name: 'conditional', displayName: 'triggerManager.conditionRule', disabled: false, icon:'fa-code-fork'},
-        {name: 'schedule', displayName: 'triggerManager.scheduleRule', disabled: false, icon:'fa-clock-o'}
+        {name: 'schedule', displayName: 'triggerManager.scheduleRule', disabled: false, icon:'fa-clock-o'},
+        {name: 'machine-learning', displayName: 'triggerManager.machineLearningRule', disabled: false, icon: 'fa-puzzle-piece'}
     ];
 
     $rootScope.$watch('login', function(newVal){
@@ -46,6 +47,9 @@ angular.module('BeehivePortal')
             case 'conditional':
                 $state.go('app.portal.TriggerManager.TriggerDetail.ConditionTrigger', params);
                 break;
+            case 'machine-learning':
+                $state.go('app.portal.TriggerManager.TriggerDetail.MachineLearningTrigger', params);
+                break;
         }
     };
 
@@ -61,6 +65,10 @@ angular.module('BeehivePortal')
     $scope.createConditionalTrigger = function(){
         $state.go('app.portal.TriggerManager.NewTrigger.ConditionTrigger');
     };
+
+    $scope.createMachineLearning = function(){
+        $state.go('app.portal.TriggerManager.NewTrigger.MachineLearningTrigger');
+    }
 
     $scope.toggleType = function(type){
         type.disabled = !type.disabled;

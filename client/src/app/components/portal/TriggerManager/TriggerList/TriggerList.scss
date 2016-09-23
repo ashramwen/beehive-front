@@ -9,6 +9,7 @@
     $color-schedule-title: #d87500;
     $color-conditional: #9bd1c0;
     $color-conditional-title: #71ac9b;
+    $color-machine-learning: #72c0f1;
 
     $color-disabled-background: #dcdcdc;
     $color-disabled: #b8b8b8;
@@ -54,6 +55,11 @@
                     color: $color-conditional;
                 }
             }
+            &.machine-learning{
+                .trigger-img{
+                    color: $color-machine-learning;
+                }
+            }
             &.disabled{
                 color: $color-disabled;
                 .fa-server{
@@ -93,6 +99,9 @@
                 }
                 &.conditional{
                     background: $color-conditional;
+                }
+                &.machine-learning{
+                    background: $color-machine-learning;
                 }
                 &.disabled{
                     background: #dcdcdc !important;
@@ -152,6 +161,11 @@
                 &.schedule{
                     .btn-add-param .fa{
                         color: $color-schedule;
+                    }
+                }
+                &.machine-learning{
+                    .btn-add-param .fa{
+                        color: $color-machine-learning;
                     }
                 }
             }

@@ -135,5 +135,78 @@ angular.module('BeehivePortal')
         controller: 'TriggerActionHandlerController',
         stateName: 'triggerManager.editAction',
         previous: 'app.portal.TriggerManager.NewTrigger.ScheduleTrigger'
+      })
+
+      /**************************************************************************************************/
+
+      /**
+       * new condition trigger
+       * @type {String}
+       */
+      .state('app.portal.TriggerManager.NewTrigger.MachineLearningTrigger', {
+        url: '/MachineLearningTrigger',
+        templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/MachineLearningTriggerDetail/MachineLearningTriggerDetail.html',
+        controller: 'MachineLearningTriggerDetailController',
+        stateName: 'triggerManager.newTrigger',
+        previous: 'app.portal.TriggerManager.TriggerList'
+      })
+
+      /**
+       * condition trigger detail
+       * @type {String}
+       */
+      .state('app.portal.TriggerManager.TriggerDetail.MachineLearningTrigger', {
+        url: '/MachineLearningTrigger',
+        templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/MachineLearningTriggerDetail/MachineLearningTriggerDetail.html',
+        controller: 'MachineLearningTriggerDetailController',
+        stateName: 'triggerManager.machineLearningTriggerDetail',
+        previous: 'app.portal.TriggerManager.TriggerList'
+      })
+
+      /**
+       * action settings - condition trigger
+       * @type {String}
+       */
+      .state('app.portal.TriggerManager.TriggerDetail.MachineLearningTriggerActionHandler', {
+        url: '/MachineLearning/action/:type',
+        templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/TriggerActionHandler/TriggerActionHandler.html',
+        controller: 'TriggerActionHandlerController',
+        stateName: 'triggerManager.editAction',
+        previous: 'app.portal.TriggerManager.TriggerDetail.MachineLearningTrigger'
+      })
+      /**
+       * condition settings - condition trigger
+       * @type {String}
+       */
+      .state('app.portal.TriggerManager.TriggerDetail.MachineLearningTriggerConditionHandler', {
+        url: '/MachineLearning/condition/:type',
+        templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/TriggerConditionHandler/TriggerConditionHandler.html',
+        controller: 'TriggerConditionHandlerController',
+        stateName: 'triggerManager.editCondition',
+        previous: 'app.portal.TriggerManager.TriggerDetail.MachineLearningTrigger'
+      })
+      /**
+       * action settings - new condition trigger
+       * @type {String}
+       */
+      .state('app.portal.TriggerManager.NewTrigger.MachineLearningTriggerActionHandler', {
+        url: '/MachineLearning/action/:type',
+        templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/TriggerActionHandler/TriggerActionHandler.html',
+        controller: 'TriggerActionHandlerController',
+        stateName: 'triggerManager.editAction',
+        previous: 'app.portal.TriggerManager.NewTrigger.MachineLearningTrigger'
+      })
+      /**
+       * condition settings - new condition trigger
+       * @type {String}
+       */
+      .state('app.portal.TriggerManager.NewTrigger.MachineLearningTriggerConditionHandler', {
+        url: '/MachineLearning/condition/:type',
+        templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/TriggerConditionHandler/TriggerConditionHandler.html',
+        controller: 'TriggerConditionHandlerController',
+        stateName: 'triggerManager.editCondition',
+        previous: 'app.portal.TriggerManager.NewTrigger.MachineLearningTrigger'
       });
+
+
   });

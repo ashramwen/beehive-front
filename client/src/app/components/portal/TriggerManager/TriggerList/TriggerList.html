@@ -16,7 +16,7 @@
           <tbody>
             <tr class="trigger-row" ng-repeat="trigger in triggers | filter:triggerFilter" ng-class="getTriggerClass(trigger)" ng-click="viewTrigger(trigger)">
               <td class="trigger-img" align="center">
-                <span class="fa" ng-class="{'fa-clock-o': trigger.type == 'schedule', 'fa-code-fork': trigger.type=='conditional'}"></span>
+                <span class="fa" ng-class="{'fa-clock-o': trigger.type == 'schedule', 'fa-code-fork': trigger.type=='conditional', 'fa-puzzle-piece': trigger.type == 'machine-learning'}"></span>
               </td>
               <td>
                 {{trigger.name}}
@@ -52,6 +52,12 @@
         <div class="btn-add-param" ng-click="createScheduleTrigger()">
           <span class="fa fa-plus-circle"></span>
           <span>{{'triggerManager.scheduleRule' | translate}}</span>
+        </div>
+      </li>
+      <li class="machine-learning">
+        <div class="btn-add-param" ng-click="createMachineLearning()">
+          <span class="fa fa-plus-circle"></span>
+          <span>{{'triggerManager.machineLearningRule' | translate}}</span>
         </div>
       </li>
     </ul>

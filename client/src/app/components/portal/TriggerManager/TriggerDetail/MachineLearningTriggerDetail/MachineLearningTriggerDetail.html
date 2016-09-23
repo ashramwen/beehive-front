@@ -1,0 +1,11 @@
+<div class="app-portal-triggermanager-conditiontriggerdetail">
+  <ng-include src="'app/components/portal/TriggerManager/components/TriggerInfo/TriggerInfo.html'"></ng-include>
+  <ng-include src="'app/components/portal/TriggerManager/components/TriggerTimeSpan/TriggerTimeSpan.html'"></ng-include>
+  <ng-include src="'app/components/portal/TriggerManager/components/TriggerConditionList/TriggerConditionList.html'"></ng-include>
+  <ng-include src="'app/components/portal/TriggerManager/components/TriggerActionList/TriggerActionList.html'"></ng-include>
+
+  <div class="page-footer">
+    <button class="btn btn-md btn-submit btn-warning" type="submit" ng-click="save()">{{'controls.save' | translate}}</button>
+    <button class="btn btn-md btn-submit btn-info" ng-click="goBack()">{{'controls.back' | translate}}</button>
+  </div>
+</div>

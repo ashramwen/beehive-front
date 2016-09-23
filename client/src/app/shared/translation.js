@@ -173,6 +173,9 @@
           "scheduleTriggerDetail": {
             "displayName": "Schedule Trigger Detail"
           },
+          "machineLearningTriggerDetail": {
+            "displayName": "ML Trigger Detail"
+          },
           "editAction": {
             "displayName": "Edit Actions"
           },
@@ -309,6 +312,7 @@
         "thingSelect": "Select Things",
         "conditionRule": "Conditional Rule",
         "scheduleRule": "Schedule Rule",
+        "machineLearningRule": "ML Rule",
         "view": "View",
         "displayDisabled": "Show Disabled",
         "gatewayRuleTip": "This is a gateway rule",
@@ -501,6 +505,9 @@
           "scheduleTriggerDetail": {
             "displayName": "定时规则详情"
           },
+          "machineLearningTriggerDetail": {
+            "displayName": "机器学习规则详情"
+          },
           "editAction": {
             "displayName": "编辑行为"
           },
@@ -638,6 +645,7 @@
         "thingSelect": "设备选择",
         "conditionRule": "条件规则",
         "scheduleRule": "时间规则",
+        "machineLearningRule": "机器学习",
         "view": "视图",
         "displayDisabled": "显示禁用",
         "gatewayRuleTip": "这是一个网管端的规则。",
