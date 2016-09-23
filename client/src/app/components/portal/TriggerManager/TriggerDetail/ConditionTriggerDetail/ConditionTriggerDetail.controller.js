@@ -22,15 +22,16 @@ angular.module('BeehivePortal')
                 $scope.$state.go(TriggerDetailService.States.TRIGGER_LIST);
               }
             });
+          }, function(err){
+            AppUtils.alert({
+              msg: '创建规则失败！'
+            });
           });
         }else{
           $$Trigger.remove({triggerID: $scope.triggerData.triggerID}, function(){
             $$Trigger.save(trigger, function(trigger){
               AppUtils.alert({
-                msg: 'triggerManager.triggerSavedMsg',
-                callback: function(){
-                  $scope.$state.go(TriggerDetailService.States.TRIGGER_LIST);
-                }
+                msg: '保存规则失败！'
               });
             });
           });
