@@ -141,7 +141,7 @@ angular.module('BeehivePortal')
           AppUtils.alert({msg: '属性值不能为空'});
           return;
         }
-
+        
         if(!command.command.actions.length){
           AppUtils.alert({msg: 'thingViews.actionRequired'});
           return;
