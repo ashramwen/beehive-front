@@ -58,24 +58,30 @@ angular.module('BeehivePortal')
       };
 
       _.each(triggerData.conditionGroups, function(conditionGroup){
-        
-        var expressList = [],
-            conditionList = [];
-      
-        _.each(conditionGroup.properties, function(property){
-          expressList.push(generateExpress(conditionGroup, property, triggerData.any));
-          conditionList.push(generateCondtion(conditionGroup, property));
-        });
 
-        result.sources[conditionGroup.type] = {
-          "source": {"thingList": _.pluck(conditionGroup.things, 'globalThingID')},
-          "expressList": expressList
-        };
-        result.condition.clauses.push({
-          type: 'and',
-          clauses:conditionList
+        var thingIDs = _.pluck(conditionGroup.things, 'globalThingID');
+        _.each(thingIDs, function(thingID){
+          // field name is {:typeName}-{:id}-{:thingID}
+          var fieldName = [conditionGroup.type, conditionGroup.id, thingID].join('#');
+          var expressList = [],
+              conditionList = [];
+      
+          _.each(conditionGroup.properties, function(property){
+            expressList.push(generateExpress(conditionGroup, property, triggerData.any));
+            conditionList.push(generateCondtion(fieldName,property));
+          });
+
+          result.sources[fieldName] = {
+            "source": {"thingList": [thingID]},
+            "expressList": expressList
+          };
+          result.condition.clauses.push({
+            type: 'and',
+            clauses: conditionList
+          });
         });
       });
+
       return result;
     };
 
@@ -103,9 +109,9 @@ angular.module('BeehivePortal')
       };
     };
 
-    function generateCondtion(conditionGroup, property){
+    function generateCondtion(fieldName, property){
       var condition = {
-        field: conditionGroup.type + '.' + property.propertyName
+        field: fieldName + '.' + property.propertyName
       };
 
       switch(property.expression){

@@ -4,6 +4,7 @@ angular.module('BeehivePortal').controller('TriggerConditionHandlerController',
 
     $scope.conditionGroup = {
       type: null, 
+      id: null,
       typeDisplayName: '', 
       things: [],
       properties: []
@@ -19,12 +20,11 @@ angular.module('BeehivePortal').controller('TriggerConditionHandlerController',
 
     $scope.init = function(){
       var type = $scope.$state.params.type;
+      var id = $scope.$state.params.id;
 
-      var options = {
-        usedTypes: _.pluck($scope.triggerData.conditionGroups, 'type')
-      };
+      var options = {};
       if(type){
-        var conditionGroup = _.find($scope.triggerData.conditionGroups, {type: type});
+        var conditionGroup = _.find($scope.triggerData.conditionGroups, {type: type, id: id});
         if(conditionGroup){
           $scope.conditionGroup = AppUtils.clone(conditionGroup);
           _.extend(options, {
@@ -95,6 +95,8 @@ angular.module('BeehivePortal').controller('TriggerConditionHandlerController',
 
       if(!conditionGroup){
         conditionGroup = $scope.conditionGroup;
+        conditionGroup.id = ~~(Math.random() * 100000);
+        conditionGroup.id = conditionGroup.id.toString();
         if(conditionGroup.properties.length == 0){
           $scope.goBack();
           return;

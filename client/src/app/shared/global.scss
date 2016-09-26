@@ -92,3 +92,16 @@ $click-cursor: pointer;
   -o-filter: $filter;
   -ms-filter: $filter;
 }
+
+
+$color-danger: #f05050;
+$color-info: #61c9d2;
+$color-warning: #fba141;
+$color-dark: #000;
+$color-bg-grey: #e6ecf0;
+.btn-warning{
+  background: $color-warning;
+}
+.text-warning{
+  color: $color-warning;
+} 

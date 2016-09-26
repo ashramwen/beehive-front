@@ -4543,3 +4543,17 @@ padding: 6px 10px;
       text-align: center;
   }
 }
+
+.flex-container{
+  display: flex;
+}
+.flex-row{
+  flex-direction: row;
+}
+.flex-columm{
+  flex-direction: column;
+}
+.flex{
+  flex: 1;
+}
+

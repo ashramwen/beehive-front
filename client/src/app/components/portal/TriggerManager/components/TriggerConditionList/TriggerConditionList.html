@@ -16,7 +16,7 @@
         </div>
         <table class="property-table">
           <tbody>
-            <tr ng-repeat="conditionGroup in trigger.conditionGroups" ng-click="editConditionGroup(conditionGroup.type)">
+            <tr ng-repeat="conditionGroup in trigger.conditionGroups" ng-click="editConditionGroup(conditionGroup.type, conditionGroup.id)">
               <td><span class="fa fa-circle-o"></span>{{conditionGroup.typeDisplayName}} <div class="v-hr"></div></td>
               <td><span ng-repeat="property in conditionGroup.properties">{{property.displayName}}{{property.expressionDisplay}}{{getPropertyValue(property)}}</span></td>
             </tr>

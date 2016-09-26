@@ -394,6 +394,11 @@ angular.module('BeehivePortal')
             url: MyAPIs.ONBOARDING + '/:vendorThingID',
             params: { vendorThingID: '@vendorThingID' }
         },
+        onboard: {
+            method: 'POST',
+            url: MyAPIs.THING + '/onboarding/:vendorThingID',
+            params: { vendorThingID: '@vendorThingID' }
+        },
         getEndNodes: {
             url: MyAPIs.THING + '/:globalThingID/endnodes',
             params: { globalThingID: '@globalThingID' },

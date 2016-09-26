@@ -86,7 +86,7 @@ angular.module('BeehivePortal')
        * @type {String}
        */
       .state('app.portal.TriggerManager.TriggerDetail.ConditionTriggerConditionHandler', {
-        url: '/Condition/condition/:type',
+        url: '/Condition/condition/:type?id',
         templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/TriggerConditionHandler/TriggerConditionHandler.html',
         controller: 'TriggerConditionHandlerController',
         stateName: 'triggerManager.editCondition',
@@ -108,7 +108,7 @@ angular.module('BeehivePortal')
        * @type {String}
        */
       .state('app.portal.TriggerManager.NewTrigger.ConditionTriggerConditionHandler', {
-        url: '/Condition/condition/:type',
+        url: '/Condition/condition/:type?id',
         templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/TriggerConditionHandler/TriggerConditionHandler.html',
         controller: 'TriggerConditionHandlerController',
         stateName: 'triggerManager.editCondition',
@@ -179,7 +179,7 @@ angular.module('BeehivePortal')
        * @type {String}
        */
       .state('app.portal.TriggerManager.TriggerDetail.MachineLearningTriggerConditionHandler', {
-        url: '/MachineLearning/condition/:type',
+        url: '/MachineLearning/condition/:type?id',
         templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/TriggerConditionHandler/TriggerConditionHandler.html',
         controller: 'TriggerConditionHandlerController',
         stateName: 'triggerManager.editCondition',
@@ -201,7 +201,7 @@ angular.module('BeehivePortal')
        * @type {String}
        */
       .state('app.portal.TriggerManager.NewTrigger.MachineLearningTriggerConditionHandler', {
-        url: '/MachineLearning/condition/:type',
+        url: '/MachineLearning/condition/:type?id',
         templateUrl: 'app/components/portal/TriggerManager/TriggerDetail/TriggerConditionHandler/TriggerConditionHandler.html',
         controller: 'TriggerConditionHandlerController',
         stateName: 'triggerManager.editCondition',

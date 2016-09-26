@@ -243,98 +243,118 @@ angular.module('BeehivePortal')
         });
       }
       
-      _.each(trigger.summarySource, function(typeSource, key){
-        var $defer = $q.defer();
-        promiseList.push($defer.promise);
+      var groups = _.groupBy(trigger.summarySource, function(source, key){
+        return key.substr(0, key.lastIndexOf('#'));
+      });
+      var groupIDs = _.groupBy(_.keys(groups), function(r){
+        return r.substr(0, r.indexOf('#'));
+      });
 
-        var thingPromiseList = [];
+      var typeGroups = _.groupBy(groups, function(group, key){
+        return key.substr(0, key.lastIndexOf('#'));
+      });
 
-        var type = key;
-        var things = _.map(typeSource.source.thingList, function(globalThingID){
+      _.each(typeGroups, function(typeGroup, type){
+        _.each(typeGroup, function(typeSource, index){
+          var thingIDs = [];
+          var expressList = [];
+          _.each(typeSource, function(s){
+            expressList = s.expressList;
+            thingIDs = thingIDs.concat(s.source.thingList);
+          });
 
-          return {
-            globalThingID: globalThingID,
-            typeDisplayName: '',
+          var $defer = $q.defer();
+          promiseList.push($defer.promise);
+
+          var thingPromiseList = [];
+          var things = _.map(thingIDs, function(globalThingID){
+            return {
+              globalThingID: globalThingID,
+              typeDisplayName: '',
+              type: type,
+              location: '',
+              locationDisplayName: ''
+            };
+          });
+
+          var $thingsPromise = TriggerDetailService.getThingsDetail(things);
+          var propertyNames = _.pluck(expressList, 'stateName');
+
+          var properties = _.map(propertyNames, function(propertyName){
+            var clauses = [];
+            _.each(trigger.predicate.condition.clauses, function(clause){
+              clauses = clauses.concat(clause.clauses);
+            });
+
+            var propertyExp = _.find(clauses, {field: [groupIDs[type][index], thingIDs[0]].join('#') + '.' + propertyName});
+            if(!propertyExp) throw new Error('Type '+ type + '中,' + propertyName + '属性的表达式不正确。');
+            var expression = '';
+            var value = null;
+            if(!propertyExp) return;
+            if(propertyExp.type == 'range'){
+              if(propertyExp.hasOwnProperty('upperLimit')){
+                if(propertyExp.upperIncluded){
+                  expression = 'lte'
+                }else{
+                  expression = 'lt';
+                }
+                value = propertyExp.upperLimit;
+              }
+              if(propertyExp.hasOwnProperty('lowerLimit')){
+                if(propertyExp.lowerIncluded){
+                  expression = 'gte';
+                }else{
+                  expression = 'gt';
+                }
+                value = propertyExp.lowerLimit;
+              }
+            }else{
+              expression = 'eq';
+              value = propertyExp.value;
+            }
+
+            return {
+              propertyName: propertyName,
+              expression: expression,
+              expressionDisplay: TriggerDetailService.getExpressionDisplay[expression],
+              value: value
+            };
+          });
+
+          var groupID = groupIDs[type][index];
+          groupID = groupID.substr(groupID.indexOf('#') + 1);
+
+          var resultMap = {
+            id: groupID,
+            properties: properties,
             type: type,
-            location: '',
-            locationDisplayName: ''
+            things: things
           };
-        });
 
-        var $thingsPromise = TriggerDetailService.getThingsDetail(things);
+          var $typeDefer = $q.defer();
+          var $typePromise = $typeDefer.promise;
 
-        var propertyNames = _.pluck(typeSource.expressList, 'stateName');
+          $$Type.getSchema({type: type}, function(schema){
+            var _schema = TriggerDetailService.parseSchema(schema);
+            if(!_schema) throw new Error('生成种类' + type + '的schema时发生错误，请查询相关的行业模板。');
 
-        var properties = _.map(propertyNames, function(propertyName){
-          var clauses = [];
-          _.each(trigger.predicate.condition.clauses, function(clause){
-            clauses = clauses.concat(clause.clauses);
+            _.each(properties, function(property){
+              var _property = _.find(_schema.properties, {propertyName: property.propertyName});
+              if(!_property) throw new Error('在schema:' + _schema.name + '中，没有查找到:property-' + property.propertyName);
+              
+              _.extend(property, _property);
+            });
+
+            _.each(things, function(thing){
+              thing.typeDisplayName = _schema.displayName;
+            });
+            resultMap.typeDisplayName = _schema.displayName;
+            $typeDefer.resolve();
           });
 
-          var propertyExp = _.find(clauses, {field: type + '.' + propertyName});
-          if(!propertyExp) throw new Error('Type '+ type + '中,' + propertyName + '属性的表达式不正确。');
-          var expression = '';
-          var value = null;
-          if(!propertyExp) return;
-          if(propertyExp.type == 'range'){
-            if(propertyExp.hasOwnProperty('upperLimit')){
-              if(propertyExp.upperIncluded){
-                expression = 'lte'
-              }else{
-                expression = 'lt';
-              }
-              value = propertyExp.upperLimit;
-            }
-            if(propertyExp.hasOwnProperty('lowerLimit')){
-              if(propertyExp.lowerIncluded){
-                expression = 'gte';
-              }else{
-                expression = 'gt';
-              }
-              value = propertyExp.lowerLimit;
-            }
-          }else{
-            expression = 'eq';
-            value = propertyExp.value;
-          }
-
-          return {
-            propertyName: propertyName,
-            expression: expression,
-            expressionDisplay: TriggerDetailService.getExpressionDisplay[expression],
-            value: value
-          };
-        });
-
-        var resultMap = {
-          properties: properties,
-          type: type,
-          things: things
-        };
-
-        var $typeDefer = $q.defer();
-        var $typePromise = $typeDefer.promise;
-
-        $$Type.getSchema({type: type}, function(schema){
-          var _schema = TriggerDetailService.parseSchema(schema);
-          if(!_schema) throw new Error('生成种类' + type + '的schema时发生错误，请查询相关的行业模板。');
-
-          _.each(properties, function(property){
-            var _property = _.find(_schema.properties, {propertyName: property.propertyName});
-            if(!_property) throw new Error('在schema:' + _schema.name + '中，没有查找到:property-' + property.propertyName);
-            
-            _.extend(property, _property);
+          $q.all([$typePromise, $thingsPromise]).then(function(){
+            $defer.resolve(resultMap);
           });
-
-          _.each(things, function(thing){
-            thing.typeDisplayName = _schema.displayName;
-          });
-          resultMap.typeDisplayName = _schema.displayName;
-          $typeDefer.resolve();
-        });
-
-        $q.all([$typePromise, $thingsPromise]).then(function(){
-          $defer.resolve(resultMap);
         });
       });
 

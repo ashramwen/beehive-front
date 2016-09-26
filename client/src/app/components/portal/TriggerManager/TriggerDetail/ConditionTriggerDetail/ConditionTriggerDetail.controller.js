@@ -31,6 +31,13 @@ angular.module('BeehivePortal')
           $$Trigger.remove({triggerID: $scope.triggerData.triggerID}, function(){
             $$Trigger.save(trigger, function(trigger){
               AppUtils.alert({
+                msg: '保存规则成功！',
+                callback: function(){
+                  $scope.$state.go(TriggerDetailService.States.TRIGGER_LIST);
+                }
+              });
+            }, function(){
+              AppUtils.alert({
                 msg: '保存规则失败！'
               });
             });

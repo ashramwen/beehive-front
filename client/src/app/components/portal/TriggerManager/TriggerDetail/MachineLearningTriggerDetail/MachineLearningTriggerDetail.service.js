@@ -5,23 +5,9 @@ angular.module('BeehivePortal')
     var MachineLearningTriggerDetailService = {};
 
     MachineLearningTriggerDetailService.dataValidation = function(triggerData){
-      if(triggerData.schedule.type == 'Interval'){
-        if(!triggerData.schedule.timeUnit){
-          throw(new Error);
-        }
-        if(!triggerData.schedule.interval){
-          throw(new Error);
-        }
-      }else{
-        if(triggerData.schedule.onceType == 'hourly'){
-          if(!_.isNumber(triggerData.schedule.minute)){
-            throw(new Error());
-          }
-        }else if(!triggerData.schedule.time){
-          throw(new Error());
-        }
+      if(!triggerData.conditionGroups || !triggerData.conditionGroups.length){
+        throw(new Error());
       }
-
       if(_.isEmpty(triggerData.name)){
         throw(new Error());
       }
@@ -36,52 +22,100 @@ angular.module('BeehivePortal')
       return true;
     };
 
+    MachineLearningTriggerDetailService.createVirtualThing = function(type){
+      var $defer = $q.defer();
+
+      var thing = {
+          vendorThingID: MachineLearningTriggerDetailService.generateVendorThingID(),
+          type: type,
+          kiiAppID: AppConfig.kiiAppID
+      };
+
+      $$Thing.save(thing, function(result){
+        $$Thing.onboard(thing, function(){
+          $defer.resolve(result.globalThingID);
+        });
+      }, function(err){
+        $defer.reject(err);
+      });
+
+      return $defer.promsie;
+    };
+
+    MachineLearningTriggerDetailService.generateVendorThingID = function(){
+      return ~~(Math.random() * 9000 + 1000) + 'Z-Z' + ~~(Math.random() * 90 + 10) + '-Y-' + ~~(Math.random() * 900 + 100)
+    };
+
     MachineLearningTriggerDetailService.generateTrigger = function(triggerData){
+
+      var dataset = MachineLearningTriggerDetailService.generateSourcesAndConditions(triggerData);
 
       var trigger = {
         "name": triggerData.name,
         "description": triggerData.description,
         "type": "Summary",
         "predicate": {
-          "triggersWhen" : "CONDITION_TRUE",
-          "schedule": MachineLearningTriggerDetailService.generateSchedule(triggerData)
+          "triggersWhen" : triggerData.triggersWhen,
+          "condition": dataset.condition
         },
         "prepareCondition": TriggerDetailService.generatePrepareCondition(triggerData),
+        "summarySource": dataset.sources,
         "targets": TriggerDetailService.generateTargets(triggerData)
       };
-      return trigger;
-    }
 
-    MachineLearningTriggerDetailService.generateSchedule = function(triggerDataset){
+      _.each(trigger.predicate.condition.clauses, function(clause){
+        clause.clauses.push(clause.clauses[0]);
+      });
+
+      trigger.predicate.condition.clauses.push(trigger.predicate.condition.clauses[0]);
+
+      return trigger;
+    };
+
+    MachineLearningTriggerDetailService.parseModel = function(model){
+      
+    };
+
+    MachineLearningTriggerDetailService.generateSourcesAndConditions = function(triggerData){
+
       var result = {
-        type: triggerDataset.schedule.type
+        sources: {},
+        condition: {
+          type: triggerData.any? 'or': 'and', 
+          clauses: []
+        }
       };
 
-      if(triggerDataset.schedule.type == 'Interval'){
-        result.timeUnit = triggerDataset.schedule.timeUnit;
-        result.interval = triggerDataset.schedule.interval;
-      }else{
-        if(triggerDataset.schedule.onceType != 'hourly'){
-          result.cron = [
-            0, 
-            triggerDataset.schedule.time.getMinutes(), 
-            triggerDataset.schedule.time.getHours(),
-            '?',
-            '*',
-            '*'
-          ].join(' ');
-        }else{
-          result.cron = [
-            0, 
-            triggerDataset.schedule.minute || 0, 
-            '*',
-            '?',
-            '*',
-            '*'
-          ].join(' ');
-        }
-      }
+      _.each(triggerData.conditionGroups, function(conditionGroup){
+        
+        var expressList = [],
+            conditionList = [];
+      
+        _.each(conditionGroup.properties, function(property){
+          expressList.push(generateExpress(conditionGroup, property, triggerData.any));
+          conditionList.push(generateCondtion(conditionGroup, property));
+        });
+
+        result.sources[conditionGroup.type] = {
+          "source": {"thingList": _.pluck(conditionGroup.things, 'globalThingID')},
+          "expressList": expressList
+        };
+        result.condition.clauses.push({
+          type: 'and',
+          clauses:conditionList
+        });
+      });
       return result;
+    };
+
+    /**
+     * {taskID: String, mlModel: String}
+     * @param  {[type]} description [description]
+     * @return {[type]}             [description]
+     */
+    MachineLearningTriggerDetailService.parseDescription = function(description){
+      var data = JSON.parse(description);
+
     };
 
     return MachineLearningTriggerDetailService;

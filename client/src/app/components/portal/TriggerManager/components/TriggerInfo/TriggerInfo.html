@@ -24,7 +24,7 @@
             <td>{{'triggerManager.status' | translate}}</td>
             <td><div yes-text="terms.enable" no-text="terms.disable" switchery="trigger.enabled" change="toggleTriggerState(value)"></div></td>
           </tr>
-          <tr>
+          <tr ng-if="!hideDescription">
             <td>{{'terms.description' | translate}}</td>
             <td><textarea class="form-control" rows="4" ng-model="trigger.description"></textarea></td>
           </tr>

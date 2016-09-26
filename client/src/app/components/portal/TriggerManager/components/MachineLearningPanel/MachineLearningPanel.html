@@ -1,0 +1,58 @@
+<div class="app-portal-triggermanager-triggerdetail-machine-learning-panel" ng-controller="MachineLearningPanelController">
+  <div class="panel">
+    <div class="panel-body">
+      <div class="form-group clearfix panel-row">
+        <div class="pull-left" style="margin-right:20px">
+          <div class="title pull-left">
+            <span class="fa fa-puzzle-piece"></span>
+            {{'terms.mlModel' | translate}}
+          </div>
+          <div class="clearfix pull-left">
+            <div app-select disabled="trigger.triggerID" selected-model="trigger.model.name" options="mlModels" value-only="true"></div>
+          </div>
+        </div>
+        <div class="pull-left">
+          <div class="title pull-left">
+            <span class="fa fa-map-marker"></span>
+            <span>{{'terms.location' | translate}}</span>
+          </div>
+          <div class="pull-left">
+            <location-selector disabled="trigger.triggerID" input="initLocation" change="locationChange(location, locationName, subLevels)" position="'right'"></location-selector>
+          </div>
+        </div>
+      </div>
+      <hr/>
+      <div class="machine-learning-conditions">
+        <div class="row flex-row">
+          <div class="col-md-3">
+            <span class="action" ng-class="{'active': property._selected}" ng-repeat="property in properties" ng-click="toggleProperty(property)">
+              {{property.displayName}}
+            </span>
+          </div>
+          <div class="col-md-9">
+            <div class="selected-property clearfix" ng-repeat="property in trigger.model.properties">
+              <!-- not enum -->
+              <div ng-if="!property.enumType && (property.type=='int' || property.type=='float')">
+                <label>{{property.displayName}} <span class="fa fa-info-circle" ng-if="property.tooltip" uib-tooltip="{{property.tooltip}}"></span></label>
+                <condition-input property="property" min="property.minimum" max="property.maximum" type="property.type" condition="property.condition"></condition-input>
+              </div>
+
+              <!-- enmu: number -->
+              <div ng-if="property.enumType == 'BOOLEAN' || property.type=='boolean'">
+                <label>{{property.displayName}}</label>
+                <div switchery="property.value" options="property.options"></div>
+              </div>
+
+              <!-- enmu: number -->
+              <div ng-if="property.enumType == 'NUMBER'">
+                <label>{{property.displayName}}</label>
+                <div app-select options="property.options" selected-model="property.value" value-only="true"></div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

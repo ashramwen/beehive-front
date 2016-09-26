@@ -1,0 +1,58 @@
+.app-portal-triggermanager-triggerdetail-machine-learning-panel{
+
+  .panel-row{
+    line-height: 50px;
+    .fa{
+      position: relative;
+      top: 4px;
+      margin-right: 5px;
+      font-size: 24px;
+      &.fa-map-marker{
+        color: #5dd6d6;
+      }
+      &.fa-puzzle-piece{
+        color: #72c0f1;
+      }
+    }
+    .title{
+      margin-right: 10px;
+    }
+    .time-picker {
+      max-width: 390px;
+      margin-top: 9px;
+      margin-right: 5px;
+    }
+  }
+
+  .machine-learning-conditions{
+    .col-md-3{
+      border-right: solid 1px #e4e8eb;
+      min-height: 100px;
+    }
+    .col-md-8{
+      min-height: 100px;
+    }
+    .action{
+      display: block;
+      float: left;
+      padding: 6px;
+      font-size: 13px;
+      background: #e6ecf0;
+      color: #4f5457;
+      margin: 0px 3px 10px 0px;
+      outline: none;
+      cursor: pointer;
+      &.active{
+        background-color: #8bdae8;
+        color: #fff;
+      }
+    }
+    .selected-property{
+      label{
+        display: block;
+      }
+      float: left;
+      margin: 0px 10px 10px 0px;
+    }
+  }
+}

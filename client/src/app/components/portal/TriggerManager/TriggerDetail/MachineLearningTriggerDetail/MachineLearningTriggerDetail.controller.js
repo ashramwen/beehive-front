@@ -6,7 +6,7 @@ angular.module('BeehivePortal')
     $scope.conditions = [];
 
     $scope.init = function(){
-
+      $scope.hideDescription = true;
     };
 
     $scope.save = function(){
