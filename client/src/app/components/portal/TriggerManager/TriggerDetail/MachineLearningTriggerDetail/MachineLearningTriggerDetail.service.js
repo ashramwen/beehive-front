@@ -43,7 +43,7 @@ angular.module('BeehivePortal')
     };
 
     MachineLearningTriggerDetailService.generateVendorThingID = function(){
-      return ~~(Math.random() * 9000 + 1000) + 'Z-Z' + ~~(Math.random() * 90 + 10) + '-Y-' + ~~(Math.random() * 900 + 100)
+      return ~~(Math.random() * 9000 + 1000) + 'Z-Z' + ~~(Math.random() * 90 + 10) + '-Y-' + ~~(Math.random() * 900 + 100);
     };
 
     MachineLearningTriggerDetailService.generateTrigger = function(triggerData){
@@ -73,7 +73,7 @@ angular.module('BeehivePortal')
     };
 
     MachineLearningTriggerDetailService.parseModel = function(model){
-      
+
     };
 
     MachineLearningTriggerDetailService.generateSourcesAndConditions = function(triggerData){
