@@ -6,21 +6,37 @@ angular.module('BeehivePortal')
     $scope.conditions = [];
 
     $scope.init = function(){
+      MachineLearningTriggerDetailService.generateSchema();
       $scope.hideDescription = true;
     };
 
     $scope.save = function(){
       try{
+
         MachineLearningTriggerDetailService.dataValidation($scope.triggerData);
 
-        var trigger = MachineLearningTriggerDetailService.generateTrigger($scope.triggerData);
         if(!$scope.triggerData.triggerID){
-          $$Trigger.save(trigger, function(trigger){
+          MachineLearningTriggerDetailService.createVirtualThing('ROOM_LIGHT').then(function(thing){
+            MachineLearningTriggerDetailService
+              .createMLTask(thing.fullKiiThingID, $scope.triggerData.location)
+              .then(function(task){
+                $scope.triggerData.taskID = task.taskID;
+
+                var trigger = MachineLearningTriggerDetailService.generateTrigger($scope.triggerData);
+
+                $$Trigger.save(trigger, function(trigger){
+                  AppUtils.alert({
+                    msg: 'triggerManager.triggerCreatedMsg',
+                    callback: function(){
+                      $scope.$state.go(TriggerDetailService.States.TRIGGER_LIST);
+                    }
+                  });
+                });
+              });
+            
+          }, function(){
             AppUtils.alert({
-              msg: 'triggerManager.triggerCreatedMsg',
-              callback: function(){
-                $scope.$state.go(TriggerDetailService.States.TRIGGER_LIST);
-              }
+              msg: '创建虚拟设备失败！'
             });
           });
         }else{
@@ -35,6 +51,7 @@ angular.module('BeehivePortal')
             });
           });
         }
+        
         
         console.log(trigger);
         

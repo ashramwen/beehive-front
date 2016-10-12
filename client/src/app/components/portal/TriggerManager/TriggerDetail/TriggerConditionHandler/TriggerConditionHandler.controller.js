@@ -84,7 +84,7 @@ angular.module('BeehivePortal').controller('TriggerConditionHandlerController',
     };
 
     $scope.save = function(){
-      var conditionGroup = _.find($scope.triggerData.conditionGroups, {type: $scope.type});
+      var conditionGroup = _.find($scope.triggerData.conditionGroups, {type: $scope.type, id: $scope.$state.params.id});
 
       _.each($scope.conditionGroup.properties, function(property){
         if(property.enumType || property.type == 'boolean'){

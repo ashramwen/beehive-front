@@ -42,10 +42,7 @@ angular.module('BeehivePortal')
                 if(attrs['type'] == 'range' || attrs['type'] == 'number'){
                     newVal = parseFloat(newVal);
                 }
-
-                ngModelCtrl.$setViewValue(newVal);
-                ngModelCtrl.$render();
-
+                
                 return newVal;
             }
             if(attrs['type'] == 'time') return;

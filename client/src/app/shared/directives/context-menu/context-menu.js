@@ -27,7 +27,7 @@ angular.module('BeehivePortal').directive('contextMenu',['$timeout','$compile','
             var opened = false;
 
             function open(event, menuElement) {
-                if(!scope.menu || !scope.menu.length) return;
+                if(!scope.menu || !scope.menu.itemList || !scope.menu.itemList.length) return;
                 menuElement.css('display','block');
 
                 var doc = $document[0].documentElement;

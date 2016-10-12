@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .factory('MachineLearningTriggerDetailService',['$rootScope', '$$Type', '$q' , '$$Thing', 'TriggerDetailService', function($rootScope, $$Type, $q, $$Thing, TriggerDetailService) {
+  .factory('MachineLearningTriggerDetailService',['$rootScope', '$$Type', '$q' , '$$Thing', 'TriggerDetailService', '$cacheFactory', '$MechineLearning', function($rootScope, $$Type, $q, $$Thing, TriggerDetailService, $cacheFactory, $MechineLearning) {
     var MachineLearningTriggerDetailService = {};
 
     MachineLearningTriggerDetailService.dataValidation = function(triggerData){
@@ -32,8 +32,12 @@ angular.module('BeehivePortal')
       };
 
       $$Thing.save(thing, function(result){
+        thing.globalThingID = result.globalThingID;
         $$Thing.onboard(thing, function(){
-          $defer.resolve(result.globalThingID);
+          $$Thing.getOnboardingInfo(thing, function(onboardingInfo){
+            _.extend(thing, onboardingInfo);
+          });
+          $defer.resolve(thing);
         });
       }, function(err){
         $defer.reject(err);
@@ -47,6 +51,20 @@ angular.module('BeehivePortal')
     };
 
     MachineLearningTriggerDetailService.generateTrigger = function(triggerData){
+
+      triggerData = angular.copy(triggerData);
+      triggerData.conditionGroups.push({
+        properties: triggerData.model.properties,
+        things: [thing.globalThingID],
+        type: 'ROOM_LIGHT',
+        id: 'ROOM_LIGHT'
+      });
+
+      var description = {
+        taskID: triggerData.taskID,
+      };
+
+      triggerData.description = JSON.stringify(description);
 
       var dataset = MachineLearningTriggerDetailService.generateSourcesAndConditions(triggerData);
 
@@ -117,6 +135,54 @@ angular.module('BeehivePortal')
       var data = JSON.parse(description);
 
     };
+
+    MachineLearningTriggerDetailService.createMLTask = function(kiiThingID, location){
+      return $MechineLearning.createTask({
+        virtualThingId: kiiThingID,
+        roomNum: location
+      }).$promise;
+    }
+
+    MachineLearningTriggerDetailService.generateSchema = function(){
+      var mlSchema = {
+        "id": 43,
+        "createDate": 1473177600000,
+        "modifyDate": 1474387200000,
+        "createBy": "0",
+        "modifyBy": "640",
+        "schemaType": "industrytemplate",
+        "thingType": "ROOM_LIGHT",
+        "name": "ROOM_LIGHT",
+        "version": "1",
+        "content": {
+          "statesSchema": {
+            "type": "object",
+            "properties": {
+              "PanelPower": {
+                "displayNameCN": "人走概率",
+                "enum": null,
+                "maximum": 1,
+                "minimum": 0,
+                "type": "float",
+                "unit": null,
+                "enumType": null
+              }
+            },
+            "title": "照明"
+          },
+          "actions": {}
+        }
+      };
+
+      var $httpDefaultCache = $cacheFactory.get('$http');
+      var queris = [
+          'thingType=ROOM_LIGHT',
+          'name=ROOM_LIGHT',
+          'version=1'
+      ];
+
+      $httpDefaultCache.put(MyAPIs.SCHEMA + '/query/industrytemplate?' + queris.join('&'), mlSchema);
+    }
 
     return MachineLearningTriggerDetailService;
   }

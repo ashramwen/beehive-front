@@ -73,11 +73,11 @@ angular.module('BeehivePortal')
             includeSubLevel: true
           };
 
-          $$Thing.getThingsByLocationType(searchQuery, function(thingIDs){
-            thingIDs = _.uniq(thingIDs);
-            var things = _.map(thingIDs, function(thingID){
+          $$Thing.getThingsByLocationType(searchQuery, function(queriedThings){
+            var things = _.map(queriedThings, function(queriedThing){
               return {
-                globalThingID: thingID
+                globalThingID: queriedThing.thingID,
+                vendorThingID: queriedThing.vendorThingID
               };
             }); 
             TriggerDetailService.getThingsDetail(things).then(function(things){
@@ -89,18 +89,6 @@ angular.module('BeehivePortal')
                 var credential = Session.getCredential();
                 $scope.things = _.where($scope.things, {createBy: credential.id.toLocaleString()});
               }
-              /*
-              $scope.things = _.map(thingIDs, function(thingID){
-                return {
-                  globalThingID: thingID, 
-                  type: $scope.selectedType, 
-                  typeDisplayName: _.find($scope.types, {value: $scope.selectedType}).text,
-                  locationDisplayName: $scope.selectedLocation.displayName,
-                  location: $scope.selectedLocation.locationID,
-                  fullLocation: $scope.selectedLocation.fullLocation
-                };
-              });
-              */
             });
           });
         };

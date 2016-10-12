@@ -97,58 +97,9 @@ angular.module('BeehivePortal')
         AppUtils.confirm(options); 
     };
 
-    /**
-     * enable trigger
-     * @return {[type]} [description]
-     */
-    $scope.enableTrigger = function(trigger){
-        $$Trigger.enable({}, trigger, function(){
-            trigger.enable();
-        });
+    $scope.getTriggerType = function(){
+
     };
-
-    /**
-     * disable trigger
-     * @return {[type]} [description]
-     */
-    $scope.disableTrigger = function(trigger){
-        $$Trigger.disable({}, trigger, function(){
-            trigger.disable();
-        });
-    };
-
-    $scope.$on('deleteTrigger', function(e, trigger){
-        var options = {
-            msg: 'triggerManager.deleteTriggerMsg',
-            callback: function(){
-                $scope.deleteTrigger(trigger);
-            }
-        };
-
-        AppUtils.confirm(options); 
-    });
-
-    $scope.$on('enableTrigger', function(e, trigger){
-        var options = {
-            msg: 'triggerManager.enableTriggerMsg',
-            callback: function(){
-                $scope.enableTrigger(trigger);
-            }
-        };
-
-        AppUtils.confirm(options); 
-    });
-
-    $scope.$on('disableTrigger', function(e, trigger){
-        var options = {
-            msg: 'triggerManager.disableTriggerMsg',
-            callback: function(){
-                $scope.disableTrigger(trigger);
-            }
-        };
-
-        AppUtils.confirm(options); 
-    });
 
     $scope.triggerFilter = function(trigger){
         if(!$scope.showDisabled && trigger.disabled){

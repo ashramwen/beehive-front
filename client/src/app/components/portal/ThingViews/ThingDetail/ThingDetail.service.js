@@ -36,5 +36,34 @@ angular.module('BeehivePortal')
       return $defer.promise;
     };
 
+    ThingDetailService.getThingHistoryState = function(vendorThingID, pageIndex, from, to){
+      var $defer = $q.defer();
+
+      var pageLength = 20;
+      var payload = {
+          vendorThingID: vendorThingID,
+          startDate: from.getTime(),
+          endDate: to.getTime(),
+          size: 20,
+          from: pageIndex * pageLength
+      };
+
+      $$Thing.getHistory(payload, function(response){
+
+        var result = {
+          total: response.total,
+          from: pageIndex * pageLength,
+          size: 20,
+          states: _.pluck(response.hits, '_source').map(function(source){
+            return source.state;
+          }) 
+        };
+
+        $defer.resolve(result);
+      }, $defer.reject);
+
+      return $defer.promise;
+    }
+
     return ThingDetailService;
   }]);

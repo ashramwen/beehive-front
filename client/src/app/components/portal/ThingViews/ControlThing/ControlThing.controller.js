@@ -59,7 +59,7 @@ angular.module('BeehivePortal')
                 actions: []
             }
         };
-        let flag = false;
+        var flag = false;
 
         command.command.actions = _.map($scope.actionGroup.actions, function(action){
             var actionObj = {};

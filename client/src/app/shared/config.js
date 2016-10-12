@@ -33,7 +33,8 @@
         'USER': '/users',
         'USER_GROUP': '/usergroup',
         'USER_MANAGER': '/usermanager',
-        'USER_SYNC': '/usersync'
+        'USER_SYNC': '/usersync',
+        'ES': '/es'
     };
 
 

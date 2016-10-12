@@ -31,7 +31,7 @@ angular.module('BeehivePortal')
     $scope.filterTypes = function(){
         if(!$scope.selectedLocation) return;
         $$Thing.getThingsByLocationType({locationPrefix: $scope.selectedLocation, includeSubLevel: true}, function(things){
-            $$Thing.getThingsByIDs(things, function(things){
+            $$Thing.getThingsByIDs(_.pluck(things, 'thingID'), function(things){
                 _.each($scope.thingTypes, function(type){
                     var filtedThings = _.where(things, {type: type.type});
                     type.thingNumber = filtedThings.length;

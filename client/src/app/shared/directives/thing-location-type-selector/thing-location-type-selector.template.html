@@ -32,7 +32,7 @@
                     <td>
                       <input type="checkbox" ng-model="thing._selected" ng-click="thing._selected; $event.stopPropagation()" ng-disabled="disabled">
                     </td>
-                    <td>{{thing.globalThingID}}</td>
+                    <td>{{thing.vendorThingID}}</td>
                     <td>{{thing.typeDisplayName}}</td>
                   </tr>
                   
@@ -67,7 +67,7 @@
               <tbody>
                 <tr ng-repeat="thing in selectedThings" ng-click="toggleThingSelect(thing)">
                   <td><input type="checkbox" ng-model="thing._selected" ng-disabled="disabled || ownerFilter(thing)"></td>
-                  <td>{{thing.globalThingID}}</td>
+                  <td>{{thing.vendorThingID}}</td>
                   <td>{{thing.typeDisplayName}}</td>
                   <td>{{thing.locationDisplayName}}</td>
                 </tr>

@@ -166,7 +166,43 @@ angular.module('BeehivePortal')
 
     return $$Auth;
 }])
+.factory('$MechineLearning', ['$resource', 'Session', function($resource, Session){
+    var mlUrl = 'http://114.215.196.178:8082/beehive-ml/ml/scenario';
 
+
+    var $MechineLearning = $resource(mlUrl + '/apply', {
+        getList: {
+            url: mlUrl + '/list',
+            method: 'GET',
+            headers: {
+                'Authorization': 'Basic YWRtaW46YWRtaW4='
+            }
+        },
+        createTask: {
+            url: mlUrl + '/apply',
+            method: 'POST',
+            headers: {
+                'Authorization': 'Basic YWRtaW46YWRtaW4='
+            },
+            transformRequest: function(data){
+                var credential = Session.getCredential();
+
+                _.extend(data, {
+                    cloudUrl: appConfig[appConfig.ENV].cloudUrl,
+                    cloudAppId: appConfig[appConfig.ENV].kiiAppID,
+                    startTime: 0,
+                    endTime: 0,
+                    ownerId: credential.id,
+                    ownerToken: credential.accessToken,
+                    type : "ROOM_LIGHT"
+                });
+
+                return JSON.stringify(data);
+            }
+        }
+    });
+    return $MechineLearning;
+}])
 .factory('$$UserManager', ['$resource', function($resource) {
     var $$UserManager = $resource(MyAPIs.USER_MANAGER + '/:userID', { userID: '@userID' }, {
         update: {
@@ -453,6 +489,32 @@ angular.module('BeehivePortal')
             url: MyAPIs.THING + '/queryDetailByIDs',
             method: 'POST',
             isArray: true
+        },
+        /**
+         * [getHistory description]
+         * @type {Object}
+         * @example
+         * {
+                "vendorThingID": "0807W-A17-C-078",
+                "startDate": 0,
+                "endDate": 1562865748745,
+                "indexType": "192b49ce",
+                "dateField": "state.date",
+                "size": 100,
+                "from": 0
+            }
+         */
+        getHistory: {
+            url: MyAPIs.ES + '/historical',
+            method: 'POST',
+            transformRequest: function(request){
+                _.extend(request, {
+                    indexType: appConfig[appConfig.ENV].kiiAppID,
+                    dateField: 'state.date'
+                });
+
+                return JSON.stringify(request);
+            }
         }
     });
 

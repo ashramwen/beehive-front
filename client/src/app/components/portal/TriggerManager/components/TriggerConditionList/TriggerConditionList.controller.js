@@ -46,7 +46,7 @@ angular.module('BeehivePortal')
     $scope.editConditionGroup = function(type, id){
       switch($scope.$state.current.name){
         case TriggerDetailService.States.NEW_CONDITION_TRIGGER:
-          $scope.$state.go(TriggerDetailService.States.NEW_CONDITION_TRIGGER_CONDITION, _.extend({type: type}, state.params));
+          $scope.$state.go(TriggerDetailService.States.NEW_CONDITION_TRIGGER_CONDITION, _.extend({type: type, id: id}, state.params));
           return;
         case TriggerDetailService.States.CONDITION_TRIGGER:
           $scope.$state.go(TriggerDetailService.States.CONDITION_TRIGGER_CONDITION, _.extend({type: type, id: id}, state.params));

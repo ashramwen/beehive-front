@@ -109,10 +109,11 @@ angular.module('BeehivePortal')
             includeSubLevel: true
           };
 
-          $$Thing.getThingsByLocationType(searchQuery, function(thingIDs){
-            $scope.things = _.map(thingIDs, function(thingID){
+          $$Thing.getThingsByLocationType(searchQuery, function(things){
+            $scope.things = _.map(things, function(thing){
               return {
-                globalThingID: thingID, 
+                globalThingID: thing.thingID, 
+                vendorThingID: thing.vendorThingID,
                 type: $scope.selectedType, 
                 typeDisplayName: _.find($scope.types, {value: $scope.selectedType}).text,
                 locationDisplayName: $scope.selectedLocation.displayName,

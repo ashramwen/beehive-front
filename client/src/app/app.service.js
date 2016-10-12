@@ -31,10 +31,13 @@ angular.module('BeehivePortal')
                 resolve(credential);
                 $rootScope.login = true;
             }, function(error){
-                if(error.status != 403){
-                    reject(AUTH_EVENTS.loginFailed);
-                }else{
-                    reject(AUTH_EVENTS.UnauthorizedException);
+                switch(error.status){
+                    case 401:
+                    case 403:
+                        reject(AUTH_EVENTS.UnauthorizedException);
+                        return;
+                    default: 
+                        reject(AUTH_EVENTS.loginFailed);
                 }
             });
         });

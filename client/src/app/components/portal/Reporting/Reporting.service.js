@@ -29,7 +29,8 @@ angular.module('BeehivePortal')
        */
       $q.all(promiseList).then(function(result){
 
-        queriedSubLevels = _.map(result, function(thingIDs, i){
+        queriedSubLevels = _.map(result, function(things, i){
+          var thingIDs = _.pluck(things, 'thingID'); 
           return{
             location: selectedSubLevels[i],
             things: thingIDs

@@ -48,17 +48,21 @@ angular.module('BeehivePortal')
     };
 
     $scope.viewThing = function(thing){
-      $scope.navigateTo($scope.navMapping.LOCATION_THING_DETAIL, _.extend({thingid: thing.id}, $scope.$state.params, {location: $scope.selectedLocation}));
+      $scope.navigateTo($scope.navMapping.LOCATION_THING_DETAIL, _.extend({thingid: thing.id}, $scope.$state.params, {location: $scope.selectedLocation, type: $scope.type}));
     };
 
     $scope.thingListChange = function(things, type, location){
       if(location){
         $scope.selectedLocation = location.locationID;
+        if(type){
+          $scope.type = type.value;
+        }
       }
       $scope.things = _.map(things, function(thing){
         return {
           id: thing.globalThingID,
           type: thing.typeDisplayName,
+          vendorThingID: thing.vendorThingID,
           location: thing.locationDisplayName
         };
       });

@@ -19,7 +19,7 @@ angular.module('BeehivePortal')
 
                 $location.search(_.extend({'pageIndex': scope.index}, $rootScope.$state.params));
                 if(_.isFunction(scope.onChanged)){
-                    scope.onChanged(index, scope.display);
+                    scope.onChanged(scope.index, scope.display);
                 }
             };
 

@@ -20,7 +20,7 @@ angular.module('BeehivePortal')
         location: null
       };
 
-      $scope.modelChanged('Lighting');
+      $scope.modelChanged('ROOM_LIGHT');
     };
 
     $scope.$watch('triggerData', function(val){
@@ -52,5 +52,9 @@ angular.module('BeehivePortal')
 
       property._selected = !property._selected;
     };
+
+    $scope.locationChange = function(location){
+      $scope.triggerData.location = location;
+    }
 
  }]);
