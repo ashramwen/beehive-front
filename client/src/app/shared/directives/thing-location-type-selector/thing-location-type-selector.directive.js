@@ -1,6 +1,6 @@
 
 angular.module('BeehivePortal')
-  .directive('thingLocationTypeSelector', ['$compile', 'TriggerDetailService', 'Session', function($compile, TriggerDetailService, Session){
+  .directive('thingLocationTypeSelector', ['$compile', 'TriggerDetailService', 'Session', 'AppUtils', function($compile, TriggerDetailService, Session, AppUtils){
     return{
       restrict: 'E',
       replace: true,
@@ -117,10 +117,14 @@ angular.module('BeehivePortal')
         $scope.add = function(){
           $scope.selectedThings = $scope.selectedThings || [];
           var things = _.where($scope.things, {_selected: true});
+          var _things = angular.copy(things);
+          
           _.each(things, function(thing){
             delete thing._selected;
           });
-          $scope.selectedThings = $scope.selectedThings.concat(things);
+
+          
+          $scope.selectedThings = $scope.selectedThings.concat(_things);
           onChange();
         };
 
@@ -178,12 +182,33 @@ angular.module('BeehivePortal')
         };
 
         $scope.typeChange = function(value, initialized){
-          if($scope.singleType && value != $scope.selectedType && initialized){
+          if(!initialized && angular.equals(value, $scope.selectedType)) return;
+
+          if($scope.selectedThings && $scope.selectedThings.length && !initialized){
+            var originType = $scope.selectedType;
+            var targetType = value;
+
+            AppUtils.confirm({
+              title: '提示信息',
+              msg: '若改变所选设备类型，当前所选设备将会被清空。您确认要更改吗？'
+            }).then(function(){
+              $scope.selectedThings = [];
+              $scope.selectedType = targetType;
+              $scope.typeChanged(targetType, false);
+            });
+            return false;
+          } else{
+            $scope.typeChanged(value, true);
+          }
+        };
+
+        $scope.typeChanged = function(targetType, initialized){
+          if($scope.singleType && targetType != $scope.selectedType && initialized){
             $scope.selectedThings = [];
           }
           $scope.things = [];
-          $scope.change({selectedThings: $scope.selectedThings, type: value});
-        };
+          $scope.change({selectedThings: $scope.selectedThings, type: targetType});
+        }
 
         function onChange(){
           $scope.change({selectedThings: $scope.selectedThings, type: $scope.selectedType});

@@ -180,7 +180,11 @@ angular.module('BeehivePortal')
   .controller('AppUtils.Confirm', ['$scope', '$uibModalInstance', 'func', 'data', function ($scope, $uibModalInstance, func, data) {
     $scope.data = data;
     $scope.ok = function () {
-        $uibModalInstance.close(func());
+        if(func && _.isFunction(func)){
+            $uibModalInstance.close(func());
+        }else{
+            $uibModalInstance.close();
+        }
     };
 
     $scope.cancel = function () {

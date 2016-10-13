@@ -46,6 +46,12 @@ angular.module('BeehivePortal')
         case TriggerDetailService.States.CONDITION_TRIGGER:
           $scope.$state.go(TriggerDetailService.States.CONDITION_TRIGGER_ACTION, _.extend({type: type}, state.params));
           break;
+        case TriggerDetailService.States.NEW_ML_TRIGGER:
+          $scope.$state.go(TriggerDetailService.States.NEW_ML_TRIGGER_ACTION, _.extend({type: type}, state.params));
+          break;
+        case TriggerDetailService.States.ML_TRIGGER:
+          $scope.$state.go(TriggerDetailService.States.ML_TRIGGER_ACTION, _.extend({type: type}, state.params));
+          break;
       }
     };
        

@@ -10,8 +10,10 @@ angular.module('BeehivePortal')
     $scope.toggleTriggerState = function(value){
       if(value){
         $$Trigger.enable({}, {triggerID: $scope.trigger.triggerID});
+        $scope.$emit('trigger-state-change', true);
       }else{
         $$Trigger.disable({}, {triggerID: $scope.trigger.triggerID});
+        $scope.$emit('trigger-state-change', false);
       }
     };
 

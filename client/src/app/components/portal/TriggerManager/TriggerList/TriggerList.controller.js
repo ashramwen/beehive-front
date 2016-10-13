@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('TriggerListController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Thing', '$$Type', '$$Tag', '$q', '$timeout', '$uibModal', '$$Location', '$$Trigger', 
-    function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type,$$Tag, $q, $timeout, $uibModal, $$Location, $$Trigger) {
+  .controller('TriggerListController', ['$scope', '$rootScope', '$state', 'AppUtils', '$$Thing', '$$Type', '$$Tag', '$q', '$timeout', '$uibModal', '$$Location', '$$Trigger', 'MachineLearningTriggerDetailService',
+    function($scope, $rootScope, $state, AppUtils, $$Thing, $$Type,$$Tag, $q, $timeout, $uibModal, $$Location, $$Trigger, MachineLearningTriggerDetailService) {
     
     /**
      * init args
@@ -30,7 +30,7 @@ angular.module('BeehivePortal')
                     name: trigger.name,
                     description: trigger.description,
                     disabled: trigger.recordStatus == 'disable',
-                    type: (!!trigger.predicate.schedule)? 'schedule': 'conditional',
+                    type: $scope.getTriggerType(trigger),
                     createDate: trigger.createDate,
                     fromGateway: trigger.type == 'Gateway'
                 };
@@ -83,6 +83,9 @@ angular.module('BeehivePortal')
             if(trigger.triggerID){
                 $$Trigger.remove({triggerID: trigger.triggerID}, function(){
                     $scope.triggers.remove(trigger);
+                    if(trigger.type == 'machine-learning'){
+                        MachineLearningTriggerDetailService.cleanUp(trigger);
+                    }
                 });
             }else{
                 $scope.triggers.remove(trigger);
@@ -97,8 +100,9 @@ angular.module('BeehivePortal')
         AppUtils.confirm(options); 
     };
 
-    $scope.getTriggerType = function(){
-
+    $scope.getTriggerType = function(trigger){
+        if(trigger.description.indexOf('"type":"MachineLearning"') > -1) return 'machine-learning';
+        return (!!trigger.predicate.schedule)? 'schedule': 'conditional';
     };
 
     $scope.triggerFilter = function(trigger){

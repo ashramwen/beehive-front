@@ -1,9 +1,12 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('TriggerDetailController', ['$scope', '$rootScope', '$$Trigger', 'TriggerDetailService', 'ConditionTriggerDetailService', '$q', 'AppUtils', function($scope, $rootScope, $$Trigger, TriggerDetailService, ConditionTriggerDetailService, $q, AppUtils) {
+  .controller('TriggerDetailController', ['$scope', '$rootScope', '$$Trigger', 'TriggerDetailService', 'ConditionTriggerDetailService', '$q', 'AppUtils', 'MachineLearningTriggerDetailService', function($scope, $rootScope, $$Trigger, TriggerDetailService, ConditionTriggerDetailService, $q, AppUtils, MachineLearningTriggerDetailService) {
 
     $scope.triggerData = null;
+    // temp
+    MachineLearningTriggerDetailService.generateSchema();
+
 
     $scope.init = function(){
       var triggerID = $scope.$state.params.triggerID;

@@ -137,7 +137,7 @@ angular.module('BeehivePortal')
   }])
   .controller('ThingDetailController.SendCommand', ['$scope', 'thingID', 'schema', '$uibModalInstance', '$$Thing', function($scope, thingID, schema, $uibModalInstance, $$Thing){
 
-    $scope.actions = schema.actions;
+    $scope.actions = angular.copy(schema.actions);
 
     $scope.actionGroup = {
       type: schema.name, 

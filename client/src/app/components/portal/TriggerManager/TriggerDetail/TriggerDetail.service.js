@@ -18,6 +18,12 @@ angular.module('BeehivePortal')
       NEW_CONDITION_TRIGGER_ACTION: 'app.portal.TriggerManager.NewTrigger.ConditionTriggerActionHandler',
       CONDITION_TRIGGER_ACTION: 'app.portal.TriggerManager.TriggerDetail.ConditionTriggerActionHandler',
       
+      NEW_ML_TRIGGER_CONDITION: 'app.portal.TriggerManager.NewTrigger.MachineLearningTriggerConditionHandler',
+      ML_TRIGGER_CONDITION: 'app.portal.TriggerManager.TriggerDetail.MachineLearningTriggerConditionHandler',
+      NEW_ML_TRIGGER_ACTION: 'app.portal.TriggerManager.NewTrigger.MachineLearningTriggerActionHandler',
+      ML_TRIGGER_ACTION: 'app.portal.TriggerManager.TriggerDetail.MachineLearningTriggerActionHandler',
+      
+      
       NEW_SCHEDULE_TRIGGER_ACTION: 'app.portal.TriggerManager.NewTrigger.ScheduleTriggerActionHandler',
       SCHEDULE_TRIGGER_ACTION: 'app.portal.TriggerManager.TriggerDetail.ScheduleTriggerActionHandler',
 
@@ -25,6 +31,8 @@ angular.module('BeehivePortal')
       SCHEDULE_TRIGGER: 'app.portal.TriggerManager.TriggerDetail.ScheduleTrigger',
       NEW_CONDITION_TRIGGER: 'app.portal.TriggerManager.NewTrigger.ConditionTrigger',
       CONDITION_TRIGGER: 'app.portal.TriggerManager.TriggerDetail.ConditionTrigger',
+      NEW_ML_TRIGGER: 'app.portal.TriggerManager.NewTrigger.MachineLearningTrigger',
+      ML_TRIGGER: 'app.portal.TriggerManager.TriggerDetail.MachineLearningTrigger',
 
       NEW_TRIGGER_ROOT: 'app.portal.TriggerManager.NewTrigger',
       TRIGGER_LIST: 'app.portal.TriggerManager.TriggerList'
@@ -538,12 +546,15 @@ angular.module('BeehivePortal')
         startMin = startAt.getMinutes();
         startHour = startAt.getHours();
         if(!endAt){
+          return null;
           endAt = new Date();
           endAt.setHours(23);
           endAt.setMinutes(59);
         }
         endMin = endAt.getMinutes();
         endHour = endAt.getHours();
+      }else{
+        return null;
       }
 
       var startCron = [

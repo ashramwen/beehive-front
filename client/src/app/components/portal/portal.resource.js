@@ -166,11 +166,11 @@ angular.module('BeehivePortal')
 
     return $$Auth;
 }])
-.factory('$MechineLearning', ['$resource', 'Session', function($resource, Session){
+.factory('$$MechineLearning', ['$resource', 'Session', function($resource, Session){
     var mlUrl = 'http://114.215.196.178:8082/beehive-ml/ml/scenario';
 
 
-    var $MechineLearning = $resource(mlUrl + '/apply', {
+    var $$MechineLearning = $resource(mlUrl + '/apply', {}, {
         getList: {
             url: mlUrl + '/list',
             method: 'GET',
@@ -190,8 +190,6 @@ angular.module('BeehivePortal')
                 _.extend(data, {
                     cloudUrl: appConfig[appConfig.ENV].cloudUrl,
                     cloudAppId: appConfig[appConfig.ENV].kiiAppID,
-                    startTime: 0,
-                    endTime: 0,
                     ownerId: credential.id,
                     ownerToken: credential.accessToken,
                     type : "ROOM_LIGHT"
@@ -199,9 +197,30 @@ angular.module('BeehivePortal')
 
                 return JSON.stringify(data);
             }
+        },
+        enableTask: {
+            url: mlUrl + '/scenario/:id/enable/true',
+            method: 'GET',
+            headers: {
+                'Authorization': 'Basic YWRtaW46YWRtaW4='
+            }
+        },
+        disableTask: {
+            url: mlUrl + '/scenario/:id/enable/false',
+            method: 'GET',
+            headers: {
+                'Authorization': 'Basic YWRtaW46YWRtaW4='
+            }
+        },
+        deleteTask: {
+            url: mlUrl + '/scenario/:id',
+            method: 'DELETE',
+            headers: {
+                'Authorization': 'Basic YWRtaW46YWRtaW4='
+            }
         }
     });
-    return $MechineLearning;
+    return $$MechineLearning;
 }])
 .factory('$$UserManager', ['$resource', function($resource) {
     var $$UserManager = $resource(MyAPIs.USER_MANAGER + '/:userID', { userID: '@userID' }, {

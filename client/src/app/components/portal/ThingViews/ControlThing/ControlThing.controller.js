@@ -88,12 +88,11 @@ angular.module('BeehivePortal')
 
         $$Thing.sendCommand([command], function(){
             AppUtils.alert({msg: 'thingManager.commandSentMsg'});
-            $state.go($state.current.name, {refreshId: ~~(Math.random()*100)});
-            $scope.refreshed = false;
-            $timeout(function(){
-                $scope.refreshed = true;
-            });
         });
     }
+
+    $scope.cleanUp = function(){
+      $state.go($state.current.name, {refreshId: ~~(Math.random()*100)});
+    };
 
   }]);

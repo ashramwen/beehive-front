@@ -19,9 +19,13 @@ angular.module('BeehivePortal')
             scope.myClass = attrs.class;
             scope.setting = _.extend(scope.setting, scope.extraSetting);
             scope.selectedOption = {};
-            var initialized = false;
+            scope.preventInit = false;
 
             scope.$watch('selectedModel', function(newVal, oldVal){
+                if(scope.preventInit){
+                    scope.preventInit = false;
+                    return;
+                }
                 if(angular.equals(newVal, oldVal)){
                     scope.selectedOption = _.find(scope.options, function(option){
                         if(attrs.valueOnly){
@@ -42,18 +46,24 @@ angular.module('BeehivePortal')
             scope.setting.text = attrs.text || scope.setting.text;
             scope.setting.value = attrs.value || scope.setting.value;
             
-            scope.selectOption = function(option){
-                
+            scope.selectOption = function(option, initialized){
+                scope.preventInit = true;
+
+                var targetValue = null;
                 if(attrs.valueOnly){
-                    scope.selectedModel = option[scope.setting.value];
+                    targetValue = option[scope.setting.value];
                 }else{
-                    scope.selectedModel = _.clone(option);
+                    targetValue = _.clone(option);
                 }
 
                 if(_.isFunction(scope.change)){
-                    scope.change(scope.selectedModel, initialized);
+                    if(scope.change(targetValue, initialized) === false){
+                        scope.preventInit = false;
+                        return;
+                    }
                 }
-                
+
+                scope.selectedModel = targetValue;
                 scope.selectedOption = option;
             };
             
@@ -62,7 +72,6 @@ angular.module('BeehivePortal')
             }
 
             function init(){
-                initialized = false;
                 var existFlag = false;
                 if(attrs.valueOnly){
                     existFlag = _.find(scope.options,function(option){
@@ -79,9 +88,8 @@ angular.module('BeehivePortal')
                         scope.selectOption(scope.options[0]);
                     }
                 }else{
-                    scope.selectOption(existFlag);
+                    scope.selectOption(existFlag, true);
                 }
-                initialized = true;
             }
         }
     }

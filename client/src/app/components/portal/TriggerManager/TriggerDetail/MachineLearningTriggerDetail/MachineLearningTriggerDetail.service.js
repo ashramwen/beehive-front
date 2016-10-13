@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .factory('MachineLearningTriggerDetailService',['$rootScope', '$$Type', '$q' , '$$Thing', 'TriggerDetailService', '$cacheFactory', '$MechineLearning', function($rootScope, $$Type, $q, $$Thing, TriggerDetailService, $cacheFactory, $MechineLearning) {
+  .factory('MachineLearningTriggerDetailService',['$rootScope', '$$Type', '$q' , '$$Thing', 'TriggerDetailService', '$cacheFactory', '$$MechineLearning', 'ConditionTriggerDetailService', '$$Trigger', function($rootScope, $$Type, $q, $$Thing, TriggerDetailService, $cacheFactory, $$MechineLearning, ConditionTriggerDetailService, $$Trigger) {
     var MachineLearningTriggerDetailService = {};
 
     MachineLearningTriggerDetailService.dataValidation = function(triggerData){
@@ -19,6 +19,18 @@ angular.module('BeehivePortal')
           throw(new Error);
         }
       }
+      if(!triggerData.location || triggerData.location.length!=9){
+        throw(new Error('no room is given'));
+      }
+      if(!triggerData.model.properties.length){
+        throw(new Error('at least one ml properties'));
+      }else{
+        var errorFlag = false;
+        _.each(triggerData.model.properties, function(property){
+          errorFlag = errorFlag || _.isUndefined(property.value) || _.isNull(property.value);
+        });
+        if(errorFlag) throw(new Error('empty input'))
+      }
       return true;
     };
 
@@ -34,16 +46,16 @@ angular.module('BeehivePortal')
       $$Thing.save(thing, function(result){
         thing.globalThingID = result.globalThingID;
         $$Thing.onboard(thing, function(){
-          $$Thing.getOnboardingInfo(thing, function(onboardingInfo){
+          $$Thing.get(thing, function(onboardingInfo){
             _.extend(thing, onboardingInfo);
+            $defer.resolve(thing);
           });
-          $defer.resolve(thing);
         });
       }, function(err){
         $defer.reject(err);
       });
 
-      return $defer.promsie;
+      return $defer.promise;
     };
 
     MachineLearningTriggerDetailService.generateVendorThingID = function(){
@@ -55,18 +67,14 @@ angular.module('BeehivePortal')
       triggerData = angular.copy(triggerData);
       triggerData.conditionGroups.push({
         properties: triggerData.model.properties,
-        things: [thing.globalThingID],
+        things: [{globalThingID: triggerData.thingID}],
         type: 'ROOM_LIGHT',
         id: 'ROOM_LIGHT'
       });
 
-      var description = {
-        taskID: triggerData.taskID,
-      };
+      triggerData.description = MachineLearningTriggerDetailService.generateDescription(triggerData);
 
-      triggerData.description = JSON.stringify(description);
-
-      var dataset = MachineLearningTriggerDetailService.generateSourcesAndConditions(triggerData);
+      var dataset = ConditionTriggerDetailService.generateSourcesAndConditions(triggerData);
 
       var trigger = {
         "name": triggerData.name,
@@ -90,58 +98,72 @@ angular.module('BeehivePortal')
       return trigger;
     };
 
-    MachineLearningTriggerDetailService.parseModel = function(model){
-
+    MachineLearningTriggerDetailService.parseTrigger = function(triggerData){
+      var data = MachineLearningTriggerDetailService.parseDescription(triggerData.description);
+      triggerData.taskID = data.taskID;
+      triggerData.location = triggerData.location || data.location;
+      triggerData.thingID = data.thingID;
+      triggerData.conditionGroups = _.reject(triggerData.conditionGroups, {id: 'ROOM_LIGHT'});
+      triggerData.model = triggerData.model || data.model;
+      console.log(triggerData.conditionGroups);
     };
 
-    MachineLearningTriggerDetailService.generateSourcesAndConditions = function(triggerData){
-
-      var result = {
-        sources: {},
-        condition: {
-          type: triggerData.any? 'or': 'and', 
-          clauses: []
-        }
-      };
-
-      _.each(triggerData.conditionGroups, function(conditionGroup){
-        
-        var expressList = [],
-            conditionList = [];
-      
-        _.each(conditionGroup.properties, function(property){
-          expressList.push(generateExpress(conditionGroup, property, triggerData.any));
-          conditionList.push(generateCondtion(conditionGroup, property));
-        });
-
-        result.sources[conditionGroup.type] = {
-          "source": {"thingList": _.pluck(conditionGroup.things, 'globalThingID')},
-          "expressList": expressList
-        };
-        result.condition.clauses.push({
-          type: 'and',
-          clauses:conditionList
-        });
-      });
-      return result;
-    };
 
     /**
-     * {taskID: String, mlModel: String}
+     * {taskID: String, type: String, thingID: String, location: String}
      * @param  {[type]} description [description]
      * @return {[type]}             [description]
      */
     MachineLearningTriggerDetailService.parseDescription = function(description){
-      var data = JSON.parse(description);
+      if(!description) return {};
+      return JSON.parse(description);
+    };
 
+
+    /**
+     * produce trigger data
+     * @param  {[type]} triggerData [description]
+     * @return {[type]}             [description]
+     */
+    MachineLearningTriggerDetailService.generateDescription = function(triggerData){
+
+      var description = {
+        taskID: triggerData.taskID,
+        type: 'MachineLearning',
+        thingID: triggerData.thingID,
+        location: triggerData.location,
+        model: triggerData.model
+      };
+
+      return JSON.stringify(description);
     };
 
     MachineLearningTriggerDetailService.createMLTask = function(kiiThingID, location){
-      return $MechineLearning.createTask({
+      var $defer = $q.defer();
+
+      $$MechineLearning.createTask({
         virtualThingId: kiiThingID,
         roomNum: location
-      }).$promise;
-    }
+      }, function(taskID){
+        MachineLearningTriggerDetailService.enableTask().then(function(){
+          $defer.resolve(taskID);
+        }, function(err){
+          $defer.reject(err);
+        });
+      }, function(){
+        $defer.resolve(1);
+      });
+
+      return $defer.promise;
+    };
+
+    MachineLearningTriggerDetailService.enableTask = function(taskID){
+      return $$MechineLearning.enableTask({id: taskID}).$promise;
+    };
+
+    MachineLearningTriggerDetailService.disableTask = function(taskID){
+      return $$MechineLearning.disableTask({id: taskID}).$promise;
+    };
 
     MachineLearningTriggerDetailService.generateSchema = function(){
       var mlSchema = {
@@ -183,6 +205,61 @@ angular.module('BeehivePortal')
 
       $httpDefaultCache.put(MyAPIs.SCHEMA + '/query/industrytemplate?' + queris.join('&'), mlSchema);
     }
+
+    MachineLearningTriggerDetailService.createTrigger = function(triggerData){
+      var $defer = $q.defer();
+
+      MachineLearningTriggerDetailService.createVirtualThing('ROOM_LIGHT').then(function(thing){
+        MachineLearningTriggerDetailService
+          .createMLTask(thing.fullKiiThingID, triggerData.location)
+          .then(function(taskID){
+            triggerData.taskID = taskID;
+            triggerData.thingID = thing.globalThingID;
+
+            var trigger = MachineLearningTriggerDetailService.generateTrigger(triggerData);
+
+            $$Trigger.save(trigger, function(trigger){
+              $defer.resolve(trigger);
+            }, function(err){
+              $q.reject(err);
+            });
+          }, function(err){
+            $q.reject(err);
+          });      
+        }, function(err){
+          $q.reject(err);
+        });
+
+      return $defer.promise;
+    };
+
+    MachineLearningTriggerDetailService.updateTrigger = function(triggerData){
+      var $defer = $q.defer();
+
+      $$Trigger.remove({triggerID: triggerData.triggerID}, function(){
+        var trigger = MachineLearningTriggerDetailService.generateTrigger(triggerData);
+
+        $$Trigger.save(trigger, function(trigger){
+          $defer.resolve(trigger);
+        }, function(err){
+          $q.reject(err);
+        });
+      }, function(err){
+        $defer.reject(err);
+      });
+
+      return $defer.promise;
+    };
+
+    MachineLearningTriggerDetailService.deleteTask = function(taskID){
+      return $$MechineLearning.deleteTask({id: taskID}).$promise;
+    }
+
+    MachineLearningTriggerDetailService.cleanUp = function(triggerData){
+      var data = MachineLearningTriggerDetailService.parseDescription(triggerData.description);
+      var taskID = data.taskID;
+      MachineLearningTriggerDetailService.deleteTask(taskID);
+    };
 
     return MachineLearningTriggerDetailService;
   }

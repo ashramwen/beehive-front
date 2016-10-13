@@ -67,8 +67,8 @@ angular.module('BeehivePortal')
               conditionList = [];
       
           _.each(conditionGroup.properties, function(property){
-            expressList.push(generateExpress(conditionGroup, property, triggerData.any));
-            conditionList.push(generateCondtion(fieldName,property));
+            expressList.push(ConditionTriggerDetailService.generateExpress(conditionGroup, property, triggerData.any));
+            conditionList.push(ConditionTriggerDetailService.generateCondtion(fieldName,property));
           });
 
           result.sources[fieldName] = {
@@ -85,7 +85,7 @@ angular.module('BeehivePortal')
       return result;
     };
 
-    function generateExpress(conditionGroup, property, any){
+    ConditionTriggerDetailService.generateExpress = function(conditionGroup, property, any){
       var func = '';
 
       switch(property.expression){
@@ -109,7 +109,7 @@ angular.module('BeehivePortal')
       };
     };
 
-    function generateCondtion(fieldName, property){
+    ConditionTriggerDetailService.generateCondtion = function(fieldName, property){
       var condition = {
         field: fieldName + '.' + property.propertyName
       };

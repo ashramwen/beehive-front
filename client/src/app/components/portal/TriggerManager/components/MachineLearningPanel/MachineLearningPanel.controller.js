@@ -15,10 +15,12 @@ angular.module('BeehivePortal')
       $scope.trigger = $scope.triggerData;
       $scope.trigger.model = $scope.trigger.model || {
         name: $scope.mlModels[0].value,
-        properties: [],
-        thingID: null,
-        location: null
+        properties: []
       };
+
+      $scope.locationChange = function(location){
+        $scope.trigger.location = location;
+      }
 
       $scope.modelChanged('ROOM_LIGHT');
     };
@@ -52,9 +54,5 @@ angular.module('BeehivePortal')
 
       property._selected = !property._selected;
     };
-
-    $scope.locationChange = function(location){
-      $scope.triggerData.location = location;
-    }
 
  }]);
