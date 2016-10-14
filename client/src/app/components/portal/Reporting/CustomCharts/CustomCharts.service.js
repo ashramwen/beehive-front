@@ -18,7 +18,7 @@ angular.module('BeehivePortal')
           });
 
           $q.all(quries).then(function(charts){
-            CustomChartsService.charts = charts;
+            CustomChartsService.charts = _.reject(charts, function(chartData){return !chartData});
             CustomChartsService.charts = _.map(CustomChartsService.charts, function(chartData){
               return new CustomChart(chartData.dataset);
             });
@@ -36,7 +36,20 @@ angular.module('BeehivePortal')
         return $$User.setChartData({}, {name: CHART_ID_FIELD_NAME, dataset: _chartIDs}).$promise;
       },
       getChart: function(id){
-        return $$User.getChartData({name: id}).$promise;
+        var $defer = $q.defer();
+
+        $$User.getChartData({name: id}, function(response){
+          $defer.resolve(response);
+        }, function(res){
+          console.log(res);
+          if(res.status == 404){
+            var index = _chartIDs.indexOf(id);
+            _chartIDs.splice(index, 1);
+          }
+          $defer.resolve(null);
+        });
+
+        return $defer.promise;
       },
       addChart: function(chart){
         var id = chart.id;

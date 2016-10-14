@@ -32,7 +32,7 @@ angular.module('BeehivePortal')
         $scope.$on('type-loaded', function(){
           $scope.typeLoaded = true;
 
-          if($scope.typeLoaded && $scope.locationLoaded){
+          if($scope.typeLoaded && $scope.locationLoaded && $scope.search){
             $scope.search();
           }
         });
@@ -40,7 +40,7 @@ angular.module('BeehivePortal')
         $scope.$on('location-loaded', function(){
           $scope.locationLoaded = true;
 
-          if($scope.typeLoaded && $scope.locationLoaded){
+          if($scope.typeLoaded && $scope.locationLoaded && $scope.search){
             $scope.search();
           }
         });
