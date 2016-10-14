@@ -138,20 +138,20 @@ angular.module('BeehivePortal')
       return JSON.stringify(description);
     };
 
-    MachineLearningTriggerDetailService.createMLTask = function(kiiThingID, location){
+    MachineLearningTriggerDetailService.createMLTask = function(vendorThingID, location){
       var $defer = $q.defer();
 
       $$MechineLearning.createTask({
-        virtualThingId: kiiThingID,
+        virtualThingId: vendorThingID,
         roomNum: location
-      }, function(taskID){
-        MachineLearningTriggerDetailService.enableTask().then(function(){
-          $defer.resolve(taskID);
+      }, function(task){
+        MachineLearningTriggerDetailService.enableTask(task.taskID).then(function(){
+          $defer.resolve(task.taskID);
         }, function(err){
           $defer.reject(err);
         });
-      }, function(){
-        $defer.resolve(1);
+      }, function(err){
+        $defer.reject(err);
       });
 
       return $defer.promise;
@@ -211,7 +211,7 @@ angular.module('BeehivePortal')
 
       MachineLearningTriggerDetailService.createVirtualThing('ROOM_LIGHT').then(function(thing){
         MachineLearningTriggerDetailService
-          .createMLTask(thing.fullKiiThingID, triggerData.location)
+          .createMLTask(thing.vendorThingID, triggerData.location)
           .then(function(taskID){
             triggerData.taskID = taskID;
             triggerData.thingID = thing.globalThingID;

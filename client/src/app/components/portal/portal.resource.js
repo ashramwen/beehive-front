@@ -196,25 +196,37 @@ angular.module('BeehivePortal')
                 });
 
                 return JSON.stringify(data);
+            },
+            transformResponse: function(data){
+                return {taskID: ~~data};
             }
         },
         enableTask: {
-            url: mlUrl + '/scenario/:id/enable/true',
+            url: mlUrl + '/:id/enable/true',
             method: 'GET',
+            params: {
+                id: '@id'
+            },
             headers: {
                 'Authorization': 'Basic YWRtaW46YWRtaW4='
             }
         },
         disableTask: {
-            url: mlUrl + '/scenario/:id/enable/false',
+            url: mlUrl + '/:id/enable/false',
             method: 'GET',
+            params: {
+                id: '@id'
+            },
             headers: {
                 'Authorization': 'Basic YWRtaW46YWRtaW4='
             }
         },
         deleteTask: {
-            url: mlUrl + '/scenario/:id',
+            url: mlUrl + '/:id',
             method: 'DELETE',
+            params: {
+                id: '@id'
+            },
             headers: {
                 'Authorization': 'Basic YWRtaW46YWRtaW4='
             }

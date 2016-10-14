@@ -25,7 +25,6 @@ angular.module('BeehivePortal')
             CustomChartsService.charts = CustomChartsService.charts || [];
             $defer.resolve(CustomChartsService.charts);
           });
-
         }, function(){
           $defer.resolve(CustomChartsService.charts);
         });

@@ -18,6 +18,8 @@ angular.module('BeehivePortal')
         properties: []
       };
 
+      $scope.locationInput = $scope.trigger.location;
+
       $scope.locationChange = function(location){
         $scope.trigger.location = location;
       }
