@@ -17,7 +17,7 @@
             </thead>
             <tbody>
               <tr class="gradeA" ng-class="{'odd':$index%2==1}" role="row" ng-repeat="gateway in gateways" ng-click="showGatewayThings(gateway)">
-                <td>{{gateway.globalThingID}}</td>
+                <td>{{gateway.vendorThingID}}</td>
                 <td><span class="fa" ng-class="gateway.fullKiiThingID? 'fa-check': 'fa-remove'"></span></td>
               </tr>
             </tbody>
