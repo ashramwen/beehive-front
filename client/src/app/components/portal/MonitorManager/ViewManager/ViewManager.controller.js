@@ -69,6 +69,9 @@ angular.module('BeehivePortal.MonitorManager')
     function preprocessView(view) {
         var _date = new Date().getTime();
         if (!view.id) view.id = _date;
+        view.detail.forEach(function(o) {
+            delete o.select;
+        });
         return angular.extend(view, {
             count: view.detail.length,
             createDate: _date,
