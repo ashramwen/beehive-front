@@ -1,6 +1,6 @@
 
 angular.module('BeehivePortal')
-  .directive('thingLocationTypeSelector', ['$compile', 'TriggerDetailService', 'Session', 'AppUtils', function($compile, TriggerDetailService, Session, AppUtils){
+  .directive('thingLocationTypeSelector', ['$compile', 'TriggerDetailService', 'Session', 'AppUtils', '$q', function($compile, TriggerDetailService, Session, AppUtils, $q){
     return{
       restrict: 'E',
       replace: true,
@@ -16,22 +16,29 @@ angular.module('BeehivePortal')
 
         $scope.ready = false;
         $$Type.getAll(function(types){
-          $scope.selectedType = types.length>0? types[0].type : null;
+          if(!$scope.selectedType){
+            $scope.selectedType = types.length>0? types[0].type : null;
+          }
+          var allPromise = [];
+
           $scope.allTypes = _.map(types, function(type){
             var _type = {
               text: type.type,
               value: type.type
             };
 
-            $$Type.getSchema({type: type.type}, function(schema){
+            allPromise.push($$Type.getSchema({type: type.type}, function(schema){
               if(schema.content){
                 if(_.isEmpty(schema.content.statesSchema.title)) return;
                 _type.text = schema.content.statesSchema.title;
               }
-            });
+            }).$promise);
             return _type;
           });
-          $scope.$broadcast('ready', true);
+
+          $q.all(allPromise).then(function(){
+            $scope.$broadcast('ready', true);
+          });
         });
 
         $scope.things = [];
@@ -79,7 +86,8 @@ angular.module('BeehivePortal')
                 globalThingID: queriedThing.thingID,
                 vendorThingID: queriedThing.vendorThingID
               };
-            }); 
+            });
+
             TriggerDetailService.getThingsDetail(things).then(function(things){
               $scope.things = things;
               $scope.things = _.reject(things, function(thing){

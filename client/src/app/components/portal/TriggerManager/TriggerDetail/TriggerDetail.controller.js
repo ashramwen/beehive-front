@@ -34,10 +34,17 @@ angular.module('BeehivePortal')
       $defer.promise.then(function(trigger){
         var promiseList = [];
 
+        //for ml trigger
+        if(trigger.description && trigger.description.indexOf('"type":"MachineLearning"')){
+          trigger.targets = [];
+        }
+        //end
+
         promiseList.push(TriggerDetailService.parseTriggerConditions(trigger));
         promiseList.push(TriggerDetailService.parseTriggerActions(trigger));
 
         $q.all(promiseList).then(function(result){
+
           $scope.triggerData = {
             triggersWhen: trigger.predicate? trigger.predicate.triggersWhen: 'CONDITION_TRUE',
             fromGateway: trigger.type == 'Gateway',

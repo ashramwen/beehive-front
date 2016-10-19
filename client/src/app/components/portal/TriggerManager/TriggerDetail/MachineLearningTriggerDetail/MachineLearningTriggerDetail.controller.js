@@ -4,10 +4,15 @@ angular.module('BeehivePortal')
   .controller('MachineLearningTriggerDetailController', ['$scope', '$rootScope', 'TriggerDetailService', 'MachineLearningTriggerDetailService', '$$Trigger', 'AppUtils', function($scope, $rootScope, TriggerDetailService, MachineLearningTriggerDetailService, $$Trigger, AppUtils) {
 
     $scope.conditions = [];
+    $scope.conditionGroupName = '机器学习规则触发条件';
 
     $scope.init = function(){
-      MachineLearningTriggerDetailService.parseTrigger($scope.triggerData);
+      if(!$scope.triggerData.inited){
+        MachineLearningTriggerDetailService.parseTrigger($scope.triggerData);
+        $scope.triggerData.inited = true;
+      }
       $scope.hideDescription = true;
+      
     };
 
     $scope.save = function(){
@@ -59,9 +64,11 @@ angular.module('BeehivePortal')
 
     $scope.$on('trigger-state-change', function($event, enabled){
       if(enabled){
-        MachineLearningTriggerDetailService.enableTask($scope.triggerData.taskID);
+        $$Trigger.enable({}, {triggerID: $scope.triggerData.sourceTriggerID});
+        //MachineLearningTriggerDetailService.enableTask($scope.triggerData.taskID);
       }else{
-        MachineLearningTriggerDetailService.disableTask($scope.triggerData.taskID);
+        $$Trigger.disable({}, {triggerID: $scope.triggerData.sourceTriggerID});
+        //MachineLearningTriggerDetailService.disableTask($scope.triggerData.taskID);
       }
     });
 

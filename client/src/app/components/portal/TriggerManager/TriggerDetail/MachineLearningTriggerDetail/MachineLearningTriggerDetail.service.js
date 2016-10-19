@@ -63,39 +63,77 @@ angular.module('BeehivePortal')
     };
 
     MachineLearningTriggerDetailService.generateTrigger = function(triggerData){
+      var $defer = $q.defer();
 
-      triggerData = angular.copy(triggerData);
-      triggerData.conditionGroups.push({
-        properties: triggerData.model.properties,
-        things: [{globalThingID: triggerData.thingID}],
-        type: 'ROOM_LIGHT',
-        id: 'ROOM_LIGHT'
+      var dataset2 = ConditionTriggerDetailService.generateSourcesAndConditions({
+        any: 'or',
+        conditionGroups: [{
+          properties: triggerData.model.properties,
+          things: [{globalThingID: triggerData.thingID}],
+          type: 'ROOM_LIGHT',
+          id: 'ROOM_LIGHT'
+        }]
       });
 
-      triggerData.description = MachineLearningTriggerDetailService.generateDescription(triggerData);
-
-      var dataset = ConditionTriggerDetailService.generateSourcesAndConditions(triggerData);
-
-      var trigger = {
-        "name": triggerData.name,
+      var trigger2 = {
+        "name": 'target_' + triggerData.name,
         "description": triggerData.description,
         "type": "Summary",
         "predicate": {
-          "triggersWhen" : triggerData.triggersWhen,
-          "condition": dataset.condition
+          "triggersWhen": triggerData.triggersWhen,
+          "condition": dataset2.condition
         },
-        "prepareCondition": TriggerDetailService.generatePrepareCondition(triggerData),
-        "summarySource": dataset.sources,
+        "summarySource": dataset2.sources,
         "targets": TriggerDetailService.generateTargets(triggerData)
       };
+      
 
-      _.each(trigger.predicate.condition.clauses, function(clause){
+      _.each(trigger2.predicate.condition.clauses, function(clause){
         clause.clauses.push(clause.clauses[0]);
       });
 
-      trigger.predicate.condition.clauses.push(trigger.predicate.condition.clauses[0]);
+      trigger2.predicate.condition.clauses.push(trigger2.predicate.condition.clauses[0]);
 
-      return trigger;
+      $$Trigger.save(trigger2, function(sourceTrigger){
+        triggerData = angular.copy(triggerData);
+        triggerData.sourceTriggerID = sourceTrigger.triggerID;
+        triggerData.description = MachineLearningTriggerDetailService.generateDescription(triggerData);
+
+        var dataset = ConditionTriggerDetailService.generateSourcesAndConditions(triggerData);
+
+        var trigger = {
+          "name": triggerData.name,
+          "description": triggerData.description,
+          "type": "Summary",
+          "predicate": {
+            "triggersWhen" : triggerData.triggersWhen,
+            "condition": dataset.condition
+          },
+          "prepareCondition": TriggerDetailService.generatePrepareCondition(triggerData),
+          "summarySource": dataset.sources,
+          "targets": [
+            {
+              "url": "http://114.215.178.24:8082/beehive-ml/ml/model/" + triggerData.taskID + "/predict",
+              "contentType": "application/json",
+              "method": "GET",
+              "authorization": "Basic YWRtaW46YWRtaW4=",
+              "type": "HttpApiCall"
+            }
+          ]
+        };
+
+        _.each(trigger.predicate.condition.clauses, function(clause){
+          clause.clauses.push(clause.clauses[0]);
+        });
+
+        trigger.predicate.condition.clauses.push(trigger.predicate.condition.clauses[0]);
+
+        $defer.resolve(trigger);
+      }, function(err){
+        $defer.reject(err);
+      });
+
+      return $defer.promise;
     };
 
     MachineLearningTriggerDetailService.parseTrigger = function(triggerData){
@@ -104,6 +142,10 @@ angular.module('BeehivePortal')
       triggerData.location = triggerData.location || data.location;
       triggerData.thingID = data.thingID;
       triggerData.conditionGroups = _.reject(triggerData.conditionGroups, {id: 'ROOM_LIGHT'});
+      triggerData.sourceTriggerID = data.sourceTriggerID;
+      if(!triggerData.actionGroups || !triggerData.actionGroups.length){
+        triggerData.actionGroups =  data.actionGroups;
+      }
       triggerData.model = triggerData.model || data.model;
       console.log(triggerData.conditionGroups);
     };
@@ -132,7 +174,9 @@ angular.module('BeehivePortal')
         type: 'MachineLearning',
         thingID: triggerData.thingID,
         location: triggerData.location,
-        model: triggerData.model
+        model: triggerData.model,
+        actionGroups: triggerData.actionGroups,
+        sourceTriggerID: triggerData.sourceTriggerID
       };
 
       return JSON.stringify(description);
@@ -216,12 +260,12 @@ angular.module('BeehivePortal')
             triggerData.taskID = taskID;
             triggerData.thingID = thing.globalThingID;
 
-            var trigger = MachineLearningTriggerDetailService.generateTrigger(triggerData);
-
-            $$Trigger.save(trigger, function(trigger){
-              $defer.resolve(trigger);
-            }, function(err){
-              $q.reject(err);
+            var trigger = MachineLearningTriggerDetailService.generateTrigger(triggerData).then(function(trigger){
+              $$Trigger.save(trigger, function(trigger){
+                $defer.resolve(trigger);
+              }, function(err){
+                $q.reject(err);
+              });
             });
           }, function(err){
             $q.reject(err);

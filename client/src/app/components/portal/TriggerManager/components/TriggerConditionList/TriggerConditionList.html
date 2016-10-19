@@ -7,7 +7,7 @@
         tooltip-placement="top"
         tooltip-is-open="ruleform.$submitted
           && !triggerData.conditionGroups.length"
-      >{{'triggerManager.ruleConditions' | translate}}</h4>
+      >{{conditionGroupName || 'triggerManager.ruleConditions' | translate}}</h4>
       <div class="table-holder">
         <div class="form-group">
           <div app-select options="options" selected-model="trigger.any" value-only="true"></div>

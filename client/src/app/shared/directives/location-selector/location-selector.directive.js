@@ -149,7 +149,10 @@ angular.module('BeehivePortal')
                         var parent = null;
                         if(target.parent){
                             parent = $scope.levels[target.parent];
-                            $scope.onChange(parent.selected.location, parent.selected);
+                            $$Location.getSubLevel({location: parent.selected.location}, function(res){
+                                $scope.subLevels = res;
+                                $scope.onChange(parent.selected.location, parent.selected);
+                            });
                         }else{
                             $scope.onChange(null);
                         }

@@ -87,6 +87,16 @@ angular.module('BeehivePortal')
                         MachineLearningTriggerDetailService.cleanUp(trigger);
                     }
                 });
+
+                // for ml trigger only
+                if(trigger.description.indexOf('"type":"MachineLearning"')){
+                    var data = JSON.parse(trigger.description);
+                    var sourceTriggerID = data.sourceTriggerID;
+                    $$Trigger.remove({triggerID: sourceTriggerID}, function(){
+                        $scope.trigger = _.reject($scope.trigger, {triggerID: sourceTriggerID});
+                    });
+                }
+                // end
             }else{
                 $scope.triggers.remove(trigger);
             }

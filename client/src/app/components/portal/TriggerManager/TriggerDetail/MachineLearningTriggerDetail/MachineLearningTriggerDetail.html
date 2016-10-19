@@ -1,5 +1,21 @@
 <div class="app-portal-triggermanager-conditiontriggerdetail">
   <ng-include src="'app/components/portal/TriggerManager/components/TriggerInfo/TriggerInfo.html'"></ng-include>
+
+  <div class="panel" ng-if="triggerData.taskID">
+    <div class="panel-body">
+      <table class="table form-table" style="margin-bottom: 0px;">
+        <tbody>
+          <tr>
+            <td class="ng-binding">任务ID</td>
+            <td>
+              <span style="line-height: 30px;">{{triggerData.taskID}}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <ng-include src="'app/components/portal/TriggerManager/components/MachineLearningPanel/MachineLearningPanel.html'"></ng-include>
   <ng-include src="'app/components/portal/TriggerManager/components/TriggerTimeSpan/TriggerTimeSpan.html'"></ng-include>
   <ng-include src="'app/components/portal/TriggerManager/components/TriggerConditionList/TriggerConditionList.html'"></ng-include>
