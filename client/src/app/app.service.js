@@ -92,11 +92,40 @@ angular.module('BeehivePortal')
     return session;
   }]);
 
-
 angular.module('BeehivePortal')
-  .factory('AppService', ['$http', '$q', 'Session', function($http, $q, Session) {
+  .factory('AppService', ['$http', '$q', 'Session', '$$Type', '$$Location', function($http, $q, Session, $$Type, $$Location) {
     var appService = {};
-    // TODO
+    
+    appService.lazyLoad = function(){
+        appService._loadTypes();
+        // appService._loadLocation();
+    };
+
+    appService._loadTypes = function(){
+        $$Type.getAll(function(types){
+            _.each(types, function(type){
+                $$Type.getSchema({type: type.type});
+            });
+        });
+    };
+
+    appService._loadLocation = function(){
+        $$Location.getTopLevel(function(res){
+            _.each(res, function(option){
+                getSubLevel(option.location);
+            });
+        });
+
+        function getSubLevel(location){
+            $$Location.getSubLevel({location: location}, function(res){
+                if(res && res.length) {
+                    _.each(res, function(option){
+                        getSubLevel(option.location);
+                    });
+                }
+            });
+        }
+    };
 
     return appService;
   }]);

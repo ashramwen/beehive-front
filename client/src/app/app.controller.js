@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .controller('AppController', ['$scope', '$rootScope', '$state', 'AppUtils', 'Session', 'AUTH_EVENTS', '$translate', function($scope, $rootScope, $state, AppUtils, Session, AUTH_EVENTS, $translate) {
+  .controller('AppController', ['$scope', '$rootScope', '$state', 'AppUtils', 'Session', 'AUTH_EVENTS', '$translate', 'AppService', function($scope, $rootScope, $state, AppUtils, Session, AUTH_EVENTS, $translate, AppService) {
     
     Session.useCredential().then(function(){
         $rootScope.login = true;
@@ -17,6 +17,12 @@ angular.module('BeehivePortal')
                     $state.go('app.secure.UserLogin');
                 }
             });
+        }
+    });
+
+    $rootScope.$watch('login', function(flag, oldVal){
+        if(!oldVal && flag){
+            AppService.lazyLoad();
         }
     });
 

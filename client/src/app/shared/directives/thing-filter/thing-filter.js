@@ -116,13 +116,21 @@ angular.module('BeehivePortal')
                 vendorThingID: thing.vendorThingID,
                 type: $scope.selectedType, 
                 typeDisplayName: _.find($scope.types, {value: $scope.selectedType}).text,
-                locationDisplayName: $scope.selectedLocation.displayName,
+                locationDisplayName: $scope.getDisplayName(thing.vendorThingID),
                 location: $scope.selectedLocation.locationID,
                 fullLocation: $scope.selectedLocation.fullLocation
               };
             });
             $scope.change({things: $scope.things, type:  _.find($scope.types, {value: $scope.selectedType}), location: $scope.selectedLocation});
           });
+        };
+
+        $scope.getDisplayName = function(vendorThingID){
+          var building = vendorThingID.substr(0,2);
+          var floor = vendorThingID.substr(2,2);
+          var partition = vendorThingID.substr(4,1);
+          var area = vendorThingID.substr(7,3);
+          return [building, '楼', floor, '层', partition, '区域', area, '区块'].join('');
         };
 
       }]

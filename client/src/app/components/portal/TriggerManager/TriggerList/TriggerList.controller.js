@@ -84,7 +84,7 @@ angular.module('BeehivePortal')
                 $$Trigger.remove({triggerID: trigger.triggerID}, function(){
                     $scope.triggers.remove(trigger);
                     if(trigger.type == 'machine-learning'){
-                        MachineLearningTriggerDetailService.cleanUp(trigger);
+                        //MachineLearningTriggerDetailService.cleanUp(trigger);
                     }
                 });
 

@@ -63,7 +63,7 @@ angular.module('BeehivePortal')
           id: thing.globalThingID,
           type: thing.typeDisplayName,
           vendorThingID: thing.vendorThingID,
-          location: thing.locationDisplayName
+          locationDisplayName: thing.locationDisplayName
         };
       });
     };

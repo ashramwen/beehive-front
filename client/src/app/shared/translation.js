@@ -68,7 +68,27 @@
         "buildingBref": "B",
         "floorBref": "F",
         "partitionBref": "P",
-        "areaBref": "A"
+        "areaBref": "A",
+        0: {
+          "name": "Building",
+          "brev": "B"
+        },
+        1: {
+          "name": "Floor",
+          "brev": "F"
+        },
+        2: {
+          "name": "Partition",
+          "brev": "P"
+        },
+        3: {
+          "name": "Area",
+          "brev": "A"
+        },
+        4: {
+          "name": "Position",
+          "brev": "P"
+        }
       },
       "user": {
         "hello": "hello, {{userName}}",
@@ -402,7 +422,27 @@
         "buildingBref": "楼",
         "floorBref": "层",
         "partitionBref": "区域",
-        "areaBref": "区块"
+        "areaBref": "区块",
+        0: {
+          "name": "楼号",
+          "brev": "楼"
+        },
+        1: {
+          "name": "层号",
+          "brev": "层"
+        },
+        2: {
+          "name": "区域",
+          "brev": "区"
+        },
+        3: {
+          "name": "区块",
+          "brev": "块"
+        },
+        4: {
+          "name": "工位",
+          "brev": ""
+        }
       },
       "user": {
         "hello": "您好，{{userName}}",
