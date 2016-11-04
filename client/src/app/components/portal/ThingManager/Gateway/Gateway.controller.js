@@ -4,6 +4,8 @@ angular.module('BeehivePortal')
   .controller('GatewayController', ['$scope', '$rootScope', '$uibModal', 'AppUtils', '$$Thing', '$$Type', '$$Location', '$timeout', 'GatewayService', function($scope, $rootScope, $uibModal, AppUtils, $$Thing, $$Type, $$Location, $timeout, GatewayService) {
     
     $scope.things = [];
+    $scope.highlighted = null;
+    $scope.order = 'typeDisplayName';
 
     $rootScope.$watch('login', function(newVal){
         if(!newVal) return;
@@ -67,6 +69,8 @@ angular.module('BeehivePortal')
     $scope.showGatewayThings = function(gateway){
         var dirtyFields = ['target', 'taiwanNo1', 'novalue'];
         $scope.gateway = gateway;
+        $scope.highlighted = gateway;
+
 
         $$Thing.getEndNodes({}, gateway, function(endNodes){
 

@@ -5,27 +5,9 @@
   <div class="dropdown-menu" role="menu" aria-labelledby="search-filter" ng-click="$event.stopPropagation()">
     <div class="panel">
       <div class="panel-body">
-        <div class="location-select">
-          <label>{{"location.building" | translate}}</label>
-          <select class="form-control" ng-options="option._displayName for option in levels.building.options track by option.location" ng-model="levels.building.selected" ng-change="changeLocation('building')" ng-click="$event.stopPropagation()">
-            <option value="">{{"controls.selectDefault" | translate}}</option>
-          </select>
-        </div>
-        <div class="location-select">
-          <label>{{"location.floor" | translate}}</label>
-          <select class="form-control" ng-options="option._displayName for option in levels.floor.options track by option.location" ng-model="levels.floor.selected" ng-change="changeLocation('floor')" ng-click="$event.stopPropagation()">
-            <option value="">{{"controls.selectDefault" | translate}}</option>
-          </select>
-        </div>
-        <div class="location-select">
-          <label>{{"location.partition" | translate}}</label>
-          <select class="form-control" ng-options="option._displayName for option in levels.partition.options track by option.location" ng-model="levels.partition.selected" ng-change="changeLocation('partition')" ng-click="$event.stopPropagation()">
-            <option value="">{{"controls.selectDefault" | translate}}</option>
-          </select>
-        </div>
-        <div class="location-select" ng-if="!hideLast">
-          <label>{{"location.area" | translate}}</label>
-          <select class="form-control" ng-options="option._displayName for option in levels.area.options track by option.location" ng-model="levels.area.selected" ng-change="changeLocation('area')" ng-click="$event.stopPropagation()">
+        <div class="location-select" ng-repeat="level in levels">
+          <label>{{"location.level" + $index + ".name" | translate}}</label>
+          <select class="form-control" ng-options="option._displayName for option in level.options track by option.location" ng-model="level.selected" ng-change="changeLocation(level.level)" ng-click="$event.stopPropagation()">
             <option value="">{{"controls.selectDefault" | translate}}</option>
           </select>
         </div>

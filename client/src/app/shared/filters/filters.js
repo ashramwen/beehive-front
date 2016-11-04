@@ -24,6 +24,16 @@ angular.module('BeehivePortal')
 })
 .filter('TimePipe', function(){
     return function(date){
+        var t = new Date(date);
+        var time = _.map([t.getHours(), t.getMinutes(), t.getSeconds()], function(i){
+            var a = ('0' + i).substr();
+            return a.substr(a.length - 2, 2);
+        }).join(':');
+        return [new Date(date).toLocaleDateString(), time].join(' ');
+    }
+})
+.filter('DatePipe', function(){
+    return function(date){
         return new Date(date).toLocaleDateString();
     }
 });

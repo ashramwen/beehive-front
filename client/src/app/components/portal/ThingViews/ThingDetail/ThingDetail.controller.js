@@ -15,6 +15,13 @@ angular.module('BeehivePortal')
             $scope.thing = thing;
             $$Type.getSchema({type: $scope.thing.type}, function(schema){
                 $scope.schema = TriggerDetailService.parseSchema(schema);
+                if($scope.schema.properties && $scope.schema.properties.length){
+                    $scope.schema.properties.push({
+                        propertyName: 'date',
+                        displayName: 'date',
+                        type: 'int'
+                    });
+                }
             });
             $timeout(function(){
                 $scope.$broadcast('rpDatePicker-settime', $scope.controlPeriod);
@@ -53,17 +60,15 @@ angular.module('BeehivePortal')
         if(periodIsChanged){
             $scope.statePageIndex = 0;
         }
+
         ThingDetailService.getThingHistoryState($scope.thing.vendorThingID, $scope.statePageIndex, $scope.queriedStatePeriod.from, $scope.queriedStatePeriod.to)
             .then(function(result){
-                console.log(result);
                 if(periodIsChanged){
-                    $scope.thingStateList = new Array(result.total || 0);
+                    $scope.thingStateList = new Array(Math.floor(result.total / result.size) || 0);
                 }
-                var i = 0;
-                while(i< result.states.length){
-                    $scope.thingStateList[result.from + i] = result.states[i++];
-                }
-
+                _.each(result.states, function(state, i){
+                    $scope.thingStateList[result.from + i] = result.states[i];
+                });
             });
     };
 

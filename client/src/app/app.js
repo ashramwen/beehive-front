@@ -19,8 +19,9 @@ var MyApp = angular.module('BeehivePortal', [
   sessionTimeout: 'auth-session-timeout',
   notAuthenticated: 'LOGIN_TOKEN_INVALID',
   notAuthorized: 'auth-not-authorized',
-}).
-config(function(localStorageServiceProvider, $httpProvider, NotificationProvider, $translateProvider) {
+})
+.constant('LEVELS', ['building', 'floor', 'partition', 'area', 'site'])
+.config(function(localStorageServiceProvider, $httpProvider, NotificationProvider, $translateProvider) {
   localStorageServiceProvider
     .setPrefix("epgApp")
     .setStorageType('localStorage')

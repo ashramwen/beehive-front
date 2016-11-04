@@ -85,7 +85,7 @@ angular.module('BeehivePortal')
                 
                 if(!existFlag){
                     if(scope.options && scope.options.length > 0){
-                        scope.selectOption(scope.options[0]);
+                        scope.selectOption(scope.options[0], true);
                     }
                 }else{
                     scope.selectOption(existFlag, true);

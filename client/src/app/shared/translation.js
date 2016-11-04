@@ -37,7 +37,8 @@
         "weekday": "Weekday",
         "weekend": "Weekend",
         "enable": "Enable",
-        "disable": "Disable"
+        "disable": "Disable",
+        "date": "Date"
       },
       "controls": {
         "refresh": "Refresh",
@@ -69,25 +70,25 @@
         "floorBref": "F",
         "partitionBref": "P",
         "areaBref": "A",
-        0: {
+        "level0": {
           "name": "Building",
           "brev": "B"
         },
-        1: {
+        "level1": {
           "name": "Floor",
           "brev": "F"
         },
-        2: {
+        "level2": {
           "name": "Partition",
           "brev": "P"
         },
-        3: {
+        "level3": {
           "name": "Area",
           "brev": "A"
         },
-        4: {
-          "name": "Position",
-          "brev": "P"
+        "level4": {
+          "name": "Site",
+          "brev": "S"
         }
       },
       "user": {
@@ -391,7 +392,8 @@
         "timeInterval": "时间间隔",
         "description": "描述",
         "enable": "启用",
-        "disable": "禁用"
+        "disable": "禁用",
+        "date": "日期"
       },
       "controls": {
         "refresh": "刷新",
@@ -423,25 +425,25 @@
         "floorBref": "层",
         "partitionBref": "区域",
         "areaBref": "区块",
-        0: {
+        "level0": {
           "name": "楼号",
           "brev": "楼"
         },
-        1: {
+        "level1": {
           "name": "层号",
           "brev": "层"
         },
-        2: {
+        "level2": {
           "name": "区域",
           "brev": "区"
         },
-        3: {
+        "level3": {
           "name": "区块",
           "brev": "块"
         },
-        4: {
+        "level4": {
           "name": "工位",
-          "brev": ""
+          "brev": "工位"
         }
       },
       "user": {

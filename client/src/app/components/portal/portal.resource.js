@@ -583,8 +583,7 @@ angular.module('BeehivePortal')
     var $$Location = $resource(MyAPIs.TAG + '/:id', { id: '@tagName' }, {
         queryAll: {
             method: 'GET',
-            isArray: true,
-            url: MyAPIs.TAG + '/search?tagType=Location',
+            url: MyAPIs.LOCATION_TAGS + '/fullTree',
             cache: true
         },
         getTopLevel: {

@@ -129,8 +129,8 @@ angular.module('BeehivePortal')
           var building = vendorThingID.substr(0,2);
           var floor = vendorThingID.substr(2,2);
           var partition = vendorThingID.substr(4,1);
-          var area = vendorThingID.substr(7,3);
-          return [building, '楼', floor, '层', partition, '区域', area, '区块'].join('');
+          var area = vendorThingID.substr(6,3);
+          return [building, '楼', floor, '层', partition, '区域', area, ''].join('');
         };
 
       }]

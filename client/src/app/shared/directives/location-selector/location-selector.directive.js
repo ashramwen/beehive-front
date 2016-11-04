@@ -13,67 +13,46 @@ angular.module('BeehivePortal')
             disabled: '=?'
         },
         templateUrl: 'app/shared/directives/location-selector/location-selector.template.html',
-        controller:['$scope', '$$Location', '$q', '$translate', function($scope, $$Location, $q, $translate){
+        controller:['$scope', '$$Location', '$q', '$translate', 'LEVELS', function($scope, $$Location, $q, $translate, LEVELS){
             $scope.detail = $scope.detail || [];
             $scope.subLevels = [];
 
-            $scope.levels = {
-                "building": {
-                    "options": [],
-                    "suffix": '楼',
-                    "selected": null,
-                    "parent": null,
-                    "children": ['floor', 'partition', 'area']
-                },
-                "floor": {
-                    "options": [],
-                    "suffix": '层',
-                    "selected": null,
-                    "parent": 'building',
-                    "children": ['partition', 'area']
-                },
-                "partition": {
-                    "options": [],
-                    "suffix": '区域',
-                    "selected": null,
-                    "parent": 'floor',
-                    "children": ['area']
-                },
-                "area": {
-                    "options": [],
-                    "suffix": '区块',
-                    "selected": null,
-                    "parent": 'partition',
-                    "children": []
+            $scope.levels = _.map(LEVELS, function(level, index){
+                var children = [];
+                for(var i = index + 1; i< LEVELS.length; i++){
+                    children.push(i);
                 }
-            };
+                return {
+                    options: [],
+                    selected: null,
+                    children: children,
+                    level: LEVELS[index]
+                };
+            });
 
-            $q.all([
-                $translate('location.buildingBref'),
-                $translate('location.floorBref'),
-                $translate('location.partitionBref'),
-                $translate('location.areaBref')
-            ]).then(function(values){
-                $scope.levels.building.suffix = values[0];
-                $scope.levels.floor.suffix = values[1];
-                $scope.levels.partition.suffix = values[2];
-                $scope.levels.area.suffix = values[3];
+            var translateQuery = _.map($scope.levels, function(l, i){
+                return $translate('location.level' + i + '.brev');
+            });
+
+            $q.all(translateQuery).then(function(values){
+                _.each($scope.levels, function(level, index){
+                    level.suffix = values[index];
+                });
             });
             
-
             $scope.$watch('input', function(val){
                 $scope.selectedLocation = val;
                 $scope.setLocation();
             });
 
             $$Location.getTopLevel(function(res){
-                $scope.levels['building'].options = _.map(res, function(option){
+                $scope.levels[0].options = _.map(res, function(option){
                     option._displayName = option.displayName;
                     return option;
                 });
-                if($scope.levels['building'].options.length && !$scope.selectedLocation){
-                    $scope.levels['building'].selected = $scope.levels['building'].options[0];
-                    $scope.changeLocation('building');
+                if($scope.levels[0].options.length && !$scope.selectedLocation){
+                    $scope.levels[0].selected = $scope.levels[0].options[0];
+                    $scope.changeLocation(LEVELS[0]);
                     $scope.$emit('location-loaded');
                 }else{
                     $scope.setLocation();
@@ -82,7 +61,7 @@ angular.module('BeehivePortal')
 
             $scope.setLocation = function(){
 
-                if(!$scope.selectedLocation || !$scope.levels.building.options.length) return;
+                if(!$scope.selectedLocation || !$scope.levels[0].options.length) return;
                 $$Location.getParent({location: $scope.selectedLocation}, function(locationList){
 
                     var $defer = $q.defer();
@@ -109,8 +88,8 @@ angular.module('BeehivePortal')
 
                     var firstFunc = funcs[funcs.length - 1];
                     if(!firstFunc){
-                        $scope.levels['building'].selected = _.find($scope.levels['building'].options, {location: $scope.selectedLocation});
-                        $scope.changeLocation('building').then(function(){
+                        $scope.levels[0].selected = _.find($scope.levels[0].options, {location: $scope.selectedLocation});
+                        $scope.changeLocation(LEVELS[0]).then(function(){
                             $scope.$emit('location-loaded');
                         });
                         return;
@@ -119,9 +98,9 @@ angular.module('BeehivePortal')
 
                     $defer.promise.then(function(obj){
                         obj.selected = _.find(obj.options, {location: $scope.selectedLocation});
-                        var levels = _.keys($scope.levels);
+                        //var levels = _.keys($scope.levels);
 
-                        $scope.changeLocation(levels[locationList.length]).then(function(){
+                        $scope.changeLocation($scope.levels[locationList.length].level).then(function(){
                             $scope.$emit('location-loaded');
                         });
                     });
@@ -136,13 +115,12 @@ angular.module('BeehivePortal')
 
             $scope.changeLocation = function(level, preventOutput){
                 var $defer = $q.defer();
-                var children = $scope.levels[level].children;
+                var target = _.find($scope.levels, {level: level});
+                var children = target.children;
                 _.each(children, function(child){
                     $scope.levels[child].options = [];
                     $scope.levels[child].selected = null;
                 });
-
-                var target = $scope.levels[level];
 
                 if(!target.selected){
                     if(!preventOutput){
@@ -184,10 +162,7 @@ angular.module('BeehivePortal')
             }
 
             $scope.getDisplayName = function(){
-                if(_.isEmpty($scope.levels.building.selected)){
-                    return '请选择';
-                }
-                var target = $scope.levels.building;
+                var target = $scope.levels[0];
                 var displayNames = [];
                 while(target && target.selected){
                     displayNames.push(target.selected._displayName + target.suffix);

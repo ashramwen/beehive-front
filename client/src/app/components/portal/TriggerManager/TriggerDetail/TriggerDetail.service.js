@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('BeehivePortal')
-  .factory('TriggerDetailService',['$rootScope', '$$Type', '$q' , '$$Thing', '$$Location', '$translate', function($rootScope, $$Type, $q, $$Thing, $$Location, $translate) {
+  .factory('TriggerDetailService',['$rootScope', '$$Type', '$q' , '$$Thing', '$$Location', '$translate', 'LEVELS', function($rootScope, $$Type, $q, $$Thing, $$Location, $translate, LEVELS) {
     var TriggerDetailService = {};
     TriggerDetailService.targetTrigger = null;
     TriggerDetailService.targetCondtion = null;
@@ -371,13 +371,12 @@ angular.module('BeehivePortal')
 
     TriggerDetailService.getThingsDetail = function(things){
       var $defer = $q.defer();
+
+      LEVELS
       
-      $q.all([
-          $translate('location.buildingBref'),
-          $translate('location.floorBref'),
-          $translate('location.partitionBref'),
-          $translate('location.areaBref')
-      ]).then(function(values){
+      $q.all(_.map(LEVELS, function(l, i){
+        return $translate('location.level' + i + '.brev');
+      })).then(function(values){
         var locationsSuffix = values;
         $$Thing.getThingsByIDs({}, _.pluck(things, 'globalThingID'), function(thingsWithLocation){
           var locationPromiseList = [];

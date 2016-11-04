@@ -24,9 +24,12 @@
         </div>
         <div class="panel-body">
           <table ng-show="!statusOnEdit">
-            <tr ng-repeat="property in thing.status">
-              <td class="title">{{property.displayName}}</td>
-              <td>{{property.value}}</td>
+            <tr ng-repeat="property in thing.status" ng-if="property.displayName != 'target'">
+              <td class="title" ng-if="property.displayName != 'date'">{{property.displayName | translate}}</td>
+              <td ng-if="property.displayName != 'date'">{{property.value}}</td>
+
+              <td class="title" ng-if="property.displayName == 'date'">{{'terms.date' | translate}}</td>
+              <td ng-if="property.displayName == 'date'">{{property.value | TimePipe}}</td>
             </tr>
           </table>
         </div>
@@ -76,15 +79,18 @@
               <tr ng-repeat="command in thingCommandsForDisplay">
                 <td>{{command.actionNames.join(' ')}}</td>
                 <td>{{command.commandState}}</td>
-                <td>{{command.createdAt | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{command.createdAt | TimePipe}}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <div class="pull-right">
-        <pagion collection="thingCommands" display="thingCommandsForDisplay"></pagion>
+      <div class="clearfix">
+        <div class="pull-right">
+          <pagion collection="thingCommands" display="thingCommandsForDisplay"></pagion>
+        </div>
       </div>
+      
       <!-- end of 控制历史 -->
     </div>
     <div uib-tab heading="状态历史">
@@ -113,20 +119,29 @@
           <table class="table">
             <thead>
               <tr>
-                <th ng-repeat="property in schema.properties">{{property.displayName}}</th>
+                <th ng-repeat="property in schema.properties">
+                  <span ng-if="property.displayName!='date'">{{property.displayName}}</span>
+                  <span ng-if="property.displayName=='date'">{{'terms.date' | translate}}</span>
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="state in thingStateListForDisplay track by $index">
-                <td ng-repeat="property in schema.properties">{{state[property.propertyName]}}</td>
+                <td ng-repeat="property in schema.properties">
+                  <span ng-if="$index != schema.properties.length-1">{{state[property.propertyName]}}</span>
+                  <span ng-if="$index == schema.properties.length-1">{{state[property.propertyName]| TimePipe}}</span>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <div class="pull-right">
-        <pagion collection="thingStateList" display="thingStateListForDisplay" on-changed="thingStateIndexChanged"></pagion>
+      <div class="clearfix">
+        <div class="pull-right">
+          <pagion collection="thingStateList" display="thingStateListForDisplay" on-changed="thingStateIndexChanged"></pagion>
+        </div>
       </div>
+      
       <!-- end of 状态历史 -->
     </div>
   </div>

@@ -93,12 +93,12 @@ angular.module('BeehivePortal')
   }]);
 
 angular.module('BeehivePortal')
-  .factory('AppService', ['$http', '$q', 'Session', '$$Type', '$$Location', function($http, $q, Session, $$Type, $$Location) {
+  .factory('AppService', ['$http', '$q', 'Session', '$$Type', '$$Location', '$cacheFactory', function($http, $q, Session, $$Type, $$Location, $cacheFactory) {
     var appService = {};
     
     appService.lazyLoad = function(){
         appService._loadTypes();
-        // appService._loadLocation();
+        appService._loadLocation();
     };
 
     appService._loadTypes = function(){
@@ -110,20 +110,40 @@ angular.module('BeehivePortal')
     };
 
     appService._loadLocation = function(){
-        $$Location.getTopLevel(function(res){
-            _.each(res, function(option){
-                getSubLevel(option.location);
-            });
+        var $httpDefaultCache = $cacheFactory.get('$http');
+        
+
+        $$Location.queryAll(function(res){
+            var topLevels = retrieval(res);
+            putCache(MyAPIs.LOCATION_TAGS + '/topLevel', topLevels);
         });
 
-        function getSubLevel(location){
-            $$Location.getSubLevel({location: location}, function(res){
-                if(res && res.length) {
-                    _.each(res, function(option){
-                        getSubLevel(option.location);
-                    });
-                }
+        function retrieval(location){
+            var subLevels = _.map(location.subLocations, function(subLocation, key){
+                return {
+                    "location": key,
+                    "displayName": key,
+                    "subLocations": subLocation.subLocations,
+                    "level": subLocation.locationLevel,
+                    "parent": subLocation.location
+                };
             });
+            putCache(MyAPIs.LOCATION_TAGS + '/' + location.location + '/subLevel', subLevels);
+            _.each(location.subLocations, function(subLocation){
+                retrieval(subLocation);
+            });
+            return subLevels;
+        }
+
+        function putCache(url, obj){
+            let r = [
+                200,
+                JSON.stringify(obj), 
+                {'content-type': "application/json;charset=UTF-8"},
+                'OK'
+            ];
+
+            $httpDefaultCache.put(url, r);
         }
     };
 

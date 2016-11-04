@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-              <tr class="gradeA" ng-class="{'odd':$index%2==1}" role="row" ng-repeat="gateway in gateways" ng-click="showGatewayThings(gateway)">
+              <tr class="gradeA" ng-class="{'odd':$index%2==1, 'highlighted': highlighted == gateway}" role="row" ng-repeat="gateway in gateways" ng-click="showGatewayThings(gateway)">
                 <td>{{gateway.vendorThingID}}</td>
                 <td><span class="fa" ng-class="gateway.fullKiiThingID? 'fa-check': 'fa-remove'"></span></td>
               </tr>
@@ -31,12 +31,28 @@
         <div class="panel-body">
           <table class="table">
             <thead>
-              <th>{{'terms.id' | translate}}</th>
-              <th>{{'terms.type' | translate}}</th>
-              <th>{{'thing.onboardingStatus' | translate}}</th>
+              <th ng-click="order='vendorThingID'">
+                {{'terms.id' | translate}}
+                <span class="caret" ng-if="order=='vendorThingID'"></span>
+              </th>
+              <th ng-click="order='typeDisplayName'">
+                {{'terms.type' | translate}}
+                <span class="caret" ng-if="order=='typeDisplayName'"></span>
+              </th>
+              <th ng-click="order='fullKiiThingID'">
+                {{'thing.onboardingStatus' | translate}}
+                <span class="caret" ng-if="order=='fullKiiThingID'"></span>
+              </th>
             </thead>
             <tbody>
+              <!--
               <tr ng-repeat="thing in endNodes" ng-click="viewThing(thing)" ng-mouseover="targetThing = thing" uib-popover popover-title="{{thing.state | translate}}" popover-trigger="'mouseenter'" uib-popover-template="'app-portal-thingmanager-addgateway-status'" popover-enable="thing.status.length">
+                <td>{{thing.vendorThingID}}</td>
+                <td>{{thing.typeDisplayName}}</td>
+                <td><span class="fa" ng-class="thing.fullKiiThingID? 'fa-check': 'fa-remove'"></span></td>
+              </tr>
+              -->
+              <tr ng-repeat="thing in endNodes | orderBy:order" ng-click="viewThing(thing)">
                 <td>{{thing.vendorThingID}}</td>
                 <td>{{thing.typeDisplayName}}</td>
                 <td><span class="fa" ng-class="thing.fullKiiThingID? 'fa-check': 'fa-remove'"></span></td>
