@@ -1,0 +1,28 @@
+@import 'src/app/shared/global.scss';
+.app-portal-monitormanager-history {
+    .header {
+        height: 60px;
+        line-height: 60px;
+        background-color: #fff;
+        margin-bottom: 24px;
+        .title {
+            float: left;
+            margin-left: 35px;
+            font-size: 17px;
+        }
+        .func-group {
+            margin-top: 10px;
+            height: 40px;
+            line-height: 40px;
+            border-left: 1px solid #f0f0f6;
+            .btn-link {
+                &.history {
+                    color: #219be5;
+                }
+                &.edit {
+                    color: #fba141;
+                }
+            }
+        }
+    }
+}

@@ -1,16 +1,17 @@
 <div class="app-portal-monitormanager-monitoring">
   <div class="container-fluid">
-    <div class="row">
+    <div class="row header">
+      <div class="title pull-left">监控状态</div>
       <div class="func-group pull-right">
-        <button class="btn btn-info hide"><i class="fa fa-refresh" aria-hidden="true"></i> 实时刷新</button>
-        <button class="btn btn-link" ng-click="modify()"><i class="fa fa-pencil" aria-hidden="true"></i> 编辑</button>
+        <button class="btn btn-link history" ng-click="history()"><img src="images/icon_history.png" width="14" height="14" alt=""> 监控记录</button>
+        <button class="btn btn-link edit" ng-click="modify()"><i class="fa fa-pencil" aria-hidden="true"></i> 编辑</button>
       </div>
     </div>
 
     <div class="card-columns">
 
       <!-- START card -->
-      <div class="card" ng-class="{'off': o.off}" ng-repeat="o in view.detail track by o.id">
+      <div class="card" ng-class="{'off': o.off, 'warn': !o.off && o.warn }" ng-repeat="o in view.detail track by o.id">
         <div class="card-head">
           <div class="icon-link">
             <div class="bar"></div>
@@ -19,6 +20,9 @@
           <div class="name">{{o.vendorThingID}}</div>
         </div>
         <div class="card-body">
+          <div class="alert-wrap">
+            <button class="btn btn-link edit pull-right" ng-click="setAlert()"><img src="images/icon_history.png" width="14" height="14" alt=""> 警报设置</button>
+          </div>
           <div class="state-wrap" ng-repeat="s in o.status">
             <span class="state">{{s.displayName}}：</span><span class="value">{{displayValue(s)}}</span>
           </div>

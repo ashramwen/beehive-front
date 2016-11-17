@@ -1,9 +1,27 @@
 @import 'src/app/shared/global.scss';
 .app-portal-monitormanager-monitoring {
-    .func-group {
-        margin-top: -6px;
-        .btn-link {
-            color: #fba141;
+    .header {
+        height: 60px;
+        line-height: 60px;
+        background-color: #fff;
+        margin-bottom: 24px;
+        .title {
+            margin-left: 35px;
+            font-size: 17px;
+        }
+        .func-group {
+            margin-top: 10px;
+            height: 40px;
+            line-height: 40px;
+            border-left: 1px solid #f0f0f6;
+            .btn-link {
+                &.history {
+                    color: #219be5;
+                }
+                &.edit {
+                    color: #fba141;
+                }
+            }
         }
     }
     .card {
@@ -35,6 +53,15 @@
                 background-color: #878d96;
             }
         }
+        &.warn {
+            @include box-shadow(0 0 4px #f99798);
+            &:before {
+                border-top-color: #f85255;
+            }
+            .light {
+                background-color: #f06067;
+            }
+        }
         .power {
             position: absolute;
         }
@@ -61,9 +88,13 @@
         .card-body {
             min-height: 90px;
             width: 261px;
-            margin-top: 28px;
+            /*margin-top: 28px;*/
             margin-bottom: 20px;
             padding: 10px 14px;
+            .alert-wrap {
+                height: 28px;
+                line-height:28px;
+            }
             .state-wrap {
                 // margin-bottom: 7px;
                 line-height: 29px;
