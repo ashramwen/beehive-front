@@ -4469,6 +4469,14 @@ padding: 6px 10px;
   .modal-content{
     border: none;
     border-radius: 20px;
+    .fa.fa-times {
+        position: absolute;
+        top: -28px;
+        right: -23px;
+        color: #ff7c73;
+        font-size: 36px;
+        cursor: pointer;
+    }
     .modal-header{
       border-radius: 20px 20px 0px 0px;
       background: #61c9d2;

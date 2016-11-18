@@ -2,7 +2,7 @@
 
 angular.module('BeehivePortal.MonitorManager')
 
-.controller('MonitoringController', ['$scope', '$rootScope', '$state', '$stateParams', 'ThingSchemaService', '$$User', 'WebSocketClient', '$timeout', '$$Thing', function($scope, $rootScope, $state, $stateParams, ThingSchemaService, $$User, WebSocketClient, $timeout, $$Thing) {
+.controller('MonitoringController', ['$scope', '$rootScope', '$state', '$stateParams', 'ThingSchemaService', '$$User', 'WebSocketClient', '$timeout', '$$Thing', '$uibModal', function($scope, $rootScope, $state, $stateParams, ThingSchemaService, $$User, WebSocketClient, $timeout, $$Thing, $uibModal) {
     if ($stateParams.id === 0) {
         $state.go('^');
     }
@@ -90,6 +90,19 @@ angular.module('BeehivePortal.MonitorManager')
         $state.go('^');
     }
 
+    $scope.setAlert = function() {
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'app-portal-monitormanager-setalert',
+            controller: 'AlertController',
+            size: 'sm'
+        });
+
+        modalInstance.result.then(function(alert) {
+
+        });
+    };
+
     $scope.$on('$destroy', function() {
         WebSocketClient.unsubscribeAll();
     });
@@ -100,4 +113,14 @@ angular.module('BeehivePortal.MonitorManager')
     //         WebSocketClient.unsubscribeAll();
     //     }
     // })
+}])
+
+.controller('AlertController', ['$scope', '$uibModalInstance', '$$Thing', function($scope, $uibModalInstance, $$Thing) {
+    $scope.createAlert = function() {
+        $scope.close();
+    };
+
+    $scope.close = function() {
+        $uibModalInstance.close();
+    }
 }]);
