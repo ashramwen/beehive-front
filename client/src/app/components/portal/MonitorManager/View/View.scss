@@ -1,6 +1,7 @@
 @import 'src/app/shared/global.scss';
 $light-blue: #acd4ef;
 $light-green: #42c3ce;
+$light-red:#f7a1a7;
 $pink: #ff7c73;
 .app-portal-monitormanager-view {
     .graph-tile {
@@ -36,11 +37,23 @@ $pink: #ff7c73;
                     overflow: hidden;
                 }
             }
+            &.warn {
+                background-color: $light-red;
+                .desc {
+                    color: #fa646e;
+                }
+            }
             .name {
                 color: #fff;
             }
             .desc {
                 color: #90f1f9;
+            }
+            .warnging {
+                position: absolute;
+                margin: 0;
+                right: 14px;
+                bottom: 15px;
             }
             .tooltip-desc {
                 display: none;

@@ -13,7 +13,12 @@
 
 $click-cursor: pointer;
 
-
+@mixin transform($transform){
+    -ms-transform: rotate($transform);
+    -o-transform: rotate($transform);
+    -webkit-transform: rotate($transform);
+    transform: rotate($transform);
+}
 @mixin transition($transition...) {
     -moz-transition:    $transition;
     -o-transition:      $transition;

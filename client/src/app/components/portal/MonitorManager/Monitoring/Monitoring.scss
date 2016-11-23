@@ -93,7 +93,12 @@
             padding: 10px 14px;
             .alert-wrap {
                 height: 28px;
-                line-height:28px;
+                line-height: 28px;
+                margin-bottom: 8px;
+                >* {
+                    outline: none !important;
+                    box-shadow: none !important;
+                }
             }
             .state-wrap {
                 // margin-bottom: 7px;
@@ -108,8 +113,8 @@
                     font-size: 18px;
                     color: #354047;
                 }
-                &:not(:first-child) {
-                    border-top: 1px solid #e1edf5;
+                &:not(:last-child) {
+                    border-bottom: 1px solid #e1edf5;
                 }
             }
         }
@@ -165,6 +170,42 @@
                 -webkit-transform: rotate(45deg);
                 transform: rotate(45deg);
             }
+        }
+    }
+}
+
+.app-portal-monitormanager-setalert {
+    .condition {
+        margin-left: 10px;
+    }
+    .icon {
+        &.add {
+            display: block;
+            cursor: pointer;
+            margin-top: 30px;
+            margin-left: 15px;
+            height: 15px;
+            width: 15px;
+            background-image: url('../../../../../../images/icon_add.png');
+            &.normal {
+                background-position: 0 -15px;
+                &:hover {
+                    background-position: 0 -30px;
+                }
+            }
+        }
+    }
+    ul.rule-list {
+        list-style-type: none;
+        padding: 0;
+        li {
+            margin-top: 10px;
+            padding-left: 10px;
+            height: 32px;
+            line-height: 32px;
+            color: #61c9d2;
+            background-color: #d8f3f5;
+            @include border-radius(3px);
         }
     }
 }

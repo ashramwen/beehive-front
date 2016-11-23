@@ -699,7 +699,14 @@
         "all": "全部"
       },
       "monitorManager": {
+        "alarm": {
+          "alarmOption": "参数项",
+          "alarmType": "条件类型",
+          "alarmValue": "值域",
+          "setAlarm": "警报设置"
+        },
         "deleteChannelMsg": "是否删除频道？",
+        "save": "保存设置"
       },
       "settings": {
         "passwordNotMatch": "新密码与输入的确认密码不一致，请重新输入！",

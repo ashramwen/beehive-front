@@ -86,6 +86,25 @@ angular.module('BeehivePortal.MonitorManager')
                 return o.propertyName === name;
             });
             return property ? property.displayName : undefined;
+        },
+        filterSchema: function(t) {
+            var schema = schemaList.find(function(o) {
+                return o.name === t.schemaName && o.version === t.schemaVersion;
+            });
+            return schema;
+        },
+        schemaList: schemaList
+    }
+}])
+
+.factory('ThingMonitorService', ['$$Schema', 'TriggerDetailService', '$q', function($$Schema, TriggerDetailService, $q) {
+
+    return {
+        getSchema: function(things) {
+            var $defer = $q.defer();
+            $defer.resolve({});
+
+            return $defer.promise;
         }
     }
 }])

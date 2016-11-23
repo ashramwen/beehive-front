@@ -24,10 +24,12 @@ angular.module('BeehivePortal.MonitorManager')
     }).then(function(res) {
         $scope.view.detail = res;
         $timeout(function() { waterfall('.card-columns') }, 0);
-        ThingSchemaService.getSchema($scope.view.detail);
+        ThingSchemaService.getSchema($scope.view.detail).then(function(schemaList) {
+            $scope.schemaList = ThingSchemaService.schemaList;
+        });
         if (WebSocketClient.isConnected()) {
             websocketInit();
-            return
+            return;
         }
         $scope.$on('stomp.connected', function() {
             websocketInit();
@@ -90,12 +92,18 @@ angular.module('BeehivePortal.MonitorManager')
         $state.go('^');
     }
 
-    $scope.setAlert = function() {
+    $scope.setAlert = function(_thing) {
         var modalInstance = $uibModal.open({
             animation: true,
+            backdrop: 'static',
             templateUrl: 'app-portal-monitormanager-setalert',
             controller: 'AlertController',
-            size: 'sm'
+            size: 'sm',
+            resolve: {
+                thing: function() {
+                    return _thing;
+                }
+            }
         });
 
         modalInstance.result.then(function(alert) {
@@ -115,7 +123,26 @@ angular.module('BeehivePortal.MonitorManager')
     // })
 }])
 
-.controller('AlertController', ['$scope', '$uibModalInstance', '$$Thing', function($scope, $uibModalInstance, $$Thing) {
+.controller('AlertController', ['$scope', '$uibModalInstance', '$$Thing', 'ThingSchemaService', 'ConditionTriggerDetailService', 'thing', function($scope, $uibModalInstance, $$Thing, ThingSchemaService, ConditionTriggerDetailService, thing) {
+    $scope.schema = ThingSchemaService.filterSchema(thing);
+    if ($scope.schema.properties && $scope.schema.properties.length > 0)
+        $scope.property = $scope.schema.properties[0];
+    console.log($scope.property);
+    $scope.rules = [];
+    $scope.addRule = function(property) {
+        if (property.value === undefined || property.value === null) return;
+        var expressList = [],
+            conditionList = [];
+        $scope.rules.push(angular.copy(property));
+        console.log(property);
+        // $scope.rules.forEach(function(property) {
+        //     expressList.push(ConditionTriggerDetailService.generateExpress(conditionGroup, property, triggerData.any));
+        //     conditionList.push(ConditionTriggerDetailService.generateCondtion(fieldName, property));
+        // });
+
+        var a = 1;
+    }
+
     $scope.createAlert = function() {
         $scope.close();
     };

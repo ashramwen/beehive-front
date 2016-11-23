@@ -21,7 +21,7 @@
         </div>
         <div class="card-body">
           <div class="alert-wrap">
-            <button class="btn btn-link edit pull-right" ng-click="setAlert()"><img src="images/icon_history.png" width="14" height="14" alt=""> 警报设置</button>
+            <button class="btn btn-link edit pull-right" ng-click="setAlert(o)"><img src="images/icon_history.png" width="14" height="14" alt=""> 警报设置</button>
           </div>
           <div class="state-wrap" ng-repeat="s in o.status">
             <span class="state">{{s.displayName}}：</span><span class="value">{{displayValue(s)}}</span>
@@ -41,14 +41,74 @@
 
 
 <script type="text/ng-template" id="app-portal-monitormanager-setalert">
-  <i class="fa fa-times" aria-hidden="true" ng-click="close()"></i>
-  <div class="modal-header">
-    <h3 class="modal-title">{{'thingManager.createGateway' | translate}}</h3>
-  </div>
-  <div class="modal-body clearfix">
+  <div class="app-portal-monitormanager-setalert">
+    <i class="fa fa-times" aria-hidden="true" ng-click="close()"></i>
+    <div class="modal-header">
+      <h3 class="modal-title">{{'thingManager.createGateway' | translate}}</h3>
+    </div>
+    <div class="modal-body">
+      <div class="clearfix">
+        <div class="rule pull-left">
+          <div>{{'monitorManager.alarm.alarmOption' | translate}}</div>
+          <div class="btn-group" uib-dropdown is-open="status.isopen">
+            <button type="button" class="btn btn-default" uib-dropdown-toggle>
+              {{property.displayName | translate}} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+              <li role="menuitem" ng-repeat="p in schema.properties"><a ng-click="$parent.property=p">{{p.displayName | translate}}</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="condition pull-left">
 
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-warning btn-lg pull-center" ng-click="createAlert()">{{'controls.create' | translate}}</button>
+          <!-- not enum -->
+          <div ng-if="!property.enumType && (property.type=='int' || property.type=='float')">
+            <div>{{property.displayName}} <span class="fa fa-info-circle" ng-if="property.tooltip" uib-tooltip="{{property.tooltip}}"></span></div>
+            <condition-input property="property" min="property.minimum" max="property.maximum" type="property.type" condition="property.condition"></condition-input>
+          </div>
+
+          <!-- enmu: boolean -->
+          <div ng-if="property.enumType == 'BOOLEAN' || property.type=='boolean'">
+            <div>{{property.displayName}}</div>
+            <div switchery="property.value" options="property.options"></div>
+          </div>
+
+          <!-- enmu: number -->
+          <div ng-if="property.enumType == 'NUMBER'">
+            <div>{{property.displayName}}</div>
+            <div app-select options="property.options" selected-model="property.value" value-only="true"></div>
+          </div>
+
+        </div>
+
+        <div class="condition pull-left">
+          <span class="icon add" ng-click="addRule(property)"></span>
+        </div>
+      </div>
+
+      <div>
+        <ul class="rule-list">
+          <li ng-repeat="rule in rules">
+            <!-- not enum -->
+            <div ng-if="!property.enumType && (property.type=='int' || property.type=='float')">
+              {{rule.displayName}} {{rule.expression | operator}} {{rule.value}}
+            </div>
+
+            <!-- enmu: boolean -->
+            <div ng-if="property.enumType == 'BOOLEAN' || property.type=='boolean'">
+              {{rule.displayName}} {{rule.value}}
+            </div>
+
+            <!-- enmu: number -->
+            <div ng-if="property.enumType == 'NUMBER'">
+              {{rule.displayName}} {{rule.value}}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-warning btn-lg pull-center" ng-click="createAlert()">{{'controls.create' | translate}}</button>
+    </div>
   </div>
 </script>
