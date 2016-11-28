@@ -2,8 +2,10 @@
 
 angular.module('BeehivePortal.MonitorManager')
 
-.filter('typeName', ['ThingType', function(ThingType) {
-    return function(type) {
-        return ThingType[type] || type;
+.filter('valueDesc', function() {
+    return function(value, options) {
+        return options.find(function(o) {
+            return o.value === value
+        }).text || value;
     };
-}]);
+});

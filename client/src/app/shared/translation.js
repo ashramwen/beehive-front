@@ -207,6 +207,9 @@
         },
         "monitorManager": {
           "displayName": "Thing Monitoring",
+          "history":{
+            "displayName": "Alert History"
+          },
           "realtime": {
             "displayName": "Real Time Monitoring"
           },
@@ -343,7 +346,31 @@
         "all": "All"
       },
       "monitorManager": {
+        "addChannel": "Add monitoring channel",
+        "alert": {
+          "alertOption": "Options",
+          "alertType": "Type",
+          "alertValue": "Value",
+          "history": "History",
+          "isRead": "read",
+          "readAll": "Read all",
+          "setAlert": "Set alert"
+        },
+        "channel": {
+          "create": "Create",
+          "desc": "Description",
+          "info": "Info",
+          "name": "Name",
+          "selectDevice": "Select device",
+          "update": "Update",
+          "goBack": "Go back"
+        },
         "deleteChannelMsg": "Sure to delete this Channel?",
+        "deviceNumber": "Device number",
+        "monitoring":{
+          "title": "Monitoring"
+        },
+        "save": "Save"
       },
       "settings": {
         "passwordNotMatch": "Two password doesn't match, pleas retry!",
@@ -562,6 +589,9 @@
         },
         "monitorManager": {
           "displayName": "设备监控",
+          history:{
+            "displayName": "监控记录"
+          },
           "realtime": {
             "displayName": "实时监控"
           },
@@ -699,13 +729,30 @@
         "all": "全部"
       },
       "monitorManager": {
-        "alarm": {
-          "alarmOption": "参数项",
-          "alarmType": "条件类型",
-          "alarmValue": "值域",
-          "setAlarm": "警报设置"
+        "addChannel": "添加监控频道",
+        "alert": {
+          "alertOption": "参数项",
+          "alertType": "条件类型",
+          "alertValue": "值域",
+          "history": "监控记录",
+          "isRead": "已读",
+          "readAll": "全部为已读",
+          "setAlert": "警报设置"
+        },
+        "channel": {
+          "create": "创建频道",
+          "desc": "频道说明",
+          "info": "频道信息",
+          "name": "频道名称",
+          "selectDevice": "设备选择",
+          "update": "保存提交",
+          "goBack": "返回"
         },
         "deleteChannelMsg": "是否删除频道？",
+        "deviceNumber": "设备数量",
+        "monitoring":{
+          "title": "监控状态"
+        },
         "save": "保存设置"
       },
       "settings": {

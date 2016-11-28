@@ -1,12 +1,39 @@
 <div class="app-portal-monitormanager-history">
   <div class="container-fluid">
     <div class="row header">
-      <div class="title">监控记录</div>
+      <div class="title">{{'monitorManager.alert.history' | translate}}</div>
       <div class="func-group pull-right">
-        <button class="btn btn-link history" ng-click="history()"><img src="images/icon_history.png" width="14" height="14" alt=""> 监控记录</button>
-        <button class="btn btn-link edit" ng-click="modify()"><i class="fa fa-pencil" aria-hidden="true"></i> 编辑</button>
+        <button class="btn-read-all" ng-click="modify()">{{'monitorManager.alert.readAll' | translate}}</button>
       </div>
     </div>
 
+    <table class="table history">
+      <tbody>
+        <tr>
+          <td><span class="icon-alert"></span></td>
+          <td>ID:XXXXXXXXXXXXXXX</td>
+          <td>空調</td>
+          <td>PM2.5</td>
+          <td>> 3800</td>
+          <td>0807W|F021</td>
+          <td><button class="btn-read">{{'monitorManager.alert.isRead' | translate}}</button></td>
+          <td>2016-10-09 21:43</td>
+        </tr>
+        <tr class="read">
+          <td><span class="icon-alert"></span></td>
+          <td>ID:XXXXXXXXXXXXXXX</td>
+          <td>空調</td>
+          <td>PM2.5</td>
+          <td>> 3800</td>
+          <td>0807W|F021</td>
+          <td><button class="btn-read">{{'monitorManager.alert.isRead' | translate}}</button></td>
+          <td>2016-10-09 21:43</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="bottom-btn">
+      <button class="btn btn-primary" ng-click="goBack()">{{'monitorManager.channel.goBack' | translate}}</button>
+    </div>
   </div>
 </div>

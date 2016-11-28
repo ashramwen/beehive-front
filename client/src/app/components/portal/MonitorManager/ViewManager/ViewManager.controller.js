@@ -97,7 +97,7 @@ angular.module('BeehivePortal.MonitorManager')
             var options = {
                 msg: msg,
                 title: title,
-                callback: $scope.fallback
+                callback: $scope.goBack
             }
 
             AppUtils.alert(options);
@@ -107,7 +107,7 @@ angular.module('BeehivePortal.MonitorManager')
     /**
      * 返回
      */
-    $scope.fallback = function() {
+    $scope.goBack = function() {
         if ($scope.view.id === 0) {
             $state.go($state.current.previous);
         } else {

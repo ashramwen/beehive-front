@@ -30,8 +30,8 @@ angular.module('BeehivePortal')
             params: {
                 name: '@name'
             }
-          },
-          setChartData: {
+        },
+        setChartData: {
             url: MyAPIs.USER + '/me/ugc/chart/:name',
             method: 'PUT',
             params: {
@@ -166,7 +166,8 @@ angular.module('BeehivePortal')
 
     return $$Auth;
 }])
-.factory('$$MechineLearning', ['$resource', 'Session', function($resource, Session){
+
+.factory('$$MechineLearning', ['$resource', 'Session', function($resource, Session) {
     var mlUrl = 'http://114.215.196.178:8082/beehive-ml/ml/scenario';
 
 
@@ -184,7 +185,7 @@ angular.module('BeehivePortal')
             headers: {
                 'Authorization': 'Basic YWRtaW46YWRtaW4='
             },
-            transformRequest: function(data){
+            transformRequest: function(data) {
                 var credential = Session.getCredential();
 
                 _.extend(data, {
@@ -192,13 +193,13 @@ angular.module('BeehivePortal')
                     cloudAppId: appConfig[appConfig.ENV].kiiAppID,
                     ownerId: credential.id,
                     ownerToken: credential.accessToken,
-                    type : "ROOM_LIGHT"
+                    type: "ROOM_LIGHT"
                 });
 
                 return JSON.stringify(data);
             },
-            transformResponse: function(data){
-                return {taskID: ~~data};
+            transformResponse: function(data) {
+                return { taskID: ~~data };
             }
         },
         enableTask: {
@@ -234,6 +235,63 @@ angular.module('BeehivePortal')
     });
     return $$MechineLearning;
 }])
+
+.factory('$$Monitor', ['$resource', function($resource) {
+    var mUrl = MyAPIs.USER + '/me/thingMonitors';
+    var $$Monitor = $resource(MyAPIs.USER, {}, {
+        add: {
+            url: mUrl + '/addMonitor',
+            method: 'POST'
+        },
+        get: {
+            url: mUrl + '/:id',
+            method: 'GET',
+            isArray: true,
+            params: {
+                id: '@id'
+            }
+        },
+        update: {
+            url: mUrl + '/:id',
+            method: 'PUT',
+            params: {
+                id: '@id'
+            }
+        },
+        delete: {
+            url: mUrl + '/:id',
+            method: 'DELETE',
+            params: {
+                id: '@id'
+            }
+        },
+        getByGroup: {
+            url: mUrl + '/group/:groupName',
+            method: 'GET',
+            isArray: true,
+            params: {
+                groupName: '@groupName'
+            }
+        },
+        enable: {
+            url: mUrl + '/:id/enable',
+            method: 'PUT',
+            params: {
+                id: '@id'
+            }
+        },
+        disable: {
+            url: mUrl + '/:id/disable',
+            method: 'PUT',
+            params: {
+                id: '@id'
+            }
+        }
+    });
+
+    return $$Monitor;
+}])
+
 .factory('$$UserManager', ['$resource', function($resource) {
     var $$UserManager = $resource(MyAPIs.USER_MANAGER + '/:userID', { userID: '@userID' }, {
         update: {
@@ -538,7 +596,7 @@ angular.module('BeehivePortal')
         getHistory: {
             url: MyAPIs.ES + '/historical',
             method: 'POST',
-            transformRequest: function(request){
+            transformRequest: function(request) {
                 _.extend(request, {
                     indexType: appConfig[appConfig.ENV].kiiAppID,
                     dateField: 'state.date'
@@ -579,6 +637,7 @@ angular.module('BeehivePortal')
 
     return Tag;
 }])
+
 .factory('$$Location', ['$resource', function($resource) {
     var $$Location = $resource(MyAPIs.TAG + '/:id', { id: '@tagName' }, {
         queryAll: {
@@ -650,7 +709,7 @@ angular.module('BeehivePortal')
             params: {
                 id: '@id'
             },
-            transformRequest: function(data, headers){
+            transformRequest: function(data, headers) {
                 var schema = data;
                 var thingType = schema.thingType;
                 var name = schema.name;

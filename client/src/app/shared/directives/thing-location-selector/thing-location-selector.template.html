@@ -3,21 +3,21 @@
     <div class="col-sm-4">
       <div class="row form-group">
         <div class="col-sm-4">
-          <label for="selectBuilding">楼号</label>
+          <label for="selectBuilding">{{'location.building' | translate}}</label>
           <select class="form-control" id="selectBuilding" placeholder="Building" ng-options="building.displayName for building in location.building track by building.location" ng-model="level.building" ng-change="changeBuilding()">
-            <option value="">请选择</option>
+            <option value="">{{'controls.selectDefault' | translate}}</option>
           </select>
         </div>
         <div class="col-sm-4">
-          <label for="selectFloor">层数</label>
+          <label for="selectFloor">{{'location.floor' | translate}}</label>
           <select class="form-control" id="selectFloor" placeholder="Floor" ng-options="floor.displayName for floor in location.floor track by floor.location" ng-model="level.floor" ng-change="changeFloor()">
-            <option value="">请选择</option>
+            <option value="">{{'controls.selectDefault' | translate}}</option>
           </select>
         </div>
         <div class="col-sm-4">
-          <label for="selectArea">区域</label>
+          <label for="selectArea">{{'location.partition' | translate}}</label>
           <select class="form-control" id="selectArea" placeholder="Area" ng-options="area.displayName for area in location.area track by area.location" ng-model="level.area" ng-change="changeArea()">
-            <option value="">请选择</option>
+            <option value="">{{'controls.selectDefault' | translate}}</option>
           </select>
         </div>
       </div>
@@ -25,8 +25,8 @@
         <table class="table table-hover">
           <thead>
             <th></th>
-            <th>设备名</th>
-            <th>类型</th>
+            <th>{{'terms.things' | translate}}</th>
+            <th>{{'terms.type' | translate}}</th>
           </thead>
           <tbody>
             <tr ng-class="{'success':o.select}" ng-repeat="o in things track by o.id" ng-click="o.select=!o.select" ng-if="!o.hidden">
@@ -40,7 +40,7 @@
         </table>
       </div>
       <div>
-        <button class="btn btn-link" ng-click="selectAll(things)">全选</button>
+        <button class="btn btn-link" ng-click="selectAll(things)">{{'controls.selectAll' | translate}}</button>
         <div class="fa fa-plus-circle pull-right" ng-click="add()"></div>
       </div>
     </div>
@@ -49,9 +49,9 @@
       <table class="table table-bordered table-hover">
         <thead>
           <th></th>
-          <th>设备名</th>
-          <th>类型</th>
-          <th>位置</th>
+          <th>{{'terms.things' | translate}}</th>
+          <th>{{'terms.type' | translate}}</th>
+          <th>{{'terms.location' | translate}}</th>
         </thead>
         <tbody>
           <tr ng-repeat="o in detail track by o.id" ng-click="o.select=!o.select">
@@ -64,8 +64,8 @@
         <tfoot>
           <tr>
             <td colspan="4">
-              <button class="btn btn-link" ng-click="selectAll(detail)">全选</button>
-              <button class="btn btn-link text-yellow" ng-click="delete(detail)">刪除</button>
+              <button class="btn btn-link" ng-click="selectAll(detail)">{{'controls.selectAll' | translate}}</button>
+              <button class="btn btn-link text-yellow" ng-click="delete(detail)">{{'controls.delete' | translate}}</button>
             </td>
           </tr>
         </tfoot>

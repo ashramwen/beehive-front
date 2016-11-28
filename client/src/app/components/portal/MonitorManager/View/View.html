@@ -4,7 +4,7 @@
     <div class="graph-tile new" ng-click="newView()">
       <div class="graph-content">
         <div class="fa fa-plus" aria-hidden="true"></div>
-        <div>添加监控频道</div>
+        <div>{{'monitorManager.addChannel' | translate}}</div>
       </div>
     </div>
     <div class="graph-tile view" ng-class="{'warn':v.warn}" ng-repeat="v in views track by v.id" ng-mousemove="mousemove($event, v)">
@@ -13,7 +13,7 @@
         <img src="images/icon_monitoring_view.png" alt="" ng-if="!v.warn">
         <img src="images/icon_monitoring_view_warn.png" alt="" ng-if="v.warn">
         <div class="name">{{v.name}}</div>
-        <div class="desc">设备数量： {{v.count}}</div>
+        <div class="desc">{{'monitorManager.deviceNumber' | translate}}: {{v.count}}</div>
         <img src="images/icon_warning.png" height="18" weight="18" alt="" class="warnging" ng-if="v.warn">
         <div id="v_{{v.id}}" class="tooltip-desc" ng-if="v.desc">
           <div>{{v.desc}}</div>

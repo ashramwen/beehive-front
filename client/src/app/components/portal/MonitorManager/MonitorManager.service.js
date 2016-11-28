@@ -98,7 +98,6 @@ angular.module('BeehivePortal.MonitorManager')
 }])
 
 .factory('ThingMonitorService', ['$$Schema', 'TriggerDetailService', '$q', function($$Schema, TriggerDetailService, $q) {
-
     return {
         getSchema: function(things) {
             var $defer = $q.defer();

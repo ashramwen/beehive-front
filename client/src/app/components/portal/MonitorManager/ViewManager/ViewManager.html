@@ -6,16 +6,16 @@
       <div class="col-md-12">
         <section class="panel">
           <div class="panel-body">
-            <div class="sub-title">频道信息</div>
+            <div class="sub-title">{{'monitorManager.channel.info' | translate}}</div>
             <div class="form-horizontal">
               <div class="form-group">
-                <label for="inputViewName" class="col-sm-1 control-label">频道名称</label>
+                <label for="inputViewName" class="col-sm-1 control-label">{{'monitorManager.channel.name' | translate}}</label>
                 <div class="col-sm-11">
                   <input type="text" class="form-control" id="inputViewName" ng-model="view.name" required />
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputViewDesc" class="col-sm-1 control-label">频道说明</label>
+                <label for="inputViewDesc" class="col-sm-1 control-label">{{'monitorManager.channel.desc' | translate}}</label>
                 <div class="col-sm-11">
                   <textarea class="form-control" id="inputViewDesc" rows="10" maxlength="100" ng-model="view.desc"></textarea>
                 </div>
@@ -30,7 +30,7 @@
     <!-- 添加监控设备 -->
     <div class="row">
       <div class="col-md-12">
-        <section class="sub-title">设备选择</section>
+        <section class="sub-title">{{'monitorManager.channel.selectDevice' | translate}}</section>
       </div>
     </div>
 
@@ -46,9 +46,9 @@
     <!-- END 添加监控设备 -->
 
     <div class="bottom-btn">
-      <button class="btn btn-warning bg-yellow-gradient" ng-click="newView()" ng-if="view.id===0">创建频道</button>
-      <button class="btn btn-warning bg-yellow-gradient" ng-click="modifyView()" ng-if="view.id>0">保存提交</button>
-      <button class="btn btn-primary" ng-click="fallback()">返回</button>
+      <button class="btn btn-warning bg-yellow-gradient" ng-click="newView()" ng-if="view.id===0">{{'monitorManager.channel.create' | translate}}</button>
+      <button class="btn btn-warning bg-yellow-gradient" ng-click="modifyView()" ng-if="view.id>0">{{'monitorManager.channel.update' | translate}}</button>
+      <button class="btn btn-primary" ng-click="goBack()">{{'monitorManager.channel.goBack' | translate}}</button>
     </div>
   </div>
 </div>

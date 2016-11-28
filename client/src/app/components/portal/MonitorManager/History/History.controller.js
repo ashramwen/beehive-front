@@ -3,7 +3,7 @@
 angular.module('BeehivePortal.MonitorManager')
 
 .controller('HistoryController', ['$scope', '$rootScope', '$state', '$stateParams', 'ThingSchemaService', '$$User', 'WebSocketClient', '$timeout', '$$Thing', function($scope, $rootScope, $state, $stateParams, ThingSchemaService, $$User, WebSocketClient, $timeout, $$Thing) {
-    if ($stateParams.id === 0) {
+    if (!$stateParams.id) {
         $state.go('^');
     }
 
@@ -13,11 +13,7 @@ angular.module('BeehivePortal.MonitorManager')
     }
 
     // go back
-    $scope.fallback = function() {
+    $scope.goBack = function() {
         $state.go('^');
     }
-
-    $scope.$on('$destroy', function() {
-        WebSocketClient.unsubscribeAll();
-    });
 }]);

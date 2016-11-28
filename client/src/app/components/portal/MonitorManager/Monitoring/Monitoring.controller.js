@@ -2,13 +2,24 @@
 
 angular.module('BeehivePortal.MonitorManager')
 
-.controller('MonitoringController', ['$scope', '$rootScope', '$state', '$stateParams', 'ThingSchemaService', '$$User', 'WebSocketClient', '$timeout', '$$Thing', '$uibModal', function($scope, $rootScope, $state, $stateParams, ThingSchemaService, $$User, WebSocketClient, $timeout, $$Thing, $uibModal) {
+.controller('MonitoringController', ['$scope', '$rootScope', '$state', '$stateParams', 'ThingSchemaService', '$$User', 'WebSocketClient', '$timeout', '$$Thing', '$uibModal', '$$Monitor', function($scope, $rootScope, $state, $stateParams, ThingSchemaService, $$User, WebSocketClient, $timeout, $$Thing, $uibModal, $$Monitor) {
     if ($stateParams.id === 0) {
         $state.go('^');
     }
 
+    // $$Monitor.get({ id: 1 });
+
     // get monitoring view
     $scope.view = $stateParams;
+
+    var alerts = [];
+    var monitor = {
+        name: $scope.view.name,
+        thing: [],
+        condition: {},
+        enable: true,
+        creator: ''
+    };
 
     // get monitoring view detail
     $$User.getUGC({
@@ -16,14 +27,20 @@ angular.module('BeehivePortal.MonitorManager')
         name: $scope.view.id
     }).$promise.then(function(res) {
         $scope.view = res.view || {};
+        monitor.name = $scope.view.name;
         var ids = [];
         $scope.view.detail.forEach(function(thing) {
             ids.push(thing.id);
         });
+        if (!$scope.view.monitorID) {
+            // todo
+        }
         return $$Thing.getThingsByIDs(ids).$promise;
     }).then(function(res) {
         $scope.view.detail = res;
-        $timeout(function() { waterfall('.card-columns') }, 0);
+        $timeout(function() {
+            waterfall('.card-columns')
+        }, 0);
         ThingSchemaService.getSchema($scope.view.detail).then(function(schemaList) {
             $scope.schemaList = ThingSchemaService.schemaList;
         });
@@ -43,8 +60,7 @@ angular.module('BeehivePortal.MonitorManager')
 
     // websocket connection
     function websocketInit() {
-        var i = 0;
-        for (; i < $scope.view.detail.length; i++) {
+        for (var i = 0; i < $scope.view.detail.length; i++) {
             subscription($scope.view.detail[i]);
         }
     }
@@ -53,7 +69,9 @@ angular.module('BeehivePortal.MonitorManager')
     function subscription(thing) {
         WebSocketClient.subscribe('/topic/' + thing.kiiAppID + '/' + thing.kiiThingID, function(res) {
             parseState(thing, JSON.parse(res.body).state);
-            $timeout(function() { waterfall('.card-columns') }, 0);
+            $timeout(function() {
+                waterfall('.card-columns')
+            }, 0);
         });
     }
 
@@ -87,12 +105,15 @@ angular.module('BeehivePortal.MonitorManager')
         $state.go('^.ViewManager', $scope.view);
     }
 
-    // go back
-    $scope.fallback = function() {
-        $state.go('^');
-    }
-
     $scope.setAlert = function(_thing) {
+        var _alert = alerts.find(function(o) {
+            return o.id === _thing.id;
+        });
+        if (!_alert) {
+            _alert = new Alert(_thing);
+            alerts.push(_alert);
+        }
+
         var modalInstance = $uibModal.open({
             animation: true,
             backdrop: 'static',
@@ -100,14 +121,14 @@ angular.module('BeehivePortal.MonitorManager')
             controller: 'AlertController',
             size: 'sm',
             resolve: {
-                thing: function() {
-                    return _thing;
-                }
+                alert: _alert,
+                schema: ThingSchemaService.filterSchema(_thing)
             }
         });
 
         modalInstance.result.then(function(alert) {
-
+            genCondition();
+            console.log(monitor);
         });
     };
 
@@ -121,33 +142,77 @@ angular.module('BeehivePortal.MonitorManager')
     //         WebSocketClient.unsubscribeAll();
     //     }
     // })
+
+    function genCondition() {
+        var clauses = [];
+        var things = [];
+        alerts.forEach(function(alert) {
+            things.push(alert.vendorThingID);
+            var _field = [alert.type, alert.groupId, alert.id].join('#');
+            alert.rules.forEach(function(o) {
+                clauses.push({
+                    field: _field + '.' + o.propertyName,
+                    type: o.expression,
+                    value: o.value
+                });
+            })
+        });
+        monitor.thing = things;
+        monitor.condition = {
+            'type': 'or',
+            clauses: clauses
+        }
+    }
+
+    function Alert(thing) {
+        this.vendorThingID = thing.vendorThingID;
+        this.type = thing.type;
+        this.groupId = ~~(Math.random() * 100000);
+        this.id = thing.id;
+        this.rules = [];
+    }
 }])
 
-.controller('AlertController', ['$scope', '$uibModalInstance', '$$Thing', 'ThingSchemaService', 'ConditionTriggerDetailService', 'thing', function($scope, $uibModalInstance, $$Thing, ThingSchemaService, ConditionTriggerDetailService, thing) {
-    $scope.schema = ThingSchemaService.filterSchema(thing);
-    if ($scope.schema.properties && $scope.schema.properties.length > 0)
-        $scope.property = $scope.schema.properties[0];
-    console.log($scope.property);
-    $scope.rules = [];
-    $scope.addRule = function(property) {
+.controller('AlertController', ['$scope', '$uibModalInstance', 'alert', 'schema', function($scope, $uibModalInstance, alert, schema) {
+    $scope.properties = schema.properties;
+    if ($scope.properties && $scope.properties.length > 0)
+        $scope.property = $scope.properties[0];
+    $scope.rules = alert.rules;
+    $scope.add = function(property) {
         if (property.value === undefined || property.value === null) return;
-        var expressList = [],
-            conditionList = [];
-        $scope.rules.push(angular.copy(property));
+        alert.rules.push(new Rule(property));
         console.log(property);
-        // $scope.rules.forEach(function(property) {
-        //     expressList.push(ConditionTriggerDetailService.generateExpress(conditionGroup, property, triggerData.any));
-        //     conditionList.push(ConditionTriggerDetailService.generateCondtion(fieldName, property));
-        // });
+    }
 
+    $scope.displaValue = function(rule) {
         var a = 1;
     }
 
-    $scope.createAlert = function() {
+    $scope.delete = function(rule, index) {
+        $scope.rules.splice(index, 1);
+    }
+
+    $scope.save = function() {
         $scope.close();
     };
 
     $scope.close = function() {
         $uibModalInstance.close();
+    }
+
+    function Rule(property) {
+        this.displayName = property.displayName;
+        if (!property.enumType && (property.type === 'int' || property.type === 'float')) {
+            this.displayValue = property.value;
+        } else {
+            var _displayValue = property.options.find(function(o) { return o.value === property.value });
+            this.displayValue = _displayValue ? _displayValue.text : property.value;
+        }
+        this.enumType = property.enumType;
+        this.type = property.type;
+
+        this.propertyName = property.propertyName;
+        this.expression = property.expression ? property.expression : 'eq';
+        this.value = property.value;
     }
 }]);

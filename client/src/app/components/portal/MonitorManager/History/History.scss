@@ -12,6 +12,7 @@
         }
         .func-group {
             margin-top: 10px;
+            padding-left: 12px;
             height: 40px;
             line-height: 40px;
             border-left: 1px solid #f0f0f6;
@@ -21,6 +22,58 @@
                 }
                 &.edit {
                     color: #fba141;
+                }
+            }
+            .btn-read-all {
+                margin-right: 27px;
+                padding: 0 15px;
+                height: 30px;
+                line-height: 27px;
+                color: #ff9556;
+                background-color: transparent;
+                border: 2px solid #ff9556;
+                @include border-radius(5px);
+                &:hover {
+                    color: #fff;
+                    background-color: #ff9556;
+                }
+            }
+        }
+    }
+    .history {
+        tr {
+            td {
+                padding: 0 17px;
+                height: 48px;
+                vertical-align: middle;
+                font-weight: bold;
+                // color: #333;
+                background-color: #fff;
+                @include border-radius(3px);
+            }
+            .icon-alert {
+                display: block;
+                width: 22px;
+                height: 19px;
+                background-image: url('../../../../../../images/icon_alert.png');
+            }
+            .btn-read {
+                display: block;
+                padding: 0;
+                width: 32px;
+                height: 32px;
+                font-size: 12px;
+                color: #fff;
+                background-color: #d3d8db;
+                border:1px solid #c6cbce;
+                @include border-radius(50%);
+            }
+            &.read {
+                td {
+                    font-weight: normal;
+                }
+                .icon-alert {
+                    background-position: 0 -19px;
                 }
             }
         }

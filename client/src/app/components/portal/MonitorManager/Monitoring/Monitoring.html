@@ -1,10 +1,10 @@
 <div class="app-portal-monitormanager-monitoring">
   <div class="container-fluid">
     <div class="row header">
-      <div class="title pull-left">监控状态</div>
+      <div class="title pull-left">{{'monitorManager.monitoring.title' | translate}}</div>
       <div class="func-group pull-right">
-        <button class="btn btn-link history" ng-click="history()"><img src="images/icon_history.png" width="14" height="14" alt=""> 监控记录</button>
-        <button class="btn btn-link edit" ng-click="modify()"><i class="fa fa-pencil" aria-hidden="true"></i> 编辑</button>
+        <a class="btn btn-link history" ui-sref="^.History({ id: view.id })"><img src="images/icon_history.png" width="14" height="14" alt=""> {{'monitorManager.alert.history' | translate}}</a>
+        <button class="btn btn-link edit" ng-click="modify()"><i class="fa fa-pencil" aria-hidden="true"></i> {{'controls.edit' | translate}}</button>
       </div>
     </div>
 
@@ -21,7 +21,7 @@
         </div>
         <div class="card-body">
           <div class="alert-wrap">
-            <button class="btn btn-link edit pull-right" ng-click="setAlert(o)"><img src="images/icon_history.png" width="14" height="14" alt=""> 警报设置</button>
+            <button class="btn btn-link edit pull-right" ng-click="setAlert(o)"><img src="images/icon_history.png" width="14" height="14" alt=""> {{'monitorManager.alert.setAlert' | translate}}</button>
           </div>
           <div class="state-wrap" ng-repeat="s in o.status">
             <span class="state">{{s.displayName}}：</span><span class="value">{{displayValue(s)}}</span>
@@ -44,18 +44,18 @@
   <div class="app-portal-monitormanager-setalert">
     <i class="fa fa-times" aria-hidden="true" ng-click="close()"></i>
     <div class="modal-header">
-      <h3 class="modal-title">{{'thingManager.createGateway' | translate}}</h3>
+      <h3 class="modal-title">{{'monitorManager.alert.setAlert' | translate}}</h3>
     </div>
     <div class="modal-body">
       <div class="clearfix">
         <div class="rule pull-left">
-          <div>{{'monitorManager.alarm.alarmOption' | translate}}</div>
+          <div>{{'monitorManager.alert.alertOption' | translate}}</div>
           <div class="btn-group" uib-dropdown is-open="status.isopen">
             <button type="button" class="btn btn-default" uib-dropdown-toggle>
               {{property.displayName | translate}} <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-              <li role="menuitem" ng-repeat="p in schema.properties"><a ng-click="$parent.property=p">{{p.displayName | translate}}</a></li>
+              <li role="menuitem" ng-repeat="p in properties"><a ng-click="$parent.property=p">{{p.displayName | translate}}</a></li>
             </ul>
           </div>
         </div>
@@ -81,8 +81,8 @@
 
         </div>
 
-        <div class="condition pull-left">
-          <span class="icon add" ng-click="addRule(property)"></span>
+        <div class="condition pull-right">
+          <span class="icon add" ng-click="add(property)"></span>
         </div>
       </div>
 
@@ -90,25 +90,29 @@
         <ul class="rule-list">
           <li ng-repeat="rule in rules">
             <!-- not enum -->
-            <div ng-if="!property.enumType && (property.type=='int' || property.type=='float')">
-              {{rule.displayName}} {{rule.expression | operator}} {{rule.value}}
+            <div class="pull-left" ng-if="!rule.enumType && (rule.type=='int' || rule.type=='float')">
+              {{rule.displayName}} {{rule.expression | operator}} {{rule.displayValue}}
             </div>
 
             <!-- enmu: boolean -->
-            <div ng-if="property.enumType == 'BOOLEAN' || property.type=='boolean'">
-              {{rule.displayName}} {{rule.value}}
+            <div class="pull-left" ng-if="rule.enumType == 'BOOLEAN' || rule.type=='boolean'">
+              {{rule.displayName}} -> {{rule.displayValue}}
             </div>
 
             <!-- enmu: number -->
-            <div ng-if="property.enumType == 'NUMBER'">
-              {{rule.displayName}} {{rule.value}}
+            <div class="pull-left" ng-if="rule.enumType == 'NUMBER'">
+              {{rule.displayName}} -> {{rule.displayValue}}
+            </div>
+
+            <div class="pull-right">
+              <span class="icon add normal" ng-click="delete(rule, $index)"></span>
             </div>
           </li>
         </ul>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-warning btn-lg pull-center" ng-click="createAlert()">{{'controls.create' | translate}}</button>
+      <button class="btn btn-warning btn-lg pull-center" ng-click="save()">{{'controls.create' | translate}}</button>
     </div>
   </div>
 </script>

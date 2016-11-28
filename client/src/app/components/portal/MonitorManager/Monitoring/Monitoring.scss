@@ -188,6 +188,8 @@
             width: 15px;
             background-image: url('../../../../../../images/icon_add.png');
             &.normal {
+                margin-top: 8.5px;
+                margin-left: 0;
                 background-position: 0 -15px;
                 &:hover {
                     background-position: 0 -30px;
@@ -200,12 +202,15 @@
         padding: 0;
         li {
             margin-top: 10px;
-            padding-left: 10px;
             height: 32px;
             line-height: 32px;
             color: #61c9d2;
-            background-color: #d8f3f5;
             @include border-radius(3px);
+            >.pull-left {
+                width: 240px;
+                padding-left: 10px;
+                background-color: #d8f3f5;
+            }
         }
     }
 }
