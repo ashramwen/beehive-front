@@ -3,25 +3,25 @@
     <div class="row header">
       <div class="title">{{'monitorManager.alert.history' | translate}}</div>
       <div class="func-group pull-right">
-        <button class="btn-read-all" ng-click="modify()">{{'monitorManager.alert.readAll' | translate}}</button>
+        <button class="btn-read-all" ng-click="readAll()">{{'monitorManager.alert.readAll' | translate}}</button>
       </div>
     </div>
 
     <table class="table history">
       <tbody>
-        <tr>
+        <tr ng-repeat="n in notices" ng-class="{'read': n.readed}">
           <td><span class="icon-alert"></span></td>
-          <td>ID:XXXXXXXXXXXXXXX</td>
+          <td>ID: {{n.id}}</td>
           <td>空調</td>
           <td>PM2.5</td>
           <td>> 3800</td>
-          <td>0807W|F021</td>
-          <td><button class="btn-read">{{'monitorManager.alert.isRead' | translate}}</button></td>
-          <td>2016-10-09 21:43</td>
+          <td>{{n.title}}</td>
+          <td><button class="btn-read" ng-click="read(n)" ng-if="!n.readed">{{'monitorManager.alert.isRead' | translate}}</button></td>
+          <td>{{n.createTime | date:'yyyy-M-d H:m:s'}}</td>
         </tr>
         <tr class="read">
           <td><span class="icon-alert"></span></td>
-          <td>ID:XXXXXXXXXXXXXXX</td>
+          <td>ID:1fef9a10-bbc0-11e6-ac21-00163e007aba</td>
           <td>空調</td>
           <td>PM2.5</td>
           <td>> 3800</td>

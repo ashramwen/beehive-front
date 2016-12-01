@@ -23,8 +23,12 @@
           <div class="alert-wrap">
             <button class="btn btn-link edit pull-right" ng-click="setAlert(o)"><img src="images/icon_history.png" width="14" height="14" alt=""> {{'monitorManager.alert.setAlert' | translate}}</button>
           </div>
-          <div class="state-wrap" ng-repeat="s in o.status">
+          <div class="state-wrap clear" ng-repeat="s in o.status">
             <span class="state">{{s.displayName}}：</span><span class="value">{{displayValue(s)}}</span>
+            <div class="pull-right">
+              <img class="warn-icon" src="images/icon_warning-o.png" width="15" height="15" alt="">
+              <span>{{s.expression | operator}}{{s.ruleValue}}</span>
+            </div>
           </div>
         </div>
         <div class="type">{{o.typeDisplayName}} | {{o.vendorThingID | locTag}}</div>
@@ -96,12 +100,12 @@
 
             <!-- enmu: boolean -->
             <div class="pull-left" ng-if="rule.enumType == 'BOOLEAN' || rule.type=='boolean'">
-              {{rule.displayName}} -> {{rule.displayValue}}
+              {{rule.displayName}} = {{rule.displayValue}}
             </div>
 
             <!-- enmu: number -->
             <div class="pull-left" ng-if="rule.enumType == 'NUMBER'">
-              {{rule.displayName}} -> {{rule.displayValue}}
+              {{rule.displayName}} = {{rule.displayValue}}
             </div>
 
             <div class="pull-right">

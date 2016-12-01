@@ -1,8 +1,10 @@
 angular.module('BeehivePortal.MonitorManager')
 
-.factory('ThingSchemaService', ['$$Schema', 'TriggerDetailService', '$q', function($$Schema, TriggerDetailService, $q) {
+.factory('ThingSchemaService', ['$$Thing', '$$Schema', 'TriggerDetailService', '$q', function($$Thing, $$Schema, TriggerDetailService, $q) {
     var typeList = [];
     var schemaList = [];
+
+    var things = new Map();
 
     var dirtyFields = ['target', 'taiwanNo1', 'novalue', 'date'];
 
@@ -50,6 +52,26 @@ angular.module('BeehivePortal.MonitorManager')
     }
 
     return {
+        getThingsDetail: function(ids) {
+            var $defer = $q.defer();
+            var ret = [];
+            var empty = ids.map(function(o) {
+                var _thing = things.get(o);
+                if (_thing)
+                    ret.push(_thing)
+                else
+                    return o;
+            });
+            if (empty.length) {
+                $$Thing.getThingsByIDs(empty).$promise.then(function(res) {
+                    ret = ret.concat(res);
+                    $defer.resolve(res);
+                });
+            } else {
+                $defer.resolve(ret);
+            }
+            return $defer.promise;
+        },
         getSchema: function(things) {
             var $defer = $q.defer();
             var promiseList = [];
@@ -98,12 +120,98 @@ angular.module('BeehivePortal.MonitorManager')
 }])
 
 .factory('ThingMonitorService', ['$$Schema', 'TriggerDetailService', '$q', function($$Schema, TriggerDetailService, $q) {
-    return {
-        getSchema: function(things) {
-            var $defer = $q.defer();
-            $defer.resolve({});
 
-            return $defer.promise;
+    function Rule(property) {
+        this._property = property;
+        this.displayName = property.displayName;
+        this.enumType = property.enumType;
+        this.type = property.type;
+
+        this.propertyName = property.propertyName;
+        this.update(property);
+    }
+
+    Rule.prototype.update = function() {
+        if (!this._property.enumType && (this._property.type === 'int' || this._property.type === 'float')) {
+            this.displayValue = this._property.value;
+        } else {
+            var _displayValue = this._property.options.find(function(o) { return o.value === this._property.value }.bind(this));
+            this.displayValue = _displayValue ? _displayValue.text : this._property.value;
+        }
+        this.expression = this._property.expression ? this._property.expression : 'eq';
+        this.value = this._property.value;
+    }
+
+    Rule.prototype.fromClause = function() {
+
+    }
+
+    Rule.prototype.toClause = function() {
+        var clause = null;
+        switch (this.expression) {
+            case 'gt':
+                clause = {
+                    type: 'range',
+                    field: this.propertyName,
+                    lowerLimit: this.value,
+                    lowerIncluded: false
+                };
+                break;
+            case 'gte':
+                clause = {
+                    type: 'range',
+                    field: this.propertyName,
+                    lowerLimit: this.value
+                }
+                break;
+            case 'lt':
+                clause = {
+                    type: 'range',
+                    field: this.propertyName,
+                    upperLimit: this.value,
+                    upperIncluded: false
+                }
+                break;
+            case 'lte':
+                clause = {
+                    type: 'range',
+                    field: this.propertyName,
+                    upperLimit: this.value
+                }
+                break;
+            default:
+                clause = {
+                    type: 'eq',
+                    field: this.propertyName,
+                    value: this.value
+                }
+                break;
+        }
+        return clause;
+    }
+    return {
+        newRule: function(_property) {
+            return new Rule(_property);
+        },
+        fromClause: function(_clause, _property) {
+            _property = angular.copy(_property);
+            if (_clause.type === 'eq') {
+                _property.value = _clause.value;
+                _property.expression = _clause.type;
+            } else if (_clause.hasOwnProperty('lowerIncluded')) {
+                _property.value = _clause.lowerLimit;
+                _property.expression = 'gt';
+            } else if (_clause.hasOwnProperty('upperIncluded')) {
+                _property.value = _clause.upperLimit;
+                _property.expression = 'lt';
+            } else if (_clause.hasOwnProperty('lowerLimit')) {
+                _property.value = _clause.lowerLimit;
+                _property.expression = 'gte';
+            } else {
+                _property.value = _clause.upperLimit;
+                _property.expression = 'lte';
+            }
+            return this.newRule(_property);
         }
     }
 }])
@@ -139,9 +247,6 @@ angular.module('BeehivePortal.MonitorManager')
             }, headers);
             subscriptions.push(subscription);
         },
-        // unsubscribe: function(destination) {
-        //     _client.unsubscribe(destination);
-        // },
         unsubscribeAll: function(destination) {
             subscriptions.forEach(function(s) {
                 s.unsubscribe();

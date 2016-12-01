@@ -4,16 +4,6 @@ angular.module('BeehivePortal.MonitorManager')
 
 .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
-        .state('app.portal.MonitorManager.History', {
-            url: '/History/{id}',
-            templateUrl: 'app/components/portal/MonitorManager/History/History.html',
-            controller: 'HistoryController',
-            stateName: 'monitorManager.history',
-            previous: 'app.portal.MonitorManager.Monitoring',
-            params: {
-                'id': '',
-            }
-        })
         .state('app.portal.MonitorManager.Monitoring', {
             url: '/Monitoring/{id:int}',
             templateUrl: 'app/components/portal/MonitorManager/Monitoring/Monitoring.html',
@@ -25,6 +15,16 @@ angular.module('BeehivePortal.MonitorManager')
                 'name': '',
                 'desc': '',
                 'count': 0
+            }
+        })
+        .state('app.portal.MonitorManager.History', {
+            url: '/History/{id}',
+            templateUrl: 'app/components/portal/MonitorManager/History/History.html',
+            controller: 'HistoryController',
+            stateName: 'monitorManager.history',
+            previous: 'app.portal.MonitorManager.Monitoring',
+            params: {
+                'id': ''
             }
         })
         .state('app.portal.MonitorManager.View', {

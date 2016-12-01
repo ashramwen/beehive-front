@@ -41,7 +41,7 @@ angular.module('BeehivePortal')
 .filter('operator', function() {
     return function(input) {
         var operator = {
-            'eq': '＝',
+            'eq': '= ',
             'gt': '＞',
             'gte': '≥',
             'lt': '＜',

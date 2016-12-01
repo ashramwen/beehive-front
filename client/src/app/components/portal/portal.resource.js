@@ -265,13 +265,10 @@ angular.module('BeehivePortal')
                 id: '@id'
             }
         },
-        getByGroup: {
-            url: mUrl + '/group/:groupName',
-            method: 'GET',
-            isArray: true,
-            params: {
-                groupName: '@groupName'
-            }
+        query: {
+            url: mUrl + '/query',
+            method: 'POST',
+            isArray: true
         },
         enable: {
             url: mUrl + '/:id/enable',
@@ -282,6 +279,62 @@ angular.module('BeehivePortal')
         },
         disable: {
             url: mUrl + '/:id/disable',
+            method: 'PUT',
+            params: {
+                id: '@id'
+            }
+        }
+    });
+
+    return $$Monitor;
+}])
+
+.factory('$$Notice', ['$resource', function($resource) {
+    var _url = MyAPIs.USER + '/me/notices';
+    var $$Monitor = $resource(MyAPIs.USER, {}, {
+        get: {
+            url: _url + '/:id',
+            method: 'GET',
+            isArray: true,
+            params: {
+                id: '@id'
+            }
+        },
+        getAll: {
+            url: _url + '/all',
+            method: 'GET',
+            isArray: true
+        },
+        getUnread: {
+            url: _url + '/unread',
+            method: 'GET',
+            isArray: true
+        },
+        read: {
+            url: _url + '/:id/readed',
+            method: 'PUT',
+            params: {
+                id: '@id'
+            }
+        },
+        readAll: {
+            url: _url + '/all/readed',
+            method: 'PUT'
+        },
+        query: {
+            url: _url + '/query',
+            method: 'POST',
+            isArray: true
+        },
+        enable: {
+            url: _url + '/:id/enable',
+            method: 'PUT',
+            params: {
+                id: '@id'
+            }
+        },
+        disable: {
+            url: _url + '/:id/disable',
             method: 'PUT',
             params: {
                 id: '@id'

@@ -103,7 +103,7 @@
             .state-wrap {
                 // margin-bottom: 7px;
                 line-height: 29px;
-                .state {
+                span {
                     font-size: 12px;
                     color: #878d96;
                 }
@@ -170,6 +170,9 @@
                 -webkit-transform: rotate(45deg);
                 transform: rotate(45deg);
             }
+        }
+        .warn-icon {
+            display: none;
         }
     }
 }

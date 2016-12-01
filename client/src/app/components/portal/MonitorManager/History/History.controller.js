@@ -2,18 +2,28 @@
 
 angular.module('BeehivePortal.MonitorManager')
 
-.controller('HistoryController', ['$scope', '$rootScope', '$state', '$stateParams', 'ThingSchemaService', '$$User', 'WebSocketClient', '$timeout', '$$Thing', function($scope, $rootScope, $state, $stateParams, ThingSchemaService, $$User, WebSocketClient, $timeout, $$Thing) {
+.controller('HistoryController', ['$scope', '$state', '$stateParams', '$$Notice', function($scope, $state, $stateParams, $$Notice) {
     if (!$stateParams.id) {
-        $state.go('^');
+        $state.go('^.^');
     }
 
-    // modify view
-    $scope.modify = function() {
-        $state.go('^.ViewManager', $scope.view);
+    $$Notice.query({}, { from: $stateParams.id }).$promise.then(function(res) {
+        $scope.notices = res;
+        console.log(res);
+    });
+
+    $scope.read = function(notice) {
+        $$Notice.read({ id: notice.id }).$promise.then(function(res) {
+            notice.readed = true;
+        });
+    }
+
+    $scope.readAll = function() {
+
     }
 
     // go back
     $scope.goBack = function() {
-        $state.go('^');
+        $state.go('^.Monitoring', { id: $stateParams.id });
     }
 }]);
