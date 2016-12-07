@@ -46,8 +46,8 @@
     <!-- END 添加监控设备 -->
 
     <div class="bottom-btn">
-      <button class="btn btn-warning bg-yellow-gradient" ng-click="newView()" ng-if="view.id===0">{{'monitorManager.channel.create' | translate}}</button>
-      <button class="btn btn-warning bg-yellow-gradient" ng-click="modifyView()" ng-if="view.id>0">{{'monitorManager.channel.update' | translate}}</button>
+      <button class="btn btn-warning bg-yellow-gradient" ng-click="newView()" ng-if="new">{{'monitorManager.channel.create' | translate}}</button>
+      <button class="btn btn-warning bg-yellow-gradient" ng-click="modifyView()" ng-if="!new">{{'monitorManager.channel.update' | translate}}</button>
       <button class="btn btn-primary" ng-click="goBack()">{{'monitorManager.channel.goBack' | translate}}</button>
     </div>
   </div>

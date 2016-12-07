@@ -7,7 +7,10 @@ angular.module('BeehivePortal.MonitorManager')
 
     // the specific view
     $scope.view = $stateParams;
-
+    if (!$scope.view.id) {
+        $scope.new = true;
+        $scope.view.id = 0;
+    }
     // $$User.getThings().$promise.then(function(res) {
     //     $scope.things = res;
     // });
@@ -20,7 +23,7 @@ angular.module('BeehivePortal.MonitorManager')
         }).$promise;
 
         var promises = [q1];
-        if ($stateParams.id !== 0) {
+        if ($stateParams.id && $stateParams.id !== 0) {
             promises.push($$User.getUGC({
                 type: 'monitorView',
                 name: $stateParams.id
