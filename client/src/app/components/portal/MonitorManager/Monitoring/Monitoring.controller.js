@@ -12,8 +12,9 @@ angular.module('BeehivePortal.MonitorManager')
     $scope.view = $stateParams;
 
     var alerts = [];
-    // $$Monitor.delete({id:'1fef9a10-bbc0-11e6-ac21-00163e007aba'});
+    // $$Monitor.delete({id:'07abe290-bbc7-11e6-ac21-00163e007aba'});
     // $$Monitor.enable({id:'1fef9a10-bbc0-11e6-ac21-00163e007aba'});
+    // $$Monitor.disable({id:'1fef9a10-bbc0-11e6-ac21-00163e007aba'});
     // get monitoring view detail
     $$User.getUGC({
         type: 'monitorView',

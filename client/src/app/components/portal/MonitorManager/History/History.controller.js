@@ -7,9 +7,8 @@ angular.module('BeehivePortal.MonitorManager')
         $state.go('^.^');
     }
 
-    $$Notice.query({}, { from: $stateParams.id }).$promise.then(function(res) {
+    $$Notice.query({ 'pager': '10' }, { from: $stateParams.id }).$promise.then(function(res) {
         $scope.notices = res;
-        console.log(res);
     });
 
     $scope.read = function(notice) {
@@ -19,7 +18,9 @@ angular.module('BeehivePortal.MonitorManager')
     }
 
     $scope.readAll = function() {
-
+        // $$Notice.readAll({}, { from: $stateParams.id }).$promise.then(function(res) {
+        //
+        // });
     }
 
     // go back

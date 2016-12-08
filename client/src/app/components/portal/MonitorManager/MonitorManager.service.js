@@ -142,10 +142,6 @@ angular.module('BeehivePortal.MonitorManager')
         this.value = this._property.value;
     }
 
-    Rule.prototype.fromClause = function() {
-
-    }
-
     Rule.prototype.toClause = function() {
         var clause = null;
         switch (this.expression) {
@@ -189,30 +185,33 @@ angular.module('BeehivePortal.MonitorManager')
         }
         return clause;
     }
+
+    Rule.fromClause = function(_clause, _property) {
+        _property = angular.copy(_property);
+        if (_clause.type === 'eq') {
+            _property.value = _clause.value;
+            _property.expression = _clause.type;
+        } else if (_clause.hasOwnProperty('lowerIncluded')) {
+            _property.value = _clause.lowerLimit;
+            _property.expression = 'gt';
+        } else if (_clause.hasOwnProperty('upperIncluded')) {
+            _property.value = _clause.upperLimit;
+            _property.expression = 'lt';
+        } else if (_clause.hasOwnProperty('lowerLimit')) {
+            _property.value = _clause.lowerLimit;
+            _property.expression = 'gte';
+        } else {
+            _property.value = _clause.upperLimit;
+            _property.expression = 'lte';
+        }
+        return new Rule(_property);
+    }
+
     return {
         newRule: function(_property) {
             return new Rule(_property);
         },
-        fromClause: function(_clause, _property) {
-            _property = angular.copy(_property);
-            if (_clause.type === 'eq') {
-                _property.value = _clause.value;
-                _property.expression = _clause.type;
-            } else if (_clause.hasOwnProperty('lowerIncluded')) {
-                _property.value = _clause.lowerLimit;
-                _property.expression = 'gt';
-            } else if (_clause.hasOwnProperty('upperIncluded')) {
-                _property.value = _clause.upperLimit;
-                _property.expression = 'lt';
-            } else if (_clause.hasOwnProperty('lowerLimit')) {
-                _property.value = _clause.lowerLimit;
-                _property.expression = 'gte';
-            } else {
-                _property.value = _clause.upperLimit;
-                _property.expression = 'lte';
-            }
-            return this.newRule(_property);
-        }
+        fromClause: Rule.fromClause
     }
 }])
 
@@ -222,11 +221,11 @@ angular.module('BeehivePortal.MonitorManager')
     var init = (function() {
         _client = Stomp.client(webSocketPath);
         var connect_callback = function(frame) {
-            console.log('Connected: ' + frame);
+            // console.log('Connected: ' + frame);
             $rootScope.$broadcast('stomp.connected');
         };
         var error_callback = function(error) {
-            console.log(error);
+            console.log('stomp connect error:', error);
         };
         _client.connect({
             // 'Authorization': 'Bearer super_token '
