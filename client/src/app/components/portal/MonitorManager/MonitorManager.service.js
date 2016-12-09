@@ -4,7 +4,7 @@ angular.module('BeehivePortal.MonitorManager')
     var typeList = [];
     var schemaList = [];
 
-    var things = new Map();
+    var things = [];
 
     var dirtyFields = ['target', 'taiwanNo1', 'novalue', 'date'];
 
@@ -23,7 +23,6 @@ angular.module('BeehivePortal.MonitorManager')
             } else {
                 s.displayName = s.name;
             }
-
         });
     }
 
@@ -51,31 +50,25 @@ angular.module('BeehivePortal.MonitorManager')
         });
     }
 
+    function filterThing(IDs) {
+        var thingList = things.filter(function(t) {
+            if (IDs.indexOf(t.id) > -1) return t;
+        });
+        return thingList;
+    }
+
     return {
-        getThingsDetail: function(ids) {
+        getThingsDetail: function(IDs) {
             var $defer = $q.defer();
-            var ret = [];
-            var empty = ids.map(function(o) {
-                var _thing = things.get(o);
-                if (_thing)
-                    ret.push(_thing)
-                else
-                    return o;
+            $$Thing.getThingsByIDs(IDs).$promise.then(function(res) {
+                $defer.resolve(res);
             });
-            if (empty.length) {
-                $$Thing.getThingsByIDs(empty).$promise.then(function(res) {
-                    ret = ret.concat(res);
-                    $defer.resolve(res);
-                });
-            } else {
-                $defer.resolve(ret);
-            }
             return $defer.promise;
         },
-        getSchema: function(things) {
+        getSchema: function(_things) {
             var $defer = $q.defer();
             var promiseList = [];
-            things.forEach(function(thing) {
+            _things.forEach(function(thing) {
                 parseStatus(thing);
                 if (_.indexOf(typeList, thing.type) > -1) return;
                 typeList.push(thing.type);
@@ -91,13 +84,43 @@ angular.module('BeehivePortal.MonitorManager')
             });
             $q.all(promiseList).then(function() {
                 var schema;
-                _.each(things, function(thing) {
+                _things.forEach(function(thing) {
                     schema = _.findWhere(schemaList, { name: thing.schemaName });
                     displayName(thing, schema);
+                    thing._schema = schema;
                 });
                 $defer.resolve(schemaList);
             });
 
+            return $defer.promise;
+        },
+        getThingAndSchema: function(IDs) {
+            var $defer = $q.defer();
+            var emptyList = IDs.filter(function(o) {
+                if (!things.find(function(t) { return t.id === o })) return o;
+            });
+            if (emptyList.length) {
+                this.getThingsDetail(emptyList).then(function(res) {
+                    things = things.concat(res);
+                    return this.getSchema(res);
+                }.bind(this)).then(function(res) {
+                    $defer.resolve(filterThing(IDs));
+                });
+            } else {
+                $defer.resolve(filterThing(IDs));
+            }
+            return $defer.promise;
+        },
+        getThingByVendorThingID: function(vendorThingID) {
+            var $defer = $q.defer();
+            var thing = things.find(function(t) { t.vendorThingID === vendorThingID });
+            if (thing) {
+                $defer.resolve(thing);
+            } else {
+                this.getThingAndSchema([1502]).then(function() {
+                    $defer.resolve(things[0]);
+                });
+            }
             return $defer.promise;
         },
         getDisplayName: function(type, name) {
@@ -131,15 +154,15 @@ angular.module('BeehivePortal.MonitorManager')
         this.update(property);
     }
 
-    Rule.prototype.update = function() {
-        if (!this._property.enumType && (this._property.type === 'int' || this._property.type === 'float')) {
-            this.displayValue = this._property.value;
+    Rule.prototype.update = function(_property) {
+        if (!_property.enumType && (_property.type === 'int' || _property.type === 'float')) {
+            this.displayValue = _property.value;
         } else {
-            var _displayValue = this._property.options.find(function(o) { return o.value === this._property.value }.bind(this));
-            this.displayValue = _displayValue ? _displayValue.text : this._property.value;
+            var _displayValue = _property.options.find(function(o) { return o.value === _property.value }.bind(this));
+            this.displayValue = _displayValue ? _displayValue.text : _property.value;
         }
-        this.expression = this._property.expression ? this._property.expression : 'eq';
-        this.value = this._property.value;
+        this.expression = _property.expression ? _property.expression : 'eq';
+        this.value = _property.value;
     }
 
     Rule.prototype.toClause = function() {

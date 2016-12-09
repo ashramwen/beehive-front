@@ -92,7 +92,7 @@
 
       <div>
         <ul class="rule-list">
-          <li ng-repeat="rule in rules">
+          <li ng-repeat="rule in thing._alert.rules">
             <!-- not enum -->
             <div class="pull-left" ng-if="!rule.enumType && (rule.type=='int' || rule.type=='float')">
               {{rule.displayName}} {{rule.expression | operator}} {{rule.displayValue}}
