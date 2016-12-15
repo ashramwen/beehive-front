@@ -87,6 +87,10 @@ angular.module('BeehivePortal')
 
       switch(location.length){
         case 9:
+          suffix = '工位';
+          locationName = location.substr(7);
+          break;
+        case 7:
           suffix = '区块';
           locationName = location.substr(6);
           break;

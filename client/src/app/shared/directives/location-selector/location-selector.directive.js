@@ -115,7 +115,9 @@ angular.module('BeehivePortal')
 
             $scope.changeLocation = function(level, preventOutput){
                 var $defer = $q.defer();
-                var target = _.find($scope.levels, {level: level});
+                var targetIndex = _.findIndex($scope.levels, {level: level});
+                var target = $scope.levels[targetIndex];
+                var parent = $scope.levels[targetIndex - 1];
                 var children = target.children;
                 _.each(children, function(child){
                     $scope.levels[child].options = [];
@@ -124,9 +126,7 @@ angular.module('BeehivePortal')
 
                 if(!target.selected){
                     if(!preventOutput){
-                        var parent = null;
-                        if(target.parent){
-                            parent = $scope.levels[target.parent];
+                        if(parent){
                             $$Location.getSubLevel({location: parent.selected.location}, function(res){
                                 $scope.subLevels = res;
                                 $scope.onChange(parent.selected.location, parent.selected);

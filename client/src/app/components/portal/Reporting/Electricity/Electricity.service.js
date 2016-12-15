@@ -1,12 +1,12 @@
 angular.module('BeehivePortal')
-  .factory('ElectricityService', ['$q', '$timeout', '$http', 'ReportingService', function($q, $timeout, $http, ReportingService){
+  .factory('ElectricityService', ['$q', '$timeout', '$http', 'ReportingService', 'AppUtils', function($q, $timeout, $http, ReportingService, AppUtils){
     var ElectricityService = {};
 
     ElectricityService.generateConsumption = function(byTime, split, subLevels){
       var allThings = ReportingService.getAllThings(subLevels);
       var enumObj = ReportingService.getLocationEnums(subLevels);
 
-      var query = {
+      var query = AppUtils.clone({
         "_kii_agg_name": "电表",
         "_kii_query_path": "/" + AppConfig.kiiAppID + "/_search",
         "query": {
@@ -48,12 +48,12 @@ angular.module('BeehivePortal')
                           "aggs": {
                             "KwhMax":{
                               "max": {
-                                "field": "state.Kwh"
+                                "field": "state.Wh"
                               }
                             },
                             "KwhMin":{
                               "min": {
-                                "field": "state.Kwh"
+                                "field": "state.Wh"
                               }
                             }
                           }
@@ -82,12 +82,12 @@ angular.module('BeehivePortal')
                       "aggs": {
                         "KwhMax":{
                           "max": {
-                            "field": "state.Kwh"
+                            "field": "state.Wh"
                           }
                         },
                         "KwhMin":{
                           "min": {
-                            "field": "state.Kwh"
+                            "field": "state.Wh"
                           }
                         }
                       }
@@ -114,7 +114,7 @@ angular.module('BeehivePortal')
                 }
             }
         }
-      };
+      });
 
       if(!byTime){
         query.aggs.byLocation = query.aggs.byTime.aggs.byLocation;
@@ -132,7 +132,7 @@ angular.module('BeehivePortal')
       var allThings = ReportingService.getAllThings(subLevels);
       var enumObj = ReportingService.getLocationEnums(subLevels);
 
-      var query = {
+      var query = AppUtils.clone({
         "_kii_agg_name": "测试数据",
         "_kii_query_path": "/" + AppConfig.kiiAppID + "/_search",
         "query": {
@@ -161,16 +161,16 @@ angular.module('BeehivePortal')
         "aggs":{
           "MaxKwh": {
             "max": {
-              "field": "state.Kwh"
+              "field": "state.Wh"
             }
           },
           "MinKwh": {
             "min": {
-              "field": "state.Kwh"
+              "field": "state.Wh"
             }
           }
         }
-      };
+      });
 
       var $defer = $q.defer();
 

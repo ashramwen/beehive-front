@@ -13,8 +13,7 @@ angular.module('BeehivePortal')
         window.MyApp.credential = credential;
         $http.defaults.headers.common['Authorization'] = 'Bearer ' + credential['accessToken'];
         KiiReporting.KiiQueryConfig.setConfig({
-            //token: 'Bearer ' + credential['accessToken']
-            token: 'Bearer super_token'
+            token: 'Bearer ' + credential['accessToken']
         });
     };
 
@@ -109,6 +108,7 @@ angular.module('BeehivePortal')
         });
     };
 
+    
     appService._loadLocation = function(){
         var $httpDefaultCache = $cacheFactory.get('$http');
         
@@ -117,6 +117,7 @@ angular.module('BeehivePortal')
             var topLevels = retrieval(res);
             putCache(MyAPIs.LOCATION_TAGS + '/topLevel', topLevels);
         });
+        
 
         function retrieval(location){
             var subLevels = _.map(location.subLocations, function(subLocation, key){
@@ -136,7 +137,7 @@ angular.module('BeehivePortal')
         }
 
         function putCache(url, obj){
-            let r = [
+            var r = [
                 200,
                 JSON.stringify(obj), 
                 {'content-type': "application/json;charset=UTF-8"},
@@ -145,7 +146,9 @@ angular.module('BeehivePortal')
 
             $httpDefaultCache.put(url, r);
         }
+
     };
+    
 
     return appService;
   }]);

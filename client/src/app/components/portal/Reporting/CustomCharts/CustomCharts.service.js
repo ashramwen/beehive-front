@@ -346,8 +346,24 @@ angular.module('BeehivePortal')
       var $defer = $q.defer();
       var queryStr = JSON.stringify(options.complexQuery);
       if(queryStr == '') throw new Error('empty query string.');
+
+      var dateStrs = searchField(queryStr, '@date');
+
+      var dateData = null;
+      if(dateStrs){
+        dateData = JSON.parse(dateStrs[1]);
+        queryStr = queryStr.replace(dateStrs[0], '"date_histogram":' + JSON.stringify({
+          "field": "state.date",
+          "interval": dateData.interval + dateData.unit,
+          "time_zone": "+08:00"
+        }));
+      }
+
       var locationStrs = searchField(queryStr, '@location');
-      if(!locationStrs) throw new Error('location is not specified.');
+      if(!locationStrs){
+        return $q.resolve({query: JSON.parse(queryStr), date: dateData});
+      }
+
       var locationInjection = locationStrs[0];
       var locationData = JSON.parse(locationStrs[1]);
       var type = locationData.type;
@@ -358,18 +374,6 @@ angular.module('BeehivePortal')
         var enumObj = ReportingService.getLocationEnums(locations);
 
         queryStr = queryStr.replace(locationInjection, '"enum":' + JSON.stringify(enumObj));
-
-        var dateStrs = searchField(queryStr, '@date');
-
-        var dateData = null;
-        if(dateStrs){
-          dateData = JSON.parse(dateStrs[1]);
-          queryStr = queryStr.replace(dateStrs[0], '"date_histogram":' + JSON.stringify({
-            "field": "state.date",
-            "interval": dateData.interval + dateData.unit,
-            "time_zone": "+08:00"
-          }));
-        }
 
         var query = JSON.parse(queryStr);
         query.query.filtered.filter.bool.must.push({

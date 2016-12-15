@@ -89,7 +89,7 @@ angular.module('BeehivePortal')
                 });
 
                 // for ml trigger only
-                if(trigger.description.indexOf('"type":"MachineLearning"')){
+                if(trigger.description.indexOf('"type":"MachineLearning"')>-1){
                     var data = JSON.parse(trigger.description);
                     var sourceTriggerID = data.sourceTriggerID;
                     $$Trigger.remove({triggerID: sourceTriggerID}, function(){

@@ -5,7 +5,7 @@
   <div class="dropdown-menu" role="menu" aria-labelledby="search-filter" ng-click="$event.stopPropagation()">
     <div class="panel">
       <div class="panel-body">
-        <div class="location-select" ng-repeat="level in levels">
+        <div class="location-select" ng-repeat="level in levels" ng-if="!($last && hideLast)">
           <label>{{"location.level" + $index + ".name" | translate}}</label>
           <select class="form-control" ng-options="option._displayName for option in level.options track by option.location" ng-model="level.selected" ng-change="changeLocation(level.level)" ng-click="$event.stopPropagation()">
             <option value="">{{"controls.selectDefault" | translate}}</option>
