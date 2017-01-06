@@ -3,7 +3,8 @@
  */
 
 angular.module('BeehivePortal')
-  .service('Session', ['localStorageService', 'AppUtils', '$http', '$rootScope', '$$Auth', '$$User', '$q', 'AUTH_EVENTS', '$cacheFactory', '$rootScope', function(localStorageService, AppUtils, $http, $rootScope, $$Auth, $$User, $q, AUTH_EVENTS, $cacheFactory, $rootScope) {
+  .service('Session', ['localStorageService', 'AppUtils', '$http', '$rootScope', '$$Auth', '$$User', '$q', 'AUTH_EVENTS', '$cacheFactory', 
+    function(localStorageService, AppUtils, $http, $rootScope, $$Auth, $$User, $q, AUTH_EVENTS, $cacheFactory) {
     var session = {};
     window.MyApp = window.MyApp || {};
 
