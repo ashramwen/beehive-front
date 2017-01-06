@@ -3,7 +3,7 @@
  */
 
 angular.module('BeehivePortal')
-  .service('Session', ['localStorageService', 'AppUtils', '$http', '$rootScope', '$$Auth', '$$User', '$q', 'AUTH_EVENTS', function(localStorageService, AppUtils, $http, $rootScope, $$Auth, $$User, $q, AUTH_EVENTS) {
+  .service('Session', ['localStorageService', 'AppUtils', '$http', '$rootScope', '$$Auth', '$$User', '$q', 'AUTH_EVENTS', '$cacheFactory', '$rootScope', function(localStorageService, AppUtils, $http, $rootScope, $$Auth, $$User, $q, AUTH_EVENTS, $cacheFactory, $rootScope) {
     var session = {};
     window.MyApp = window.MyApp || {};
 
@@ -69,10 +69,13 @@ angular.module('BeehivePortal')
      * destroy user session when user session is abondoned
      */
     session.destroy = function() {
-      $$Auth.logout(function(){
-        AppUtils.clearSession();
-        session._status = session.StatusType.UNKNOWN;
-      });
+      AppUtils.clearSession();
+      session._status = session.StatusType.UNKNOWN;
+      var httpCache = $cacheFactory.get('$http');
+      httpCache.removeAll();
+      $rootScope.login = false;
+
+      $$Auth.logout(function(){});
     };
 
     /*
