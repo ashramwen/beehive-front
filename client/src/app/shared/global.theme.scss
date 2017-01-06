@@ -1456,6 +1456,14 @@ content: '';
   border-color: #f56954 !important;
   box-shadow: none;
 }
+.form-control.ng-invalid.ng-dirty{
+  border-color: #f56954 !important;
+  box-shadow: none;
+  color: #f56954;
+}
+.warning-text {
+  color: #f56954;
+}
 /* Input group */
 .input-group .input-group-addon {
   border-radius: 0;

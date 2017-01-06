@@ -33,6 +33,7 @@ angular.module('BeehivePortal')
     };
 
     $scope.ok = function () {
+        if($scope.userForm.$invalid)return;
         $$UserManager.update($scope.user, function(user){
             var thingsToDelete = _.difference($scope.selectedThings, $scope.things);
             var thingsToAdd = _.difference($scope.things, $scope.selectedThings);

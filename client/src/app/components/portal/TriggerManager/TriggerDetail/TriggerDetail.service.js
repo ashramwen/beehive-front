@@ -372,8 +372,6 @@ angular.module('BeehivePortal')
     TriggerDetailService.getThingsDetail = function(things){
       var $defer = $q.defer();
 
-      LEVELS
-      
       $q.all(_.map(LEVELS, function(l, i){
         return $translate('location.level' + i + '.brev');
       })).then(function(values){
@@ -382,7 +380,9 @@ angular.module('BeehivePortal')
           var locationPromiseList = [];
 
           _.each(things, function(thing){
-            var _thing = _.find(thingsWithLocation, {id: thing.globalThingID});
+            var _thing = thingsWithLocation.find(function(t){
+              return t.id == thing.globalThingID;
+            });
             if(!_thing) throw new Error('没有查找的到thing:' + thing.globalThingID + '的详细信息。');
 
             if(!_thing.locations) return;

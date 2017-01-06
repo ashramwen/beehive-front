@@ -17,6 +17,7 @@ angular.module('BeehivePortal')
 
     $scope.init = function(){
       $scope.trigger = $scope.triggerData;
+      console.log($scope.trigger);
     };
 
     $scope.$watch('triggerData', function(val){

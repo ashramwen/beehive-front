@@ -16,10 +16,16 @@
         </div>
         <div class="col-sm-8">
           <div class="selected-property clearfix" ng-repeat="property in conditionGroup.properties">
-            <!-- not enum -->
+            <!-- not enum: condition -->
             <div ng-if="!property.enumType && (property.type=='int' || property.type=='float')">
               <label>{{property.displayName}} <span class="fa fa-info-circle" ng-if="property.tooltip" uib-tooltip="{{property.tooltip}}"></span></label>
               <condition-input property="property" min="property.minimum" max="property.maximum" type="property.type" condition="property.condition"></condition-input>
+            </div>
+
+            <!-- not enum: string | others -->
+            <div ng-if="!property.enumType && (property.type!='int' && property.type!='float')">
+              <label>{{property.displayName}} <span class="fa fa-info-circle" ng-if="property.tooltip" uib-tooltip="{{property.tooltip}}"></span></label>
+              <input type="text" ng-model="property.value" class="form-control" />
             </div>
 
             <!-- enmu: number -->

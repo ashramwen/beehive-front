@@ -19,13 +19,16 @@ angular.module('BeehivePortal')
             scope.myClass = attrs.class;
             scope.setting = _.extend(scope.setting, scope.extraSetting);
             scope.selectedOption = {};
-            scope.preventInit = false;
 
             scope.$watch('selectedModel', function(newVal, oldVal){
-                if(scope.preventInit){
-                    scope.preventInit = false;
-                    return;
+                if(scope.selectedOption){
+                    if(attrs.valueOnly){
+                        if(newVal === scope.selectedOption.value) return;
+                    } else {
+                        if(newVal[scope.setting.value] === scope.selectedOption.value) return;
+                    }
                 }
+
                 if(angular.equals(newVal, oldVal)){
                     scope.selectedOption = _.find(scope.options, function(option){
                         if(attrs.valueOnly){
@@ -47,7 +50,6 @@ angular.module('BeehivePortal')
             scope.setting.value = attrs.value || scope.setting.value;
             
             scope.selectOption = function(option, initialized){
-                scope.preventInit = true;
 
                 var targetValue = null;
                 if(attrs.valueOnly){
@@ -58,7 +60,6 @@ angular.module('BeehivePortal')
 
                 if(_.isFunction(scope.change)){
                     if(scope.change(targetValue, initialized) === false){
-                        scope.preventInit = false;
                         return;
                     }
                 }

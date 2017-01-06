@@ -87,7 +87,7 @@ angular.module('BeehivePortal').controller('TriggerConditionHandlerController',
       var conditionGroup = _.find($scope.triggerData.conditionGroups, {type: $scope.type, id: $scope.$state.params.id});
 
       _.each($scope.conditionGroup.properties, function(property){
-        if(property.enumType || property.type == 'boolean'){
+        if(property.enumType || property.type == 'boolean' || property.type.toLowerCase() == 'string' || property.type.toLowerCase() == 'date'){
           property.expression = 'eq';
         }
         property.expressionDisplay = TriggerDetailService.getExpressionDisplay[property.expression];

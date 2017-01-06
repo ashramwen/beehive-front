@@ -3,7 +3,7 @@
       <h3 class="modal-title">{{'userManager.editUserTitle' | translate}}</h3>
   </div>
   <div class="modal-body ng-scope">
-    <form novalidate name="newUserForm" ng-submit="createUser()">
+    <form novalidate name="userForm" ng-submit="createUser()">
       <table class="detail-content">
         <tr>
           <td>{{'user.userName' | translate}}</td>
@@ -19,11 +19,29 @@
         </tr>
         <tr>
           <td>{{'user.phone' | translate}}</td>
-          <td><input type="text" class="form-control" placeholder="{{'user.phone' | translate}}" ng-model="user.phone" /></td>
+          <td><input type="text" class="form-control" ng-pattern="/^[0-9]{11}$/" placeholder="{{'user.phone' | translate}}" ng-model="user.phone" name="phone" /></td>
+        </tr>
+        <tr ng-if="!userForm.phone.$valid">
+          <td></td>
+          <td>
+            <div class="warning-text" ng-if="!userForm.phone.$valid">
+              <span>{{'用户手机格式不正确！'}}</span>
+            </div>
+          </td>
         </tr>
         <tr>
           <td>{{'user.email' | translate}}</td>
-          <td><input type="text" class="form-control" placeholder="{{'user.email' | translate}}" ng-model="user.mail" /></td>
+          <td>
+            <input type="email" name="email" class="form-control" placeholder="{{'user.email' | translate}}" ng-model="user.mail" />
+          </td>
+        </tr>
+        <tr ng-if="!userForm.email.$valid">
+          <td></td>
+          <td>
+            <div class="warning-text" ng-if="!userForm.email.$valid">
+              <span>{{'用户邮箱格式不正确！'}}</span>
+            </div>
+          </td>
         </tr>
       </table>
     </form>
