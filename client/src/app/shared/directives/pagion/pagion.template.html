@@ -1,3 +1,3 @@
 <div>
-  <ul uib-pagination total-items="collection.length" items-per-page="listMaxLength" ng-model="index" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="10" boundary-link-numbers="true"></ul>
+  <ul uib-pagination total-items="totalLength || collection.length" items-per-page="listMaxLength" ng-model="index" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="10" boundary-link-numbers="true"></ul>
 </div>

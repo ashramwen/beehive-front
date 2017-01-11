@@ -7,7 +7,8 @@ angular.module('BeehivePortal')
             collection: '=?',
             display: '=?',
             index: '=?',
-            onChanged: '=?'
+            onChanged: '=?',
+            totalLength: '=?'
         },
         templateUrl: 'app/shared/directives/pagion/pagion.template.html',
         link: function(scope, element, attrs){

@@ -63,9 +63,11 @@ angular.module('BeehivePortal')
 
         ThingDetailService.getThingHistoryState($scope.thing.vendorThingID, $scope.statePageIndex, $scope.queriedStatePeriod.from, $scope.queriedStatePeriod.to)
             .then(function(result){
+                $scope.totalThingStateLength = result.total;
                 if(periodIsChanged){
                     $scope.thingStateList = new Array(Math.floor(result.total / result.size) || 0);
                 }
+
                 _.each(result.states, function(state, i){
                     $scope.thingStateList[result.from + i] = result.states[i];
                 });
