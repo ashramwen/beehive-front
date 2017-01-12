@@ -23,7 +23,8 @@ angular.module('BeehivePortal.MonitorManager')
         return $$Thing.getThingsByIDs(ids).$promise;
     }).then(function(res) {
         $scope.view.detail = res;
-        $timeout(function() { waterfall('.card-columns') }, 0);
+        if(res.length > 0)
+            $timeout(function() { waterfall('.card-columns') }, 0);
         ThingSchemaService.getSchema($scope.view.detail);
         if (WebSocketClient.isConnected()) {
             websocketInit();
