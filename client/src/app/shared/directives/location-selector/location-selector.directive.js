@@ -71,7 +71,9 @@ angular.module('BeehivePortal')
                     _.each(locationList, function(location, index){
                         var func = (function(location, funcAfter){
                             return function(){
-                                var target = $scope.levels[location.level];
+                                var target = $scope.levels.find(function(l){
+                                    return l.level === location.level;  
+                                });
                                 target.selected = _.find(target.options, {location: location.location});
                                 if(funcAfter){
                                     $scope.changeLocation(location.level, true).then(funcAfter);

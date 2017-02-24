@@ -402,7 +402,7 @@ angular.module('BeehivePortal')
           $q.all(locationPromiseList).then(function(locationGroups){
             _.each(thingsHasLocation, function(thing, i){
               var parent = '';
-              locationGroups[0].push({displayName: thing.location, location: thing.location});
+              locationGroups[i].push({displayName: thing.location, location: thing.location});
 
               thing.locationDisplayName = _.map(locationGroups[i], function(location, i){
                 var displayName = location.displayName.substr(parent.length) + locationsSuffix[i];
