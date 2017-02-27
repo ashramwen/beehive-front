@@ -3,6 +3,6 @@
     {{selectedOption[setting.text] | translate}}<span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu" aria-labelledby="search-filter">
-    <li ng-repeat="option in options" role="menuitem" ng-click="selectOption(option)"><a>{{option[setting.text] | translate}}</a></li>
+    <li ng-repeat="option in options" role="menuitem" ng-click="selectOption(option, false)"><a>{{option[setting.text] | translate}}</a></li>
   </ul>
 </div>

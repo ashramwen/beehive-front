@@ -192,7 +192,7 @@ angular.module('BeehivePortal')
         $scope.typeChange = function(value, initialized){
           if(!initialized && angular.equals(value, $scope.selectedType)) return;
 
-          if($scope.selectedThings && $scope.selectedThings.length && !initialized && $scope.onlyType){
+          if($scope.selectedThings && $scope.selectedThings.length && !initialized && $scope.singleType){
             var originType = $scope.selectedType;
             var targetType = value;
 
