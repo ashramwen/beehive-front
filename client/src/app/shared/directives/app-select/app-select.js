@@ -25,7 +25,7 @@ angular.module('BeehivePortal')
                     if(attrs.valueOnly){
                         if(newVal === scope.selectedOption.value) return;
                     } else {
-                        if(newVal[scope.setting.value] === scope.selectedOption.value) return;
+                        if(!newVal || newVal[scope.setting.value] === scope.selectedOption.value) return;
                     }
                 }
 

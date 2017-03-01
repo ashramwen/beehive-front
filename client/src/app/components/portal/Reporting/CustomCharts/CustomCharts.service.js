@@ -26,6 +26,7 @@ angular.module('BeehivePortal')
             $defer.resolve(CustomChartsService.charts);
           });
         }, function(){
+          CustomChartsService.charts = [];
           $defer.resolve(CustomChartsService.charts);
         });
 

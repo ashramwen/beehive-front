@@ -20,6 +20,7 @@
             "siteUrl": "http://localhost:9090/beehive-portal",
             "thirdPartyAPIUrl": "http://114.215.178.24:8081/3rdpartyapiserver/app/api_inquiry/apilist.html?vendor=Beehive"
         },
-        "ENV": "DEV"
+        "ENV": "QA",
+        "version": '1.0'
     };
 })();
