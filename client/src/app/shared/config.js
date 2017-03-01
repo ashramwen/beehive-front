@@ -9,6 +9,7 @@
     window.AppConfig = appConfig[appConfig.ENV];
     window.thirdPartyAPIUrl = appConfig[appConfig.ENV].thirdPartyAPIUrl;
     var cloudUrl = appConfig[appConfig.ENV].cloudUrl;
+    console.log(appConfig.version);
     /*
      * API used globally for web service
      * by George Lin
