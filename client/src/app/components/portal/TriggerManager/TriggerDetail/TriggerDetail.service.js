@@ -154,6 +154,9 @@ angular.module('BeehivePortal')
         if(property.hasOwnProperty('maximum')){
           tooltipContent.push('最大值：' + property.maximum);
         }
+        if(property.hasOwnProperty('precise')){
+          tooltipContent.push('精度：' + property.precise);
+        }
         if(tooltipContent.length){
           property.tooltip = tooltipContent.join(', ');
         }

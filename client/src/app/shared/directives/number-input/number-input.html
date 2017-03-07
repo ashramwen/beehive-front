@@ -1,5 +1,6 @@
-<div class="directive-number-input clearfix">
+<div class="directive-number-input clearfix" ng-class="{'invalid': ngModelCtrl.$invalid && ngModelCtrl.$dirty}">
   <label class="minus" ng-click="minus()">-</label>
-  <input type="number" name="" ng-model="value">
+  <input auto-width type="number" name="" ng-model="value" ng-class="{'has-suffix': suffix}">
+  <span class="suffix">{{suffix}}</span>
   <label class="plus" ng-click="plus()">+</label>
 </div>

@@ -2,6 +2,7 @@
 angular.module('BeehivePortal').controller('TriggerActionHandlerController', 
   ['$scope', 'AppUtils', 'TriggerDetailService', '$timeout', '$$Type', function($scope, AppUtils, TriggerDetailService, $timeout, $$Type){
 
+    $scope.propertyStatus = {};
     $scope.actionGroup = {
       type: null, 
       typeDisplayName: '', 
@@ -98,6 +99,12 @@ angular.module('BeehivePortal').controller('TriggerActionHandlerController',
     };
 
     $scope.save = function(){
+      if($scope.ruleform.$invalid){
+        AppUtils.alert({
+          msg: '请确认表单填写正确。'
+        });
+        return;
+      }
       var actionGroup = _.find($scope.triggerData.actionGroups, {type: $scope.type});
 
       _.each($scope.actionGroup.actions, function(action){

@@ -15,27 +15,27 @@
           </span>
         </div>
         <div class="col-sm-8">
-          <div class="selected-property clearfix" ng-repeat="property in conditionGroup.properties">
+          <div class="selected-property clearfix" ng-repeat="property in conditionGroup.properties track by $index">
             <!-- not enum: condition -->
-            <div ng-if="!property.enumType && (property.type=='int' || property.type=='float')">
+            <div ng-if="!property.enumType && property.type==='NUMBER'">
               <label>{{property.displayName}} <span class="fa fa-info-circle" ng-if="property.tooltip" uib-tooltip="{{property.tooltip}}"></span></label>
-              <condition-input property="property" min="property.minimum" max="property.maximum" type="property.type" condition="property.condition"></condition-input>
+              <condition-input property="property" min="property.minimum" max="property.maximum" type="property.precise === 0? 'int': 'float'" condition="property.condition"></condition-input>
             </div>
 
             <!-- not enum: string | others -->
-            <div ng-if="!property.enumType && (property.type!='int' && property.type!='float')">
+            <div ng-if="!property.enumType && property.type!=='NUMBER'">
               <label>{{property.displayName}} <span class="fa fa-info-circle" ng-if="property.tooltip" uib-tooltip="{{property.tooltip}}"></span></label>
               <input type="text" ng-model="property.value" class="form-control" />
             </div>
 
             <!-- enmu: number -->
-            <div ng-if="property.enumType == 'BOOLEAN' || property.type=='boolean'">
+            <div ng-if="property.enumType === 'BOOLEAN' || property.type == 'boolean'">
               <label>{{property.displayName}}</label>
               <div switchery="property.value" options="property.options"></div>
             </div>
 
             <!-- enmu: number -->
-            <div ng-if="property.enumType == 'NUMBER'">
+            <div ng-if="property.enumType === 'NUMBER'">
               <label>{{property.displayName}}</label>
               <div app-select options="property.options" selected-model="property.value" value-only="true"></div>
             </div>

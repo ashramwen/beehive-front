@@ -22,9 +22,9 @@
                 <hr/>
                 <div class="selected-property" ng-repeat="property in action.properties">
                   <!-- not enum -->
-                  <div ng-if="!property.enumType && (property.type=='int' || property.type=='float')">
+                  <div ng-if="!property.enumType && property.type=='NUMBER'">
                     <label>{{property.displayName}} <span class="fa fa-info-circle" ng-if="property.tooltip" uib-tooltip="{{property.tooltip}}"></span></label>
-                    <number-input ng-model="property.value" min="property.minimum" max="property.maximum" type="property.type"></number-input>
+                    <number-input required="true" ng-model="property.value" name="{{action.actionName + '-' + property.propertyName}}" min="property.minimum" max="property.maximum" type="property.precise === 0? 'int': 'float'" precise="property.precise" suffix="property.unit"></number-input>
                   </div>
 
                   <!-- enmu: boolean -->

@@ -31,8 +31,6 @@ angular.module('BeehivePortal')
           $scope.selectOperator = function(option){
             $scope.property.expression = option.value;
           };
-
-
         }]
     };
   }]);

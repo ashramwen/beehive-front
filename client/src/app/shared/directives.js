@@ -123,6 +123,31 @@ angular.module('BeehivePortal')
               });
           }
       };
+  })
+  .directive('autoWidth', function(){
+    return{
+      restrict: 'A',
+      require: '?ngModel',
+      link: function(scope, element, attrs, ngModelCtrl){
+        var initialWidth = element.width();
+        ngModelCtrl.$parsers.push(function(value){
+          setTimeout(resize);
+          return value;
+        });
+
+        function resize(){
+          while(element.width() === element[0].scrollWidth){
+            element.width(element.width() - 2);
+          }
+          var width = element[0].scrollWidth< initialWidth?
+            initialWidth : element[0].scrollWidth;
+            
+          element.width(width);
+        }
+
+        setTimeout(resize);
+      }
+    };
   });
   
   
