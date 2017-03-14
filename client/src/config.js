@@ -20,6 +20,12 @@
             "siteUrl": "http://localhost:9090/beehive-portal",
             "thirdPartyAPIUrl": "http://114.215.178.24:8081/3rdpartyapiserver/app/api_inquiry/apilist.html?vendor=Beehive"
         },
+        "PRODUCTION": {
+            "cloudUrl": "https://api-beehivecn4.kii.com",
+            "wsUrl": "ws://120.77.83.143:8080/beehive-portal/websocket/stomp",
+            "siteUrl": "http://120.77.83.143:8080/beehive-portal",
+            "thirdPartyAPIUrl": "http://120.77.83.143:9082/cn/guide"
+        },
         "ENV": "DEV",
         "version": '1.0'
     };
