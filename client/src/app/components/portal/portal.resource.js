@@ -541,7 +541,9 @@ angular.module('BeehivePortal')
             transformRequest: function(request){
                 _.extend(request, {
                     indexType: appConfig[appConfig.ENV].kiiAppID,
-                    dateField: 'state.date'
+                    dateField: 'state.date',
+                    orderField: 'state.date',
+                    order: 'desc'
                 });
 
                 return JSON.stringify(request);
