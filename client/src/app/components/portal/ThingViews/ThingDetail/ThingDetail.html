@@ -26,8 +26,7 @@
           <table ng-show="!statusOnEdit">
             <tr ng-repeat="property in thing.status" ng-if="property.displayName != 'target'">
               <td class="title" ng-if="property.displayName != 'date'">{{property.displayName | translate}}</td>
-              <td ng-if="property.displayName != 'date'">{{property.value}}</td>
-
+              <td ng-if="property.displayName != 'date'">{{property.value}} {{property.unit}}</td>
               <td class="title" ng-if="property.displayName == 'date'">{{'terms.date' | translate}}</td>
               <td ng-if="property.displayName == 'date'">{{property.value | TimePipe}}</td>
             </tr>

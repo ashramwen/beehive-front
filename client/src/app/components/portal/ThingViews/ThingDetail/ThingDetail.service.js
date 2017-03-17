@@ -23,9 +23,16 @@ angular.module('BeehivePortal')
                   var properties = schema.properties;
                   thing.status = _.map(quriedThing.status, function(value, key){
                       var property = _.find(properties, {propertyName: key});
+                      if(property && property.enumType) {
+                        value = Object.keys(property.enum)
+                          .find(function(key){
+                            return value === property.enum[key];
+                          });
+                      }
                       return {
                           displayName: property ? property.displayName : key,
                           value: value,
+                          unit: property? property.unit : ''
                       };
                   });
 
