@@ -16,7 +16,7 @@ angular.module('BeehivePortal')
     $scope.selectedThings = [];
 
     $scope.init = function(){
-        $rootScope.$watch('login', function(newVal){
+        $scope.$watch('login', function(newVal){
             if(!newVal) return;
             $$User.getThings({userID: $scope.user.userID}, function(things){
                 things = _.filter(things,{createBy: $scope.credential.id.toLocaleString()});

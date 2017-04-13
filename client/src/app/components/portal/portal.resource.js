@@ -710,6 +710,9 @@ angular.module('BeehivePortal')
             isArray: true,
             transformResponse: function(response) {
                 response = JSON.parse(response);
+                response.forEach(function(trigger){
+                    trigger.description = trigger.description || '';
+                });
                 response = _.reject(response, function(trigger) {
                     if (trigger.type == Trigger.TypeEnum.SIMPLE) {
                         if (!trigger.source) {

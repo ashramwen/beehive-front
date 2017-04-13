@@ -20,7 +20,7 @@ angular.module('BeehivePortal')
         }
     });
 
-    $rootScope.$watch('login', function(flag, oldVal){
+    $scope.$watch('login', function(flag, oldVal){
         if(!oldVal && flag){
             AppService.lazyLoad();
         }

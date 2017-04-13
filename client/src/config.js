@@ -27,7 +27,7 @@
            "kiiAppID": "460aebd7",
            "thirdPartyAPIUrl": "http://120.77.83.143:9082/cn/guide"
        },
-        "ENV": "DEV",
+        "ENV": "QA",
         "version": '1.0'
     };
 })();

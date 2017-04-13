@@ -7,7 +7,7 @@ angular.module('BeehivePortal')
     $scope.highlighted = null;
     $scope.order = 'typeDisplayName';
 
-    $rootScope.$watch('login', function(newVal){
+    $scope.$watch('login', function(newVal){
         if(!newVal) return;
         $scope.init();
     });
@@ -46,7 +46,7 @@ angular.module('BeehivePortal')
         });
     };
 
-    $rootScope.$watch('login', function(flag){
+    $scope.$watch('login', function(flag){
         if(flag){
             $scope.init();
         }

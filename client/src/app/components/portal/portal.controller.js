@@ -16,7 +16,7 @@ angular.module('BeehivePortal')
      * initialize
      */
     $scope.portalInit = function(){
-      $rootScope.$watch('login', function(newVal){
+      $scope.$watch('login', function(newVal){
         if(!newVal) return;
         $scope.portalNavs = PortalService.getPortalNavs();
       });

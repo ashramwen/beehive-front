@@ -50,7 +50,7 @@ angular.module('BeehivePortal')
       });
     };
 
-    $rootScope.$watch('login', function(newVal){
+    $scope.$watch('login', function(newVal){
       if(newVal){
         $scope.init();
       }

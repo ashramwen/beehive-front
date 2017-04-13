@@ -15,7 +15,7 @@ angular.module('BeehivePortal')
         {name: 'machine-learning', displayName: 'triggerManager.machineLearningRule', disabled: false, icon: 'fa-puzzle-piece'}
     ];
 
-    $rootScope.$watch('login', function(newVal){
+    $scope.$watch('login', function(newVal){
       if(newVal){
         $scope.init();
       }
@@ -28,7 +28,7 @@ angular.module('BeehivePortal')
                 return {
                     triggerID: trigger.triggerID,
                     name: trigger.name,
-                    description: trigger.description,
+                    description: trigger.description || '',
                     disabled: trigger.recordStatus == 'disable',
                     type: $scope.getTriggerType(trigger),
                     createDate: trigger.createDate,

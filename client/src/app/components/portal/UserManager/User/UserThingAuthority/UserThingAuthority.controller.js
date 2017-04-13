@@ -8,7 +8,7 @@ angular.module('BeehivePortal')
     var userID = $state.params['userID'];
 
     $scope.init = function(){
-        $rootScope.$watch('login', function(newVal){
+        $scope.$watch('login', function(newVal){
             if(!newVal) return;
             $scope.ownThings = $$User.getThings({userID: userID});
         });

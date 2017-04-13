@@ -87,7 +87,7 @@ angular.module('BeehivePortal')
             if ($rootScope.credential.roleName == 'commUser') {
                 $state.go('app.portal.UserManager.UserGroup.UserGroupList');
             }
-            $rootScope.$watch('login', function(newVal) {
+            $scope.$watch('login', function(newVal) {
                 if (!newVal) return;
                 /*
                  * page settings

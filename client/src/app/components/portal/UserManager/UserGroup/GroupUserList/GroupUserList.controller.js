@@ -27,7 +27,7 @@ angular.module('BeehivePortal')
 
         $scope.init = function() {
 
-            $rootScope.$watch('login', function(newVal) {
+            $scope.$watch('login', function(newVal) {
                 if (!newVal) return;
                 var userGroupID = $state.params['userGroupID'];
                 var request = {
@@ -41,25 +41,24 @@ angular.module('BeehivePortal')
                         return user;
                     });
                 });
+                if($rootScope.credential.roleName != 'commUser'){
+                    $scope.myMenu = {
+                        itemList: [
+                            {
+                                text: 'controls.view',
+                                callback: function(user) {
+                                    $scope.navigateTo($scope.navMapping.GROUP_USER_INFO, {
+                                        userID: user.userID,
+                                        userGroupID: $state.params['userGroupID']
+                                    });
+                                }
+                            }
+                        ],
+                        setting: {
+
+                        }
+                    };
+                }
             });
         };
-
-        if($rootScope.credential.roleName != 'commUser'){
-            $scope.myMenu = {
-                itemList: [
-                    {
-                        text: 'controls.view',
-                        callback: function(user) {
-                            $scope.navigateTo($scope.navMapping.GROUP_USER_INFO, {
-                                userID: user.userID,
-                                userGroupID: $state.params['userGroupID']
-                            });
-                        }
-                    }
-                ],
-                setting: {
-
-                }
-            };
-        }
     }]);

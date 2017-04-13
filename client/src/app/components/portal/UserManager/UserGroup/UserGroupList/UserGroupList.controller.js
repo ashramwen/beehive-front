@@ -8,7 +8,7 @@ angular.module('BeehivePortal')
         $scope.dataset.userGroupsForDisplay = [];
 
         $scope.init = function() {
-            $rootScope.$watch('login', function(newVal) {
+            $scope.$watch('login', function(newVal) {
                 if (!newVal) return;
                 $scope.groupType = $scope.groupTypes[0];
                 $scope.groupTypes.splice(1, 1);
