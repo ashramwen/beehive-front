@@ -139,7 +139,7 @@ angular.module('BeehivePortal')
           while(element.width() === element[0].scrollWidth){
             element.width(element.width() - 2);
           }
-          var width = element[0].scrollWidth< initialWidth?
+          var width = element[0].scrollWidth < initialWidth?
             initialWidth : element[0].scrollWidth;
             
           element.width(width);

@@ -1,7 +1,7 @@
-<div class="directive-condition-input" uib-dropdown>
+<div class="directive-condition-input" uib-dropdown ng-class="{'invalid': ngModelCtrl.$invalid && ngModelCtrl.$dirty}">
   <div class="input-group" uib-dropdown-toggle>
     <span class="input-group-addon operator">{{getSelectedOperator().text}}</span>
-    <input type="number" class="form-control" ng-model="property.value" uib-dropdown-toggle>
+    <input class="form-control" type="number" name="" ng-model="value" ng-class="{'has-suffix': suffix}">
   </div>
   <ul class="dropdown-menu" role="menu" >
     <li ng-repeat="option in operatorList" ng-class="{'active': option.value == property.expression}" ng-click="selectOperator(option)">{{option.text}}</li>

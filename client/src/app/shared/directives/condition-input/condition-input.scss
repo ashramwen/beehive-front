@@ -1,9 +1,17 @@
+@import 'src/app/shared/global.scss';
+
 $border: solid 1px #e4e8eb;
 
 .directive-condition-input{
   width: 100px;
   height: 38px; 
   border: $border;
+  &.invalid{
+    border-color: $color-danger;
+    input{
+      color: $color-danger;
+    }
+  }
 
   
   .input-group{

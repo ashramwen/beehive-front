@@ -19,7 +19,7 @@
             <!-- not enum: condition -->
             <div ng-if="!property.enumType && property.type==='NUMBER'">
               <label>{{property.displayName}} <span class="fa fa-info-circle" ng-if="property.tooltip" uib-tooltip="{{property.tooltip}}"></span></label>
-              <condition-input property="property" min="property.minimum" max="property.maximum" type="property.precise === 0? 'int': 'float'" condition="property.condition"></condition-input>
+              <condition-input ng-model="property.value" property="property" condition="property.condition"></condition-input>
             </div>
 
             <!-- not enum: string | others -->

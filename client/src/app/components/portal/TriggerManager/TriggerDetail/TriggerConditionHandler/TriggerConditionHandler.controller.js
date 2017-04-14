@@ -84,6 +84,12 @@ angular.module('BeehivePortal').controller('TriggerConditionHandlerController',
     };
 
     $scope.save = function(){
+      if($scope.ruleform.$invalid){
+        AppUtils.alert({
+          msg: '请确认表单填写正确。'
+        });
+        return;
+      }
       var conditionGroup = _.find($scope.triggerData.conditionGroups, {type: $scope.type, id: $scope.$state.params.id});
 
       _.each($scope.conditionGroup.properties, function(property){
