@@ -234,7 +234,7 @@ angular.module('BeehivePortal')
                 "enumType": null
               }
             },
-            "title": "照明"
+            "title": "RZDM"
           },
           "actions": {}
         }
